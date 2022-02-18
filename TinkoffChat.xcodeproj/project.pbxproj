@@ -13,6 +13,7 @@
 		2CF231BB27BFBB2600CE77C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231BA27BFBB2600CE77C2 /* Assets.xcassets */; };
 		2CF231BE27BFBB2600CE77C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231BC27BFBB2600CE77C2 /* LaunchScreen.storyboard */; };
 		2CF231C727BFF6FA00CE77C2 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231C627BFF6FA00CE77C2 /* .gitignore */; };
+		2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231C927BFFFBF00CE77C2 /* Debug.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		2CF231BD27BFBB2600CE77C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2CF231BF27BFBB2600CE77C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CF231C627BFF6FA00CE77C2 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		2CF231C927BFFFBF00CE77C2 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 		2CF231B027BFBB2400CE77C2 /* TinkoffChat */ = {
 			isa = PBXGroup;
 			children = (
+				2CF231C827BFFFA000CE77C2 /* Supports */,
 				2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */,
 				2CF231B527BFBB2400CE77C2 /* ViewController.swift */,
 				2CF231B727BFBB2400CE77C2 /* Main.storyboard */,
@@ -65,6 +68,14 @@
 				2CF231BF27BFBB2600CE77C2 /* Info.plist */,
 			);
 			path = TinkoffChat;
+			sourceTree = "<group>";
+		};
+		2CF231C827BFFFA000CE77C2 /* Supports */ = {
+			isa = PBXGroup;
+			children = (
+				2CF231C927BFFFBF00CE77C2 /* Debug.swift */,
+			);
+			path = Supports;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CF231B627BFBB2400CE77C2 /* ViewController.swift in Sources */,
+				2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */,
 				2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
