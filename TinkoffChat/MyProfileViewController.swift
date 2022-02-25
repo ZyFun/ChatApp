@@ -7,8 +7,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MyProfileViewController: UIViewController {
     
+    // MARK: IB Outlets
+    @IBOutlet weak var topBarView: UIView!
+    @IBOutlet weak var logoProfile: UIImageView!
+    @IBOutlet weak var saveButton: UIButton!
+    
+    // MARK: - LifeCycle
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
@@ -17,6 +23,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setup()
         
         printDebug("View has been loaded into memory: \(#function)")
     }
@@ -57,5 +65,33 @@ class ViewController: UIViewController {
         printDebug("View has been removed from the hierarchy and is not displayed: \(#function)")
     }
 
+}
+
+extension MyProfileViewController {
+    func setup() {
+        setupUI()
+    }
+    
+    func setupUI() {
+        setupTopBarView()
+        setupImage()
+        setupButtons()
+    }
+    
+    func setupTopBarView() {
+        topBarView.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
+    }
+    
+    func setupImage() {
+        logoProfile.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
+        logoProfile.layer.cornerRadius = logoProfile.frame.height / 2
+    }
+    
+    func setupButtons() {
+        saveButton.backgroundColor = #colorLiteral(red: 0.9647058845, green: 0.9647058845, blue: 0.9647058845, alpha: 1)
+        saveButton.layer.cornerRadius = 14
+        saveButton.titleLabel?.font = .systemFont(ofSize: 19)
+        saveButton.setTitleColor(.systemBlue, for: .normal)
+    }
 }
 
