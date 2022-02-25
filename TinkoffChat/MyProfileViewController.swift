@@ -11,7 +11,8 @@ class MyProfileViewController: UIViewController {
     
     // MARK: IB Outlets
     @IBOutlet weak var topBarView: UIView!
-    @IBOutlet weak var logoProfile: UIImageView!
+    @IBOutlet weak var logoProfileImageView: UIImageView!
+    @IBOutlet weak var editLogoButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     
     // MARK: - LifeCycle
@@ -83,8 +84,8 @@ extension MyProfileViewController {
     }
     
     func setupImage() {
-        logoProfile.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
-        logoProfile.layer.cornerRadius = logoProfile.frame.height / 2
+        logoProfileImageView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
+        logoProfileImageView.layer.cornerRadius = logoProfileImageView.frame.height / 2
     }
     
     func setupButtons() {
@@ -92,6 +93,10 @@ extension MyProfileViewController {
         saveButton.layer.cornerRadius = 14
         saveButton.titleLabel?.font = .systemFont(ofSize: 19)
         saveButton.setTitleColor(.systemBlue, for: .normal)
+        
+        editLogoButton.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.4705882353, blue: 0.9411764706, alpha: 1)
+        editLogoButton.tintColor = .white
+        editLogoButton.layer.cornerRadius = editLogoButton.frame.height / 2
     }
 }
 
