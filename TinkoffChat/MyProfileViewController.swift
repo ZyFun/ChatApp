@@ -66,9 +66,14 @@ class MyProfileViewController: UIViewController {
         printDebug("View has been removed from the hierarchy and is not displayed: \(#function)")
     }
 
+    // MARK: IB Actions
+    @IBAction func editLogoButtonPressed() {
+        printDebug("Выбери изображение профиля")
+    }
 }
 
-extension MyProfileViewController {
+// MARK: - Настройки для ViewController
+private extension MyProfileViewController {
     func setup() {
         setupUI()
     }
