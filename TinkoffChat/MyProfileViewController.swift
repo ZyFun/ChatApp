@@ -20,12 +20,16 @@ class MyProfileViewController: UIViewController {
         super.init(coder: coder)
         
         printDebug("View instance created: \(#function)")
+        
+        // saveButton.frame не будет распечатан в этом методе, потому что кнопка еще не инициализирована и её еще нет в памяти.
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
+        
+        printDebug(saveButton.frame)
         
         printDebug("View has been loaded into memory: \(#function)")
     }
@@ -51,6 +55,7 @@ class MyProfileViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        printDebug(saveButton.frame) // Сами размеры кнопки не отличаются, так-как я задал ей ширину и высоту в соответствии с размерами в фигме. Но отличаются координаты её расположения. Это происходит, потому что весь интерфейс в сториборде подогнан под размеры SE. А в момент отображения экрана, когда как раз срабатывает этот метод, элементы уже расставлены под размеры экрана симулятора.
         printDebug("View added to hierarchy and displayed: \(#function)")
     }
     
