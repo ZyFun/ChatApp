@@ -14,12 +14,6 @@ class ViewController: UIViewController {
         
         print("View is loaded into memory: \(#function)")
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        print("View has been loaded into memory: \(#function)")
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
