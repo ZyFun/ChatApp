@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import Photos
 
-class MyProfileViewController: UIViewController {
+final class MyProfileViewController: UIViewController {
     
     // MARK: IB Outlets
     @IBOutlet weak var topBarView: UIView!
@@ -74,6 +75,8 @@ class MyProfileViewController: UIViewController {
     // MARK: IB Actions
     @IBAction func editLogoButtonPressed() {
         printDebug("Выбери изображение профиля")
+        
+        changeProfileLogoAlertController()
     }
 }
 
@@ -94,6 +97,10 @@ private extension MyProfileViewController {
     }
     
     func setupImage() {
+        let image = UIImage(named: "noProfileImage")
+        
+        logoProfileImageView.image = image
+        logoProfileImageView.contentMode = .scaleAspectFill
         logoProfileImageView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
         logoProfileImageView.layer.cornerRadius = logoProfileImageView.frame.height / 2
     }
@@ -108,5 +115,46 @@ private extension MyProfileViewController {
         editLogoButton.tintColor = .white
         editLogoButton.layer.cornerRadius = editLogoButton.frame.height / 2
     }
+    
+    // MARK: - Alert Controller
+    func changeProfileLogoAlertController() {
+        let choosePhoto = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let camera = UIAlertAction(title: "Сделать фото", style: .default) { [weak self] _ in
+            self?.chooseImagePicker(source: .camera)
+        }
+        
+        let photo = UIAlertAction(title: "Установить из галлереи", style: .default) { [weak self] _ in
+            self?.chooseImagePicker(source: .photoLibrary)
+        }
+        
+        let cancel = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        choosePhoto.addAction(camera)
+        choosePhoto.addAction(photo)
+        choosePhoto.addAction(cancel)
+        
+        present(choosePhoto, animated: true)
+    }
 }
 
+// MARK: - Работа с изображениями
+extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func chooseImagePicker(source: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(source) {
+            let imagePicker = UIImagePickerController()
+            
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = source
+            
+            present(imagePicker, animated: true)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        logoProfileImageView.image = info[.editedImage] as? UIImage
+
+        dismiss(animated: true)
+    }
+}
