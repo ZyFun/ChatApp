@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Photos
 
 final class MyProfileViewController: UIViewController {
     
@@ -21,8 +20,6 @@ final class MyProfileViewController: UIViewController {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        printDebug("View instance created: \(#function)")
-        
         // saveButton.frame не будет распечатан в этом методе, потому что кнопка еще не инициализирована и её еще нет в памяти.
     }
 
@@ -31,48 +28,19 @@ final class MyProfileViewController: UIViewController {
         
         setup()
         
-        printDebug(saveButton.frame)
-        
-        printDebug("View has been loaded into memory: \(#function)")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        printDebug("View will be added to the hierarchy from memory: \(#function)")
+        printDebug("Save button frame from \(#function): \(saveButton.frame)")
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         setupProfileImageSize()
-        
-        printDebug("View is getting ready to resize itself to fit the screen: \(#function)")
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        printDebug("View resized to fit the screen: \(#function)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        printDebug(saveButton.frame) // Сами размеры кнопки не отличаются, так-как я задал ей ширину и высоту в соответствии с размерами в фигме. Но отличаются координаты её расположения. Это происходит, потому что весь интерфейс в сториборде подогнан под размеры SE. А в момент отображения экрана, когда как раз срабатывает этот метод, элементы уже расставлены под размеры экрана симулятора.
-        printDebug("View added to hierarchy and displayed: \(#function)")
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        printDebug("View is preparing to be removed from the hierarchy: \(#function)")
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        printDebug("View has been removed from the hierarchy and is not displayed: \(#function)")
+        printDebug("Save button frame from \(#function): \(saveButton.frame)") // Размеры кнопки отличаются, потому что весь интерфейс в сториборде подогнан под размеры SE. А в момент отображения экрана, когда как раз срабатывает этот метод, элементы уже расставлены под размеры текущего экрана.
     }
 
     // MARK: IB Actions
