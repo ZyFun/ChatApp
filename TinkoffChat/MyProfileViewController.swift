@@ -13,7 +13,7 @@ final class MyProfileViewController: UIViewController {
     // MARK: IB Outlets
     @IBOutlet weak var topBarView: UIView!
     @IBOutlet weak var noProfileImageLabel: UILabel!
-    @IBOutlet weak var logoProfileImageView: UIImageView!
+    @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var editLogoButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     
@@ -91,7 +91,7 @@ private extension MyProfileViewController {
     
     func setupUI() {
         setupTopBarView()
-        setupImage()
+        setupProfileImage()
         setupButtons()
     }
     
@@ -99,9 +99,9 @@ private extension MyProfileViewController {
         topBarView.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
     }
     
-    func setupImage() {
-        logoProfileImageView.contentMode = .scaleAspectFill
-        logoProfileImageView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
+    func setupProfileImage() {
+        profileImageView.contentMode = .scaleAspectFill
+        profileImageView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
         setupNoProfileImageLabel()
     }
     
@@ -112,7 +112,7 @@ private extension MyProfileViewController {
     }
     
     func setupProfileImageSize() {
-        logoProfileImageView.layer.cornerRadius = logoProfileImageView.frame.height / 2
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
     }
     
     func setupButtons() {
@@ -161,9 +161,9 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        logoProfileImageView.image = info[.editedImage] as? UIImage
+        profileImageView.image = info[.editedImage] as? UIImage
         
-        if logoProfileImageView != nil {
+        if profileImageView != nil {
             noProfileImageLabel.isHidden = true
         }
 

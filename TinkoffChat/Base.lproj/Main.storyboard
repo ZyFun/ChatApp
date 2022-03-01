@@ -116,8 +116,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="editLogoButton" destination="lI1-aM-knx" id="AjC-PG-X7I"/>
-                        <outlet property="logoProfileImageView" destination="9cl-U9-M7N" id="g0U-Af-fjn"/>
                         <outlet property="noProfileImageLabel" destination="tSH-2l-kpc" id="o1N-oD-Zwp"/>
+                        <outlet property="profileImageView" destination="9cl-U9-M7N" id="g0U-Af-fjn"/>
                         <outlet property="saveButton" destination="ftQ-bc-bGE" id="XOD-zY-qiq"/>
                         <outlet property="topBarView" destination="a1Z-mk-kTm" id="Du8-lk-8hG"/>
                     </connections>
