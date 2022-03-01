@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,16 +20,15 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9cl-U9-M7N">
                                 <rect key="frame" x="87" y="147" width="240" height="240"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="1W5-7m-pz1"/>
-                                    <constraint firstAttribute="height" constant="240" id="eR0-za-rh7"/>
+                                    <constraint firstAttribute="width" secondItem="9cl-U9-M7N" secondAttribute="height" multiplier="1:1" id="n8e-MF-MNe"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ftQ-bc-bGE">
-                                <rect key="frame" x="75.5" y="792" width="263" height="40"/>
+                                <rect key="frame" x="56" y="792" width="302" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="263" id="Spr-Ts-pT1"/>
                                     <constraint firstAttribute="height" constant="40" id="n8y-Yh-RCT"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Save"/>
                             </button>
@@ -67,28 +65,26 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iOS Developer, Moscow, Russia" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tml-Wn-26T">
-                                <rect key="frame" x="98" y="480" width="218" height="38.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="218" id="8KL-Gj-Txd"/>
-                                </constraints>
+                                <rect key="frame" x="78" y="480" width="258" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lI1-aM-knx">
-                                <rect key="frame" x="307" y="367" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="Kfp-Km-f4Q"/>
-                                    <constraint firstAttribute="width" constant="40" id="lbh-gH-6q0"/>
-                                </constraints>
+                                <rect key="frame" x="304" y="372" width="30" height="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal">
-                                    <imageReference key="image" image="camera.fill" catalog="system" symbolScale="default"/>
-                                </state>
+                                <state key="normal" title="Edit"/>
                                 <connections>
                                     <action selector="editLogoButtonPressed" destination="BYZ-38-t0r" eventType="touchUpInside" id="zFx-9s-Kbo"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UN" textAlignment="natural" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tSH-2l-kpc">
+                                <rect key="frame" x="123" y="195.5" width="168" height="143.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="120"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -96,16 +92,23 @@
                             <constraint firstItem="a1Z-mk-kTm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5QM-90-WOQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="a1Z-mk-kTm" secondAttribute="trailing" id="9Of-iZ-D7a"/>
                             <constraint firstItem="bZR-EE-9bQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9TE-MY-Umh"/>
-                            <constraint firstItem="ftQ-bc-bGE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JLi-ja-KXN"/>
+                            <constraint firstItem="tSH-2l-kpc" firstAttribute="centerY" secondItem="9cl-U9-M7N" secondAttribute="centerY" id="9Yv-LZ-jWs"/>
+                            <constraint firstItem="lI1-aM-knx" firstAttribute="trailing" secondItem="9cl-U9-M7N" secondAttribute="trailing" constant="7" id="FUC-4n-QS1"/>
                             <constraint firstItem="Tml-Wn-26T" firstAttribute="top" secondItem="bZR-EE-9bQ" secondAttribute="bottom" constant="32" id="KfI-vX-aO0"/>
                             <constraint firstItem="bZR-EE-9bQ" firstAttribute="top" secondItem="9cl-U9-M7N" secondAttribute="bottom" constant="32" id="Lfo-f8-RKb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ftQ-bc-bGE" secondAttribute="bottom" constant="30" id="M5d-XX-L3A"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ftQ-bc-bGE" secondAttribute="trailing" constant="56" id="MWE-YE-oJl"/>
                             <constraint firstItem="a1Z-mk-kTm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Mzm-oR-cEs"/>
-                            <constraint firstItem="lI1-aM-knx" firstAttribute="bottom" secondItem="9cl-U9-M7N" secondAttribute="bottom" constant="20" id="O7l-cr-2ky"/>
-                            <constraint firstItem="Tml-Wn-26T" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Obq-VH-WXn"/>
-                            <constraint firstItem="lI1-aM-knx" firstAttribute="trailing" secondItem="9cl-U9-M7N" secondAttribute="trailing" constant="20" id="VUU-df-Xhi"/>
+                            <constraint firstItem="9cl-U9-M7N" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.267857" id="NcY-wA-7mb"/>
+                            <constraint firstItem="lI1-aM-knx" firstAttribute="bottom" secondItem="9cl-U9-M7N" secondAttribute="bottom" constant="17" id="RHl-vY-PUI"/>
+                            <constraint firstItem="ftQ-bc-bGE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="56" id="V3c-oD-4zT"/>
+                            <constraint firstItem="tSH-2l-kpc" firstAttribute="centerX" secondItem="9cl-U9-M7N" secondAttribute="centerX" id="amW-Ul-R1h"/>
+                            <constraint firstItem="lI1-aM-knx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9cl-U9-M7N" secondAttribute="leading" constant="129" id="eO0-3v-hej"/>
+                            <constraint firstItem="tSH-2l-kpc" firstAttribute="width" secondItem="9cl-U9-M7N" secondAttribute="width" multiplier="0.7" id="kZK-Ht-cIa"/>
                             <constraint firstItem="9cl-U9-M7N" firstAttribute="top" secondItem="a1Z-mk-kTm" secondAttribute="bottom" constant="7" id="nnQ-Gg-PS5"/>
                             <constraint firstItem="9cl-U9-M7N" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="r6i-pn-Bff"/>
+                            <constraint firstItem="Tml-Wn-26T" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="78" id="vBt-zd-BSc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Tml-Wn-26T" secondAttribute="trailing" constant="78" id="vYE-GT-2dW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="PUc-d7-dLL">
@@ -114,6 +117,7 @@
                     <connections>
                         <outlet property="editLogoButton" destination="lI1-aM-knx" id="AjC-PG-X7I"/>
                         <outlet property="logoProfileImageView" destination="9cl-U9-M7N" id="g0U-Af-fjn"/>
+                        <outlet property="noProfileImageLabel" destination="tSH-2l-kpc" id="o1N-oD-Zwp"/>
                         <outlet property="saveButton" destination="ftQ-bc-bGE" id="XOD-zY-qiq"/>
                         <outlet property="topBarView" destination="a1Z-mk-kTm" id="Du8-lk-8hG"/>
                     </connections>
@@ -124,7 +128,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="camera.fill" catalog="system" width="128" height="94"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

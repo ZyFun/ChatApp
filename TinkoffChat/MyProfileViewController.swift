@@ -12,6 +12,7 @@ final class MyProfileViewController: UIViewController {
     
     // MARK: IB Outlets
     @IBOutlet weak var topBarView: UIView!
+    @IBOutlet weak var noProfileImageLabel: UILabel!
     @IBOutlet weak var logoProfileImageView: UIImageView!
     @IBOutlet weak var editLogoButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
@@ -43,6 +44,8 @@ final class MyProfileViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
+        setupProfileImageSize()
         
         printDebug("View is getting ready to resize itself to fit the screen: \(#function)")
     }
@@ -97,11 +100,18 @@ private extension MyProfileViewController {
     }
     
     func setupImage() {
-        let image = UIImage(named: "noProfileImage")
-        
-        logoProfileImageView.image = image
         logoProfileImageView.contentMode = .scaleAspectFill
         logoProfileImageView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
+        setupNoProfileImageLabel()
+    }
+    
+    func setupNoProfileImageLabel() {
+        noProfileImageLabel.adjustsFontSizeToFitWidth = true
+        noProfileImageLabel.baselineAdjustment = .alignCenters
+        noProfileImageLabel.minimumScaleFactor = 0.5
+    }
+    
+    func setupProfileImageSize() {
         logoProfileImageView.layer.cornerRadius = logoProfileImageView.frame.height / 2
     }
     
@@ -111,9 +121,7 @@ private extension MyProfileViewController {
         saveButton.titleLabel?.font = .systemFont(ofSize: 19)
         saveButton.setTitleColor(.systemBlue, for: .normal)
         
-        editLogoButton.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.4705882353, blue: 0.9411764706, alpha: 1)
-        editLogoButton.tintColor = .white
-        editLogoButton.layer.cornerRadius = editLogoButton.frame.height / 2
+        editLogoButton.titleLabel?.font = .systemFont(ofSize: 16)
     }
     
     // MARK: - Alert Controller
@@ -154,6 +162,10 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         logoProfileImageView.image = info[.editedImage] as? UIImage
+        
+        if logoProfileImageView != nil {
+            noProfileImageLabel.isHidden = true
+        }
 
         dismiss(animated: true)
     }
