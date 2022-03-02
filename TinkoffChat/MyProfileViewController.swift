@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Photos
 
 final class MyProfileViewController: UIViewController {
     
@@ -124,7 +125,11 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
             imagePicker.allowsEditing = true
             imagePicker.sourceType = source
             
-            present(imagePicker, animated: true)
+            if imagePicker.sourceType == .photoLibrary {
+                checkPermission(imagePicker)
+            } else {
+                present(imagePicker, animated: true)
+            }
         }
     }
     
@@ -137,4 +142,37 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
 
         dismiss(animated: true)
     }
+    
+    func checkPermission(_ imagePicker: UIImagePickerController) {
+       let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+       switch photoAuthorizationStatus {
+       case .authorized:
+           present(imagePicker, animated: true)
+           printDebug("Access granted")
+       case .notDetermined:
+           PHPhotoLibrary.requestAuthorization { [weak self] newStatus in
+               if newStatus == .authorized {
+                   DispatchQueue.main.async {
+                       self?.present(imagePicker, animated: true)
+                   }
+                   printDebug("success")
+               }
+           }
+           
+           printDebug("User has not yet made a selection")
+       case .restricted:
+           // TODO: Можно вывести алерт о запрете доступа к галерее
+           printDebug("User cannot access the library")
+       case .denied:
+           // TODO: Сделать алерт c перенаправлением в настройки приватности
+           printDebug("User denied access")
+       case .limited:
+           // Как я понял из документации, метод authorizationStatus не совместим с этим кейсом. Но совместимые методы не совместимы с таргетом версии iOS, так как они работают только с 14 iOS. Нужно почитать подробнее для себя, как работать со всем этим при использовании нового метода. Либо есть что-то специальное, либо нужно писать отдельный экран, где будут отображаться снимки, которые были одобрены пользователем, с возможностью добавлять новые.
+           // Нужно разобраться, возможно ли показывать алерт выбора доступа без selected photos... Или для более новых версий обязательно писать такую логику.
+           printDebug("User has allowed access to some photos")
+       @unknown default:
+           printDebug("Oops \(#function)")
+           return
+       }
+   }
 }
