@@ -117,22 +117,6 @@ private extension MyProfileViewController {
 
 // MARK: - Работа с изображениями
 extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func chooseImagePicker(source: UIImagePickerController.SourceType) {
-        if UIImagePickerController.isSourceTypeAvailable(source) {
-            let imagePicker = UIImagePickerController()
-            
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = source
-            
-            if imagePicker.sourceType == .photoLibrary {
-                checkPermission(imagePicker)
-            } else {
-                present(imagePicker, animated: true)
-            }
-        }
-    }
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         profileImageView.image = info[.editedImage] as? UIImage
         
@@ -143,7 +127,38 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
         dismiss(animated: true)
     }
     
-    func checkPermission(_ imagePicker: UIImagePickerController) {
+    // MARK: Private method
+    private func chooseImagePicker(source: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(source) {
+            let imagePicker = UIImagePickerController()
+            
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = source
+            
+            if imagePicker.sourceType == .photoLibrary {
+                checkPermission(library: imagePicker)
+            } else {
+                checkPermission(camera: imagePicker)
+            }
+        }
+    }
+    
+    private func checkPermission(camera imagePicker: UIImagePickerController) {
+        AVCaptureDevice.requestAccess(for: .video) { [weak self] response in
+            if response {
+                DispatchQueue.main.async {
+                    self?.present(imagePicker, animated: true)
+                    printDebug("Access granted")
+                }
+            } else {
+                // TODO: Сделать алерт c перенаправлением в настройки приватности
+                printDebug("User denied access")
+            }
+        }
+    }
+    
+    private func checkPermission(library imagePicker: UIImagePickerController) {
        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
        switch photoAuthorizationStatus {
        case .authorized:
