@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */; };
 		2CEBE04E27D2225F005CBCB0 /* ConversationsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */; };
+		2CEBE05627D23547005CBCB0 /* ConversationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE05427D23547005CBCB0 /* ConversationsCell.swift */; };
+		2CEBE05727D23547005CBCB0 /* ConversationsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE05527D23547005CBCB0 /* ConversationsCell.xib */; };
 		2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */; };
 		2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */; };
 		2CF231B927BFBB2400CE77C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231B727BFBB2400CE77C2 /* Main.storyboard */; };
@@ -21,6 +23,8 @@
 /* Begin PBXFileReference section */
 		2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
 		2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationsListViewController.xib; sourceTree = "<group>"; };
+		2CEBE05427D23547005CBCB0 /* ConversationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCell.swift; sourceTree = "<group>"; };
+		2CEBE05527D23547005CBCB0 /* ConversationsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationsCell.xib; sourceTree = "<group>"; };
 		2CF231AE27BFBB2400CE77C2 /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
@@ -46,10 +50,20 @@
 		2CEBE04A27D221C5005CBCB0 /* ConversationsList */ = {
 			isa = PBXGroup;
 			children = (
+				2CEBE05327D234F4005CBCB0 /* Cell */,
 				2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */,
 				2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */,
 			);
 			path = ConversationsList;
+			sourceTree = "<group>";
+		};
+		2CEBE05327D234F4005CBCB0 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				2CEBE05427D23547005CBCB0 /* ConversationsCell.swift */,
+				2CEBE05527D23547005CBCB0 /* ConversationsCell.xib */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		2CF231A527BFBB2400CE77C2 = {
@@ -152,6 +166,7 @@
 			files = (
 				2CF231C727BFF6FA00CE77C2 /* .gitignore in Resources */,
 				2CEBE04E27D2225F005CBCB0 /* ConversationsListViewController.xib in Resources */,
+				2CEBE05727D23547005CBCB0 /* ConversationsCell.xib in Resources */,
 				2CF231BE27BFBB2600CE77C2 /* LaunchScreen.storyboard in Resources */,
 				2CF231BB27BFBB2600CE77C2 /* Assets.xcassets in Resources */,
 				2CF231B927BFBB2400CE77C2 /* Main.storyboard in Resources */,
@@ -165,6 +180,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CEBE05627D23547005CBCB0 /* ConversationsCell.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */,
 				2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */,
