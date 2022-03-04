@@ -12,11 +12,7 @@ class ConversationsListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        setup()
     }
 
     // MARK: - Table view data source
@@ -86,4 +82,15 @@ class ConversationsListViewController: UITableViewController {
     }
     */
     
+}
+
+extension ConversationsListViewController {
+    func setup() {
+        setupNavigationBar()
+    }
+    
+    func setupNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        title = "Tinkoff Chat"
+    }
 }
