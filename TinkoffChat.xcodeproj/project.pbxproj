@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */; };
+		2CEBE04E27D2225F005CBCB0 /* ConversationsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */; };
 		2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */; };
 		2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */; };
 		2CF231B927BFBB2400CE77C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231B727BFBB2400CE77C2 /* Main.storyboard */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
+		2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationsListViewController.xib; sourceTree = "<group>"; };
 		2CF231AE27BFBB2400CE77C2 /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
@@ -39,6 +43,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CEBE04A27D221C5005CBCB0 /* ConversationsList */ = {
+			isa = PBXGroup;
+			children = (
+				2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */,
+				2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */,
+			);
+			path = ConversationsList;
+			sourceTree = "<group>";
+		};
 		2CF231A527BFBB2400CE77C2 = {
 			isa = PBXGroup;
 			children = (
@@ -59,6 +72,7 @@
 		2CF231B027BFBB2400CE77C2 /* TinkoffChat */ = {
 			isa = PBXGroup;
 			children = (
+				2CEBE04A27D221C5005CBCB0 /* ConversationsList */,
 				2CF231C827BFFFA000CE77C2 /* Supports */,
 				2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */,
 				2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */,
@@ -137,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CF231C727BFF6FA00CE77C2 /* .gitignore in Resources */,
+				2CEBE04E27D2225F005CBCB0 /* ConversationsListViewController.xib in Resources */,
 				2CF231BE27BFBB2600CE77C2 /* LaunchScreen.storyboard in Resources */,
 				2CF231BB27BFBB2600CE77C2 /* Assets.xcassets in Resources */,
 				2CF231B927BFBB2400CE77C2 /* Main.storyboard in Resources */,
@@ -151,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
+				2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */,
 				2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */,
 				2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */,
 			);
@@ -305,9 +321,10 @@
 				DEVELOPMENT_TEAM = B66N983M7Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TinkoffChat/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Разрешите приложению $(PRODUCT_NAME) использовать камеру, для добавления фото к профилю";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Разрешите приложению $(PRODUCT_NAME) использовать галерею, для добавления фото к профилю";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
@@ -336,9 +353,10 @@
 				DEVELOPMENT_TEAM = B66N983M7Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TinkoffChat/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Разрешите приложению $(PRODUCT_NAME) использовать камеру, для добавления фото к профилю";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Разрешите приложению $(PRODUCT_NAME) использовать галерею, для добавления фото к профилю";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
