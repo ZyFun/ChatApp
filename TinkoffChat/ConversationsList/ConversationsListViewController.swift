@@ -25,7 +25,11 @@ class ConversationsListViewController: UITableViewController {
         numberOfRowsInSection section: Int
     ) -> Int {
         
-        return 0
+        if section == 0 {
+            return 5
+        } else {
+            return 20
+        }
     }
 
     override func tableView(
@@ -33,12 +37,18 @@ class ConversationsListViewController: UITableViewController {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: "reuseIdentifier",
+        guard var cell = tableView.dequeueReusableCell(
+            withIdentifier: String(describing: ConversationsCell.self),
             for: indexPath
-        )
+        ) as? ConversationsCell else { return UITableViewCell() }
 
-        // Configure the cell...
+        cell.configure(
+            name: "Test",
+            message: nil,
+            date: Date(),
+            online: .random(),
+            hasUnreadMessages: .random()
+        )
 
         return cell
     }
@@ -48,15 +58,15 @@ class ConversationsListViewController: UITableViewController {
         titleForFooterInSection section: Int
     ) -> String? {
         
-        var title = ""
-        
         if section == 0 {
-            title = "Online"
+            return "Online"
         } else {
-            title = "History"
+            return "History"
         }
-        
-        return title
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        90
     }
 
     /*
@@ -109,10 +119,26 @@ class ConversationsListViewController: UITableViewController {
 extension ConversationsListViewController {
     func setup() {
         setupNavigationBar()
+        setupTableView()
     }
     
     func setupNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Tinkoff Chat"
+    }
+    
+    func setupTableView() {
+        setupXibs()
+    }
+    
+    /// Инициализация Xibs
+    func setupXibs() {
+        tableView.register(
+            UINib(
+                nibName: String(describing: ConversationsCell.self),
+                bundle: nil
+            ),
+            forCellReuseIdentifier: String(describing: ConversationsCell.self)
+        )
     }
 }

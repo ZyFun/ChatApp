@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */; };
 		2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */; };
 		2CEBE04E27D2225F005CBCB0 /* ConversationsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */; };
 		2CEBE05627D23547005CBCB0 /* ConversationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE05427D23547005CBCB0 /* ConversationsCell.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateFormatter.swift"; sourceTree = "<group>"; };
 		2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
 		2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationsListViewController.xib; sourceTree = "<group>"; };
 		2CEBE05427D23547005CBCB0 /* ConversationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCell.swift; sourceTree = "<group>"; };
@@ -47,6 +49,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CEA6AF027D36F080028DF67 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		2CEBE04A27D221C5005CBCB0 /* ConversationsList */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +98,7 @@
 			children = (
 				2CEBE04A27D221C5005CBCB0 /* ConversationsList */,
 				2CF231C827BFFFA000CE77C2 /* Supports */,
+				2CEA6AF027D36F080028DF67 /* Extensions */,
 				2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */,
 				2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */,
 				2CF231B727BFBB2400CE77C2 /* Main.storyboard */,
@@ -180,6 +191,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */,
 				2CEBE05627D23547005CBCB0 /* ConversationsCell.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */,
