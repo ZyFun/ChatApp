@@ -32,6 +32,7 @@ extension Date {
             formatter.dateFormat = "dd.MMM"
         }
         
-        return formatter.string(from: self)
+        return formatter.string(from: date)
     }
 }
+

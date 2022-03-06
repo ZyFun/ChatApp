@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */; };
+		2CEA6AF527D3ADCE0028DF67 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF427D3ADCE0028DF67 /* Conversation.swift */; };
 		2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */; };
 		2CEBE04E27D2225F005CBCB0 /* ConversationsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */; };
 		2CEBE05627D23547005CBCB0 /* ConversationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE05427D23547005CBCB0 /* ConversationsCell.swift */; };
@@ -19,10 +20,12 @@
 		2CF231BE27BFBB2600CE77C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231BC27BFBB2600CE77C2 /* LaunchScreen.storyboard */; };
 		2CF231C727BFF6FA00CE77C2 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231C627BFF6FA00CE77C2 /* .gitignore */; };
 		2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231C927BFFFBF00CE77C2 /* Debug.swift */; };
+		2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2C65927D4E575006CA6A6 /* String+DateFormatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateFormatter.swift"; sourceTree = "<group>"; };
+		2CEA6AF427D3ADCE0028DF67 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
 		2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationsListViewController.xib; sourceTree = "<group>"; };
 		2CEBE05427D23547005CBCB0 /* ConversationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCell.swift; sourceTree = "<group>"; };
@@ -36,6 +39,7 @@
 		2CF231BF27BFBB2600CE77C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CF231C627BFF6FA00CE77C2 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		2CF231C927BFFFBF00CE77C2 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
+		2CF2C65927D4E575006CA6A6 /* String+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+DateFormatter.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,13 +57,23 @@
 			isa = PBXGroup;
 			children = (
 				2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */,
+				2CF2C65927D4E575006CA6A6 /* String+DateFormatter.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2CEA6AF327D3AD9E0028DF67 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2CEA6AF427D3ADCE0028DF67 /* Conversation.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		2CEBE04A27D221C5005CBCB0 /* ConversationsList */ = {
 			isa = PBXGroup;
 			children = (
+				2CEA6AF327D3AD9E0028DF67 /* Models */,
 				2CEBE05327D234F4005CBCB0 /* Cell */,
 				2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */,
 				2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */,
@@ -192,9 +206,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */,
+				2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */,
 				2CEBE05627D23547005CBCB0 /* ConversationsCell.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */,
+				2CEA6AF527D3ADCE0028DF67 /* Conversation.swift in Sources */,
 				2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */,
 				2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */,
 			);
