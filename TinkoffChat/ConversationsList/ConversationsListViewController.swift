@@ -8,11 +8,16 @@
 import UIKit
 
 class ConversationsListViewController: UITableViewController {
+    
+    private let conversations = Conversation.getConversations()
+    private var onlineConversations: [Conversation] = []
+    private var historyConversations: [Conversation] = []
         
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setup()
+        sortingConversationSections()
     }
 
     // MARK: - Table view data source
@@ -25,11 +30,14 @@ class ConversationsListViewController: UITableViewController {
         numberOfRowsInSection section: Int
     ) -> Int {
         
-        if section == 0 {
-            return 5
-        } else {
-            return 20
-        }
+        section == 0 ? onlineConversations.count : historyConversations.count
+    }
+    
+    override func tableView(
+        _ tableView: UITableView,
+        titleForHeaderInSection section: Int
+    ) -> String? {
+        section == 0 ? "Online" : "History"
     }
 
     override func tableView(
@@ -41,28 +49,20 @@ class ConversationsListViewController: UITableViewController {
             withIdentifier: String(describing: ConversationsCell.self),
             for: indexPath
         ) as? ConversationsCell else { return UITableViewCell() }
+        
+        let conversation = indexPath.section == 0
+        ? onlineConversations[indexPath.row]
+        : historyConversations[indexPath.row]
 
         cell.configure(
-            name: "Test",
-            message: nil,
-            date: Date(),
-            online: .random(),
-            hasUnreadMessages: .random()
+            name: conversation.name,
+            message: conversation.message,
+            date: conversation.date,
+            online: conversation.online,
+            hasUnreadMessages: conversation.hasUnreadMessages
         )
 
         return cell
-    }
-    
-    override func tableView(
-        _ tableView: UITableView,
-        titleForFooterInSection section: Int
-    ) -> String? {
-        
-        if section == 0 {
-            return "Online"
-        } else {
-            return "History"
-        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -140,5 +140,16 @@ extension ConversationsListViewController {
             ),
             forCellReuseIdentifier: String(describing: ConversationsCell.self)
         )
+    }
+    
+    func sortingConversationSections() {
+        for conversation in conversations {
+            
+            if conversation.online {
+                onlineConversations.append(conversation)
+            } else if conversation.message != nil {
+                historyConversations.append(conversation)
+            }
+        }
     }
 }

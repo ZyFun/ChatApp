@@ -82,6 +82,7 @@ extension ConversationsCell: ConversationsCellConfiguration {
         set {
             if newValue == nil {
                 lastMessageLabel.text = "No messages yet"
+                lastMessageLabel.font = .italicSystemFont(ofSize: 15)
             } else {
                 lastMessageLabel.text = newValue
             }
@@ -93,8 +94,11 @@ extension ConversationsCell: ConversationsCellConfiguration {
             nil
         }
         set {
-            guard let date = newValue else { return }
-            dateLabel.text = Date().toString(date: date)
+            if let date = newValue {
+                dateLabel.text = Date().toString(date: date)
+            } else {
+                dateLabel.text = ""
+            }
         }
     }
     
@@ -117,6 +121,7 @@ extension ConversationsCell: ConversationsCellConfiguration {
             if newValue {
                 lastMessageLabel.font = .boldSystemFont(ofSize: 15)
             }
+            
         }
     }
 }

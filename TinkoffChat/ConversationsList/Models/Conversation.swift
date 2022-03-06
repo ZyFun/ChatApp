@@ -35,8 +35,8 @@ struct Conversation {
                          hasUnreadMessages: true
                         ),
             Conversation(name: "Серова Анастасия",
-                         message: nil,
-                         date: nil,
+                         message: "Все состояния проверены, если сообщения нет и контакт оффлайн, беседа не отображается",
+                         date: "6.03.2022 18.02".toDate(),
                          online: false,
                          hasUnreadMessages: false
                         ),
