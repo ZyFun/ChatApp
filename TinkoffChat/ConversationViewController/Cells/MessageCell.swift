@@ -7,12 +7,20 @@
 
 import UIKit
 
-class MessageCell: UITableViewCell {
-    static let incomingIdentifier = "incomingMessage"
-    static let outgoingIdentifier = "outgoingMessage"
+protocol MessageCellConfiguration: AnyObject {
+    var textMessage: String? { get set }
+}
+
+final class MessageCell: UITableViewCell {
+    enum Identifier: String {
+        case incoming = "incomingMessage"
+        case outgoing = "outgoingMessage"
+    }
     
-    static let nibNameIncomingCell = "IncomingMessageCell"
-    static let nibNameOutgoingCell = "OutgoingMessageCell"
+    enum NibName: String {
+        case incoming = "IncomingMessageCell"
+        case outgoing = "OutgoingMessageCell"
+    }
     
     @IBOutlet weak var textMessageLabel: UILabel!
     @IBOutlet weak var messageView: UIView!
@@ -20,14 +28,34 @@ class MessageCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        setupUI()
+    }
+}
+
+extension MessageCell: MessageCellConfiguration {
+    var textMessage: String? {
+        get {
+            nil
+        }
+        set {
+            textMessageLabel.text = newValue
+        }
+    }
+}
+
+private extension MessageCell {
+    func setupUI() {
         selectionStyle = .none
         messageView.layer.cornerRadius = 8
+        changePrototypeColorCells()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    func changePrototypeColorCells() {
+        if reuseIdentifier == "incomingMessage" {
+            messageView.backgroundColor = #colorLiteral(red: 0.8745098039, green: 0.8745098039, blue: 0.8745098039, alpha: 1)
+        } else {
+            messageView.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.968627451, blue: 0.7725490196, alpha: 1)
+        }
     }
     
 }

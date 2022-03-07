@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ConversationViewController: UIViewController {
+final class ConversationViewController: UIViewController {
     
     var conversationNameTitle: String?
     
@@ -22,7 +22,7 @@ class ConversationViewController: UIViewController {
     }
 }
 
-extension ConversationViewController {
+private extension ConversationViewController {
     func setup() {
         setupNavigationBar()
         setupTableView()
@@ -34,7 +34,6 @@ extension ConversationViewController {
     }
     
     func setupTableView() {
-        conversationTableView.delegate = self
         conversationTableView.dataSource = self
         
         conversationTableView.separatorStyle = .none
@@ -46,20 +45,20 @@ extension ConversationViewController {
     func setupXibs() {
         conversationTableView.register(
             UINib(
-                nibName: MessageCell.nibNameIncomingCell,
+                nibName: MessageCell.NibName.incoming.rawValue,
                 bundle: nil
             ),
             forCellReuseIdentifier: String(
-                describing: MessageCell.incomingIdentifier
+                describing: MessageCell.Identifier.incoming.rawValue
             )
         )
         
         conversationTableView.register(
             UINib(
-                nibName: MessageCell.nibNameOutgoingCell,
+                nibName: MessageCell.NibName.outgoing.rawValue,
                 bundle: nil
             ),
-            forCellReuseIdentifier: MessageCell.outgoingIdentifier
+            forCellReuseIdentifier: MessageCell.Identifier.outgoing.rawValue
         )
     }
 }
@@ -82,31 +81,23 @@ extension ConversationViewController: UITableViewDataSource {
         let message = messages[indexPath.row]
         
         if message.isIncoming {
-            
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: MessageCell.incomingIdentifier,
+                withIdentifier: MessageCell.Identifier.incoming.rawValue,
                 for: indexPath
             ) as? MessageCell else { return UITableViewCell() }
             
-            cell.messageView.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.968627451, blue: 0.7725490196, alpha: 1)
-            cell.textMessageLabel.text = message.text
+            cell.textMessage = message.text
             
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: MessageCell.outgoingIdentifier,
+                withIdentifier: MessageCell.Identifier.outgoing.rawValue,
                 for: indexPath
             ) as? MessageCell else { return UITableViewCell() }
             
-            cell.messageView.backgroundColor = #colorLiteral(red: 0.8745098039, green: 0.8745098039, blue: 0.8745098039, alpha: 1)
             cell.textMessageLabel.text = message.text
             
             return cell
         }
     }
-}
-
-// MARK: - Table view delegate
-extension ConversationViewController: UITableViewDelegate {
-    
 }

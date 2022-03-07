@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ConversationsListViewController: UITableViewController {
+final class ConversationsListViewController: UITableViewController {
     
     private let conversations = Conversation.getConversations()
     private var onlineConversations: [Conversation] = []
@@ -54,7 +54,7 @@ class ConversationsListViewController: UITableViewController {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         
-        guard var cell = tableView.dequeueReusableCell(
+        guard let cell = tableView.dequeueReusableCell(
             withIdentifier: String(describing: ConversationsCell.self),
             for: indexPath
         ) as? ConversationsCell else { return UITableViewCell() }

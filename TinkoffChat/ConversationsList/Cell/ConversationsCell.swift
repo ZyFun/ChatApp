@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ConversationsCellConfiguration {
+protocol ConversationsCellConfiguration: AnyObject {
     var name: String? {get set}
     var message: String? {get set}
     var date: Date? {get set}
@@ -37,7 +37,7 @@ final class ConversationsCell: UITableViewCell {
 
 // MARK: - Protocol extension
 extension ConversationsCellConfiguration {
-    mutating func configure(
+    func configure(
         name: String?,
         message: String?,
         date: Date?,
