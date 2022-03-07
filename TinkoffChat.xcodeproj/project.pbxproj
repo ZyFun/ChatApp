@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C3CFCA027D62164005436A3 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9E27D62164005436A3 /* ConversationViewController.swift */; };
+		2C3CFCA127D62164005436A3 /* ConversationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9F27D62164005436A3 /* ConversationViewController.xib */; };
 		2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */; };
 		2CEA6AF527D3ADCE0028DF67 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF427D3ADCE0028DF67 /* Conversation.swift */; };
 		2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */; };
@@ -24,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C3CFC9E27D62164005436A3 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		2C3CFC9F27D62164005436A3 /* ConversationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationViewController.xib; sourceTree = "<group>"; };
 		2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateFormatter.swift"; sourceTree = "<group>"; };
 		2CEA6AF427D3ADCE0028DF67 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +57,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C3CFCA227D6216A005436A3 /* ConversationViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C3CFC9E27D62164005436A3 /* ConversationViewController.swift */,
+				2C3CFC9F27D62164005436A3 /* ConversationViewController.xib */,
+			);
+			path = ConversationViewController;
+			sourceTree = "<group>";
+		};
 		2CEA6AF027D36F080028DF67 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,7 +86,6 @@
 		2CEBE04A27D221C5005CBCB0 /* ConversationsList */ = {
 			isa = PBXGroup;
 			children = (
-				2CEA6AF327D3AD9E0028DF67 /* Models */,
 				2CEBE05327D234F4005CBCB0 /* Cell */,
 				2CEBE04B27D2225F005CBCB0 /* ConversationsListViewController.swift */,
 				2CEBE04C27D2225F005CBCB0 /* ConversationsListViewController.xib */,
@@ -110,6 +122,8 @@
 		2CF231B027BFBB2400CE77C2 /* TinkoffChat */ = {
 			isa = PBXGroup;
 			children = (
+				2C3CFCA227D6216A005436A3 /* ConversationViewController */,
+				2CEA6AF327D3AD9E0028DF67 /* Models */,
 				2CEBE04A27D221C5005CBCB0 /* ConversationsList */,
 				2CF231C827BFFFA000CE77C2 /* Supports */,
 				2CEA6AF027D36F080028DF67 /* Extensions */,
@@ -194,6 +208,7 @@
 				2CEBE05727D23547005CBCB0 /* ConversationsCell.xib in Resources */,
 				2CF231BE27BFBB2600CE77C2 /* LaunchScreen.storyboard in Resources */,
 				2CF231BB27BFBB2600CE77C2 /* Assets.xcassets in Resources */,
+				2C3CFCA127D62164005436A3 /* ConversationViewController.xib in Resources */,
 				2CF231B927BFBB2400CE77C2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,6 +222,7 @@
 			files = (
 				2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */,
 				2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */,
+				2C3CFCA027D62164005436A3 /* ConversationViewController.swift in Sources */,
 				2CEBE05627D23547005CBCB0 /* ConversationsCell.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */,
