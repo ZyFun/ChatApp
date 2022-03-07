@@ -8,33 +8,37 @@
 import Foundation
 
 struct Messages {
-    let message: String?
+    let text: String?
     let isIncoming: Bool
     
     static func getMessages() -> [Messages] {
         [
             Messages(
-                message: "Привет! Как дела?",
+                text: "Привет! Как дела?",
                 isIncoming: true
             ),
             Messages(
-                message: "Я тестирую как будет отображаться достаточно длинное сообщение, и не будет ли ехать верстка при таком варианте что я напрограммировал",
+                text: "Я тестирую как будет отображаться достаточно длинное сообщение, и не будет ли ехать верстка при таком варианте что я напрограммировал",
                 isIncoming: true
             ),
             Messages(
-                message: "Как, всё хорошо?",
+                text: "Как, всё хорошо?",
                 isIncoming: true
             ),
             Messages(
-                message: "Да, отлично!",
+                text: "Да, отлично!",
                 isIncoming: false
             ),
             Messages(
-                message: "Ок!",
+                text: "Осталось только поправить заголовок чата, который почему то резко исчезает при переходе в чат",
+                isIncoming: false
+            ),
+            Messages(
+                text: "Ок!",
                 isIncoming: true
             ),
             Messages(
-                message: "Буду разбираться дальше)",
+                text: "Буду разбираться дальше)",
                 isIncoming: true
             )
         ]

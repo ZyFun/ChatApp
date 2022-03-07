@@ -7,7 +7,13 @@
 
 import UIKit
 
-class IncomingMessageCell: UITableViewCell {
+class MessageCell: UITableViewCell {
+    static let incomingIdentifier = "incomingMessage"
+    static let outgoingIdentifier = "outgoingMessage"
+    
+    static let nibNameIncomingCell = "IncomingMessageCell"
+    static let nibNameOutgoingCell = "OutgoingMessageCell"
+    
     @IBOutlet weak var textMessageLabel: UILabel!
     @IBOutlet weak var messageView: UIView!
     
