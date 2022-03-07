@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ConversationViewController" customModule="TinkoffChat" customModuleProvider="target">
             <connections>
+                <outlet property="conversationTableView" destination="dqO-XP-PQD" id="isZ-v8-myE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -18,9 +19,21 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="dqO-XP-PQD">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-            <point key="canvasLocation" x="139" y="139"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dqO-XP-PQD" secondAttribute="trailing" id="2Ol-d4-PS4"/>
+                <constraint firstItem="dqO-XP-PQD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="FKv-Yz-vyG"/>
+                <constraint firstItem="dqO-XP-PQD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Oad-Yh-CtS"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="dqO-XP-PQD" secondAttribute="bottom" id="Xsy-bZ-3YV"/>
+            </constraints>
+            <point key="canvasLocation" x="137.68115942028987" y="138.61607142857142"/>
         </view>
     </objects>
     <resources>

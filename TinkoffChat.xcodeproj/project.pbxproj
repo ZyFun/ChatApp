@@ -122,9 +122,9 @@
 		2CF231B027BFBB2400CE77C2 /* TinkoffChat */ = {
 			isa = PBXGroup;
 			children = (
-				2C3CFCA227D6216A005436A3 /* ConversationViewController */,
 				2CEA6AF327D3AD9E0028DF67 /* Models */,
 				2CEBE04A27D221C5005CBCB0 /* ConversationsList */,
+				2C3CFCA227D6216A005436A3 /* ConversationViewController */,
 				2CF231C827BFFFA000CE77C2 /* Supports */,
 				2CEA6AF027D36F080028DF67 /* Extensions */,
 				2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */,

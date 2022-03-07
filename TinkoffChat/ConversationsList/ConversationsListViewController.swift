@@ -19,6 +19,15 @@ class ConversationsListViewController: UITableViewController {
         setup()
         sortingConversationSections()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Вызывается именно тут, чтобы сохранить заголовок большим
+        // при возврате на экран. Так как на другом
+        // используется маленький заголовок
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
 
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -65,11 +74,31 @@ class ConversationsListViewController: UITableViewController {
         return cell
     }
     
+    // MARK: - Table view delegate
     override func tableView(
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
         90
+    }
+    
+    override func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        let conversationVC = ConversationViewController(
+            nibName: String(describing: ConversationViewController.self),
+            bundle: nil
+        )
+        
+        conversationVC.conversationNameTitle = indexPath.section == 0
+        ? onlineConversations[indexPath.row].name
+        : historyConversations[indexPath.row].name
+        
+        navigationController?.pushViewController(
+            conversationVC,
+            animated: true
+        )
     }
 }
 
@@ -80,7 +109,6 @@ extension ConversationsListViewController {
     }
     
     func setupNavigationBar() {
-        navigationController?.navigationBar.prefersLargeTitles = true
         title = "Tinkoff Chat"
     }
     

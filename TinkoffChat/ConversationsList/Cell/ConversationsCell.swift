@@ -20,6 +20,10 @@ final class ConversationsCell: UITableViewCell {
     @IBOutlet weak var lastMessageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+    override func awakeFromNib() {
+        accessoryType = .disclosureIndicator
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
