@@ -20,30 +20,15 @@ final class ConversationsCell: UITableViewCell {
     @IBOutlet weak var lastMessageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         
         nameLabel.text = ""
         lastMessageLabel.text = ""
         dateLabel.text = ""
-        
-        // TODO: Проверить правильность работы с данными из массивов
         backgroundColor = contentView.backgroundColor
         lastMessageLabel.font = .systemFont(ofSize: 15)
-        
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
 }
 
 // MARK: - Protocol extension
@@ -121,7 +106,6 @@ extension ConversationsCell: ConversationsCellConfiguration {
             if newValue {
                 lastMessageLabel.font = .boldSystemFont(ofSize: 15)
             }
-            
         }
     }
 }
