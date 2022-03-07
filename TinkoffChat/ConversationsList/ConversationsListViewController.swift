@@ -19,15 +19,6 @@ final class ConversationsListViewController: UITableViewController {
         setup()
         sortingConversationSections()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Вызывается именно тут, чтобы сохранить заголовок большим
-        // при возврате на экран. Так как на другом
-        // используется маленький заголовок
-        navigationController?.navigationBar.prefersLargeTitles = true
-    }
 
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -91,9 +82,11 @@ final class ConversationsListViewController: UITableViewController {
             bundle: nil
         )
         
-        conversationVC.conversationNameTitle = indexPath.section == 0
-        ? onlineConversations[indexPath.row].name
-        : historyConversations[indexPath.row].name
+        let conversation = indexPath.section == 0
+        ? onlineConversations[indexPath.row]
+        : historyConversations[indexPath.row]
+        
+        conversationVC.conversationNameTitle = conversation.name
         
         navigationController?.pushViewController(
             conversationVC,
@@ -109,6 +102,8 @@ extension ConversationsListViewController {
     }
     
     func setupNavigationBar() {
+        navigationItem.largeTitleDisplayMode = .always
+        navigationController?.navigationBar.prefersLargeTitles = true
         title = "Tinkoff Chat"
     }
     

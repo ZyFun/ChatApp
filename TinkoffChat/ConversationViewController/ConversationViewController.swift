@@ -29,7 +29,7 @@ private extension ConversationViewController {
     }
     
     func setupNavigationBar() {
-        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .never
         title = conversationNameTitle
     }
     
