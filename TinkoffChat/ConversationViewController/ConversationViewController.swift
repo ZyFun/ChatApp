@@ -95,7 +95,7 @@ extension ConversationViewController: UITableViewDataSource {
                 for: indexPath
             ) as? MessageCell else { return UITableViewCell() }
             
-            cell.textMessageLabel.text = message.text
+            cell.textMessage = message.text
             
             return cell
         }
