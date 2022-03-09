@@ -65,14 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2C3CFCA227D6216A005436A3 /* ConversationViewController */ = {
+		2C3CFCA227D6216A005436A3 /* Conversation */ = {
 			isa = PBXGroup;
 			children = (
 				2C3CFCA327D64B4B005436A3 /* Cells */,
 				2C3CFC9E27D62164005436A3 /* ConversationViewController.swift */,
 				2C3CFC9F27D62164005436A3 /* ConversationViewController.xib */,
 			);
-			path = ConversationViewController;
+			path = Conversation;
 			sourceTree = "<group>";
 		};
 		2C3CFCA327D64B4B005436A3 /* Cells */ = {
@@ -83,6 +83,43 @@
 				2C3CFCAD27D66284005436A3 /* OutgoingMessageCell.xib */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		2C3D0C3427D8CA1100BA9CA6 /* Recources */ = {
+			isa = PBXGroup;
+			children = (
+				2CF231BA27BFBB2600CE77C2 /* Assets.xcassets */,
+			);
+			path = Recources;
+			sourceTree = "<group>";
+		};
+		2C3D0C3527D8CA8D00BA9CA6 /* Default */ = {
+			isa = PBXGroup;
+			children = (
+				2C3D0C3427D8CA1100BA9CA6 /* Recources */,
+				2CF231BC27BFBB2600CE77C2 /* LaunchScreen.storyboard */,
+				2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */,
+			);
+			path = Default;
+			sourceTree = "<group>";
+		};
+		2C3D0C3627D8CA9A00BA9CA6 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				2CEBE04A27D221C5005CBCB0 /* ConversationsList */,
+				2C3CFCA227D6216A005436A3 /* Conversation */,
+				2C3D0C3727D8CC1300BA9CA6 /* MyProfile */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		2C3D0C3727D8CC1300BA9CA6 /* MyProfile */ = {
+			isa = PBXGroup;
+			children = (
+				2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */,
+				2CF231B727BFBB2400CE77C2 /* MyProfileViewController.storyboard */,
+			);
+			path = MyProfile;
 			sourceTree = "<group>";
 		};
 		2CEA6AF027D36F080028DF67 /* Extensions */ = {
@@ -142,17 +179,12 @@
 		2CF231B027BFBB2400CE77C2 /* TinkoffChat */ = {
 			isa = PBXGroup;
 			children = (
+				2CF231BF27BFBB2600CE77C2 /* Info.plist */,
+				2C3D0C3527D8CA8D00BA9CA6 /* Default */,
 				2CEA6AF327D3AD9E0028DF67 /* Models */,
-				2CEBE04A27D221C5005CBCB0 /* ConversationsList */,
-				2C3CFCA227D6216A005436A3 /* ConversationViewController */,
+				2C3D0C3627D8CA9A00BA9CA6 /* Modules */,
 				2CF231C827BFFFA000CE77C2 /* Supports */,
 				2CEA6AF027D36F080028DF67 /* Extensions */,
-				2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */,
-				2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */,
-				2CF231B727BFBB2400CE77C2 /* MyProfileViewController.storyboard */,
-				2CF231BA27BFBB2600CE77C2 /* Assets.xcassets */,
-				2CF231BC27BFBB2600CE77C2 /* LaunchScreen.storyboard */,
-				2CF231BF27BFBB2600CE77C2 /* Info.plist */,
 			);
 			path = TinkoffChat;
 			sourceTree = "<group>";
