@@ -16,12 +16,13 @@ protocol ConversationsCellConfiguration: AnyObject {
 }
 
 final class ConversationsCell: UITableViewCell {
+    @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var lastMessageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
     override func awakeFromNib() {
-        accessoryType = .disclosureIndicator
+        setupUI()
     }
     
     override func prepareForReuse() {
@@ -32,6 +33,22 @@ final class ConversationsCell: UITableViewCell {
         dateLabel.text = ""
         backgroundColor = contentView.backgroundColor
         lastMessageLabel.font = .systemFont(ofSize: 15)
+    }
+}
+
+private extension ConversationsCell {
+    func setupUI() {
+        setupCell()
+        setupProfileImage()
+    }
+    
+    func setupCell() {
+        accessoryType = .disclosureIndicator
+    }
+    
+    func setupProfileImage() {
+        profileImageView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
     }
 }
 

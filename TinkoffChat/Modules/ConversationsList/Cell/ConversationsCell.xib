@@ -43,6 +43,12 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UN" textAlignment="natural" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MJT-LQ-2kV">
+                        <rect key="frame" x="22.5" y="29.5" width="34" height="29"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="nJ1-9r-7jA" firstAttribute="leading" secondItem="9XD-Ym-iE0" secondAttribute="trailing" constant="13" id="18x-E0-B7c"/>
@@ -50,6 +56,8 @@
                     <constraint firstItem="9XD-Ym-iE0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15.5" id="JCe-3V-5Id"/>
                     <constraint firstAttribute="bottom" secondItem="9XD-Ym-iE0" secondAttribute="bottom" constant="22" id="LP7-sw-PYc"/>
                     <constraint firstItem="9XD-Ym-iE0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="P3x-cV-eXb"/>
+                    <constraint firstItem="MJT-LQ-2kV" firstAttribute="centerY" secondItem="9XD-Ym-iE0" secondAttribute="centerY" id="TkM-QE-hLd"/>
+                    <constraint firstItem="MJT-LQ-2kV" firstAttribute="centerX" secondItem="9XD-Ym-iE0" secondAttribute="centerX" id="Wny-ZO-xYs"/>
                     <constraint firstItem="F8J-Ce-Wz7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="Yz5-An-NXS"/>
                     <constraint firstItem="rDV-Uh-uWM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="F8J-Ce-Wz7" secondAttribute="trailing" constant="6" id="lfb-Jp-VKN"/>
                     <constraint firstAttribute="trailing" secondItem="rDV-Uh-uWM" secondAttribute="trailing" constant="20.800000000000001" id="n9G-94-SSE"/>
@@ -63,6 +71,7 @@
                 <outlet property="dateLabel" destination="rDV-Uh-uWM" id="Ucc-d0-eIC"/>
                 <outlet property="lastMessageLabel" destination="nJ1-9r-7jA" id="KMO-xD-Bra"/>
                 <outlet property="nameLabel" destination="F8J-Ce-Wz7" id="0e9-AK-JIE"/>
+                <outlet property="profileImageView" destination="9XD-Ym-iE0" id="9Sp-jc-G5C"/>
             </connections>
             <point key="canvasLocation" x="140.57971014492756" y="111.83035714285714"/>
         </tableViewCell>
