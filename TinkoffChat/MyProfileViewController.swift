@@ -18,18 +18,10 @@ final class MyProfileViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
     
     // MARK: - LifeCycle
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        
-        // saveButton.frame не будет распечатан в этом методе, потому что кнопка еще не инициализирована и её еще нет в памяти.
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
-        
-        printDebug("Save button frame from \(#function): \(saveButton.frame)")
     }
     
     override func viewWillLayoutSubviews() {
@@ -37,18 +29,14 @@ final class MyProfileViewController: UIViewController {
         
         setupProfileImageSize()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        printDebug("Save button frame from \(#function): \(saveButton.frame)") // Размеры кнопки отличаются, потому что весь интерфейс в сториборде подогнан под размеры SE. А в момент отображения экрана, когда как раз срабатывает этот метод, элементы уже расставлены под размеры текущего экрана.
-    }
 
     // MARK: IB Actions
     @IBAction func editLogoButtonPressed() {
-        printDebug("Выбери изображение профиля")
-        
         changeProfileLogoAlertController()
+    }
+    
+    @IBAction func closeButtonPressed() {
+        dismiss(animated: true)
     }
 }
 

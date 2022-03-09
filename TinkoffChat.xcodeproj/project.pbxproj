@@ -21,7 +21,7 @@
 		2CEBE05727D23547005CBCB0 /* ConversationsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE05527D23547005CBCB0 /* ConversationsCell.xib */; };
 		2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */; };
 		2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */; };
-		2CF231B927BFBB2400CE77C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231B727BFBB2400CE77C2 /* Main.storyboard */; };
+		2CF231B927BFBB2400CE77C2 /* MyProfileViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231B727BFBB2400CE77C2 /* MyProfileViewController.storyboard */; };
 		2CF231BB27BFBB2600CE77C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231BA27BFBB2600CE77C2 /* Assets.xcassets */; };
 		2CF231BE27BFBB2600CE77C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231BC27BFBB2600CE77C2 /* LaunchScreen.storyboard */; };
 		2CF231C727BFF6FA00CE77C2 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231C627BFF6FA00CE77C2 /* .gitignore */; };
@@ -45,7 +45,7 @@
 		2CF231AE27BFBB2400CE77C2 /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
-		2CF231B827BFBB2400CE77C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2CF231B827BFBB2400CE77C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfileViewController.storyboard; sourceTree = "<group>"; };
 		2CF231BA27BFBB2600CE77C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2CF231BD27BFBB2600CE77C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2CF231BF27BFBB2600CE77C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 				2CEA6AF027D36F080028DF67 /* Extensions */,
 				2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */,
 				2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */,
-				2CF231B727BFBB2400CE77C2 /* Main.storyboard */,
+				2CF231B727BFBB2400CE77C2 /* MyProfileViewController.storyboard */,
 				2CF231BA27BFBB2600CE77C2 /* Assets.xcassets */,
 				2CF231BC27BFBB2600CE77C2 /* LaunchScreen.storyboard */,
 				2CF231BF27BFBB2600CE77C2 /* Info.plist */,
@@ -231,7 +231,7 @@
 				2CF231BE27BFBB2600CE77C2 /* LaunchScreen.storyboard in Resources */,
 				2CF231BB27BFBB2600CE77C2 /* Assets.xcassets in Resources */,
 				2C3CFCA127D62164005436A3 /* ConversationViewController.xib in Resources */,
-				2CF231B927BFBB2400CE77C2 /* Main.storyboard in Resources */,
+				2CF231B927BFBB2400CE77C2 /* MyProfileViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,12 +259,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		2CF231B727BFBB2400CE77C2 /* Main.storyboard */ = {
+		2CF231B727BFBB2400CE77C2 /* MyProfileViewController.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				2CF231B827BFBB2400CE77C2 /* Base */,
 			);
-			name = Main.storyboard;
+			name = MyProfileViewController.storyboard;
 			sourceTree = "<group>";
 		};
 		2CF231BC27BFBB2600CE77C2 /* LaunchScreen.storyboard */ = {

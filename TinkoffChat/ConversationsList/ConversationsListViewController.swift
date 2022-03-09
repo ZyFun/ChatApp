@@ -105,6 +105,24 @@ extension ConversationsListViewController {
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Tinkoff Chat"
+        
+        setupNavBarButtons()
+    }
+    
+    func setupNavBarButtons() {
+        let profileButton = UIBarButtonItem(title: "Profile", style: .done, target: self, action: #selector(profileButtonPressed))
+        
+        navigationItem.rightBarButtonItem = profileButton
+    }
+    
+    @objc func profileButtonPressed() {
+        
+         guard let myProfileVC = UIStoryboard(
+            name: String(describing: MyProfileViewController.self),
+            bundle: nil
+         ).instantiateInitialViewController() else { return }
+        
+        present(myProfileVC, animated: true)
     }
     
     func setupTableView() {
