@@ -10,7 +10,7 @@ import Photos
 
 final class MyProfileViewController: UIViewController {
     
-    // MARK: IB Outlets
+    // MARK: - IB Outlets
     @IBOutlet weak var topBarView: UIView!
     @IBOutlet weak var noProfileImageLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
@@ -40,7 +40,7 @@ final class MyProfileViewController: UIViewController {
     }
 }
 
-// MARK: - Настройки для ViewController
+// MARK: - Private properties
 private extension MyProfileViewController {
     func setup() {
         setupUI()
@@ -81,7 +81,7 @@ private extension MyProfileViewController {
         editLogoButton.titleLabel?.font = .systemFont(ofSize: 16)
     }
     
-    // MARK: - Alert Controller
+    // MARK: Alert Controller
     func changeProfileLogoAlertController() {
         let choosePhoto = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -115,7 +115,7 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
         dismiss(animated: true)
     }
     
-    // MARK: Private method
+    // MARK: Private methods
     private func chooseImagePicker(source: UIImagePickerController.SourceType) {
         if UIImagePickerController.isSourceTypeAvailable(source) {
             let imagePicker = UIImagePickerController()

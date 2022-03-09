@@ -36,6 +36,7 @@ final class ConversationsCell: UITableViewCell {
     }
 }
 
+// MARK: - Private methods
 private extension ConversationsCell {
     func setupUI() {
         setupCell()

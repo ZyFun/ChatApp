@@ -9,14 +9,14 @@ import UIKit
 
 final class ConversationsListViewController: UITableViewController {
     
+    // MARK: - Private properties
     private let conversations = Conversation.getConversations()
     private var onlineConversations: [Conversation] = []
     private var historyConversations: [Conversation] = []
-        
+    
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
         setup()
         sortingConversationSections()
@@ -97,7 +97,8 @@ final class ConversationsListViewController: UITableViewController {
     }
 }
 
-extension ConversationsListViewController {
+// MARK: - Private methods
+private extension ConversationsListViewController {
     func setup() {
         setupNavigationBar()
         setupTableView()

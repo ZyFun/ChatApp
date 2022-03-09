@@ -9,12 +9,16 @@ import UIKit
 
 final class ConversationViewController: UIViewController {
     
+    // MARK: - Public properties
     var conversationNameTitle: String?
     
+    // MARK: - Private properties
     private let messages = Messages.getMessages()
     
+    // MARK: - IB Outlets
     @IBOutlet weak var conversationTableView: UITableView!
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,6 +26,7 @@ final class ConversationViewController: UIViewController {
     }
 }
 
+// MARK: - Private methods
 private extension ConversationViewController {
     func setup() {
         setupNavigationBar()
