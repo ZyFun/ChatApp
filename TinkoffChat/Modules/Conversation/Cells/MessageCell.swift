@@ -51,7 +51,7 @@ private extension MessageCell {
     }
     
     func changePrototypeColorCells() {
-        if reuseIdentifier == "incomingMessage" {
+        if reuseIdentifier == MessageCell.Identifier.incoming.rawValue {
             messageView.backgroundColor = #colorLiteral(red: 0.8745098039, green: 0.8745098039, blue: 0.8745098039, alpha: 1)
         } else {
             messageView.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.968627451, blue: 0.7725490196, alpha: 1)
