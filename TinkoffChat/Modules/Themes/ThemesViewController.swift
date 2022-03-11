@@ -115,12 +115,64 @@ private extension ThemesViewController {
         messageRight.backgroundColor = colorRight
         messageRight.layer.cornerRadius = messageLeft.layer.cornerRadius
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(buttonPressed))
+        let tap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(buttonPressed)
+        )
+        
         themeMainView.addGestureRecognizer(tap)
     }
     
-    @objc func buttonPressed() {
-        classicChatView.layer.borderColor = #colorLiteral(red: 0, green: 0.4730627537, blue: 1, alpha: 1)
-        classicChatView.layer.borderWidth = 2
+    @objc func buttonPressed(sender: UITapGestureRecognizer) {
+        
+        switch sender.view {
+        case classicMainView:
+            setupSelectedState(classicChatView)
+            setupDeselectedState(dayChatView)
+            setupDeselectedState(nightChatView)
+            
+            setupLabelsColorForLightTheme()
+            view.backgroundColor = #colorLiteral(red: 0.9169014692, green: 0.9215699434, blue: 0.9302648902, alpha: 1)
+        case dayMainView:
+            setupSelectedState(dayChatView)
+            setupDeselectedState(classicChatView)
+            setupDeselectedState(nightChatView)
+            
+            setupLabelsColorForLightTheme()
+            view.backgroundColor = .white
+        case nightMainView:
+            setupSelectedState(nightChatView)
+            setupDeselectedState(classicChatView)
+            setupDeselectedState(dayChatView)
+            
+            setupLabelsColorForDartTheme()
+            view.backgroundColor = nightColorBackground
+        case .none:
+            break
+        case .some(_):
+            break
+        }
+    }
+    
+    func setupLabelsColorForDartTheme() {
+        classicLabel.textColor = .white
+        dayLabel.textColor = .white
+        nightLabel.textColor = .white
+    }
+    
+    func setupLabelsColorForLightTheme() {
+        classicLabel.textColor = .black
+        dayLabel.textColor = .black
+        nightLabel.textColor = .black
+    }
+    
+    func setupDeselectedState(_ chatView: UIView) {
+        chatView.layer.borderColor = UIColor.systemGray.cgColor
+        chatView.layer.borderWidth = 1
+    }
+    
+    func setupSelectedState(_ chatView: UIView) {
+        chatView.layer.borderColor = #colorLiteral(red: 0, green: 0.4730627537, blue: 1, alpha: 1)
+        chatView.layer.borderWidth = 3
     }
 }
