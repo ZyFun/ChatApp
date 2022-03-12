@@ -52,10 +52,28 @@ final class ThemesViewController: UIViewController {
 // MARK: - Private methods
 private extension ThemesViewController {
     func setupUI() {
-        setupButtons()
+        setupNavigationBar()
+        setupThemeButtons()
     }
     
-    func setupButtons() {
+    func setupNavigationBar() {
+        title = "Settings"
+        navigationItem.largeTitleDisplayMode = .never
+        
+        setupNavBarButtons()
+    }
+    
+    func setupNavBarButtons() {
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(closeVC))
+        
+        navigationItem.rightBarButtonItem = cancelButton
+    }
+    
+    @objc func closeVC() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func setupThemeButtons() {
         setupThemeButton(
             with: classicMainView,
             label: classicLabel,

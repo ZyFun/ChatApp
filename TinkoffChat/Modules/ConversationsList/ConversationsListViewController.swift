@@ -113,6 +113,33 @@ private extension ConversationsListViewController {
     }
     
     func setupNavBarButtons() {
+        setupSettingsButton()
+        setupProfileButton()
+    }
+    
+    func setupSettingsButton() {
+        let barButton = UIBarButtonItem(
+            image: UIImage(named: "SettingsIcon"),
+            style: .plain,
+            target: self,
+            action: #selector(pushThemeVC)
+        )
+        
+        barButton.tintColor = .darkGray
+        
+        navigationItem.leftBarButtonItem = barButton
+    }
+    
+    @objc func pushThemeVC() {
+        let themesVC = ThemesViewController(
+            nibName: String(describing: ThemesViewController.self),
+            bundle: nil
+        )
+        
+        navigationController?.pushViewController(themesVC, animated: true)
+    }
+    
+    func setupProfileButton() {
         let profileButton = UILabel(
             frame: CGRect(x: 0, y: 0, width: 40, height: 40)
         )

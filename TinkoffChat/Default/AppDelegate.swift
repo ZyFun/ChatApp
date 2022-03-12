@@ -34,6 +34,8 @@ private extension AppDelegate {
             rootViewController: conversationsListVC
         )
         
+        navigationController.navigationBar.scrollEdgeAppearance =  navigationController.navigationBar.standardAppearance
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
