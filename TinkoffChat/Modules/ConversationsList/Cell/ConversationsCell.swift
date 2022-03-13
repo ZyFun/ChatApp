@@ -31,7 +31,7 @@ final class ConversationsCell: UITableViewCell {
         nameLabel.text = ""
         lastMessageLabel.text = ""
         dateLabel.text = ""
-        backgroundColor = contentView.backgroundColor
+        backgroundColor = .clear
         lastMessageLabel.font = .systemFont(ofSize: 15)
     }
 }
