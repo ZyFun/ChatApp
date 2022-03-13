@@ -13,6 +13,7 @@
 		2C3CFCA727D64BB7005436A3 /* IncomingMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFCA527D64BB7005436A3 /* IncomingMessageCell.xib */; };
 		2C3CFCA927D65033005436A3 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFCA827D65033005436A3 /* Messages.swift */; };
 		2C3CFCAF27D66284005436A3 /* OutgoingMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFCAD27D66284005436A3 /* OutgoingMessageCell.xib */; };
+		2C98466327DE237700BF6272 /* UIColor+ThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C98466227DE237700BF6272 /* UIColor+ThemeColor.swift */; };
 		2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3827127DB6AC600456139 /* ThemesViewController.swift */; };
 		2CA3827427DB6AC600456139 /* ThemesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3827227DB6AC600456139 /* ThemesViewController.xib */; };
 		2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */; };
@@ -38,6 +39,7 @@
 		2C3CFCA527D64BB7005436A3 /* IncomingMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IncomingMessageCell.xib; sourceTree = "<group>"; };
 		2C3CFCA827D65033005436A3 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		2C3CFCAD27D66284005436A3 /* OutgoingMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutgoingMessageCell.xib; sourceTree = "<group>"; };
+		2C98466227DE237700BF6272 /* UIColor+ThemeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+ThemeColor.swift"; sourceTree = "<group>"; };
 		2CA3827127DB6AC600456139 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		2CA3827227DB6AC600456139 /* ThemesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemesViewController.xib; sourceTree = "<group>"; };
 		2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateFormatter.swift"; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 			children = (
 				2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */,
 				2CF2C65927D4E575006CA6A6 /* String+DateFormatter.swift */,
+				2C98466227DE237700BF6272 /* UIColor+ThemeColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				2C3CFCA027D62164005436A3 /* ConversationViewController.swift in Sources */,
 				2CEBE05627D23547005CBCB0 /* ConversationsCell.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
+				2C98466327DE237700BF6272 /* UIColor+ThemeColor.swift in Sources */,
 				2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */,
 				2C3CFCA927D65033005436A3 /* Messages.swift in Sources */,
 				2CEA6AF527D3ADCE0028DF67 /* Conversation.swift in Sources */,
