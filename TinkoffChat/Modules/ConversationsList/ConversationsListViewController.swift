@@ -7,6 +7,13 @@
 
 import UIKit
 
+protocol ThemeDelegate: AnyObject {
+    func updateTheme(
+        backgroundColor: UIColor,
+        textColor: UIColor
+    )
+}
+
 final class ConversationsListViewController: UITableViewController {
     
     // MARK: - Private properties
@@ -136,6 +143,8 @@ private extension ConversationsListViewController {
             bundle: nil
         )
         
+        themesVC.themeDelegate = self
+        
         navigationController?.pushViewController(themesVC, animated: true)
     }
     
@@ -197,5 +206,26 @@ private extension ConversationsListViewController {
                 historyConversations.append(conversation)
             }
         }
+    }
+}
+
+extension ConversationsListViewController: ThemeDelegate {
+    func updateTheme(
+        backgroundColor: UIColor,
+        textColor: UIColor
+    ) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.titleTextAttributes = [.foregroundColor: textColor]
+        appearance.largeTitleTextAttributes = [.foregroundColor: textColor]
+        appearance.backgroundColor = backgroundColor
+        
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        // TODO: Не могу понять как менять цвет текста статусбара
+//        navigationController?.navigationBar.barStyle = .black
+        
+        view.backgroundColor = backgroundColor
     }
 }
