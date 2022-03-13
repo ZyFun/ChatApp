@@ -9,17 +9,17 @@ import UIKit
 
 final class ThemesViewController: UIViewController {
     // MARK: - Private properties
-    private let classicColorBackground = UIColor.white
-    private let classicColorLeftMessage = #colorLiteral(red: 0.8745099902, green: 0.874509871, blue: 0.874509871, alpha: 1)
-    private let classicColorRightMessage = #colorLiteral(red: 0.8347972035, green: 0.9761014581, blue: 0.7518735528, alpha: 1)
+    private let classicColorBackground = UIColor.appColor(.Classic, .background)
+    private let classicColorLeftMessage = UIColor.appColor(.Classic, .leftMessage)
+    private let classicColorRightMessage = UIColor.appColor(.Classic, .rightMessage)
     
-    private let dayColorBackground = UIColor.white
-    private let dayColorLeftMessage = #colorLiteral(red: 0.9169014692, green: 0.9215699434, blue: 0.9302648902, alpha: 1)
-    private let dayColorRightMessage = #colorLiteral(red: 0.153665185, green: 0.5354442, blue: 1, alpha: 1)
+    private let dayColorBackground = UIColor.appColor(.Day, .background)
+    private let dayColorLeftMessage = UIColor.appColor(.Day, .leftMessage)
+    private let dayColorRightMessage = UIColor.appColor(.Day, .rightMessage)
     
-    private let nightColorBackground = #colorLiteral(red: 0.02352941036, green: 0.02352941409, blue: 0.02352941036, alpha: 1)
-    private let nightColorLeftMessage = #colorLiteral(red: 0.1803921461, green: 0.1803921461, blue: 0.1803921461, alpha: 1)
-    private let nightColorRightMessage = #colorLiteral(red: 0.3607842922, green: 0.3607842922, blue: 0.3607842922, alpha: 1)
+    private let nightColorBackground = UIColor.appColor(.Night, .background)
+    private let nightColorLeftMessage = UIColor.appColor(.Night, .leftMessage)
+    private let nightColorRightMessage = UIColor.appColor(.Night, .rightMessage)
     
     // MARK: - IB Outlets
     @IBOutlet weak var classicMainView: UIView!
