@@ -22,6 +22,8 @@ final class ThemesViewController: UIViewController {
     private let nightColorRightMessage = UIColor.appColor(.Night, .rightMessage)
     
     // MARK: - Public properties
+    var completion: ((_ background: UIColor, _ text: UIColor) -> ())?
+    
     weak var themeDelegate: ThemeDelegate?
     
     // MARK: - IB Outlets
@@ -155,10 +157,12 @@ private extension ThemesViewController {
             setupLabelsColorForLightTheme()
             view.backgroundColor = #colorLiteral(red: 0.9169014692, green: 0.9215699434, blue: 0.9302648902, alpha: 1)
             
-            themeDelegate?.updateTheme(
-                backgroundColor: classicColorBackground,
-                textColor: .black
-            )
+//            themeDelegate?.updateTheme(
+//                backgroundColor: classicColorBackground,
+//                textColor: .black
+//            )
+            
+            completion?(classicColorBackground, .black)
         case dayMainView:
             setupSelectedState(dayChatView)
             setupDeselectedState(classicChatView)
@@ -167,10 +171,12 @@ private extension ThemesViewController {
             setupLabelsColorForLightTheme()
             view.backgroundColor = .white
             
-            themeDelegate?.updateTheme(
-                backgroundColor: dayColorBackground,
-                textColor: .black
-            )
+//            themeDelegate?.updateTheme(
+//                backgroundColor: dayColorBackground,
+//                textColor: .black
+//            )
+            
+            completion?(dayColorBackground, .black)
         case nightMainView:
             setupSelectedState(nightChatView)
             setupDeselectedState(classicChatView)
@@ -179,10 +185,12 @@ private extension ThemesViewController {
             setupLabelsColorForDartTheme()
             view.backgroundColor = nightColorBackground
             
-            themeDelegate?.updateTheme(
-                backgroundColor: nightColorBackground,
-                textColor: .white
-            )
+//            themeDelegate?.updateTheme(
+//                backgroundColor: nightColorBackground,
+//                textColor: .white
+//            )
+            
+            completion?(nightColorBackground, .white)
         case .none:
             break
         case .some(_):

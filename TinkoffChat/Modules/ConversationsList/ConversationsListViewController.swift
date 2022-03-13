@@ -143,7 +143,23 @@ private extension ConversationsListViewController {
             bundle: nil
         )
         
-        themesVC.themeDelegate = self
+//        themesVC.themeDelegate = self
+        
+        themesVC.completion = { [weak self] backgroundTheme, textTheme in
+
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.titleTextAttributes = [.foregroundColor: textTheme]
+            appearance.largeTitleTextAttributes = [.foregroundColor: textTheme]
+            appearance.backgroundColor = backgroundTheme
+
+            self?.navigationController?.navigationBar.standardAppearance = appearance
+            self?.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
+            // TODO: Не могу понять как менять цвет текста статусбара
+
+            self?.view.backgroundColor = backgroundTheme
+        }
         
         navigationController?.pushViewController(themesVC, animated: true)
     }
@@ -224,7 +240,6 @@ extension ConversationsListViewController: ThemeDelegate {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         // TODO: Не могу понять как менять цвет текста статусбара
-//        navigationController?.navigationBar.barStyle = .black
         
         view.backgroundColor = backgroundColor
     }
