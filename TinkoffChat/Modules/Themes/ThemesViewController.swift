@@ -161,9 +161,9 @@ private extension ThemesViewController {
         
         switch sender.view {
         case classicMainView:
-            setupSelectedState(classicChatView)
-            setupDeselectedState(dayChatView)
-            setupDeselectedState(nightChatView)
+            setSelectedState(classicChatView)
+            setDeselectedState(dayChatView)
+            setDeselectedState(nightChatView)
             
             setupLabelsColorForLightTheme()
             view.backgroundColor = classicColorBackgroundView
@@ -182,9 +182,9 @@ private extension ThemesViewController {
                 .black
             )
         case dayMainView:
-            setupSelectedState(dayChatView)
-            setupDeselectedState(classicChatView)
-            setupDeselectedState(nightChatView)
+            setSelectedState(dayChatView)
+            setDeselectedState(classicChatView)
+            setDeselectedState(nightChatView)
             
             setupLabelsColorForLightTheme()
             view.backgroundColor = dayColorBackgroundView
@@ -203,9 +203,9 @@ private extension ThemesViewController {
                 .black
             )
         case nightMainView:
-            setupSelectedState(nightChatView)
-            setupDeselectedState(classicChatView)
-            setupDeselectedState(dayChatView)
+            setSelectedState(nightChatView)
+            setDeselectedState(classicChatView)
+            setDeselectedState(dayChatView)
             
             setupLabelsColorForDartTheme()
             view.backgroundColor = nightColorBackgroundView
@@ -223,9 +223,7 @@ private extension ThemesViewController {
                 nightBackgroundNavBar,
                 .white
             )
-        case .none:
-            break
-        case .some(_):
+        default:
             break
         }
     }
@@ -242,12 +240,12 @@ private extension ThemesViewController {
         nightLabel.textColor = .black
     }
     
-    func setupDeselectedState(_ chatView: UIView) {
+    func setDeselectedState(_ chatView: UIView) {
         chatView.layer.borderColor = UIColor.systemGray.cgColor
         chatView.layer.borderWidth = 1
     }
     
-    func setupSelectedState(_ chatView: UIView) {
+    func setSelectedState(_ chatView: UIView) {
         chatView.layer.borderColor = #colorLiteral(red: 0, green: 0.4730627537, blue: 1, alpha: 1)
         chatView.layer.borderWidth = 3
     }
@@ -260,17 +258,16 @@ private extension ThemesViewController {
         nightLabel.textColor = .appColorLoadFor(.text)
     }
     
-    // TODO: Добавить метод, который будет выделять кнопку текущей темы при входе на экран
     func selectedCurrentTheme() {
         let currentTheme = UserDefaults.standard.string(forKey: "theme")
         
         switch currentTheme {
         case Theme.Classic.rawValue:
-            setupSelectedState(classicChatView)
+            setSelectedState(classicChatView)
         case Theme.Day.rawValue:
-            setupSelectedState(dayChatView)
+            setSelectedState(dayChatView)
         case Theme.Night.rawValue:
-            setupSelectedState(nightChatView)
+            setSelectedState(nightChatView)
         default:
             break
         }
