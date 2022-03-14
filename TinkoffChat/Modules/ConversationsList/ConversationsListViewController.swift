@@ -238,6 +238,12 @@ private extension ConversationsListViewController {
     }
     
     func setupTableView() {
+        // Исправил непонятный отступ между хедером и заголовком. Такое есть только в 15 версии
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = .zero
+        } else {
+            // Fallback on earlier versions
+        }
         setupXibs()
     }
     
