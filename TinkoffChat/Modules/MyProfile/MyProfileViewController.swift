@@ -86,7 +86,7 @@ private extension MyProfileViewController {
     }
     
     func setupButtons() {
-        saveButton.backgroundColor = #colorLiteral(red: 0.9647058845, green: 0.9647058845, blue: 0.9647058845, alpha: 1)
+        saveButton.backgroundColor = .appColorLoadFor(.button)
         saveButton.layer.cornerRadius = 14
         saveButton.titleLabel?.font = .systemFont(ofSize: 19)
         saveButton.setTitleColor(.systemBlue, for: .normal)
@@ -111,6 +111,11 @@ private extension MyProfileViewController {
         choosePhoto.addAction(camera)
         choosePhoto.addAction(photo)
         choosePhoto.addAction(cancel)
+        
+        let currentTheme = StorageManager.shared.loadTheme(withKey: .theme)
+        if currentTheme == Theme.Night.rawValue {
+            choosePhoto.overrideUserInterfaceStyle = .dark
+        }
         
         present(choosePhoto, animated: true)
     }

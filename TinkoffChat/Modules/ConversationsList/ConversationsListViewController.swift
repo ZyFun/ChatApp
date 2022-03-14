@@ -92,6 +92,19 @@ final class ConversationsListViewController: UITableViewController {
     
     override func tableView(
         _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+    ) -> UIView? {
+        
+        let header = UITableViewHeaderFooterView()
+        
+        header.contentView.backgroundColor = .appColorLoadFor(.headerBackground)
+        header.textLabel?.textColor = .appColorLoadFor(.headerText)
+        
+        return header
+    }
+    
+    override func tableView(
+        _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
         let conversationVC = ConversationViewController(

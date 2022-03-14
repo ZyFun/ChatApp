@@ -19,6 +19,9 @@ enum AssetsColor : String {
     case rightMessage
     case text
     case online
+    case headerBackground
+    case headerText
+    case button
 }
 
 final class ThemeManager {
