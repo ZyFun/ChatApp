@@ -8,6 +8,10 @@
 import Foundation
 
 final class StorageManager {
+    enum Key: String {
+        case theme
+    }
+    
     static let shared = StorageManager()
     // Есть вопрос по синглтону. Когда выполнял задание для поступления в школу,
     // в обратной связи мне написали:
@@ -20,6 +24,10 @@ final class StorageManager {
     private init(){}
     
     func saveTheme(theme: Theme) {
-        userDefaults.set(theme.rawValue, forKey: "theme")
+        userDefaults.set(theme.rawValue, forKey: StorageManager.Key.theme.rawValue)
+    }
+    
+    func loadTheme(with key: StorageManager.Key) {
+        userDefaults.string(forKey: key.rawValue)
     }
 }
