@@ -14,9 +14,9 @@ extension UIColor {
     }
     
     static func appColorLoadFor(_ name: AssetsColor) -> UIColor? {
-        guard let theme = UserDefaults.standard.string(forKey: "theme") else { return .clear}
-        
+        let theme = StorageManager.shared.loadTheme(withKey: .theme)
         let colorName = "\(theme) - \(name.rawValue)"
+        
         return UIColor(named: colorName)
      }
 }

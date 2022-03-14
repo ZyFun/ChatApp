@@ -27,7 +27,7 @@ final class StorageManager {
         userDefaults.set(theme.rawValue, forKey: StorageManager.Key.theme.rawValue)
     }
     
-    func loadTheme(with key: StorageManager.Key) {
-        userDefaults.string(forKey: key.rawValue)
+    func loadTheme(withKey: StorageManager.Key) -> String {
+        userDefaults.string(forKey: withKey.rawValue) ?? ""
     }
 }
