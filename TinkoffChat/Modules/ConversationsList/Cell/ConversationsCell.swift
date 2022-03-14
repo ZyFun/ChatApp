@@ -28,6 +28,7 @@ final class ConversationsCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        setupTheme()
         nameLabel.text = ""
         lastMessageLabel.text = ""
         dateLabel.text = ""
@@ -39,6 +40,7 @@ final class ConversationsCell: UITableViewCell {
 // MARK: - Private methods
 private extension ConversationsCell {
     func setupUI() {
+        setupTheme()
         setupCell()
         setupProfileImage()
     }
@@ -50,6 +52,10 @@ private extension ConversationsCell {
     func setupProfileImage() {
         profileImageView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+    }
+    
+    func setupTheme() {
+        nameLabel.textColor = .appColorLoadFor(.text)
     }
 }
 
@@ -115,7 +121,7 @@ extension ConversationsCell: ConversationsCellConfiguration {
         }
         set {
             if newValue {
-                backgroundColor = #colorLiteral(red: 1, green: 1, blue: 0.7568627451, alpha: 1)
+                backgroundColor = .appColorLoadFor(.online)
             } else {
                 backgroundColor = .clear
             }

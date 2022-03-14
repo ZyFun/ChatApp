@@ -9,20 +9,29 @@ import UIKit
 
 final class ThemesViewController: UIViewController {
     // MARK: - Private properties
-    private let classicColorBackground = UIColor.appColor(.Classic, .background)
-    private let classicColorLeftMessage = UIColor.appColor(.Classic, .leftMessage)
-    private let classicColorRightMessage = UIColor.appColor(.Classic, .rightMessage)
+    private let classicColorBackgroundView = UIColor.appColorSetup(.Classic, .backgroundView)
+    private let classicColorBackgroundNavBar = UIColor.appColorSetup(.Classic, .backgroundNavBar)
+    private let classicColorLeftMessage = UIColor.appColorSetup(.Classic, .leftMessage)
+    private let classicColorRightMessage = UIColor.appColorSetup(.Classic, .rightMessage)
     
-    private let dayColorBackground = UIColor.appColor(.Day, .background)
-    private let dayColorLeftMessage = UIColor.appColor(.Day, .leftMessage)
-    private let dayColorRightMessage = UIColor.appColor(.Day, .rightMessage)
+    private let dayColorBackgroundView = UIColor.appColorSetup(.Day, .backgroundView)
+    private let dayColorBackgroundNavBar = UIColor.appColorSetup(.Day, .backgroundNavBar)
+    private let dayColorLeftMessage = UIColor.appColorSetup(.Day, .leftMessage)
+    private let dayColorRightMessage = UIColor.appColorSetup(.Day, .rightMessage)
     
-    private let nightColorBackground = UIColor.appColor(.Night, .background)
-    private let nightColorLeftMessage = UIColor.appColor(.Night, .leftMessage)
-    private let nightColorRightMessage = UIColor.appColor(.Night, .rightMessage)
+    private let nightColorBackgroundView = UIColor.appColorSetup(.Night, .backgroundView)
+    private let nightBackgroundNavBar = UIColor.appColorSetup(.Night, .backgroundNavBar)
+    private let nightColorLeftMessage = UIColor.appColorSetup(.Night, .leftMessage)
+    private let nightColorRightMessage = UIColor.appColorSetup(.Night, .rightMessage)
     
     // MARK: - Public properties
-    var completion: ((_ background: UIColor, _ text: UIColor) -> ())?
+    var completion: (
+        (
+            _ backgroundView: UIColor,
+            _ backgroundNavBar: UIColor,
+            _ text: UIColor
+        ) -> ()
+    )?
     
     weak var themeDelegate: ThemeDelegate?
     
@@ -59,6 +68,7 @@ private extension ThemesViewController {
     func setupUI() {
         setupNavigationBar()
         setupThemeButtons()
+        setupThemeVC()
     }
     
     func setupNavigationBar() {
@@ -85,7 +95,7 @@ private extension ThemesViewController {
             chatView: classicChatView,
             messageLeft: classicMessageLeftView,
             messageRight: classicMessageRightView,
-            backgroundColor: classicColorBackground,
+            backgroundColor: classicColorBackgroundView,
             colorLeft: classicColorLeftMessage,
             colorRight: classicColorRightMessage
         )
@@ -96,7 +106,7 @@ private extension ThemesViewController {
             chatView: dayChatView,
             messageLeft: dayMessageLeftView,
             messageRight: dayMessageRightView,
-            backgroundColor: dayColorBackground,
+            backgroundColor: dayColorBackgroundView,
             colorLeft: dayColorLeftMessage,
             colorRight: dayColorRightMessage
         )
@@ -107,7 +117,7 @@ private extension ThemesViewController {
             chatView: nightChatView,
             messageLeft: nightMessageLeftView,
             messageRight: nightMessageRightView,
-            backgroundColor: nightColorBackground,
+            backgroundColor: nightColorBackgroundView,
             colorLeft: nightColorLeftMessage,
             colorRight: nightColorRightMessage
         )
@@ -155,42 +165,63 @@ private extension ThemesViewController {
             setupDeselectedState(nightChatView)
             
             setupLabelsColorForLightTheme()
-            view.backgroundColor = #colorLiteral(red: 0.9169014692, green: 0.9215699434, blue: 0.9302648902, alpha: 1)
+            view.backgroundColor = classicColorBackgroundView
             
 //            themeDelegate?.updateTheme(
-//                backgroundColor: classicColorBackground,
-//                textColor: .black
-//            )
+//                backgroundViewTheme: classicColorBackgroundView,
+//                backgroundNavBarTheme: classicColorBackgroundNavBar,
+//                textTheme: .black)
             
-            completion?(classicColorBackground, .black)
+            StorageManager.shared.saveTheme(theme: .Classic)
+            setNeedsStatusBarAppearanceUpdate()
+            
+            completion?(
+                classicColorBackgroundView,
+                classicColorBackgroundNavBar,
+                .black
+            )
         case dayMainView:
             setupSelectedState(dayChatView)
             setupDeselectedState(classicChatView)
             setupDeselectedState(nightChatView)
             
             setupLabelsColorForLightTheme()
-            view.backgroundColor = .white
+            view.backgroundColor = dayColorBackgroundView
             
 //            themeDelegate?.updateTheme(
-//                backgroundColor: dayColorBackground,
-//                textColor: .black
-//            )
+//                backgroundViewTheme: dayColorBackgroundView,
+//                backgroundNavBarTheme: dayColorBackgroundNavBar,
+//                textTheme: .black)
             
-            completion?(dayColorBackground, .black)
+            StorageManager.shared.saveTheme(theme: .Day)
+            setNeedsStatusBarAppearanceUpdate()
+            
+            completion?(
+                dayColorBackgroundView,
+                dayColorBackgroundNavBar,
+                .black
+            )
         case nightMainView:
             setupSelectedState(nightChatView)
             setupDeselectedState(classicChatView)
             setupDeselectedState(dayChatView)
             
             setupLabelsColorForDartTheme()
-            view.backgroundColor = nightColorBackground
+            view.backgroundColor = nightColorBackgroundView
             
 //            themeDelegate?.updateTheme(
-//                backgroundColor: nightColorBackground,
-//                textColor: .white
-//            )
+//                backgroundViewTheme: nightColorBackgroundView,
+//                backgroundNavBarTheme: nightBackgroundNavBar,
+//                textTheme: .white)
             
-            completion?(nightColorBackground, .white)
+            StorageManager.shared.saveTheme(theme: .Night)
+            setNeedsStatusBarAppearanceUpdate()
+            
+            completion?(
+                nightColorBackgroundView,
+                nightBackgroundNavBar,
+                .white
+            )
         case .none:
             break
         case .some(_):
@@ -219,4 +250,14 @@ private extension ThemesViewController {
         chatView.layer.borderColor = #colorLiteral(red: 0, green: 0.4730627537, blue: 1, alpha: 1)
         chatView.layer.borderWidth = 3
     }
+    
+    func setupThemeVC() {
+        view.backgroundColor = .appColorLoadFor(.backgroundView)
+        
+        classicLabel.textColor = .appColorLoadFor(.text)
+        dayLabel.textColor = .appColorLoadFor(.text)
+        nightLabel.textColor = .appColorLoadFor(.text)
+    }
+    
+    // TODO: Добавить метод, который будет выделять кнопку текущей темы при входе на экран
 }

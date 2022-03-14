@@ -17,7 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         
+        setupSchemeColorOnFirstStartApp()
         createAndShowStartVC()
+        
         return true
     }
 }
@@ -39,6 +41,13 @@ private extension AppDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+    }
+    
+    func setupSchemeColorOnFirstStartApp() {
+        if FirstStartAppManager.shared.isFirstStart() {
+            FirstStartAppManager.shared.setupDefaultTheme()
+            FirstStartAppManager.shared.setIsNotFirstStart()
+        }
     }
 }
 

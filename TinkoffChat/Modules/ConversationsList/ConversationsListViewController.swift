@@ -9,8 +9,9 @@ import UIKit
 
 protocol ThemeDelegate: AnyObject {
     func updateTheme(
-        backgroundColor: UIColor,
-        textColor: UIColor
+        backgroundViewTheme: UIColor,
+        backgroundNavBarTheme: UIColor,
+        textTheme: UIColor
     )
 }
 
@@ -21,8 +22,6 @@ final class ConversationsListViewController: UITableViewController {
     private var onlineConversations: [Conversation] = []
     private var historyConversations: [Conversation] = []
     
-    private var isDarkContentBackground = false
-    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,14 +29,12 @@ final class ConversationsListViewController: UITableViewController {
         setup()
         sortingConversationSections()
     }
-
-    // MARK: - Override properties
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        if isDarkContentBackground {
-            return .lightContent
-        } else {
-            return .darkContent
-        }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
+        setupTheme()
     }
 
     // MARK: - Table view data source
@@ -122,6 +119,23 @@ private extension ConversationsListViewController {
         setupTableView()
     }
     
+    func setupTheme() {
+        let backgroundViewTheme = UIColor.appColorLoadFor(.backgroundView)
+        let backgroundNavBarTheme = UIColor.appColorLoadFor(.backgroundNavBar)
+        let textTheme = UIColor.appColorLoadFor(.text)
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.titleTextAttributes = [.foregroundColor: textTheme ?? .label]
+        appearance.largeTitleTextAttributes = [.foregroundColor: textTheme ?? .label]
+        appearance.backgroundColor = backgroundNavBarTheme
+        
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        view.backgroundColor = backgroundViewTheme
+    }
+    
     func setupNavigationBar() {
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -154,39 +168,26 @@ private extension ConversationsListViewController {
             bundle: nil
         )
         
-//        themesVC.themeDelegate = self
+        themesVC.themeDelegate = self
         
-        themesVC.completion = { [weak self] backgroundTheme, textTheme in
+        themesVC.completion = { [weak self] viewTheme, navBarTheme, textTheme in
 
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
             appearance.titleTextAttributes = [.foregroundColor: textTheme]
             appearance.largeTitleTextAttributes = [.foregroundColor: textTheme]
-            appearance.backgroundColor = backgroundTheme
+            appearance.backgroundColor = navBarTheme
 
             self?.navigationController?.navigationBar.standardAppearance = appearance
             self?.navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
-            if backgroundTheme == UIColor.appColor(.Night, .background) {
-                self?.statusBarEnterDarkBackground()
-            } else {
-                self?.statusBarEnterLightBackground()
-            }
-
-            self?.view.backgroundColor = backgroundTheme
+            self?.view.backgroundColor = viewTheme
+            
+            // Нужно для того, чтобы поменять цвета в ячейках
+            self?.tableView.reloadData()
         }
         
         navigationController?.pushViewController(themesVC, animated: true)
-    }
-    
-    func statusBarEnterLightBackground() {
-        isDarkContentBackground = false
-        setNeedsStatusBarAppearanceUpdate()
-    }
-
-    func statusBarEnterDarkBackground() {
-        isDarkContentBackground = true
-        setNeedsStatusBarAppearanceUpdate()
     }
     
     func setupProfileButton() {
@@ -252,24 +253,19 @@ private extension ConversationsListViewController {
 
 extension ConversationsListViewController: ThemeDelegate {
     func updateTheme(
-        backgroundColor: UIColor,
-        textColor: UIColor
+        backgroundViewTheme: UIColor,
+        backgroundNavBarTheme: UIColor,
+        textTheme: UIColor
     ) {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.titleTextAttributes = [.foregroundColor: textColor]
-        appearance.largeTitleTextAttributes = [.foregroundColor: textColor]
-        appearance.backgroundColor = backgroundColor
+        appearance.titleTextAttributes = [.foregroundColor: textTheme]
+        appearance.largeTitleTextAttributes = [.foregroundColor: textTheme]
+        appearance.backgroundColor = backgroundNavBarTheme
         
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        if backgroundColor == UIColor.appColor(.Night, .background) {
-            statusBarEnterDarkBackground()
-        } else {
-            statusBarEnterLightBackground()
-        }
-        
-        view.backgroundColor = backgroundColor
+        view.backgroundColor = backgroundViewTheme
     }
 }

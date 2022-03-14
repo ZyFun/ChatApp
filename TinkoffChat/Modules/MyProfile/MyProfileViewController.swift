@@ -17,6 +17,10 @@ final class MyProfileViewController: UIViewController {
     @IBOutlet weak var editLogoButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,10 +54,11 @@ private extension MyProfileViewController {
         setupTopBarView()
         setupProfileImage()
         setupButtons()
+        setupThemeVC()
     }
     
     func setupTopBarView() {
-        topBarView.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
+        topBarView.backgroundColor = .appColorLoadFor(.backgroundNavBar)
     }
     
     func setupProfileImage() {
@@ -70,6 +75,14 @@ private extension MyProfileViewController {
     
     func setupProfileImageSize() {
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+    }
+    
+    func setupThemeVC() {
+        view.backgroundColor = .appColorLoadFor(.backgroundView)
+        
+        titleLabel.textColor = .appColorLoadFor(.text)
+        nameLabel.textColor = .appColorLoadFor(.text)
+        descriptionLabel.textColor = .appColorLoadFor(.text)
     }
     
     func setupButtons() {

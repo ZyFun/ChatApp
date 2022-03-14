@@ -7,22 +7,16 @@
 
 import UIKit
 
-enum Theme: String {
-    case Classic
-    case Day
-    case Night
-}
-
-enum AssetsColor : String {
-  case background
-  case leftMessage
-  case rightMessage
-}
-
 extension UIColor {
-    static func appColor(_ theme: Theme, _ colors: AssetsColor) -> UIColor {
-        let theme = theme.rawValue
-        let colorName = "\(theme) - \(colors.rawValue)"//theme + "-" + colors.rawValue
+    static func appColorSetup(_ theme: Theme, _ colors: AssetsColor) -> UIColor {
+        let colorName = "\(theme.rawValue) - \(colors.rawValue)"
         return UIColor(named: colorName) ?? .clear
     }
+    
+    static func appColorLoadFor(_ name: AssetsColor) -> UIColor? {
+        guard let theme = UserDefaults.standard.string(forKey: "theme") else { return .clear}
+        
+        let colorName = "\(theme) - \(name.rawValue)"
+        return UIColor(named: colorName)
+     }
 }

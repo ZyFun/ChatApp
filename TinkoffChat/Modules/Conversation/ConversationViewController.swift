@@ -31,6 +31,7 @@ private extension ConversationViewController {
     func setup() {
         setupNavigationBar()
         setupTableView()
+        setupTheme()
     }
     
     func setupNavigationBar() {
@@ -65,6 +66,10 @@ private extension ConversationViewController {
             ),
             forCellReuseIdentifier: MessageCell.Identifier.outgoing.rawValue
         )
+    }
+    
+    func setupTheme() {
+        conversationTableView.backgroundColor = .appColorLoadFor(.backgroundView)
     }
 }
 

@@ -14,6 +14,9 @@
 		2C3CFCA927D65033005436A3 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFCA827D65033005436A3 /* Messages.swift */; };
 		2C3CFCAF27D66284005436A3 /* OutgoingMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFCAD27D66284005436A3 /* OutgoingMessageCell.xib */; };
 		2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */; };
+		2C5C8C2627DF7B7900AE48F6 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */; };
+		2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */; };
+		2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */; };
 		2C98466327DE237700BF6272 /* UIColor+ThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C98466227DE237700BF6272 /* UIColor+ThemeColor.swift */; };
 		2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3827127DB6AC600456139 /* ThemesViewController.swift */; };
 		2CA3827427DB6AC600456139 /* ThemesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3827227DB6AC600456139 /* ThemesViewController.xib */; };
@@ -41,6 +44,9 @@
 		2C3CFCA827D65033005436A3 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		2C3CFCAD27D66284005436A3 /* OutgoingMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutgoingMessageCell.xib; sourceTree = "<group>"; };
 		2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
+		2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstStartAppManager.swift; sourceTree = "<group>"; };
+		2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		2C98466227DE237700BF6272 /* UIColor+ThemeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+ThemeColor.swift"; sourceTree = "<group>"; };
 		2CA3827127DB6AC600456139 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		2CA3827227DB6AC600456139 /* ThemesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemesViewController.xib; sourceTree = "<group>"; };
@@ -139,6 +145,16 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		2C5C8C2427DF7B6000AE48F6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */,
+				2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */,
+				2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		2CA3827027DB6A8300456139 /* Themes */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +226,7 @@
 				2C3D0C3527D8CA8D00BA9CA6 /* Default */,
 				2C5C8C2127DF673000AE48F6 /* Common */,
 				2CEA6AF327D3AD9E0028DF67 /* Models */,
+				2C5C8C2427DF7B6000AE48F6 /* Services */,
 				2C3D0C3627D8CA9A00BA9CA6 /* Modules */,
 				2CF231C827BFFFA000CE77C2 /* Supports */,
 				2CEA6AF027D36F080028DF67 /* Extensions */,
@@ -310,11 +327,14 @@
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2C98466327DE237700BF6272 /* UIColor+ThemeColor.swift in Sources */,
 				2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */,
+				2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */,
 				2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */,
 				2C3CFCA927D65033005436A3 /* Messages.swift in Sources */,
+				2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */,
 				2CEA6AF527D3ADCE0028DF67 /* Conversation.swift in Sources */,
 				2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */,
 				2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */,
+				2C5C8C2627DF7B7900AE48F6 /* StorageManager.swift in Sources */,
 				2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */,
 				2C3CFCA627D64BB7005436A3 /* MessageCell.swift in Sources */,
 			);
