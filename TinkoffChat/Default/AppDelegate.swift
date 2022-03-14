@@ -30,7 +30,7 @@ private extension AppDelegate {
             bundle: nil
         )
         
-        let navigationController = UINavigationController(
+        let navigationController = CustomNavigationController(
             rootViewController: conversationsListVC
         )
         

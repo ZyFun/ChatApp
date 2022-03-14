@@ -21,12 +21,23 @@ final class ConversationsListViewController: UITableViewController {
     private var onlineConversations: [Conversation] = []
     private var historyConversations: [Conversation] = []
     
+    private var isDarkContentBackground = false
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
         sortingConversationSections()
+    }
+
+    // MARK: - Override properties
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if isDarkContentBackground {
+            return .lightContent
+        } else {
+            return .darkContent
+        }
     }
 
     // MARK: - Table view data source
@@ -156,12 +167,26 @@ private extension ConversationsListViewController {
             self?.navigationController?.navigationBar.standardAppearance = appearance
             self?.navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
-            // TODO: Не могу понять как менять цвет текста статусбара
+            if backgroundTheme == UIColor.appColor(.Night, .background) {
+                self?.statusBarEnterDarkBackground()
+            } else {
+                self?.statusBarEnterLightBackground()
+            }
 
             self?.view.backgroundColor = backgroundTheme
         }
         
         navigationController?.pushViewController(themesVC, animated: true)
+    }
+    
+    func statusBarEnterLightBackground() {
+        isDarkContentBackground = false
+        setNeedsStatusBarAppearanceUpdate()
+    }
+
+    func statusBarEnterDarkBackground() {
+        isDarkContentBackground = true
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     func setupProfileButton() {
@@ -239,7 +264,11 @@ extension ConversationsListViewController: ThemeDelegate {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        // TODO: Не могу понять как менять цвет текста статусбара
+        if backgroundColor == UIColor.appColor(.Night, .background) {
+            statusBarEnterDarkBackground()
+        } else {
+            statusBarEnterLightBackground()
+        }
         
         view.backgroundColor = backgroundColor
     }
