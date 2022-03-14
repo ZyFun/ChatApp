@@ -59,6 +59,7 @@ final class ThemesViewController: UIViewController {
         super.viewDidLoad()
         
         setupUI()
+        selectedCurrentTheme()
     }
     
 }
@@ -260,4 +261,18 @@ private extension ThemesViewController {
     }
     
     // TODO: Добавить метод, который будет выделять кнопку текущей темы при входе на экран
+    func selectedCurrentTheme() {
+        let currentTheme = UserDefaults.standard.string(forKey: "theme")
+        
+        switch currentTheme {
+        case Theme.Classic.rawValue:
+            setupSelectedState(classicChatView)
+        case Theme.Day.rawValue:
+            setupSelectedState(dayChatView)
+        case Theme.Night.rawValue:
+            setupSelectedState(nightChatView)
+        default:
+            break
+        }
+    }
 }
