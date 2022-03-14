@@ -116,6 +116,8 @@ extension ConversationsCell: ConversationsCellConfiguration {
         set {
             if newValue {
                 backgroundColor = #colorLiteral(red: 1, green: 1, blue: 0.7568627451, alpha: 1)
+            } else {
+                backgroundColor = .clear
             }
         }
     }
