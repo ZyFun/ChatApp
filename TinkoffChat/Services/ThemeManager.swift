@@ -5,7 +5,6 @@
 //  Created by Дмитрий Данилин on 14.03.2022.
 //
 
-import Foundation
 enum Theme: String {
     case Classic
     case Day
