@@ -17,10 +17,11 @@ protocol ConversationsCellConfiguration: AnyObject {
 
 final class ConversationsCell: UITableViewCell {
     @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var profileImageLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var lastMessageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    
+
     override func awakeFromNib() {
         setupUI()
     }
@@ -50,12 +51,13 @@ private extension ConversationsCell {
     }
     
     func setupProfileImage() {
-        profileImageView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
+        profileImageView.backgroundColor = .appColorLoadFor(.profileImageView)
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
     }
     
     func setupTheme() {
         nameLabel.textColor = .appColorLoadFor(.text)
+        profileImageLabel.textColor = .appColorLoadFor(.textImageView)
     }
 }
 

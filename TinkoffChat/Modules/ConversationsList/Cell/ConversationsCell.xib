@@ -71,6 +71,7 @@
                 <outlet property="dateLabel" destination="rDV-Uh-uWM" id="Ucc-d0-eIC"/>
                 <outlet property="lastMessageLabel" destination="nJ1-9r-7jA" id="KMO-xD-Bra"/>
                 <outlet property="nameLabel" destination="F8J-Ce-Wz7" id="0e9-AK-JIE"/>
+                <outlet property="profileImageLabel" destination="MJT-LQ-2kV" id="YS5-es-6XW"/>
                 <outlet property="profileImageView" destination="9XD-Ym-iE0" id="9Sp-jc-G5C"/>
             </connections>
             <point key="canvasLocation" x="140.57971014492756" y="111.83035714285714"/>

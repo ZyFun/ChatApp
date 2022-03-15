@@ -15,17 +15,19 @@ enum Theme: String {
 enum AssetsColor : String {
     case backgroundView
     case backgroundNavBar
+    case separator
     case leftMessage
     case rightMessage
     case text
+    case textImageView
     case online
     case headerBackground
     case headerText
     case button
+    case buttonNavBar
+    case profileImageView
 }
 
 final class ThemeManager {
-    static let shared = ThemeManager()
-    
     // TODO: Всю работу по смене тем сделать тут
 }

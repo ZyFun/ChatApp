@@ -63,11 +63,12 @@ private extension MyProfileViewController {
     
     func setupProfileImage() {
         profileImageView.contentMode = .scaleAspectFill
-        profileImageView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
+        profileImageView.backgroundColor = .appColorLoadFor(.profileImageView)
         setupNoProfileImageLabel()
     }
     
     func setupNoProfileImageLabel() {
+        noProfileImageLabel.textColor = .appColorLoadFor(.textImageView)
         noProfileImageLabel.adjustsFontSizeToFitWidth = true
         noProfileImageLabel.baselineAdjustment = .alignCenters
         noProfileImageLabel.minimumScaleFactor = 0.5

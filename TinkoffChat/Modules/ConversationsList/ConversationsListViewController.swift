@@ -170,7 +170,8 @@ private extension ConversationsListViewController {
             action: #selector(pushThemeVC)
         )
         
-        barButton.tintColor = .darkGray
+        // TODO: Нужно доработать, чтобы обновление цвета происходило при переходе между экранами (нужен метод для всех экранов, иначе замучаюсь искать места где настраивается цвета элементов)
+        barButton.tintColor = .appColorLoadFor(.buttonNavBar)
         
         navigationItem.leftBarButtonItem = barButton
     }
@@ -215,7 +216,8 @@ private extension ConversationsListViewController {
         
         profileButton.text = "UN" // TODO: Сделать выбор букв из имени и фамилии
         profileButton.textAlignment = .center
-        profileButton.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
+        profileButton.backgroundColor = .appColorLoadFor(.profileImageView)
+        profileButton.textColor = .appColorLoadFor(.textImageView)
         profileButton.layer.cornerRadius = profileButton.frame.height / 2
         profileButton.layer.masksToBounds = true
         
@@ -244,6 +246,8 @@ private extension ConversationsListViewController {
         } else {
             // Fallback on earlier versions
         }
+        
+        tableView.separatorColor = .appColorLoadFor(.separator)
         setupXibs()
     }
     
