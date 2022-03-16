@@ -9,20 +9,20 @@ import UIKit
 
 final class ThemesViewController: UIViewController {
     // MARK: - Private properties
-    private let classicColorBackgroundView = UIColor.appColorSetup(.Classic, .backgroundView)
-    private let classicColorBackgroundNavBar = UIColor.appColorSetup(.Classic, .backgroundNavBar)
-    private let classicColorLeftMessage = UIColor.appColorSetup(.Classic, .leftMessage)
-    private let classicColorRightMessage = UIColor.appColorSetup(.Classic, .rightMessage)
+    private let classicColorBackgroundView = UIColor.appColorSetup(.classic, .backgroundView)
+    private let classicColorBackgroundNavBar = UIColor.appColorSetup(.classic, .backgroundNavBar)
+    private let classicColorLeftMessage = UIColor.appColorSetup(.classic, .leftMessage)
+    private let classicColorRightMessage = UIColor.appColorSetup(.classic, .rightMessage)
     
-    private let dayColorBackgroundView = UIColor.appColorSetup(.Day, .backgroundView)
-    private let dayColorBackgroundNavBar = UIColor.appColorSetup(.Day, .backgroundNavBar)
-    private let dayColorLeftMessage = UIColor.appColorSetup(.Day, .leftMessage)
-    private let dayColorRightMessage = UIColor.appColorSetup(.Day, .rightMessage)
+    private let dayColorBackgroundView = UIColor.appColorSetup(.day, .backgroundView)
+    private let dayColorBackgroundNavBar = UIColor.appColorSetup(.day, .backgroundNavBar)
+    private let dayColorLeftMessage = UIColor.appColorSetup(.day, .leftMessage)
+    private let dayColorRightMessage = UIColor.appColorSetup(.day, .rightMessage)
     
-    private let nightColorBackgroundView = UIColor.appColorSetup(.Night, .backgroundView)
-    private let nightBackgroundNavBar = UIColor.appColorSetup(.Night, .backgroundNavBar)
-    private let nightColorLeftMessage = UIColor.appColorSetup(.Night, .leftMessage)
-    private let nightColorRightMessage = UIColor.appColorSetup(.Night, .rightMessage)
+    private let nightColorBackgroundView = UIColor.appColorSetup(.night, .backgroundView)
+    private let nightBackgroundNavBar = UIColor.appColorSetup(.night, .backgroundNavBar)
+    private let nightColorLeftMessage = UIColor.appColorSetup(.night, .leftMessage)
+    private let nightColorRightMessage = UIColor.appColorSetup(.night, .rightMessage)
     
     // MARK: - Public properties
     var completion: (
@@ -176,7 +176,7 @@ private extension ThemesViewController {
 //                textTheme: .black)
             
             // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
-            StorageManager.shared.saveTheme(theme: .Classic)
+            StorageManager.shared.saveTheme(theme: .classic)
             setNeedsStatusBarAppearanceUpdate()
             
             completion?(
@@ -198,7 +198,7 @@ private extension ThemesViewController {
 //                textTheme: .black)
             
             // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
-            StorageManager.shared.saveTheme(theme: .Day)
+            StorageManager.shared.saveTheme(theme: .day)
             setNeedsStatusBarAppearanceUpdate()
             
             completion?(
@@ -220,7 +220,7 @@ private extension ThemesViewController {
 //                textTheme: .white)
             
             // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
-            StorageManager.shared.saveTheme(theme: .Night)
+            StorageManager.shared.saveTheme(theme: .night)
             setNeedsStatusBarAppearanceUpdate()
             
             completion?(
@@ -267,11 +267,11 @@ private extension ThemesViewController {
         let currentTheme = StorageManager.shared.loadTheme(withKey: .theme)
         
         switch currentTheme {
-        case Theme.Classic.rawValue:
+        case Theme.classic.rawValue:
             setSelectedState(classicChatView)
-        case Theme.Day.rawValue:
+        case Theme.day.rawValue:
             setSelectedState(dayChatView)
-        case Theme.Night.rawValue:
+        case Theme.night.rawValue:
             setSelectedState(nightChatView)
         default:
             break

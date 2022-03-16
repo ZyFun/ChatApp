@@ -6,9 +6,9 @@
 //
 
 enum Theme: String {
-    case Classic
-    case Day
-    case Night
+    case classic = "Classic"
+    case day = "Day"
+    case night = "Night"
 }
 
 enum AssetsColor : String {

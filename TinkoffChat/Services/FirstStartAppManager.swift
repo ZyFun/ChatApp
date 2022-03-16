@@ -21,7 +21,7 @@ final class FirstStartAppManager {
     }
     
     func setupDefaultTheme() {
-        StorageManager.shared.saveTheme(theme: .Classic)
+        StorageManager.shared.saveTheme(theme: .classic)
     }
 }
 

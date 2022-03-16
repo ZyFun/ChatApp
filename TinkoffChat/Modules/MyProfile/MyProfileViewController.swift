@@ -114,7 +114,7 @@ private extension MyProfileViewController {
         choosePhoto.addAction(cancel)
         
         let currentTheme = StorageManager.shared.loadTheme(withKey: .theme)
-        if currentTheme == Theme.Night.rawValue {
+        if currentTheme == Theme.night.rawValue {
             choosePhoto.overrideUserInterfaceStyle = .dark
         } else {
             choosePhoto.overrideUserInterfaceStyle = .light
