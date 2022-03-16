@@ -264,7 +264,7 @@ private extension ThemesViewController {
     }
     
     func selectedCurrentTheme() {
-        let currentTheme = StorageManager.shared.loadTheme(withKey: .theme)
+        let currentTheme = ThemeManager.shared.currentTheme
         
         switch currentTheme {
         case Theme.classic.rawValue:

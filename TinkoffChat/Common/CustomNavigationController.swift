@@ -17,9 +17,9 @@ final class CustomNavigationController: UINavigationController {
     */
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        let theme = StorageManager.shared.loadTheme(withKey: .theme)
+        let currentTheme = ThemeManager.shared.currentTheme
         
-        if theme == Theme.night.rawValue {
+        if currentTheme == Theme.night.rawValue {
             return .lightContent
         } else {
             return .darkContent
