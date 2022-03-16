@@ -25,6 +25,9 @@ final class StorageManager {
     
     func saveTheme(theme: Theme) {
         userDefaults.set(theme.rawValue, forKey: StorageManager.Key.theme.rawValue)
+        
+        // TODO: Не уверен что это должно быть тут
+        ThemeManager.shared.currentTheme = theme.rawValue
     }
     
     func loadTheme(withKey: StorageManager.Key) -> String {

@@ -28,5 +28,9 @@ enum AssetsColor : String {
 }
 
 final class ThemeManager {
-    // TODO: Всю работу по смене тем сделать тут
+    static let shared = ThemeManager()
+    
+    var currentTheme = StorageManager.shared.loadTheme(withKey: .theme)
+    
+    private init() {}
 }
