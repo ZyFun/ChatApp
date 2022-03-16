@@ -175,6 +175,7 @@ private extension ThemesViewController {
 //                backgroundNavBarTheme: classicColorBackgroundNavBar,
 //                textTheme: .black)
             
+            // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
             StorageManager.shared.saveTheme(theme: .Classic)
             setNeedsStatusBarAppearanceUpdate()
             
@@ -196,6 +197,7 @@ private extension ThemesViewController {
 //                backgroundNavBarTheme: dayColorBackgroundNavBar,
 //                textTheme: .black)
             
+            // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
             StorageManager.shared.saveTheme(theme: .Day)
             setNeedsStatusBarAppearanceUpdate()
             
@@ -217,6 +219,7 @@ private extension ThemesViewController {
 //                backgroundNavBarTheme: nightBackgroundNavBar,
 //                textTheme: .white)
             
+            // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
             StorageManager.shared.saveTheme(theme: .Night)
             setNeedsStatusBarAppearanceUpdate()
             
