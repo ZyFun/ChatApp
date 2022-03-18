@@ -49,6 +49,91 @@ final class MyProfileViewController: UIViewController {
     @IBAction func closeButtonPressed() {
         dismiss(animated: true)
     }
+    
+    // TODO: Переименовать в save или оставить так же, после ответа в слаке.
+    @IBAction func editButtonPressed() {
+        nameLabel.isHidden = true
+        descriptionLabel.isHidden = true
+        
+        userNameTextField.isHidden = false
+        descriptionTextField.isHidden = false
+        
+        showButtons(
+            cancelButton,
+            saveGCDButton,
+            saveOperationButton
+        )
+        
+        hideButtons(saveButton)
+        
+        userNameTextField.text = nameLabel.text
+        descriptionTextField.text = descriptionLabel.text
+        
+        userNameTextField.becomeFirstResponder()
+        
+        // Состояние меняется, при изменении текста в TF
+        setSaveButtonsIsNotActive()
+    }
+    
+    @IBAction func cancelButtonPressed() {
+        userNameTextField.isHidden = true
+        descriptionTextField.isHidden = true
+        
+        nameLabel.isHidden = false
+        descriptionLabel.isHidden = false
+        
+        showButtons(saveButton)
+        
+        hideButtons(
+            cancelButton,
+            saveGCDButton,
+            saveOperationButton
+        )
+    }
+    
+    @IBAction func saveGCDButtonPressed() {
+        // Имя скорее всего должно быть обязательным, по этому так
+        if userNameTextField.text != "" {
+            nameLabel.text = userNameTextField.text
+        }
+        descriptionLabel.text = descriptionTextField.text
+        
+        userNameTextField.isHidden = true
+        descriptionTextField.isHidden = true
+        
+        nameLabel.isHidden = false
+        descriptionLabel.isHidden = false
+        
+        hideButtons(
+            cancelButton,
+            saveGCDButton,
+            saveOperationButton
+        )
+        
+        showButtons(saveButton)
+    }
+    @IBAction func saveOperationButtonPressed() {
+        // Имя скорее всего должно быть обязательным, по этому так
+        if userNameTextField.text != "" {
+            nameLabel.text = userNameTextField.text
+        }
+        descriptionLabel.text = descriptionTextField.text
+        
+        userNameTextField.isHidden = true
+        descriptionTextField.isHidden = true
+        
+        nameLabel.isHidden = false
+        descriptionLabel.isHidden = false
+        
+        hideButtons(
+            cancelButton,
+            saveGCDButton,
+            saveOperationButton
+        )
+        
+        showButtons(saveButton)
+    }
+    
 }
 
 // MARK: - Private properties
@@ -95,10 +180,17 @@ private extension MyProfileViewController {
     }
     
     func setupTextFields() {
+        userNameTextField.textColor = .appColorLoadFor(.text)
+        descriptionTextField.textColor = .appColorLoadFor(.text)
+        
         userNameTextField.isHidden = true
         descriptionTextField.isHidden = true
+        
+        userNameTextField.delegate = self
+        descriptionTextField.delegate = self
     }
     
+    // MARK: Button settings
     func setupButtons() {
         editLogoButton.titleLabel?.font = .systemFont(ofSize: 16)
         
@@ -129,6 +221,28 @@ private extension MyProfileViewController {
         for button in buttons {
             button.isHidden = true
         }
+    }
+    
+    func showButtons(_ buttons: UIButton...) {
+        for button in buttons {
+            button.isHidden = false
+        }
+    }
+    
+    func setSaveButtonsIsNotActive() {
+        saveGCDButton.isEnabled = false
+        saveGCDButton.setTitleColor(.systemGray, for: .normal)
+        
+        saveOperationButton.isEnabled = false
+        saveOperationButton.setTitleColor(.systemGray, for: .normal)
+    }
+    
+    func setSaveButtonsIsActive() {
+        saveGCDButton.isEnabled = true
+        saveGCDButton.setTitleColor(.systemBlue, for: .normal)
+        
+        saveOperationButton.isEnabled = true
+        saveOperationButton.setTitleColor(.systemBlue, for: .normal)
     }
     
     // MARK: Alert Controller
@@ -235,4 +349,29 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
            return
        }
    }
+}
+
+// MARK: - Text Field Delegate
+extension MyProfileViewController: UITextFieldDelegate {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        
+        guard let currentText = textField.text else { return true }
+        guard let stringRange = Range(range, in: currentText) else { return true }
+
+        let updatedText = currentText.replacingCharacters(
+            in: stringRange,
+            with: string
+        )
+        
+        if updatedText.count != nameLabel.text?.count
+        && updatedText.count != descriptionLabel.text?.count {
+            setSaveButtonsIsActive()
+        }
+        
+        return true
+    }
 }
