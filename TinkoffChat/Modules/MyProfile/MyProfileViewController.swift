@@ -14,12 +14,19 @@ final class MyProfileViewController: UIViewController {
     @IBOutlet weak var topBarView: UIView!
     @IBOutlet weak var noProfileImageLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
+    
     @IBOutlet weak var editLogoButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var saveGCDButton: UIButton!
+    @IBOutlet weak var saveOperationButton: UIButton!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    
+    @IBOutlet weak var userNameTextField: UITextField!
+    @IBOutlet weak var descriptionTextField: UITextField!
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -54,6 +61,7 @@ private extension MyProfileViewController {
         setupTopBarView()
         setupProfileImage()
         setupButtons()
+        setupTextFields()
         setupThemeVC()
     }
     
@@ -86,13 +94,41 @@ private extension MyProfileViewController {
         descriptionLabel.textColor = .appColorLoadFor(.text)
     }
     
+    func setupTextFields() {
+        userNameTextField.isHidden = true
+        descriptionTextField.isHidden = true
+    }
+    
     func setupButtons() {
-        saveButton.backgroundColor = .appColorLoadFor(.button)
-        saveButton.layer.cornerRadius = 14
-        saveButton.titleLabel?.font = .systemFont(ofSize: 19)
-        saveButton.setTitleColor(.systemBlue, for: .normal)
-        
         editLogoButton.titleLabel?.font = .systemFont(ofSize: 16)
+        
+        settingButtons(
+            saveButton,
+            cancelButton,
+            saveGCDButton,
+            saveOperationButton
+        )
+        
+        hideButtons(
+            cancelButton,
+            saveGCDButton,
+            saveOperationButton
+        )
+    }
+    
+    func settingButtons(_ buttons: UIButton...) {
+        for button in buttons {
+            button.backgroundColor = .appColorLoadFor(.button)
+            button.layer.cornerRadius = 14
+            button.titleLabel?.font = .systemFont(ofSize: 19)
+            button.setTitleColor(.systemBlue, for: .normal)
+        }
+    }
+    
+    func hideButtons(_ buttons: UIButton...) {
+        for button in buttons {
+            button.isHidden = true
+        }
     }
     
     // MARK: Alert Controller
