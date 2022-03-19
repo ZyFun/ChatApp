@@ -21,8 +21,38 @@ final class StorageManager {
     
     private let userDefaults = UserDefaults()
     
-    private init(){}
+    // TODO: Сделать нормальное извлечение опционала
+    private var documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    private let profileDataURL: URL
     
+    private init(){
+        profileDataURL = documentDirectory.appendingPathComponent("Profile").appendingPathExtension("plist")
+    }
+    
+    // TODO: Перенести логику в другие классы, как это описано в ДЗ
+    // MARK: Profile
+    // TODO: Написать клоужером, чтобы останавливать и запускать активити индикатор и отображать алерты
+    func saveProfileData(name: String?, describing: String?, imageData: Data?) {
+        var savedProfile = fetchProfileData()
+        
+        // TODO: Сделать проверку файлов, чтобы не производить перезапись свойства, если данные не менялись
+        savedProfile.name = name
+        savedProfile.description = describing
+        savedProfile.image = imageData
+        
+        // TODO: Переписать с обраьоткой ошибок
+        guard let data = try? PropertyListEncoder().encode(savedProfile) else { return }
+        try? data.write(to: profileDataURL)
+    }
+    
+    func fetchProfileData() -> Profile {
+        guard let data = try? Data(contentsOf: profileDataURL) else { return Profile() }
+        guard let profileData = try? PropertyListDecoder().decode(Profile.self, from: data) else { return Profile() }
+        
+        return profileData
+    }
+    
+    // MARK: Theme
     func saveTheme(theme: Theme) {
         userDefaults.set(theme.rawValue, forKey: StorageManager.Key.theme.rawValue)
         

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C13C6EA27E60A6100955499 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C13C6E927E60A6100955499 /* ProfileModel.swift */; };
 		2C3CFCA027D62164005436A3 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9E27D62164005436A3 /* ConversationViewController.swift */; };
 		2C3CFCA127D62164005436A3 /* ConversationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9F27D62164005436A3 /* ConversationViewController.xib */; };
 		2C3CFCA627D64BB7005436A3 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFCA427D64BB7005436A3 /* MessageCell.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C13C6E927E60A6100955499 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		2C3CFC9E27D62164005436A3 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		2C3CFC9F27D62164005436A3 /* ConversationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationViewController.xib; sourceTree = "<group>"; };
 		2C3CFCA427D64BB7005436A3 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 		2C3D0C3727D8CC1300BA9CA6 /* MyProfile */ = {
 			isa = PBXGroup;
 			children = (
+				2C13C6E927E60A6100955499 /* ProfileModel.swift */,
 				2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */,
 				2CF231B727BFBB2400CE77C2 /* MyProfileViewController.storyboard */,
 			);
@@ -329,6 +332,7 @@
 				2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */,
 				2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */,
 				2CEBE04D27D2225F005CBCB0 /* ConversationsListViewController.swift in Sources */,
+				2C13C6EA27E60A6100955499 /* ProfileModel.swift in Sources */,
 				2C3CFCA927D65033005436A3 /* Messages.swift in Sources */,
 				2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */,
 				2CEA6AF527D3ADCE0028DF67 /* Conversation.swift in Sources */,

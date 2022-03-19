@@ -30,10 +30,7 @@ final class MyProfileViewController: UIViewController {
     @IBOutlet weak var descriptionTextField: UITextField!
     
     // MARK: Private properties
-    // TODO: Возможно лишнее свойство. Подумать еще
-    /// Используется для того, чтобы вернуть изображение к текущему состоянию
-    /// при отмене сохранения.
-    private var currentImage: UIImage?
+    private var profile: Profile?
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -88,8 +85,9 @@ final class MyProfileViewController: UIViewController {
     
     @IBAction func cancelButtonPressed() {
         // Возврат к текущему состоянию с отменой изменений
-        profileImageView.image = currentImage
-        if currentImage == nil {
+        if let imageData = profile?.image {
+            profileImageView.image = UIImage(data: imageData)
+        } else {
             noProfileImageLabel.isHidden = false
         }
         
@@ -113,11 +111,20 @@ final class MyProfileViewController: UIViewController {
     
     // TODO: Дублирование логики saveOperationButtonPressed, нужно сделать логику с сендером для сравнения текущей нажатой кнопки и задействования необходимого метода сохранения в файл.
     @IBAction func saveGCDButtonPressed() {
-        // Имя скорее всего должно быть обязательным, по этому так
-        if userNameTextField.text != "" {
-            nameLabel.text = userNameTextField.text
+        let userName = userNameTextField.text
+        let description = descriptionTextField.text
+        
+        // Имя скорее всего должно быть обязательным, по этому пока так
+        if userName != "" {
+            nameLabel.text = userName
         }
-        descriptionLabel.text = descriptionTextField.text
+        descriptionLabel.text = description
+        
+        StorageManager.shared.saveProfileData(
+            name: userName,
+            describing: description,
+            imageData: profileImageView.image?.pngData()
+        )
         
         userNameTextField.isHidden = true
         descriptionTextField.isHidden = true
@@ -132,11 +139,6 @@ final class MyProfileViewController: UIViewController {
         )
         
         showButtons(saveButton)
-        
-        // Сохранение в текущее состояние, чтобы при попытке изменить и отказа изменения вернуть к текущему состоянию
-        if currentImage != profileImageView.image {
-            currentImage = profileImageView.image
-        }
     }
     // TODO: Дублирование логики saveGCDButtonPressed, нужно сделать логику с сендером для сравнения текущей нажатой кнопки и задействования необходимого метода сохранения в файл.
     @IBAction func saveOperationButtonPressed() {
@@ -159,13 +161,7 @@ final class MyProfileViewController: UIViewController {
         )
         
         showButtons(saveButton)
-        
-        // Сохранение в текущее состояние, чтобы при попытке изменить и отказа изменения вернуть к текущему состоянию
-        if currentImage != profileImageView.image {
-            currentImage = profileImageView.image
-        }
     }
-    
 }
 
 // MARK: - Private properties
@@ -175,8 +171,11 @@ private extension MyProfileViewController {
     }
     
     func setupUI() {
+        profile = StorageManager.shared.fetchProfileData()
+        
         setupTopBarView()
         setupProfileImage()
+        setupLabels()
         setupButtons()
         setupTextFields()
         setupThemeVC()
@@ -187,10 +186,15 @@ private extension MyProfileViewController {
     }
     
     func setupProfileImage() {
-        currentImage = profileImageView.image
+        if let imageData = profile?.image {
+            profileImageView.image = UIImage(data: imageData)
+            noProfileImageLabel.isHidden = true
+        } else {
+            setupNoProfileImageLabel()
+        }
+        
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.backgroundColor = .appColorLoadFor(.profileImageView)
-        setupNoProfileImageLabel()
     }
     
     func setupNoProfileImageLabel() {
@@ -199,10 +203,16 @@ private extension MyProfileViewController {
         noProfileImageLabel.adjustsFontSizeToFitWidth = true
         noProfileImageLabel.baselineAdjustment = .alignCenters
         noProfileImageLabel.minimumScaleFactor = 0.5
+        noProfileImageLabel.isHidden = false
     }
     
     func setupProfileImageSize() {
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+    }
+    
+    func setupLabels() {
+        nameLabel.text = profile?.name
+        descriptionLabel.text = profile?.description
     }
     
     func setupThemeVC() {
@@ -355,7 +365,8 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
                 self.saveButton
             )
             
-            // TODO: Костыль для защиты от обнуления поля описания, возможно есть варианты получше
+            // TODO: Костыль для защиты от обнуления TF, возможно есть варианты получше. Как вариант, делать проверку на nil при нажатие на сохранение.
+            self.userNameTextField.text = self.nameLabel.text
             self.descriptionTextField.text = self.descriptionLabel.text
         }
     }
