@@ -47,6 +47,10 @@ final class MyProfileViewController: UIViewController {
         
         setupProfileImageSize()
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 
     // MARK: IB Actions
     @IBAction func editLogoButtonPressed() {
@@ -211,6 +215,9 @@ private extension MyProfileViewController {
     
     // MARK: Textfield settings
     func setupTextFields() {
+        userNameTextField.delegate = self
+        descriptionTextField.delegate = self
+        
         userNameTextField.textColor = .appColorLoadFor(.text)
         descriptionTextField.textColor = .appColorLoadFor(.text)
         
@@ -414,4 +421,11 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
            return
        }
    }
+}
+
+// MARK: - Text Field Delegate
+extension MyProfileViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
 }
