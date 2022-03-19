@@ -209,6 +209,7 @@ private extension MyProfileViewController {
         descriptionLabel.textColor = .appColorLoadFor(.text)
     }
     
+    // MARK: Textfield settings
     func setupTextFields() {
         userNameTextField.textColor = .appColorLoadFor(.text)
         descriptionTextField.textColor = .appColorLoadFor(.text)
@@ -216,8 +217,25 @@ private extension MyProfileViewController {
         userNameTextField.isHidden = true
         descriptionTextField.isHidden = true
         
-        userNameTextField.delegate = self
-        descriptionTextField.delegate = self
+        userNameTextField.addTarget(
+            self,
+            action: #selector(profileTextFieldDidChanged),
+            for: .editingChanged)
+        
+        descriptionTextField.addTarget(
+            self,
+            action: #selector(profileTextFieldDidChanged),
+            for: .editingChanged)
+    }
+    
+    // TODO: Если поле с именем должно будет быть обязательным, добавить сюда логику на проверку nil и не отображать кнопки сохранения
+    @objc func profileTextFieldDidChanged() {
+        if userNameTextField.text != nameLabel.text
+        || descriptionTextField.text != descriptionLabel.text {
+            setSaveButtonsIsActive()
+        } else {
+            setSaveButtonsIsNotActive()
+        }
     }
     
     // MARK: Button settings
@@ -396,30 +414,4 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
            return
        }
    }
-}
-
-// MARK: - Text Field Delegate
-// TODO: Если поле с именем должно будет быть обязательным, добавить сюда логику на проверку nil и не отображать кнопки сохранения
-extension MyProfileViewController: UITextFieldDelegate {
-    func textField(
-        _ textField: UITextField,
-        shouldChangeCharactersIn range: NSRange,
-        replacementString string: String
-    ) -> Bool {
-        
-        guard let currentText = textField.text else { return true }
-        guard let stringRange = Range(range, in: currentText) else { return true }
-
-        let updatedText = currentText.replacingCharacters(
-            in: stringRange,
-            with: string
-        )
-        
-        if updatedText.count != nameLabel.text?.count
-        && updatedText.count != descriptionLabel.text?.count {
-            setSaveButtonsIsActive()
-        }
-        
-        return true
-    }
 }
