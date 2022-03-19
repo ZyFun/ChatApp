@@ -88,6 +88,7 @@ final class MyProfileViewController: UIViewController {
         if let imageData = profile?.image {
             profileImageView.image = UIImage(data: imageData)
         } else {
+            noProfileImageLabel.text = setFirstCharacters(from: profile?.name)
             noProfileImageLabel.isHidden = false
         }
         
@@ -113,6 +114,10 @@ final class MyProfileViewController: UIViewController {
     @IBAction func saveGCDButtonPressed() {
         let userName = userNameTextField.text
         let description = descriptionTextField.text
+        
+        if profileImageView.image == nil {
+            noProfileImageLabel.text = setFirstCharacters(from: userName)
+        }
         
         // Имя скорее всего должно быть обязательным, по этому пока так
         if userName != "" {
@@ -167,24 +172,22 @@ final class MyProfileViewController: UIViewController {
 // MARK: - Private properties
 private extension MyProfileViewController {
     func setup() {
-        setupUI()
-    }
-    
-    func setupUI() {
         profile = StorageManager.shared.fetchProfileData()
+        
+        view.backgroundColor = .appColorLoadFor(.backgroundView)
         
         setupTopBarView()
         setupProfileImage()
         setupLabels()
         setupButtons()
         setupTextFields()
-        setupThemeVC()
     }
     
     func setupTopBarView() {
         topBarView.backgroundColor = .appColorLoadFor(.backgroundNavBar)
     }
     
+    // MARK: Profile image settings
     func setupProfileImage() {
         if let imageData = profile?.image {
             profileImageView.image = UIImage(data: imageData)
@@ -197,8 +200,12 @@ private extension MyProfileViewController {
         profileImageView.backgroundColor = .appColorLoadFor(.profileImageView)
     }
     
+    func setupProfileImageSize() {
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+    }
+    
     func setupNoProfileImageLabel() {
-        noProfileImageLabel.text = "UN"// TODO: Временная заглушка. Сделать логику и брать сюда первые 2 буквы из имени и фамилии.
+        noProfileImageLabel.text = setFirstCharacters(from: profile?.name)
         noProfileImageLabel.textColor = .appColorLoadFor(.textImageView)
         noProfileImageLabel.adjustsFontSizeToFitWidth = true
         noProfileImageLabel.baselineAdjustment = .alignCenters
@@ -206,21 +213,27 @@ private extension MyProfileViewController {
         noProfileImageLabel.isHidden = false
     }
     
-    func setupProfileImageSize() {
-        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+    func setFirstCharacters(from fullName: String?) -> String? {
+        if let fullName = fullName {
+            let separateFullName = fullName.split(separator: " ")
+            let firstSymbol = separateFullName.first?.first
+            let lastSymbol = separateFullName.last?.first
+            let characters = "\(firstSymbol!)\(lastSymbol!)"
+            
+            return characters
+        } else {
+            return "UN"
+        }
     }
     
+    // MARK: Labels settings
     func setupLabels() {
-        nameLabel.text = profile?.name
-        descriptionLabel.text = profile?.description
-    }
-    
-    func setupThemeVC() {
-        view.backgroundColor = .appColorLoadFor(.backgroundView)
-        
         titleLabel.textColor = .appColorLoadFor(.text)
         nameLabel.textColor = .appColorLoadFor(.text)
         descriptionLabel.textColor = .appColorLoadFor(.text)
+        
+        nameLabel.text = profile?.name
+        descriptionLabel.text = profile?.description
     }
     
     // MARK: Textfield settings
