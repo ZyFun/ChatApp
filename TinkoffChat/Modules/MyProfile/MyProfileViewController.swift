@@ -348,6 +348,8 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
                 self.saveOperationButton
             )
             
+            self.setSaveButtonsIsActive()
+            
             self.hideButtons(
                 self.editLogoButton,
                 self.saveButton
