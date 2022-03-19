@@ -59,7 +59,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Введите ФИО" textAlignment="center" minimumFontSize="24" translatesAutoresizingMaskIntoConstraints="NO" id="iRD-6r-2sD">
-                                <rect key="frame" x="126.5" y="419" width="161" height="30.5"/>
+                                <rect key="frame" x="126.5" y="418" width="161" height="30.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -69,8 +69,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Введите дополнительную информацию" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PaX-H3-Mgu">
-                                <rect key="frame" x="78" y="481.5" width="258" height="21"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Введите информацию о себе" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PaX-H3-Mgu">
+                                <rect key="frame" x="78" y="478.5" width="258" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -147,7 +147,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="a1Z-mk-kTm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5QM-90-WOQ"/>
-                            <constraint firstItem="PaX-H3-Mgu" firstAttribute="top" secondItem="iRD-6r-2sD" secondAttribute="bottom" constant="32" id="8rR-fm-gNL"/>
+                            <constraint firstItem="PaX-H3-Mgu" firstAttribute="top" secondItem="iRD-6r-2sD" secondAttribute="bottom" constant="30" id="8rR-fm-gNL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="a1Z-mk-kTm" secondAttribute="trailing" id="9Of-iZ-D7a"/>
                             <constraint firstItem="tSH-2l-kpc" firstAttribute="centerY" secondItem="9cl-U9-M7N" secondAttribute="centerY" id="9Yv-LZ-jWs"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="b6x-oq-OKk" secondAttribute="trailing" constant="56" id="AHg-17-X7H"/>
@@ -177,7 +177,7 @@
                             <constraint firstItem="iRD-6r-2sD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tgo-Dq-rqz"/>
                             <constraint firstItem="Tml-Wn-26T" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="78" id="vBt-zd-BSc"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Tml-Wn-26T" secondAttribute="trailing" constant="78" id="vYE-GT-2dW"/>
-                            <constraint firstItem="iRD-6r-2sD" firstAttribute="top" secondItem="9cl-U9-M7N" secondAttribute="bottom" constant="32" id="vky-8M-8j9"/>
+                            <constraint firstItem="iRD-6r-2sD" firstAttribute="top" secondItem="9cl-U9-M7N" secondAttribute="bottom" constant="31" id="vky-8M-8j9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="b6x-oq-OKk" secondAttribute="bottom" constant="30" id="xW0-qb-51b"/>
                             <constraint firstItem="b6x-oq-OKk" firstAttribute="top" secondItem="6Oy-5M-w1y" secondAttribute="bottom" constant="16" id="zAu-dA-Zn1"/>
                         </constraints>
