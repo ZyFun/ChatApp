@@ -110,8 +110,7 @@ final class MyProfileViewController: UIViewController {
         )
     }
     
-    // TODO: Дублирование логики saveOperationButtonPressed, нужно сделать логику с сендером для сравнения текущей нажатой кнопки и задействования необходимого метода сохранения в файл.
-    @IBAction func saveGCDButtonPressed() {
+    @IBAction func saveButtonPressed(_ sender: UIButton) {
         let userName = userNameTextField.text
         let description = descriptionTextField.text
         
@@ -125,33 +124,17 @@ final class MyProfileViewController: UIViewController {
         }
         descriptionLabel.text = description
         
+        if sender == saveGCDButton {
+            // Логика для сохранения с помощью GCD
+        } else {
+            // Логика для сохранения с помощью Operation
+        }
+        
         StorageManager.shared.saveProfileData(
             name: userName,
             describing: description,
             imageData: profileImageView.image?.pngData()
         )
-        
-        userNameTextField.isHidden = true
-        descriptionTextField.isHidden = true
-        
-        nameLabel.isHidden = false
-        descriptionLabel.isHidden = false
-        
-        hideButtons(
-            cancelButton,
-            saveGCDButton,
-            saveOperationButton
-        )
-        
-        showButtons(saveButton)
-    }
-    // TODO: Дублирование логики saveGCDButtonPressed, нужно сделать логику с сендером для сравнения текущей нажатой кнопки и задействования необходимого метода сохранения в файл.
-    @IBAction func saveOperationButtonPressed() {
-        // Имя скорее всего должно быть обязательным, по этому так
-        if userNameTextField.text != "" {
-            nameLabel.text = userNameTextField.text
-        }
-        descriptionLabel.text = descriptionTextField.text
         
         userNameTextField.isHidden = true
         descriptionTextField.isHidden = true
