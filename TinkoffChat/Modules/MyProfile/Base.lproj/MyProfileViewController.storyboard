@@ -142,6 +142,9 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="384-CY-oPy">
+                                <rect key="frame" x="197" y="696" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -151,6 +154,8 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="a1Z-mk-kTm" secondAttribute="trailing" id="9Of-iZ-D7a"/>
                             <constraint firstItem="tSH-2l-kpc" firstAttribute="centerY" secondItem="9cl-U9-M7N" secondAttribute="centerY" id="9Yv-LZ-jWs"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="b6x-oq-OKk" secondAttribute="trailing" constant="56" id="AHg-17-X7H"/>
+                            <constraint firstItem="384-CY-oPy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Awb-gE-kgx"/>
+                            <constraint firstItem="6Oy-5M-w1y" firstAttribute="top" secondItem="384-CY-oPy" secondAttribute="bottom" constant="20" id="E3s-ss-BU2"/>
                             <constraint firstItem="bZR-EE-9bQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="E9X-oo-4aE"/>
                             <constraint firstItem="lI1-aM-knx" firstAttribute="trailing" secondItem="9cl-U9-M7N" secondAttribute="trailing" constant="7" id="FUC-4n-QS1"/>
                             <constraint firstItem="Tml-Wn-26T" firstAttribute="top" secondItem="bZR-EE-9bQ" secondAttribute="bottom" constant="32" id="KfI-vX-aO0"/>
@@ -183,6 +188,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="384-CY-oPy" id="KZR-OP-HGP"/>
                         <outlet property="cancelButton" destination="6Oy-5M-w1y" id="kcX-VN-PCr"/>
                         <outlet property="descriptionLabel" destination="Tml-Wn-26T" id="aRW-FQ-ZRj"/>
                         <outlet property="descriptionTextField" destination="PaX-H3-Mgu" id="40E-NE-TGx"/>

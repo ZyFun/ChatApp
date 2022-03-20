@@ -29,6 +29,8 @@ final class MyProfileViewController: UIViewController {
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     // MARK: Private properties
     private var profile: Profile?
     
@@ -118,37 +120,67 @@ final class MyProfileViewController: UIViewController {
             noProfileImageLabel.text = setFirstCharacters(from: userName)
         }
         
-        // Имя скорее всего должно быть обязательным, по этому пока так
+        // TODO: Имя скорее всего должно быть обязательным, по этому пока так
         if userName != "" {
             nameLabel.text = userName
         }
         descriptionLabel.text = description
         
         if sender == saveGCDButton {
-            // Логика для сохранения с помощью GCD
+            activityIndicator.startAnimating()
+            
+            setSaveButtonsIsNotActive()
+            setEditButtonIsNotActive()
+            
+            DataManagerWithGCD.shared.saveProfileData(
+                name: userName,
+                description: description,
+                imageData: profileImageView.image?.pngData()
+            ) { [weak self] response in
+                guard let self = self else { return }
+                
+                if response == nil {
+                    // Нужно для того, чтобы при нажатии на cancel
+                    // изображение не менялось так-как точно сохранилось новое,
+                    // и нужно обновить старые данные модели
+                    self.profile?.image = self.profileImageView.image?.pngData()
+                    
+                    self.setEditButtonIsActive()
+                    
+                    self.userNameTextField.isHidden = true
+                    self.descriptionTextField.isHidden = true
+                    
+                    self.nameLabel.isHidden = false
+                    self.descriptionLabel.isHidden = false
+                    
+                    self.hideButtons(
+                        self.cancelButton,
+                        self.saveGCDButton,
+                        self.saveOperationButton
+                    )
+                    
+                    self.showButtons(self.saveButton)
+                    
+                    // TODO: Вывести алерт с подтверждением сохранения
+                    print("Saved")
+                } else {
+                    self.setEditButtonIsActive()
+                    self.setSaveButtonsIsActive()
+                    
+                    // TODO: Вывести алерт с ошибкой
+                    print("Oops")
+                }
+                
+                self.activityIndicator.stopAnimating()
+            }
         } else {
             // Логика для сохранения с помощью Operation
+            StorageManager.shared.saveProfileData(
+                name: userName,
+                describing: description,
+                imageData: profileImageView.image?.pngData()
+            )
         }
-        
-        StorageManager.shared.saveProfileData(
-            name: userName,
-            describing: description,
-            imageData: profileImageView.image?.pngData()
-        )
-        
-        userNameTextField.isHidden = true
-        descriptionTextField.isHidden = true
-        
-        nameLabel.isHidden = false
-        descriptionLabel.isHidden = false
-        
-        hideButtons(
-            cancelButton,
-            saveGCDButton,
-            saveOperationButton
-        )
-        
-        showButtons(saveButton)
     }
 }
 
@@ -157,17 +189,18 @@ private extension MyProfileViewController {
     func setup() {
         profile = StorageManager.shared.fetchProfileData()
         
-        view.backgroundColor = .appColorLoadFor(.backgroundView)
+        activityIndicator.hidesWhenStopped = true
         
-        setupTopBarView()
+        setupViews()
         setupProfileImage()
         setupLabels()
         setupButtons()
         setupTextFields()
     }
     
-    func setupTopBarView() {
+    func setupViews() {
         topBarView.backgroundColor = .appColorLoadFor(.backgroundNavBar)
+        view.backgroundColor = .appColorLoadFor(.backgroundView)
     }
     
     // MARK: Profile image settings
@@ -288,6 +321,16 @@ private extension MyProfileViewController {
         for button in buttons {
             button.isHidden = false
         }
+    }
+    
+    func setEditButtonIsNotActive() {
+        editLogoButton.isEnabled = false
+        editLogoButton.tintColor = .systemGray
+    }
+    
+    func setEditButtonIsActive() {
+        editLogoButton.isEnabled = true
+        editLogoButton.tintColor = .systemBlue
     }
     
     func setSaveButtonsIsNotActive() {
