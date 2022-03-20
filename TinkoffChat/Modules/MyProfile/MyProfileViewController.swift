@@ -120,17 +120,12 @@ final class MyProfileViewController: UIViewController {
             noProfileImageLabel.text = setFirstCharacters(from: userName)
         }
         
-        // TODO: Имя скорее всего должно быть обязательным, по этому пока так
-        if userName != "" {
-            nameLabel.text = userName
-        }
-        descriptionLabel.text = description
-        
         if sender == saveGCDButton {
             activityIndicator.startAnimating()
             
             setSaveButtonsIsNotActive()
             setEditButtonIsNotActive()
+            setTextFieldsIsNotActive()
             
             DataManagerWithGCD.shared.saveProfileData(
                 name: userName,
@@ -141,34 +136,20 @@ final class MyProfileViewController: UIViewController {
                 
                 if response == nil {
                     // Нужно для того, чтобы при нажатии на cancel
-                    // изображение не менялось так-как точно сохранилось новое,
-                    // и нужно обновить старые данные модели
+                    // не происходило изменений, так как данные уже сохранены
                     self.profile?.image = self.profileImageView.image?.pngData()
+                    // TODO: Имя скорее всего должно быть обязательным, по этому пока так
+                    if userName != "" {
+                        self.nameLabel.text = userName
+                    }
+                    self.descriptionLabel.text = description
                     
-                    self.setEditButtonIsActive()
-                    
-                    self.userNameTextField.isHidden = true
-                    self.descriptionTextField.isHidden = true
-                    
-                    self.nameLabel.isHidden = false
-                    self.descriptionLabel.isHidden = false
-                    
-                    self.hideButtons(
-                        self.cancelButton,
-                        self.saveGCDButton,
-                        self.saveOperationButton
-                    )
-                    
-                    self.showButtons(self.saveButton)
-                    
-                    // TODO: Вывести алерт с подтверждением сохранения
-                    print("Saved")
+                    self.showResultAlert(isResultError: false)
                 } else {
-                    self.setEditButtonIsActive()
-                    self.setSaveButtonsIsActive()
-                    
-                    // TODO: Вывести алерт с ошибкой
-                    print("Oops")
+                    self.showResultAlert(
+                        isResultError: true,
+                        senderButton: sender
+                    )
                 }
                 
                 self.activityIndicator.stopAnimating()
@@ -274,6 +255,16 @@ private extension MyProfileViewController {
             for: .editingChanged)
     }
     
+    func setTextFieldsIsNotActive() {
+        userNameTextField.isEnabled = false
+        descriptionTextField.isEnabled = false
+    }
+    
+    func setTextFieldsIsActive() {
+        userNameTextField.isEnabled = true
+        descriptionTextField.isEnabled = true
+    }
+    
     // TODO: Если поле с именем должно будет быть обязательным, добавить сюда логику на проверку nil и не отображать кнопки сохранения
     @objc func profileTextFieldDidChanged() {
         if userNameTextField.text != nameLabel.text
@@ -349,7 +340,68 @@ private extension MyProfileViewController {
         saveOperationButton.setTitleColor(.systemBlue, for: .normal)
     }
     
-    // MARK: Alert Controller
+    // MARK: Alert Controllers
+    // Принимает значение по умолчанию в виде кнопки, для того
+    // чтобы не передавать кнопку если результат работы клоужера был без ошибки
+    func showResultAlert(isResultError: Bool, senderButton: UIButton = UIButton()) {
+        var title: String?
+        var message: String?
+        
+        if isResultError {
+            title = "Ошибка"
+            message = "Не удалось сохранить данные"
+        } else {
+            title = "Данные сохранены"
+        }
+        
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        let okButton = UIAlertAction(title: "Ок", style: .cancel) { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.setEditButtonIsActive()
+            self.setSaveButtonsIsActive()
+            self.setTextFieldsIsActive()
+            
+            if !isResultError {
+                self.userNameTextField.isHidden = true
+                self.descriptionTextField.isHidden = true
+                
+                self.nameLabel.isHidden = false
+                self.descriptionLabel.isHidden = false
+                
+                self.hideButtons(
+                    self.cancelButton,
+                    self.saveGCDButton,
+                    self.saveOperationButton
+                )
+                
+                self.showButtons(self.saveButton)
+            }
+        }
+        
+        let repeatButton = UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
+            if senderButton == self?.saveGCDButton {
+                self?.saveButtonPressed(senderButton)
+            } else {
+                self?.saveButtonPressed(senderButton)
+            }
+        }
+        
+        alert.addAction(okButton)
+        
+        if isResultError {
+            alert.addAction(repeatButton)
+        }
+        
+        present(alert, animated: true)
+        
+    }
+    
     func changeProfileLogoAlertController() {
         let choosePhoto = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
