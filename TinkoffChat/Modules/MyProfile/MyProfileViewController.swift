@@ -168,15 +168,27 @@ final class MyProfileViewController: UIViewController {
 // MARK: - Private properties
 private extension MyProfileViewController {
     func setup() {
-        profile = StorageManager.shared.fetchProfileData()
+        loadProfile()
         
         activityIndicator.hidesWhenStopped = true
         
         setupViews()
-        setupProfileImage()
-        setupLabels()
         setupButtons()
         setupTextFields()
+    }
+    
+    func loadProfile() {
+        DataManagerWithGCD.shared.fetchProfileData { [weak self] result in
+            switch result {
+            case .success(let savedProfile):
+                self?.profile = savedProfile
+                self?.setupProfileImage()
+                self?.setupLabels()
+            case .failure(_):
+                self?.setupProfileImage()
+                self?.setupLabels()
+            }
+        }
     }
     
     func setupViews() {
@@ -210,12 +222,21 @@ private extension MyProfileViewController {
         noProfileImageLabel.isHidden = false
     }
     
+    // TODO: Сделать преобразование символов в большие
     func setFirstCharacters(from fullName: String?) -> String? {
         if let fullName = fullName {
             let separateFullName = fullName.split(separator: " ")
-            let firstSymbol = separateFullName.first?.first
-            let lastSymbol = separateFullName.last?.first
-            let characters = "\(firstSymbol!)\(lastSymbol!)"
+            let numberWords = separateFullName.count
+            var characters = ""
+            
+            if numberWords == 1 {
+                guard let firstSymbol = separateFullName.first?.first else { return "UN"}
+                return String(firstSymbol)
+            } else {
+                guard let firstSymbol = separateFullName.first?.first else { return "UN"}
+                guard let lastSymbol = separateFullName.last?.first else { return "UN"}
+                characters = "\(firstSymbol)\(lastSymbol)"
+            }
             
             return characters
         } else {
@@ -231,6 +252,10 @@ private extension MyProfileViewController {
         
         nameLabel.text = profile?.name
         descriptionLabel.text = profile?.description
+        
+        // TODO: Вероятно костыль. Нужно для защиты от обнуления данных, при установке фотографии, так как иначе поля nil и при нажатии сохранить без изменения данных, данные удаляются
+        userNameTextField.text = nameLabel.text
+        descriptionTextField.text = descriptionLabel.text
     }
     
     // MARK: Textfield settings
@@ -455,10 +480,6 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
                 self.editLogoButton,
                 self.saveButton
             )
-            
-            // TODO: Костыль для защиты от обнуления TF, возможно есть варианты получше. Как вариант, делать проверку на nil при нажатие на сохранение.
-            self.userNameTextField.text = self.nameLabel.text
-            self.descriptionTextField.text = self.descriptionLabel.text
         }
     }
     

@@ -33,46 +33,79 @@ class DataManagerWithGCD {
         imageData: Data?,
         completion: @escaping (Error?) -> Void
     ) {
-        var savedProfile = fetchProfileData()
-        
-        if savedProfile?.name != name {
-            savedProfile?.name = name
-        }
-        
-        if savedProfile?.description != description {
-            savedProfile?.description = description
-        }
-        
-        if savedProfile?.image != imageData {
-            savedProfile?.image = imageData
-        }
-        
-        // TODO: Удалить ожидание после проверки
-        DispatchQueue.global().asyncAfter(deadline: .now() + 3) { [weak self] in
-            guard let profileDataURL = self?.profileDataURL else { return }
-            
-            do {
-                let data = try PropertyListEncoder().encode(savedProfile)
-                try data.write(to: profileDataURL)
+        fetchProfileData { result in
+            switch result {
+            case .success(var savedProfile):
+                if savedProfile?.name != name {
+                    savedProfile?.name = name
+                }
                 
-                DispatchQueue.main.async {
-                    completion(nil)
+                if savedProfile?.description != description {
+                    savedProfile?.description = description
                 }
-            } catch {
-                DispatchQueue.main.async {
-                    completion(error)
+                
+                if savedProfile?.image != imageData {
+                    savedProfile?.image = imageData
                 }
+                
+                // TODO: Удалить ожидание после проверки
+                DispatchQueue.global().asyncAfter(deadline: .now() + 3) { [weak self] in
+                    guard let profileDataURL = self?.profileDataURL else { return }
+                    
+                    do {
+                        let data = try PropertyListEncoder().encode(savedProfile)
+                        try data.write(to: profileDataURL)
+                        
+                        DispatchQueue.main.async {
+                            completion(nil)
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            completion(error)
+                        }
+                    }
+                }
+            case .failure(let error):
+                print(error)
             }
         }
     }
     
     // TODO: Сделать получение данных с помощью GCD
-    func fetchProfileData() -> Profile? {
-        guard let profileDataURL = profileDataURL else { return nil}
-
-        guard let data = try? Data(contentsOf: profileDataURL) else { return Profile() }
-        guard let profileData = try? PropertyListDecoder().decode(Profile.self, from: data) else { return Profile() }
-
-        return profileData
+    func fetchProfileData(completion: @escaping (Result<Profile?, Error>) -> Void) {
+        guard let profileDataURL = profileDataURL else { return }
+        
+        DispatchQueue.global().async {
+            do {
+                let data = try Data(contentsOf: profileDataURL)
+                let profileData = try PropertyListDecoder().decode(Profile.self, from: data)
+                DispatchQueue.main.async {
+                    completion(.success(profileData))
+                }
+            } catch {
+                print(error)
+                
+                print("Создаётся новый профиль")
+                let newProfile = Profile()
+                
+                DispatchQueue.global().async { [weak self] in
+                    guard let profileDataURL = self?.profileDataURL else { return }
+                    
+                    do {
+                        let data = try PropertyListEncoder().encode(newProfile)
+                        try data.write(to: profileDataURL)
+                        
+                        DispatchQueue.main.async {
+                            completion(.success(newProfile))
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            print(error)
+                            completion(.failure(error))
+                        }
+                    }
+                }
+            }
+        }
     }
 }
