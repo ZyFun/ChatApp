@@ -175,18 +175,24 @@ private extension MyProfileViewController {
         setupViews()
         setupButtons()
         setupTextFields()
+        setupProfileImage()
+        setupLabels()
     }
     
     func loadProfile() {
+        activityIndicator.startAnimating()
+        
         DataManagerWithGCD.shared.fetchProfileData { [weak self] result in
             switch result {
             case .success(let savedProfile):
                 self?.profile = savedProfile
                 self?.setupProfileImage()
                 self?.setupLabels()
-            case .failure(_):
-                self?.setupProfileImage()
-                self?.setupLabels()
+                
+                self?.activityIndicator.stopAnimating()
+            case .failure(let error):
+                printDebug("Что то пошло не так: \(error)")
+                // TODO: Нужен будет алерт о том, что данные не получены
             }
         }
     }

@@ -36,6 +36,7 @@ class DataManagerWithGCD {
         fetchProfileData { result in
             switch result {
             case .success(var savedProfile):
+                printDebug("Поиск измененных параметров и их перезапись")
                 if savedProfile?.name != name {
                     savedProfile?.name = name
                 }
@@ -48,25 +49,30 @@ class DataManagerWithGCD {
                     savedProfile?.image = imageData
                 }
                 
-                // TODO: Удалить ожидание после проверки
-                DispatchQueue.global().asyncAfter(deadline: .now() + 3) { [weak self] in
+                DispatchQueue.global(qos: .utility).async { [weak self] in
+                    // TODO: Удалить ожидание после проверки
+                    printDebug("Имитация сохранения 3 сек")
+                    sleep(3)
                     guard let profileDataURL = self?.profileDataURL else { return }
                     
                     do {
+                        printDebug("Запись новых данных")
                         let data = try PropertyListEncoder().encode(savedProfile)
                         try data.write(to: profileDataURL)
                         
                         DispatchQueue.main.async {
+                            printDebug("Данные записаны")
                             completion(nil)
                         }
                     } catch {
                         DispatchQueue.main.async {
+                            printDebug("Ошибка записи файла")
                             completion(error)
                         }
                     }
                 }
             case .failure(let error):
-                print(error)
+                printDebug(error)
             }
         }
     }
@@ -74,35 +80,41 @@ class DataManagerWithGCD {
     // TODO: Сделать получение данных с помощью GCD
     func fetchProfileData(completion: @escaping (Result<Profile?, Error>) -> Void) {
         guard let profileDataURL = profileDataURL else { return }
+        printDebug("Началась загрузка данных")
         
-        DispatchQueue.global().async {
+        DispatchQueue.global(qos: .utility).async {
             do {
+                // TODO: Удалить ожидание после проверки
+                printDebug("Имитация загрузки 3 сек")
+                sleep(3)
+                printDebug("Попытка чтения данных из файла")
                 let data = try Data(contentsOf: profileDataURL)
                 let profileData = try PropertyListDecoder().decode(Profile.self, from: data)
                 DispatchQueue.main.async {
+                    printDebug("Файл найден, данные переданы")
                     completion(.success(profileData))
                 }
             } catch {
-                print(error)
+                printDebug(error)
+                printDebug("Файл не найден")
                 
-                print("Создаётся новый профиль")
+                // TODO: Всё ниже сделать отдельным методом, вызываемым из алерта. Например: Ошибка. Профиль не найден, создать новый?
+                printDebug("Создаётся новый профиль")
                 let newProfile = Profile()
                 
-                DispatchQueue.global().async { [weak self] in
-                    guard let profileDataURL = self?.profileDataURL else { return }
+                do {
+                    let data = try PropertyListEncoder().encode(newProfile)
+                    try data.write(to: profileDataURL)
+                    printDebug("Файл создан")
                     
-                    do {
-                        let data = try PropertyListEncoder().encode(newProfile)
-                        try data.write(to: profileDataURL)
-                        
-                        DispatchQueue.main.async {
-                            completion(.success(newProfile))
-                        }
-                    } catch {
-                        DispatchQueue.main.async {
-                            print(error)
-                            completion(.failure(error))
-                        }
+                    DispatchQueue.main.async {
+                        completion(.success(newProfile))
+                        printDebug("Профиль передан")
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        printDebug(error)
+                        completion(.failure(error))
                     }
                 }
             }
