@@ -113,6 +113,8 @@ final class MyProfileViewController: UIViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
+        activityIndicator.startAnimating()
+        
         let userName = userNameTextField.text
         let description = descriptionTextField.text
         
@@ -121,8 +123,6 @@ final class MyProfileViewController: UIViewController {
         }
         
         if sender == saveGCDButton {
-            activityIndicator.startAnimating()
-            
             setSaveButtonsIsNotActive()
             setEditButtonIsNotActive()
             setTextFieldsIsNotActive()
@@ -155,12 +155,39 @@ final class MyProfileViewController: UIViewController {
                 self.activityIndicator.stopAnimating()
             }
         } else {
-            // Логика для сохранения с помощью Operation
-            StorageManager.shared.saveProfileData(
-                name: userName,
-                describing: description,
-                imageData: profileImageView.image?.pngData()
-            )
+            // TODO: Не работает, исправить после ответа ментора
+            /*
+            let addQueue = OperationQueue()
+            let saveData = DataManagerWithOperation(action: .save, profile: profile)
+            saveData.completionBlock! {
+                guard let error = saveData.error else { return }
+                
+                if response == nil {
+                    // Нужно для того, чтобы при нажатии на cancel
+                    // не происходило изменений, так как данные уже сохранены
+                    profile?.image = profileImageView.image?.pngData()
+                    // TODO: Имя скорее всего должно быть обязательным, по этому пока так
+                    if userName != "" {
+                        nameLabel.text = userName
+                    }
+                    descriptionLabel.text = description
+                    
+                    showResultAlert(isResultError: false)
+                } else {
+                    showResultAlert(
+                        isResultError: true,
+                        senderButton: sender
+                    )
+                }
+                
+                activityIndicator.stopAnimating()
+            }
+            
+            addQueue.addOperation(saveData)
+            */
+            
+            // TODO: Удалить как только удастся починить кнопку
+            activityIndicator.stopAnimating()
         }
     }
 }
@@ -178,6 +205,22 @@ private extension MyProfileViewController {
         setupProfileImage()
         setupLabels()
     }
+    
+    // TODO: Не работает, исправить после ответа ментора
+    /*
+    func loadProfileWithOperation() {
+        activityIndicator.startAnimating()
+        
+        let addQueue = OperationQueue()
+        let loadData = DataManagerWithOperation(action: .load)
+        loadData.completionBlock! {
+            guard let profile = loadData.profile else { return }
+            self.profile = profile
+        }
+        
+        addQueue.addOperation(loadData)
+    }
+    */
     
     func loadProfile() {
         activityIndicator.startAnimating()
