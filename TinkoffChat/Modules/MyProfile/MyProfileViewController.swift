@@ -37,7 +37,6 @@ final class MyProfileViewController: UIViewController {
     // MARK: Private properties
     private var profile: Profile?
     
-    // TODO: Сделать сравнение с текущим телефоном, и если экран как у айфона SE, поднимать интерфейс вместе с клавиатурой
     private var currentDevice = UIDevice.current.name
     
     // MARK: - LifeCycle
@@ -66,7 +65,6 @@ final class MyProfileViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    // TODO: Переименовать в save или оставить так же, после ответа в слаке.
     @IBAction func editButtonPressed() {
         nameLabel.isHidden = true
         descriptionLabel.isHidden = true
@@ -134,7 +132,7 @@ final class MyProfileViewController: UIViewController {
         
         if sender == saveGCDButton {
             
-            ProfileManagerGCD.shared.saveProfileData(
+            ProfileServiceGCD.shared.saveProfileData(
                 name: userName,
                 description: description,
                 imageData: profileImageView.image?.pngData()
@@ -163,7 +161,7 @@ final class MyProfileViewController: UIViewController {
             }
         } else {
             let addQueue = OperationQueue()
-            let saveData = ProfileManagerOperation(
+            let saveData = ProfileServiceOperation(
                 .saveData,
                 profile: profile, 
                 name: userName,
@@ -174,7 +172,7 @@ final class MyProfileViewController: UIViewController {
             saveData.completionBlock = { [weak self] in
                 guard let self = self else { return }
                 
-                // TODO: Проверить как правильно вернуть операцию в main поток
+                // TODO: Не знаю как правильно вернуть операцию в main поток с Operation
                 DispatchQueue.main.async {
                     let error = saveData.error
                     
@@ -223,10 +221,10 @@ private extension MyProfileViewController {
         activityIndicator.startAnimating()
         
         let addQueue = OperationQueue()
-        let loadData = ProfileManagerOperation(.loadData)
+        let loadData = ProfileServiceOperation(.loadData)
         loadData.completionBlock = { [weak self] in
             
-            // TODO: Проверить как правильно вернуть операцию в main поток
+            // TODO: Не знаю как правильно вернуть операцию в main поток с Operation
             DispatchQueue.main.async {
                 self?.profile = loadData.profile
                 self?.setupProfileImage()
@@ -242,7 +240,7 @@ private extension MyProfileViewController {
     func loadProfile() {
         activityIndicator.startAnimating()
         
-        ProfileManagerGCD.shared.fetchProfileData { [weak self] result in
+        ProfileServiceGCD.shared.fetchProfileData { [weak self] result in
             switch result {
             case .success(let savedProfile):
                 self?.profile = savedProfile

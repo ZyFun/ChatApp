@@ -1,5 +1,5 @@
 //
-//  ProfileManagerGCD.swift
+//  ProfileServiceGCD.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 20.03.2022.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class ProfileManagerGCD {
-    static let shared = ProfileManagerGCD()
+final class ProfileServiceGCD {
+    static let shared = ProfileServiceGCD()
     
     private var documentDirectory = FileManager.default.urls(
         for: .documentDirectory,
@@ -79,7 +79,6 @@ final class ProfileManagerGCD {
         }
     }
     
-    // TODO: Сделать получение данных с помощью GCD
     func fetchProfileData(completion: @escaping (Result<Profile?, Error>) -> Void) {
         guard let profileDataURL = profileDataURL else { return }
         printDebug("GCD: Началась загрузка данных")

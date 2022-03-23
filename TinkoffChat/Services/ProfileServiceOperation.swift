@@ -1,5 +1,5 @@
 //
-//  ProfileManagerOperation.swift
+//  ProfileServiceOperation.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 21.03.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class ProfileManagerOperation: AsyncOperation {
+final class ProfileServiceOperation: AsyncOperation {
     
     enum Operation {
         case loadData
