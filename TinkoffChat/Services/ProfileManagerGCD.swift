@@ -1,18 +1,14 @@
 //
-//  DataManagerWithOperation.swift
+//  ProfileManagerGCD.swift
 //  TinkoffChat
 //
-//  Created by Дмитрий Данилин on 21.03.2022.
+//  Created by Дмитрий Данилин on 20.03.2022.
 //
 
 import Foundation
 
-final class DataManagerWithOperation: AsyncOperation {
-    
-    enum Action {
-        case load
-        case save
-    }
+final class ProfileManagerGCD {
+    static let shared = ProfileManagerGCD()
     
     private var documentDirectory = FileManager.default.urls(
         for: .documentDirectory,
@@ -29,37 +25,8 @@ final class DataManagerWithOperation: AsyncOperation {
         return nil
     }
     
-    private var action: Action
-    
-    var profile: Profile?
-    var error: Error?
-    
-    init(action: Action, profile: Profile? = nil) {
-        self.action = action
-        self.profile = profile
-    }
-    
-    override func main() {
-        if action == .save {
-            saveProfileData(
-                name: profile?.name,
-                description: profile?.description,
-                imageData: profile?.image) { [weak self] error in
-                    self?.error = error
-                    self?.state = .finished
-                }
-        } else {
-            fetchProfileData { [weak self] result in
-                switch result {
-                case .success(let profile):
-                    self?.profile = profile
-                    self?.state = .finished
-                case .failure(_):
-                    printDebug("Error")
-                    self?.state = .finished
-                }
-            }
-        }
+    private init(){
+        printDebug(documentDirectory!)
     }
     
     func saveProfileData(
@@ -71,7 +38,7 @@ final class DataManagerWithOperation: AsyncOperation {
         fetchProfileData { result in
             switch result {
             case .success(var savedProfile):
-                printDebug("Поиск измененных параметров и их перезапись")
+                printDebug("GCD: Поиск измененных параметров и их перезапись")
                 if savedProfile?.name != name {
                     savedProfile?.name = name
                 }
@@ -84,28 +51,26 @@ final class DataManagerWithOperation: AsyncOperation {
                     savedProfile?.image = imageData
                 }
                 
-                let addQueue = OperationQueue()
-                
-                addQueue.addOperation { [weak self] in
+                DispatchQueue.global(qos: .utility).async { [weak self] in
                     // TODO: Удалить ожидание после проверки
-                    printDebug("Имитация сохранения 3 сек")
+                    printDebug("GCD: Имитация сохранения 3 сек")
                     sleep(3)
                     guard let profileDataURL = self?.profileDataURL else { return }
                     
                     do {
-                        printDebug("Запись новых данных")
+                        printDebug("GCD: Запись новых данных")
                         let data = try PropertyListEncoder().encode(savedProfile)
                         try data.write(to: profileDataURL)
                         
-                        
-                        printDebug("Данные записаны")
-                        completion(nil)
-                        
+                        DispatchQueue.main.async {
+                            printDebug("GCD: Данные записаны")
+                            completion(nil)
+                        }
                     } catch {
-                        
-                        printDebug("Ошибка записи файла")
-                        completion(error)
-                        
+                        DispatchQueue.main.async {
+                            printDebug("GCD: Ошибка записи файла")
+                            completion(error)
+                        }
                     }
                 }
             case .failure(let error):
@@ -114,44 +79,45 @@ final class DataManagerWithOperation: AsyncOperation {
         }
     }
     
+    // TODO: Сделать получение данных с помощью GCD
     func fetchProfileData(completion: @escaping (Result<Profile?, Error>) -> Void) {
         guard let profileDataURL = profileDataURL else { return }
-        printDebug("Началась загрузка данных")
+        printDebug("GCD: Началась загрузка данных")
         
-        let addQueue = OperationQueue()
-        addQueue.addOperation {
+        DispatchQueue.global(qos: .utility).async {
             do {
                 // TODO: Удалить ожидание после проверки
-                printDebug("Имитация загрузки 3 сек")
+                printDebug("GCD: Имитация загрузки 3 сек")
                 sleep(3)
-                printDebug("Попытка чтения данных из файла")
+                printDebug("GCD: Попытка чтения данных из файла")
                 let data = try Data(contentsOf: profileDataURL)
                 let profileData = try PropertyListDecoder().decode(Profile.self, from: data)
-                
-                printDebug("Файл найден, данные переданы")
-                completion(.success(profileData))
-                
+                DispatchQueue.main.async {
+                    printDebug("GCD: Файл найден, данные переданы")
+                    completion(.success(profileData))
+                }
             } catch {
                 printDebug(error)
-                printDebug("Файл не найден")
+                printDebug("GCD: Файл не найден")
                 
                 // TODO: Всё ниже сделать отдельным методом, вызываемым из алерта. Например: Ошибка. Профиль не найден, создать новый?
-                printDebug("Создаётся новый профиль")
+                printDebug("GCD: Создаётся новый профиль")
                 let newProfile = Profile()
                 
                 do {
                     let data = try PropertyListEncoder().encode(newProfile)
                     try data.write(to: profileDataURL)
-                    printDebug("Файл создан")
+                    printDebug("GCD: Файл создан")
                     
-                    completion(.success(newProfile))
-                    printDebug("Профиль передан")
-                    
+                    DispatchQueue.main.async {
+                        completion(.success(newProfile))
+                        printDebug("GCD: Профиль передан")
+                    }
                 } catch {
-                    
-                    printDebug(error)
-                    completion(.failure(error))
-                    
+                    DispatchQueue.main.async {
+                        printDebug(error)
+                        completion(.failure(error))
+                    }
                 }
             }
         }

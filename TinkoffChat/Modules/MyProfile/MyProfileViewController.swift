@@ -128,12 +128,13 @@ final class MyProfileViewController: UIViewController {
             noProfileImageLabel.text = setFirstCharacters(from: userName)
         }
         
+        setSaveButtonsIsNotActive()
+        setEditButtonIsNotActive()
+        setTextFieldsIsNotActive()
+        
         if sender == saveGCDButton {
-            setSaveButtonsIsNotActive()
-            setEditButtonIsNotActive()
-            setTextFieldsIsNotActive()
             
-            DataManagerWithGCD.shared.saveProfileData(
+            ProfileManagerGCD.shared.saveProfileData(
                 name: userName,
                 description: description,
                 imageData: profileImageView.image?.pngData()
@@ -161,39 +162,45 @@ final class MyProfileViewController: UIViewController {
                 self.activityIndicator.stopAnimating()
             }
         } else {
-            // TODO: Не работает, исправить после ответа ментора
-            /*
             let addQueue = OperationQueue()
-            let saveData = DataManagerWithOperation(action: .save, profile: profile)
-            saveData.completionBlock! {
-                guard let error = saveData.error else { return }
+            let saveData = ProfileManagerOperation(
+                .saveData,
+                profile: profile, 
+                name: userName,
+                description: description,
+                imageData: profileImageView.image?.pngData()
+            )
+            
+            saveData.completionBlock = { [weak self] in
+                guard let self = self else { return }
                 
-                if response == nil {
-                    // Нужно для того, чтобы при нажатии на cancel
-                    // не происходило изменений, так как данные уже сохранены
-                    profile?.image = profileImageView.image?.pngData()
-                    // TODO: Имя скорее всего должно быть обязательным, по этому пока так
-                    if userName != "" {
-                        nameLabel.text = userName
-                    }
-                    descriptionLabel.text = description
+                // TODO: Проверить как правильно вернуть операцию в main поток
+                DispatchQueue.main.async {
+                    let error = saveData.error
                     
-                    showResultAlert(isResultError: false)
-                } else {
-                    showResultAlert(
-                        isResultError: true,
-                        senderButton: sender
-                    )
+                    if error == nil {
+                        // Нужно для того, чтобы при нажатии на cancel
+                        // не происходило изменений, так как данные уже сохранены
+                        self.profile?.image = self.profileImageView.image?.pngData()
+                        // TODO: Имя скорее всего должно быть обязательным, по этому пока так
+                        if userName != "" {
+                            self.nameLabel.text = userName
+                        }
+                        self.descriptionLabel.text = description
+                        
+                        self.showResultAlert(isResultError: false)
+                    } else {
+                        self.showResultAlert(
+                            isResultError: true,
+                            senderButton: sender
+                        )
+                    }
+                    
+                    self.activityIndicator.stopAnimating()
                 }
-                
-                activityIndicator.stopAnimating()
             }
             
             addQueue.addOperation(saveData)
-            */
-            
-            // TODO: Удалить как только удастся починить кнопку
-            activityIndicator.stopAnimating()
         }
     }
 }
@@ -201,10 +208,10 @@ final class MyProfileViewController: UIViewController {
 // MARK: - Private properties
 private extension MyProfileViewController {
     func setup() {
-        loadProfile()
+//        loadProfile()
+        loadProfileWithOperation()
         
-        activityIndicator.hidesWhenStopped = true
-        
+        setupActivityIndicator()
         setupViews()
         setupButtons()
         setupTextFields()
@@ -212,26 +219,30 @@ private extension MyProfileViewController {
         setupLabels()
     }
     
-    // TODO: Не работает, исправить после ответа ментора
-    /*
     func loadProfileWithOperation() {
         activityIndicator.startAnimating()
         
         let addQueue = OperationQueue()
-        let loadData = DataManagerWithOperation(action: .load)
-        loadData.completionBlock! {
-            guard let profile = loadData.profile else { return }
-            self.profile = profile
+        let loadData = ProfileManagerOperation(.loadData)
+        loadData.completionBlock = { [weak self] in
+            
+            // TODO: Проверить как правильно вернуть операцию в main поток
+            DispatchQueue.main.async {
+                self?.profile = loadData.profile
+                self?.setupProfileImage()
+                self?.setupLabels()
+                
+                self?.activityIndicator.stopAnimating()
+            }
         }
         
         addQueue.addOperation(loadData)
     }
-    */
     
     func loadProfile() {
         activityIndicator.startAnimating()
         
-        DataManagerWithGCD.shared.fetchProfileData { [weak self] result in
+        ProfileManagerGCD.shared.fetchProfileData { [weak self] result in
             switch result {
             case .success(let savedProfile):
                 self?.profile = savedProfile
