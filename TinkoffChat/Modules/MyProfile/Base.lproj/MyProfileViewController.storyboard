@@ -171,7 +171,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PaX-H3-Mgu" secondAttribute="trailing" constant="78" id="Y7Z-BQ-dFw"/>
                             <constraint firstItem="tSH-2l-kpc" firstAttribute="centerX" secondItem="9cl-U9-M7N" secondAttribute="centerX" id="amW-Ul-R1h"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6Oy-5M-w1y" secondAttribute="trailing" constant="56" id="cdS-CK-nk4"/>
-                            <constraint firstItem="lI1-aM-knx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9cl-U9-M7N" secondAttribute="leading" constant="129" id="eO0-3v-hej"/>
+                            <constraint firstItem="lI1-aM-knx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9cl-U9-M7N" secondAttribute="leading" constant="100" id="eO0-3v-hej"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="iRD-6r-2sD" secondAttribute="trailing" constant="30" id="icV-pR-ay3"/>
                             <constraint firstItem="tSH-2l-kpc" firstAttribute="width" secondItem="9cl-U9-M7N" secondAttribute="width" multiplier="0.7" id="kZK-Ht-cIa"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bZR-EE-9bQ" secondAttribute="trailing" constant="30" id="l2B-B0-tNN"/>
@@ -201,6 +201,7 @@
                         <outlet property="saveOperationButton" destination="Sb2-tr-8vR" id="Kc5-Pd-fZb"/>
                         <outlet property="titleLabel" destination="lrm-Ol-Ob5" id="oIl-Je-bpk"/>
                         <outlet property="topBarView" destination="a1Z-mk-kTm" id="Du8-lk-8hG"/>
+                        <outlet property="topConstraintProfileImage" destination="nnQ-Gg-PS5" id="hZS-dQ-3PE"/>
                         <outlet property="userNameTextField" destination="iRD-6r-2sD" id="p0V-VX-dnu"/>
                     </connections>
                 </viewController>

@@ -29,10 +29,16 @@ final class MyProfileViewController: UIViewController {
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     
+    // Используется для того, чтобы поднять интерфейс на экранах с небольшим разрешением
+    @IBOutlet weak var topConstraintProfileImage: NSLayoutConstraint!
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: Private properties
     private var profile: Profile?
+    
+    // TODO: Сделать сравнение с текущим телефоном, и если экран как у айфона SE, поднимать интерфейс вместе с клавиатурой
+    private var currentDevice = UIDevice.current.name
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -238,6 +244,12 @@ private extension MyProfileViewController {
                 // TODO: Нужен будет алерт о том, что данные не получены
             }
         }
+    }
+    
+    func setupActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = .systemGray
+        activityIndicator.style = .large
     }
     
     func setupViews() {
@@ -601,5 +613,28 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
 extension MyProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        // TODO: Кривой костыль для маленького экрана, нужно подумать как это улучшить
+        if currentDevice == "iPod touch (7th generation)" { // Я знаю что с маленьким экраном есть еще другие телефоны, просто показал таким образом решение которое пришло мне в голову :)
+            topConstraintProfileImage.constant = -130
+            
+            if profileImageView.image == nil {
+                noProfileImageLabel.isHidden = true
+            }
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // TODO: Кривой костыль для маленького экрана, нужно подумать как это улучшить
+        if currentDevice == "iPod touch (7th generation)" { // Я знаю что с маленьким экраном есть еще другие телефоны, просто показал таким образом решение которое пришло мне в голову :)
+            topConstraintProfileImage.constant = 7
+            
+            if profileImageView.image == nil {
+                noProfileImageLabel.isHidden = false
+            }
+        }
+        
     }
 }
