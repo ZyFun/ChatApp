@@ -27,13 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - Initial application settings
 private extension AppDelegate {
     func createAndShowStartVC() {
-        let conversationsListVC = ConversationsListViewController(
-            nibName: String(describing: ConversationsListViewController.self),
+        let ChannelListVC = ChannelListViewController(
+            nibName: String(describing: ChannelListViewController.self),
             bundle: nil
         )
         
         let navigationController = CustomNavigationController(
-            rootViewController: conversationsListVC
+            rootViewController: ChannelListVC
         )
         
         navigationController.navigationBar.scrollEdgeAppearance =  navigationController.navigationBar.standardAppearance

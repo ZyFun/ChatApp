@@ -1,5 +1,5 @@
 //
-//  ConversationsListViewController.swift
+//  ChannelListViewController.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 04.03.2022.
@@ -15,19 +15,16 @@ protocol ThemeDelegate: AnyObject {
     )
 }
 
-final class ConversationsListViewController: UITableViewController {
+final class ChannelListViewController: UITableViewController {
     
     // MARK: - Private properties
-    private let conversations = Conversation.getConversations()
-    private var onlineConversations: [Conversation] = []
-    private var historyConversations: [Conversation] = []
+    private let channels = Channel.getChannels()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
-        sortingConversationSections()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,23 +35,12 @@ final class ConversationsListViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-
     override func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
         
-        section == 0 ? onlineConversations.count : historyConversations.count
-    }
-    
-    override func tableView(
-        _ tableView: UITableView,
-        titleForHeaderInSection section: Int
-    ) -> String? {
-        section == 0 ? "Online" : "History"
+        channels.count
     }
 
     override func tableView(
@@ -63,20 +49,18 @@ final class ConversationsListViewController: UITableViewController {
     ) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: String(describing: ConversationsCell.self),
+            withIdentifier: String(describing: ChannelCell.self),
             for: indexPath
-        ) as? ConversationsCell else { return UITableViewCell() }
+        ) as? ChannelCell else { return UITableViewCell() }
         
-        let conversation = indexPath.section == 0
-        ? onlineConversations[indexPath.row]
-        : historyConversations[indexPath.row]
+        let channel = channels[indexPath.row]
 
         cell.configure(
-            name: conversation.name,
-            message: conversation.message,
-            date: conversation.date,
-            online: conversation.online,
-            hasUnreadMessages: conversation.hasUnreadMessages
+            name: channel.name,
+            message: channel.message,
+            date: channel.date,
+            online: channel.online,
+            hasUnreadMessages: channel.hasUnreadMessages
         )
 
         return cell
@@ -92,19 +76,6 @@ final class ConversationsListViewController: UITableViewController {
     
     override func tableView(
         _ tableView: UITableView,
-        viewForHeaderInSection section: Int
-    ) -> UIView? {
-        
-        let header = UITableViewHeaderFooterView()
-        
-        header.contentView.backgroundColor = .appColorLoadFor(.headerBackground)
-        header.textLabel?.textColor = .appColorLoadFor(.headerText)
-        
-        return header
-    }
-    
-    override func tableView(
-        _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
         let conversationVC = ConversationViewController(
@@ -112,11 +83,9 @@ final class ConversationsListViewController: UITableViewController {
             bundle: nil
         )
         
-        let conversation = indexPath.section == 0
-        ? onlineConversations[indexPath.row]
-        : historyConversations[indexPath.row]
+        let channel = channels[indexPath.row]
         
-        conversationVC.conversationNameTitle = conversation.name
+        conversationVC.conversationNameTitle = channel.name
         
         navigationController?.pushViewController(
             conversationVC,
@@ -126,7 +95,7 @@ final class ConversationsListViewController: UITableViewController {
 }
 
 // MARK: - Private methods
-private extension ConversationsListViewController {
+private extension ChannelListViewController {
     func setup() {
         setupNavigationBar()
         setupTableView()
@@ -152,7 +121,7 @@ private extension ConversationsListViewController {
     func setupNavigationBar() {
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = "Tinkoff Chat"
+        title = "Channels"
         
         setupNavBarButtons()
     }
@@ -230,7 +199,6 @@ private extension ConversationsListViewController {
     }
     
     @objc func profileButtonPressed() {
-        
          guard let myProfileVC = UIStoryboard(
             name: String(describing: MyProfileViewController.self),
             bundle: nil
@@ -240,13 +208,6 @@ private extension ConversationsListViewController {
     }
     
     func setupTableView() {
-        // Исправил непонятный отступ между хедером и заголовком. Такое есть только в 15 версии
-        if #available(iOS 15.0, *) {
-            tableView.sectionHeaderTopPadding = .zero
-        } else {
-            // Fallback on earlier versions
-        }
-        
         tableView.separatorColor = .appColorLoadFor(.separator)
         setupXibs()
     }
@@ -255,26 +216,15 @@ private extension ConversationsListViewController {
     func setupXibs() {
         tableView.register(
             UINib(
-                nibName: String(describing: ConversationsCell.self),
+                nibName: String(describing: ChannelCell.self),
                 bundle: nil
             ),
-            forCellReuseIdentifier: String(describing: ConversationsCell.self)
+            forCellReuseIdentifier: String(describing: ChannelCell.self)
         )
-    }
-    
-    func sortingConversationSections() {
-        for conversation in conversations {
-            
-            if conversation.online {
-                onlineConversations.append(conversation)
-            } else if conversation.message != nil {
-                historyConversations.append(conversation)
-            }
-        }
     }
 }
 
-extension ConversationsListViewController: ThemeDelegate {
+extension ChannelListViewController: ThemeDelegate {
     func updateTheme(
         backgroundViewTheme: UIColor,
         backgroundNavBarTheme: UIColor,

@@ -1,5 +1,5 @@
 //
-//  ConversationsCell.swift
+//  ChannelCell.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 04.03.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ConversationsCellConfiguration: AnyObject {
+protocol ChannelCellConfiguration: AnyObject {
     var name: String? {get set}
     var message: String? {get set}
     var date: Date? {get set}
@@ -15,7 +15,7 @@ protocol ConversationsCellConfiguration: AnyObject {
     var hasUnreadMessages: Bool {get set}
 }
 
-final class ConversationsCell: UITableViewCell {
+final class ChannelCell: UITableViewCell {
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileImageLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -39,7 +39,7 @@ final class ConversationsCell: UITableViewCell {
 }
 
 // MARK: - Private methods
-private extension ConversationsCell {
+private extension ChannelCell {
     func setupUI() {
         setupTheme()
         setupCell()
@@ -62,7 +62,7 @@ private extension ConversationsCell {
 }
 
 // MARK: - Protocol extension
-extension ConversationsCellConfiguration {
+extension ChannelCellConfiguration {
     func configure(
         name: String?,
         message: String?,
@@ -79,8 +79,8 @@ extension ConversationsCellConfiguration {
 }
 
 // Мне кажется я сделал тут какую то фигню и можно как то по другому
-// MARK: - Conversations Cell Configuration
-extension ConversationsCell: ConversationsCellConfiguration {
+// MARK: - Channel Cell Configuration
+extension ChannelCell: ChannelCellConfiguration {
     var name: String? {
         get {
             nil
