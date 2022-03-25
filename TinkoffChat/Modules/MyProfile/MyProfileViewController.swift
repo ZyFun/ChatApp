@@ -17,10 +17,9 @@ final class MyProfileViewController: UIViewController {
     @IBOutlet weak var profileImageView: UIImageView!
     
     @IBOutlet weak var editLogoButton: UIButton!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var saveGCDButton: UIButton!
-    @IBOutlet weak var saveOperationButton: UIButton!
+    @IBOutlet weak var saveButton: UIButton!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -74,11 +73,10 @@ final class MyProfileViewController: UIViewController {
         
         showButtons(
             cancelButton,
-            saveGCDButton,
-            saveOperationButton
+            saveButton
         )
         
-        hideButtons(saveButton)
+        hideButtons(editButton)
         
         userNameTextField.text = nameLabel.text
         descriptionTextField.text = descriptionLabel.text
@@ -86,7 +84,7 @@ final class MyProfileViewController: UIViewController {
         userNameTextField.becomeFirstResponder()
         
         // Состояние меняется, при изменении текста в TF
-        setSaveButtonsIsNotActive()
+        setSaveButtonIsNotActive()
     }
     
     @IBAction func cancelButtonPressed() {
@@ -105,14 +103,13 @@ final class MyProfileViewController: UIViewController {
         descriptionLabel.isHidden = false
         
         showButtons(
-            saveButton,
+            editButton,
             editLogoButton // Нужно в тот момент, когда скрывается кнопка при изменении изображения
         )
         
         hideButtons(
             cancelButton,
-            saveGCDButton,
-            saveOperationButton
+            saveButton
         )
     }
     
@@ -126,13 +123,13 @@ final class MyProfileViewController: UIViewController {
             noProfileImageLabel.text = setFirstCharacters(from: userName)
         }
         
-        setSaveButtonsIsNotActive()
+        setSaveButtonIsNotActive()
         setEditButtonIsNotActive()
         setTextFieldsIsNotActive()
         
-        if sender == saveGCDButton {
+        if sender == saveButton {
             
-            ProfileServiceGCD.shared.saveProfileData(
+            ProfileService.shared.saveProfileData(
                 name: userName,
                 description: description,
                 imageData: profileImageView.image?.pngData()
@@ -160,45 +157,7 @@ final class MyProfileViewController: UIViewController {
                 self.activityIndicator.stopAnimating()
             }
         } else {
-            let addQueue = OperationQueue()
-            let saveData = ProfileServiceOperation(
-                .saveData,
-                profile: profile, 
-                name: userName,
-                description: description,
-                imageData: profileImageView.image?.pngData()
-            )
-            
-            saveData.completionBlock = { [weak self] in
-                guard let self = self else { return }
-                
-                // TODO: Не знаю как правильно вернуть операцию в main поток с Operation
-                DispatchQueue.main.async {
-                    let error = saveData.error
-                    
-                    if error == nil {
-                        // Нужно для того, чтобы при нажатии на cancel
-                        // не происходило изменений, так как данные уже сохранены
-                        self.profile?.image = self.profileImageView.image?.pngData()
-                        // TODO: Имя скорее всего должно быть обязательным, по этому пока так
-                        if userName != "" {
-                            self.nameLabel.text = userName
-                        }
-                        self.descriptionLabel.text = description
-                        
-                        self.showResultAlert(isResultError: false)
-                    } else {
-                        self.showResultAlert(
-                            isResultError: true,
-                            senderButton: sender
-                        )
-                    }
-                    
-                    self.activityIndicator.stopAnimating()
-                }
-            }
-            
-            addQueue.addOperation(saveData)
+            // TODO: зачистить до конца
         }
     }
 }
@@ -206,8 +165,7 @@ final class MyProfileViewController: UIViewController {
 // MARK: - Private properties
 private extension MyProfileViewController {
     func setup() {
-//        loadProfile()
-        loadProfileWithOperation()
+        loadProfile()
         
         setupActivityIndicator()
         setupViews()
@@ -217,30 +175,10 @@ private extension MyProfileViewController {
         setupLabels()
     }
     
-    func loadProfileWithOperation() {
-        activityIndicator.startAnimating()
-        
-        let addQueue = OperationQueue()
-        let loadData = ProfileServiceOperation(.loadData)
-        loadData.completionBlock = { [weak self] in
-            
-            // TODO: Не знаю как правильно вернуть операцию в main поток с Operation
-            DispatchQueue.main.async {
-                self?.profile = loadData.profile
-                self?.setupProfileImage()
-                self?.setupLabels()
-                
-                self?.activityIndicator.stopAnimating()
-            }
-        }
-        
-        addQueue.addOperation(loadData)
-    }
-    
     func loadProfile() {
         activityIndicator.startAnimating()
         
-        ProfileServiceGCD.shared.fetchProfileData { [weak self] result in
+        ProfileService.shared.fetchProfileData { [weak self] result in
             switch result {
             case .success(let savedProfile):
                 self?.profile = savedProfile
@@ -364,9 +302,9 @@ private extension MyProfileViewController {
     @objc func profileTextFieldDidChanged() {
         if userNameTextField.text != nameLabel.text
         || descriptionTextField.text != descriptionLabel.text {
-            setSaveButtonsIsActive()
+            setSaveButtonIsActive()
         } else {
-            setSaveButtonsIsNotActive()
+            setSaveButtonIsNotActive()
         }
     }
     
@@ -375,16 +313,14 @@ private extension MyProfileViewController {
         editLogoButton.titleLabel?.font = .systemFont(ofSize: 16)
         
         settingButtons(
-            saveButton,
+            editButton,
             cancelButton,
-            saveGCDButton,
-            saveOperationButton
+            saveButton
         )
         
         hideButtons(
             cancelButton,
-            saveGCDButton,
-            saveOperationButton
+            saveButton
         )
     }
     
@@ -419,20 +355,14 @@ private extension MyProfileViewController {
         editLogoButton.tintColor = .systemBlue
     }
     
-    func setSaveButtonsIsNotActive() {
-        saveGCDButton.isEnabled = false
-        saveGCDButton.setTitleColor(.systemGray, for: .normal)
-        
-        saveOperationButton.isEnabled = false
-        saveOperationButton.setTitleColor(.systemGray, for: .normal)
+    func setSaveButtonIsNotActive() {
+        saveButton.isEnabled = false
+        saveButton.setTitleColor(.systemGray, for: .normal)
     }
     
-    func setSaveButtonsIsActive() {
-        saveGCDButton.isEnabled = true
-        saveGCDButton.setTitleColor(.systemBlue, for: .normal)
-        
-        saveOperationButton.isEnabled = true
-        saveOperationButton.setTitleColor(.systemBlue, for: .normal)
+    func setSaveButtonIsActive() {
+        saveButton.isEnabled = true
+        saveButton.setTitleColor(.systemBlue, for: .normal)
     }
     
     // MARK: Alert Controllers
@@ -459,7 +389,7 @@ private extension MyProfileViewController {
             guard let self = self else { return }
             
             self.setEditButtonIsActive()
-            self.setSaveButtonsIsActive()
+            self.setSaveButtonIsActive()
             self.setTextFieldsIsActive()
             
             if !isResultError {
@@ -471,16 +401,15 @@ private extension MyProfileViewController {
                 
                 self.hideButtons(
                     self.cancelButton,
-                    self.saveGCDButton,
-                    self.saveOperationButton
+                    self.saveButton
                 )
                 
-                self.showButtons(self.saveButton)
+                self.showButtons(self.editButton)
             }
         }
         
         let repeatButton = UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
-            if senderButton == self?.saveGCDButton {
+            if senderButton == self?.saveButton {
                 self?.saveButtonPressed(senderButton)
             } else {
                 self?.saveButtonPressed(senderButton)
@@ -540,15 +469,14 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
             
             self.showButtons(
                 self.cancelButton,
-                self.saveGCDButton,
-                self.saveOperationButton
+                self.saveButton
             )
             
-            self.setSaveButtonsIsActive()
+            self.setSaveButtonIsActive()
             
             self.hideButtons(
                 self.editLogoButton,
-                self.saveButton
+                self.editButton
             )
         }
     }

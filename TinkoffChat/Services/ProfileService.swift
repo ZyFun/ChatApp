@@ -1,5 +1,5 @@
 //
-//  ProfileServiceGCD.swift
+//  ProfileService.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 20.03.2022.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class ProfileServiceGCD {
-    static let shared = ProfileServiceGCD()
+final class ProfileService {
+    static let shared = ProfileService()
     
     private var documentDirectory = FileManager.default.urls(
         for: .documentDirectory,
