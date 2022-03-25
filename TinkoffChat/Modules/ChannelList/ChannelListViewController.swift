@@ -18,7 +18,7 @@ protocol ThemeDelegate: AnyObject {
 final class ChannelListViewController: UITableViewController {
     
     // MARK: - Private properties
-    private let channels = Channel.getChannels()
+    private let channels = ChannelMock.getChannels()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {

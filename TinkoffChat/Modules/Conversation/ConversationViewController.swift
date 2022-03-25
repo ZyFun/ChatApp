@@ -13,7 +13,7 @@ final class ConversationViewController: UIViewController {
     var conversationNameTitle: String?
     
     // MARK: - Private properties
-    private let messages = Messages.getMessages()
+    private let messages = MessageMock.getMessages()
     
     // MARK: - IB Outlets
     @IBOutlet weak var conversationTableView: UITableView!

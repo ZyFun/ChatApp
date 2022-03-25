@@ -12,8 +12,10 @@
 		2C3CFCA127D62164005436A3 /* ConversationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9F27D62164005436A3 /* ConversationViewController.xib */; };
 		2C3CFCA627D64BB7005436A3 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFCA427D64BB7005436A3 /* MessageCell.swift */; };
 		2C3CFCA727D64BB7005436A3 /* IncomingMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFCA527D64BB7005436A3 /* IncomingMessageCell.xib */; };
-		2C3CFCA927D65033005436A3 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFCA827D65033005436A3 /* Messages.swift */; };
+		2C3CFCA927D65033005436A3 /* MessageMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFCA827D65033005436A3 /* MessageMock.swift */; };
 		2C3CFCAF27D66284005436A3 /* OutgoingMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFCAD27D66284005436A3 /* OutgoingMessageCell.xib */; };
+		2C5449FA27EDFAB100C209C8 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5449F927EDFAB100C209C8 /* Channel.swift */; };
+		2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5449FB27EDFB2700C209C8 /* Message.swift */; };
 		2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */; };
 		2C5C8C2627DF7B7900AE48F6 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */; };
 		2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */; };
@@ -23,7 +25,7 @@
 		2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3827127DB6AC600456139 /* ThemesViewController.swift */; };
 		2CA3827427DB6AC600456139 /* ThemesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3827227DB6AC600456139 /* ThemesViewController.xib */; };
 		2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */; };
-		2CEA6AF527D3ADCE0028DF67 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF427D3ADCE0028DF67 /* Channel.swift */; };
+		2CEA6AF527D3ADCE0028DF67 /* ChannelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF427D3ADCE0028DF67 /* ChannelMock.swift */; };
 		2CEBE04D27D2225F005CBCB0 /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE04B27D2225F005CBCB0 /* ChannelListViewController.swift */; };
 		2CEBE04E27D2225F005CBCB0 /* ChannelListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE04C27D2225F005CBCB0 /* ChannelListViewController.xib */; };
 		2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE05427D23547005CBCB0 /* ChannelCell.swift */; };
@@ -45,8 +47,10 @@
 		2C3CFC9F27D62164005436A3 /* ConversationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationViewController.xib; sourceTree = "<group>"; };
 		2C3CFCA427D64BB7005436A3 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		2C3CFCA527D64BB7005436A3 /* IncomingMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IncomingMessageCell.xib; sourceTree = "<group>"; };
-		2C3CFCA827D65033005436A3 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
+		2C3CFCA827D65033005436A3 /* MessageMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMock.swift; sourceTree = "<group>"; };
 		2C3CFCAD27D66284005436A3 /* OutgoingMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutgoingMessageCell.xib; sourceTree = "<group>"; };
+		2C5449F927EDFAB100C209C8 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		2C5449FB27EDFB2700C209C8 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstStartAppManager.swift; sourceTree = "<group>"; };
@@ -56,7 +60,7 @@
 		2CA3827127DB6AC600456139 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		2CA3827227DB6AC600456139 /* ThemesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemesViewController.xib; sourceTree = "<group>"; };
 		2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateFormatter.swift"; sourceTree = "<group>"; };
-		2CEA6AF427D3ADCE0028DF67 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		2CEA6AF427D3ADCE0028DF67 /* ChannelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMock.swift; sourceTree = "<group>"; };
 		2CEBE04B27D2225F005CBCB0 /* ChannelListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
 		2CEBE04C27D2225F005CBCB0 /* ChannelListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelListViewController.xib; sourceTree = "<group>"; };
 		2CEBE05427D23547005CBCB0 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
@@ -196,8 +200,10 @@
 		2CEA6AF327D3AD9E0028DF67 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				2CEA6AF427D3ADCE0028DF67 /* Channel.swift */,
-				2C3CFCA827D65033005436A3 /* Messages.swift */,
+				2CEA6AF427D3ADCE0028DF67 /* ChannelMock.swift */,
+				2C3CFCA827D65033005436A3 /* MessageMock.swift */,
+				2C5449F927EDFAB100C209C8 /* Channel.swift */,
+				2C5449FB27EDFB2700C209C8 /* Message.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -395,19 +401,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */,
+				2C5449FA27EDFAB100C209C8 /* Channel.swift in Sources */,
 				2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */,
 				2C3CFCA027D62164005436A3 /* ConversationViewController.swift in Sources */,
 				2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
+				2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */,
 				2C98466327DE237700BF6272 /* UIColor+ThemeColor.swift in Sources */,
 				2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */,
 				2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */,
 				2CEBE04D27D2225F005CBCB0 /* ChannelListViewController.swift in Sources */,
 				2C7D10F027E73ADA00035DF5 /* ProfileService.swift in Sources */,
 				2C13C6EA27E60A6100955499 /* ProfileModel.swift in Sources */,
-				2C3CFCA927D65033005436A3 /* Messages.swift in Sources */,
+				2C3CFCA927D65033005436A3 /* MessageMock.swift in Sources */,
 				2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */,
-				2CEA6AF527D3ADCE0028DF67 /* Channel.swift in Sources */,
+				2CEA6AF527D3ADCE0028DF67 /* ChannelMock.swift in Sources */,
 				2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */,
 				2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */,
 				2C5C8C2627DF7B7900AE48F6 /* StorageManager.swift in Sources */,

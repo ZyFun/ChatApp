@@ -1,5 +1,5 @@
 //
-//  Messages.swift
+//  MessageMock.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 07.03.2022.
@@ -7,37 +7,37 @@
 
 import Foundation
 
-struct Messages {
+struct MessageMock {
     let text: String?
     let isIncoming: Bool
     
-    static func getMessages() -> [Messages] {
+    static func getMessages() -> [MessageMock] {
         [
-            Messages(
+            MessageMock(
                 text: "Привет! Как дела?",
                 isIncoming: true
             ),
-            Messages(
+            MessageMock(
                 text: "Я тестирую как будет отображаться достаточно длинное сообщение, и не будет ли ехать верстка при таком варианте что я напрограммировал",
                 isIncoming: true
             ),
-            Messages(
+            MessageMock(
                 text: "Как, всё хорошо?",
                 isIncoming: true
             ),
-            Messages(
+            MessageMock(
                 text: "Да, отлично!",
                 isIncoming: false
             ),
-            Messages(
+            MessageMock(
                 text: "Осталось только поправить заголовок чата, который почему то резко исчезает при переходе в чат",
                 isIncoming: false
             ),
-            Messages(
+            MessageMock(
                 text: "Ок!",
                 isIncoming: true
             ),
-            Messages(
+            MessageMock(
                 text: "Буду разбираться дальше)",
                 isIncoming: true
             )
