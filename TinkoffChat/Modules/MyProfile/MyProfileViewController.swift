@@ -92,6 +92,7 @@ final class MyProfileViewController: UIViewController {
         if let imageData = profile?.image {
             profileImageView.image = UIImage(data: imageData)
         } else {
+            profileImageView.image = nil
             noProfileImageLabel.text = setFirstCharacters(from: profile?.name)
             noProfileImageLabel.isHidden = false
         }
