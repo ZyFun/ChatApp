@@ -16,6 +16,7 @@
 		2C3CFCAF27D66284005436A3 /* OutgoingMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFCAD27D66284005436A3 /* OutgoingMessageCell.xib */; };
 		2C5449FA27EDFAB100C209C8 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5449F927EDFAB100C209C8 /* Channel.swift */; };
 		2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5449FB27EDFB2700C209C8 /* Message.swift */; };
+		2C5449FE27EE048500C209C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C5449FD27EE048500C209C8 /* GoogleService-Info.plist */; };
 		2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */; };
 		2C5C8C2627DF7B7900AE48F6 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */; };
 		2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */; };
@@ -51,6 +52,7 @@
 		2C3CFCAD27D66284005436A3 /* OutgoingMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutgoingMessageCell.xib; sourceTree = "<group>"; };
 		2C5449F927EDFAB100C209C8 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		2C5449FB27EDFB2700C209C8 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		2C5449FD27EE048500C209C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstStartAppManager.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				2CF231BF27BFBB2600CE77C2 /* Info.plist */,
+				2C5449FD27EE048500C209C8 /* GoogleService-Info.plist */,
 				2C3D0C3527D8CA8D00BA9CA6 /* Default */,
 				2C5C8C2127DF673000AE48F6 /* Common */,
 				2CEA6AF327D3AD9E0028DF67 /* Models */,
@@ -346,6 +349,7 @@
 				2CF231BE27BFBB2600CE77C2 /* LaunchScreen.storyboard in Resources */,
 				2CA3827427DB6AC600456139 /* ThemesViewController.xib in Resources */,
 				2CF231BB27BFBB2600CE77C2 /* Assets.xcassets in Resources */,
+				2C5449FE27EE048500C209C8 /* GoogleService-Info.plist in Resources */,
 				2C3CFCA127D62164005436A3 /* ConversationViewController.xib in Resources */,
 				2CF231B927BFBB2400CE77C2 /* MyProfileViewController.storyboard in Resources */,
 			);
@@ -574,8 +578,8 @@
 				DEVELOPMENT_TEAM = B66N983M7Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TinkoffChat/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Разрешите приложению $(PRODUCT_NAME) использовать камеру, для добавления фото к профилю";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Разрешите приложению $(PRODUCT_NAME) использовать галерею, для добавления фото к профилю";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Разрешите приложению TinkoffChat использовать камеру, для добавления фото к профилю";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Разрешите приложению TinkoffChat использовать галерею, для добавления фото к профилю";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -587,7 +591,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.zyfunphoto.TinkoffChat;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.tinkoff.TinkoffChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -607,8 +611,8 @@
 				DEVELOPMENT_TEAM = B66N983M7Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TinkoffChat/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Разрешите приложению $(PRODUCT_NAME) использовать камеру, для добавления фото к профилю";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Разрешите приложению $(PRODUCT_NAME) использовать галерею, для добавления фото к профилю";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Разрешите приложению TinkoffChat использовать камеру, для добавления фото к профилю";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Разрешите приложению TinkoffChat использовать галерею, для добавления фото к профилю";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -620,7 +624,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.zyfunphoto.TinkoffChat;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.tinkoff.TinkoffChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
