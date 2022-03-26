@@ -18,9 +18,11 @@ protocol ThemeDelegate: AnyObject {
 final class ChannelListViewController: UITableViewController {
     
     // MARK: - Private properties
+    
     private let channels = ChannelMock.getChannels()
     
     // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,6 +37,7 @@ final class ChannelListViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
+    
     override func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
@@ -67,6 +70,7 @@ final class ChannelListViewController: UITableViewController {
     }
     
     // MARK: - Table view delegate
+    
     override func tableView(
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
@@ -95,6 +99,7 @@ final class ChannelListViewController: UITableViewController {
 }
 
 // MARK: - Private methods
+
 private extension ChannelListViewController {
     func setup() {
         setupNavigationBar()
@@ -139,7 +144,6 @@ private extension ChannelListViewController {
             action: #selector(pushThemeVC)
         )
         
-        // TODO: Нужно доработать, чтобы обновление цвета происходило при переходе между экранами (нужен метод для всех экранов, иначе замучаюсь искать места где настраивается цвета элементов)
         barButton.tintColor = .appColorLoadFor(.buttonNavBar)
         
         navigationItem.leftBarButtonItem = barButton
@@ -183,7 +187,7 @@ private extension ChannelListViewController {
             action: #selector(profileButtonPressed)
         )
         
-        profileButton.text = "UN" // TODO: Сделать выбор букв из имени и фамилии
+        profileButton.text = "UN" // TODO: ([09.03.2022]) Сделать выбор букв из имени и фамилии
         profileButton.textAlignment = .center
         profileButton.backgroundColor = .appColorLoadFor(.profileImageView)
         profileButton.textColor = .appColorLoadFor(.textImageView)
