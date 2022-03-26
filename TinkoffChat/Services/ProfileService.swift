@@ -25,9 +25,7 @@ final class ProfileService {
         return nil
     }
     
-    private init(){
-        printDebug(documentDirectory!)
-    }
+    private init() {}
     
     func saveProfileData(
         name: String?,
@@ -52,7 +50,7 @@ final class ProfileService {
                 }
                 
                 DispatchQueue.global(qos: .utility).async { [weak self] in
-                    // TODO: Удалить ожидание после проверки
+                    // TODO: ([21.03.2022]) Удалить ожидание после проверки
                     printDebug("GCD: Имитация сохранения 3 сек")
                     sleep(3)
                     guard let profileDataURL = self?.profileDataURL else { return }
@@ -85,7 +83,7 @@ final class ProfileService {
         
         DispatchQueue.global(qos: .utility).async {
             do {
-                // TODO: Удалить ожидание после проверки
+                // TODO: ([21.03.2022]) Удалить ожидание после проверки
                 printDebug("GCD: Имитация загрузки 3 сек")
                 sleep(3)
                 printDebug("GCD: Попытка чтения данных из файла")
@@ -99,7 +97,7 @@ final class ProfileService {
                 printDebug(error)
                 printDebug("GCD: Файл не найден")
                 
-                // TODO: Всё ниже сделать отдельным методом, вызываемым из алерта. Например: Ошибка. Профиль не найден, создать новый?
+                // TODO: ([21.03.2022]) Всё ниже сделать отдельным методом, вызываемым из алерта. Например: Ошибка. Профиль не найден, создать новый?
                 printDebug("GCD: Создаётся новый профиль")
                 let newProfile = Profile()
                 
