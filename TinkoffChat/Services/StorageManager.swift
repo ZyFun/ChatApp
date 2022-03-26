@@ -28,7 +28,7 @@ final class StorageManager {
             self?.userDefaults.set(theme.rawValue, forKey: StorageManager.Key.theme.rawValue)
         }
         
-        // TODO: Не уверен что это должно быть тут
+        // TODO: ([16.03.2022]) Не уверен что это должно быть тут
         ThemeManager.shared.currentTheme = theme.rawValue
     }
     
