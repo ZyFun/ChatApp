@@ -1,5 +1,5 @@
 //
-//  IncomingMessageCell.swift
+//  MessageCell.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 07.03.2022.
@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MessageCellConfiguration: AnyObject {
-    var textMessage: String? { get set } // В задании указано свойство text, но его невозможно использовать в этом классе, так-как есть такое deprecated поле у класса ячейки.
+    var textMessage: String? { get set }
 }
 
 final class MessageCell: UITableViewCell {
