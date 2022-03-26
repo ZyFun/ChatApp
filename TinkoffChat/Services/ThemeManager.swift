@@ -11,7 +11,7 @@ enum Theme: String {
     case night = "Night"
 }
 
-enum AssetsColor : String {
+enum AssetsColor: String {
     case backgroundView
     case backgroundNavBar
     case separator
