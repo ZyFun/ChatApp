@@ -288,6 +288,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2CF231C227BFBB2600CE77C2 /* Build configuration list for PBXNativeTarget "TinkoffChat" */;
 			buildPhases = (
+				2CFF7B5427EF127F00055DC6 /* Run Swiftlint */,
 				A536B094D1B33B2836E455F1 /* [CP] Check Pods Manifest.lock */,
 				2CF231AA27BFBB2400CE77C2 /* Sources */,
 				2CF231AB27BFBB2400CE77C2 /* Frameworks */,
@@ -358,6 +359,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2CFF7B5427EF127F00055DC6 /* Run Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Swiftlint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+		};
 		981278CC4A6DF3FF2D8F4B06 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
