@@ -8,11 +8,11 @@
 import UIKit
 
 protocol ChannelCellConfiguration: AnyObject {
-    var name: String? {get set}
-    var message: String? {get set}
-    var date: Date? {get set}
-    var online: Bool {get set}
-    var hasUnreadMessages: Bool {get set}
+    var name: String? { get set }
+    var message: String? { get set }
+    var date: Date? { get set }
+    var online: Bool { get set }
+    var hasUnreadMessages: Bool { get set }
 }
 
 final class ChannelCell: UITableViewCell {
@@ -23,6 +23,8 @@ final class ChannelCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
 
     override func awakeFromNib() {
+        super.awakeFromNib()
+        
         setupUI()
     }
     
@@ -39,6 +41,7 @@ final class ChannelCell: UITableViewCell {
 }
 
 // MARK: - Private methods
+
 private extension ChannelCell {
     func setupUI() {
         setupTheme()
@@ -62,6 +65,7 @@ private extension ChannelCell {
 }
 
 // MARK: - Protocol extension
+
 extension ChannelCellConfiguration {
     func configure(
         name: String?,
@@ -78,8 +82,9 @@ extension ChannelCellConfiguration {
     }
 }
 
-// Мне кажется я сделал тут какую то фигню и можно как то по другому
 // MARK: - Channel Cell Configuration
+
+// Мне кажется я сделал тут какую то фигню и можно как то по другому
 extension ChannelCell: ChannelCellConfiguration {
     var name: String? {
         get {
