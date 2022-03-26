@@ -135,8 +135,7 @@ struct ChannelMock {
                          date: "5.03.2022 18.22".toDate(),
                          online: false,
                          hasUnreadMessages: true
-                        ),
+                        )
         ]
     }
-    
 }
