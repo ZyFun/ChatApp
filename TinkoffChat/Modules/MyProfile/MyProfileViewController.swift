@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MyProfileViewController.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 18.02.2022.
@@ -33,12 +33,14 @@ final class MyProfileViewController: UIViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    // MARK: Private properties
+    // MARK: - Private properties
+    
     private var profile: Profile?
     
     private var currentDevice = UIDevice.current.name
     
     // MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,7 +57,8 @@ final class MyProfileViewController: UIViewController {
         view.endEditing(true)
     }
 
-    // MARK: IB Actions
+    // MARK: - IB Actions
+    
     @IBAction func editLogoButtonPressed() {
         changeProfileLogoAlertController()
     }
@@ -114,7 +117,7 @@ final class MyProfileViewController: UIViewController {
         )
     }
     
-    @IBAction func saveButtonPressed(_ sender: UIButton) {
+    @IBAction func saveButtonPressed(_ sender: UIButton) { // TODO: ([26.03.2022]) Заменить на кнопку без сендера
         activityIndicator.startAnimating()
         
         let userName = userNameTextField.text
@@ -128,42 +131,38 @@ final class MyProfileViewController: UIViewController {
         setEditButtonIsNotActive()
         setTextFieldsIsNotActive()
         
-        if sender == saveButton {
+        ProfileService.shared.saveProfileData(
+            name: userName,
+            description: description,
+            imageData: profileImageView.image?.pngData()
+        ) { [weak self] response in
+            guard let self = self else { return }
             
-            ProfileService.shared.saveProfileData(
-                name: userName,
-                description: description,
-                imageData: profileImageView.image?.pngData()
-            ) { [weak self] response in
-                guard let self = self else { return }
-                
-                if response == nil {
-                    // Нужно для того, чтобы при нажатии на cancel
-                    // не происходило изменений, так как данные уже сохранены
-                    self.profile?.image = self.profileImageView.image?.pngData()
-                    // TODO: Имя скорее всего должно быть обязательным, по этому пока так
-                    if userName != "" {
-                        self.nameLabel.text = userName
-                    }
-                    self.descriptionLabel.text = description
-                    
-                    self.showResultAlert(isResultError: false)
-                } else {
-                    self.showResultAlert(
-                        isResultError: true,
-                        senderButton: sender
-                    )
+            if response == nil {
+                // Нужно для того, чтобы при нажатии на cancel
+                // не происходило изменений, так как данные уже сохранены
+                self.profile?.image = self.profileImageView.image?.pngData()
+                // TODO: ([20.03.2022]) Имя скорее всего должно быть обязательным, по этому пока так
+                if userName != "" {
+                    self.nameLabel.text = userName
                 }
+                self.descriptionLabel.text = description
                 
-                self.activityIndicator.stopAnimating()
+                self.showResultAlert(isResultError: false)
+            } else {
+                self.showResultAlert(
+                    isResultError: true,
+                    senderButton: sender
+                )
             }
-        } else {
-            // TODO: зачистить до конца
+            
+            self.activityIndicator.stopAnimating()
         }
     }
 }
 
 // MARK: - Private properties
+
 private extension MyProfileViewController {
     func setup() {
         loadProfile()
@@ -189,7 +188,7 @@ private extension MyProfileViewController {
                 self?.activityIndicator.stopAnimating()
             case .failure(let error):
                 printDebug("Что то пошло не так: \(error)")
-                // TODO: Нужен будет алерт о том, что данные не получены
+                // TODO: ([21.03.2022]) Нужен будет алерт о том, что данные не получены
             }
         }
     }
@@ -205,7 +204,8 @@ private extension MyProfileViewController {
         view.backgroundColor = .appColorLoadFor(.backgroundView)
     }
     
-    // MARK: Profile image settings
+    // MARK: - Profile image settings
+    
     func setupProfileImage() {
         if let imageData = profile?.image {
             profileImageView.image = UIImage(data: imageData)
@@ -231,7 +231,7 @@ private extension MyProfileViewController {
         noProfileImageLabel.isHidden = false
     }
     
-    // TODO: Сделать преобразование символов в большие
+    // TODO: ([20.03.2022]) Сделать преобразование символов в большие
     func setFirstCharacters(from fullName: String?) -> String? {
         if let fullName = fullName {
             let separateFullName = fullName.split(separator: " ")
@@ -239,11 +239,11 @@ private extension MyProfileViewController {
             var characters = ""
             
             if numberWords == 1 {
-                guard let firstSymbol = separateFullName.first?.first else { return "UN"}
+                guard let firstSymbol = separateFullName.first?.first else { return "UN" }
                 return String(firstSymbol)
             } else {
-                guard let firstSymbol = separateFullName.first?.first else { return "UN"}
-                guard let lastSymbol = separateFullName.last?.first else { return "UN"}
+                guard let firstSymbol = separateFullName.first?.first else { return "UN" }
+                guard let lastSymbol = separateFullName.last?.first else { return "UN" }
                 characters = "\(firstSymbol)\(lastSymbol)"
             }
             
@@ -253,7 +253,8 @@ private extension MyProfileViewController {
         }
     }
     
-    // MARK: Labels settings
+    // MARK: - Labels settings
+    
     func setupLabels() {
         titleLabel.textColor = .appColorLoadFor(.text)
         nameLabel.textColor = .appColorLoadFor(.text)
@@ -262,12 +263,15 @@ private extension MyProfileViewController {
         nameLabel.text = profile?.name
         descriptionLabel.text = profile?.description
         
-        // TODO: Вероятно костыль. Нужно для защиты от обнуления данных, при установке фотографии, так как иначе поля nil и при нажатии сохранить без изменения данных, данные удаляются
+        // TODO: ([20.03.2022]) Вероятно костыль. Нужно для защиты от обнуления данных
+        // При установке фотографии, так как иначе поля nil и при нажатии
+        // сохранить без изменения данных, данные удаляются
         userNameTextField.text = nameLabel.text
         descriptionTextField.text = descriptionLabel.text
     }
     
-    // MARK: Textfield settings
+    // MARK: - Textfield settings
+    
     func setupTextFields() {
         userNameTextField.delegate = self
         descriptionTextField.delegate = self
@@ -299,7 +303,7 @@ private extension MyProfileViewController {
         descriptionTextField.isEnabled = true
     }
     
-    // TODO: Если поле с именем должно будет быть обязательным, добавить сюда логику на проверку nil и не отображать кнопки сохранения
+    // TODO: ([19.03.2022]) Если поле с именем должно будет быть обязательным, добавить сюда логику на проверку nil и не отображать кнопки сохранения
     @objc func profileTextFieldDidChanged() {
         if userNameTextField.text != nameLabel.text
         || descriptionTextField.text != descriptionLabel.text {
@@ -309,7 +313,8 @@ private extension MyProfileViewController {
         }
     }
     
-    // MARK: Button settings
+    // - MARK: Button settings
+    
     func setupButtons() {
         editLogoButton.titleLabel?.font = .systemFont(ofSize: 16)
         
@@ -366,7 +371,8 @@ private extension MyProfileViewController {
         saveButton.setTitleColor(.systemBlue, for: .normal)
     }
     
-    // MARK: Alert Controllers
+    // - MARK: Alert Controllers
+    
     // Принимает значение по умолчанию в виде кнопки, для того
     // чтобы не передавать кнопку если результат работы клоужера был без ошибки
     func showResultAlert(isResultError: Bool, senderButton: UIButton = UIButton()) {
@@ -456,16 +462,20 @@ private extension MyProfileViewController {
 }
 
 // MARK: - Работа с изображениями
+
 extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
         profileImageView.image = info[.editedImage] as? UIImage
         
         if profileImageView != nil {
             noProfileImageLabel.isHidden = true
         }
         
-        // TODO: Отрабатывает с паузой. Надо подумать как можно улучшить
         dismiss(animated: true) { [weak self] in
+            // TODO: ([18.03.2022]) Отрабатывает с паузой. Надо подумать как можно улучшить
             guard let self = self else { return }
             
             self.showButtons(
@@ -482,7 +492,8 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
         }
     }
     
-    // MARK: Private methods
+    // MARK: - Private methods
+    
     private func chooseImagePicker(source: UIImagePickerController.SourceType) {
         if UIImagePickerController.isSourceTypeAvailable(source) {
             let imagePicker = UIImagePickerController()
@@ -507,7 +518,7 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
                     printDebug("Access granted")
                 }
             } else {
-                // TODO: Сделать алерт c перенаправлением в настройки приватности
+                // TODO: ([02.03.2022]) Сделать алерт c перенаправлением в настройки приватности
                 printDebug("User denied access")
             }
         }
@@ -531,14 +542,21 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
            
            printDebug("User has not yet made a selection")
        case .restricted:
-           // TODO: Можно вывести алерт о запрете доступа к галерее
+           // TODO: ([02.03.2022]) Можно вывести алерт о запрете доступа к галерее
            printDebug("User cannot access the library")
        case .denied:
-           // TODO: Сделать алерт c перенаправлением в настройки приватности
+           // TODO: ([02.03.2022]) Сделать алерт c перенаправлением в настройки приватности
            printDebug("User denied access")
        case .limited:
-           // Как я понял из документации, метод authorizationStatus не совместим с этим кейсом. Но совместимые методы не совместимы с таргетом версии iOS, так как они работают только с 14 iOS. Нужно почитать подробнее для себя, как работать со всем этим при использовании нового метода. Либо есть что-то специальное, либо нужно писать отдельный экран, где будут отображаться снимки, которые были одобрены пользователем, с возможностью добавлять новые.
-           // Нужно разобраться, возможно ли показывать алерт выбора доступа без selected photos... Или для более новых версий обязательно писать такую логику.
+           // Как я понял из документации, метод authorizationStatus не
+           // совместим с этим кейсом. Но совместимые методы не совместимы с
+           // таргетом версии iOS, так как они работают только с 14 iOS. Нужно
+           // почитать подробнее для себя, как работать со всем этим при
+           // использовании нового метода. Либо есть что-то специальное, либо
+           // нужно писать отдельный экран, где будут отображаться снимки,
+           // которые были одобрены пользователем, с возможностью добавлять новые.
+           // Нужно разобраться, возможно ли показывать алерт выбора доступа
+           // без selected photos... Или для более новых версий обязательно писать такую логику.
            printDebug("User has allowed access to some photos")
        @unknown default:
            printDebug("Oops \(#function)")
@@ -548,14 +566,17 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
 }
 
 // MARK: - Text Field Delegate
+
 extension MyProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        // TODO: Кривой костыль для маленького экрана, нужно подумать как это улучшить
-        if currentDevice == "iPod touch (7th generation)" { // Я знаю что с маленьким экраном есть еще другие телефоны, просто показал таким образом решение которое пришло мне в голову :)
+        // TODO: ([23.03.2022]) Кривой костыль для маленького экрана, нужно подумать как это улучшить
+        // Я знаю что с маленьким экраном есть еще другие телефоны,
+        // просто показал таким образом решение которое пришло мне в голову :)
+        if currentDevice == "iPod touch (7th generation)" {
             topConstraintProfileImage.constant = -130
             
             if profileImageView.image == nil {
@@ -565,14 +586,14 @@ extension MyProfileViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        // TODO: Кривой костыль для маленького экрана, нужно подумать как это улучшить
-        if currentDevice == "iPod touch (7th generation)" { // Я знаю что с маленьким экраном есть еще другие телефоны, просто показал таким образом решение которое пришло мне в голову :)
+        // TODO: ([23.03.2022]) Кривой костыль для маленького экрана, нужно подумать как это улучшить
+        // Я знаю что с маленьким экраном есть еще другие телефоны, просто показал таким образом решение которое пришло мне в голову :)
+        if currentDevice == "iPod touch (7th generation)" {
             topConstraintProfileImage.constant = 7
             
             if profileImageView.image == nil {
                 noProfileImageLabel.isHidden = false
             }
         }
-        
     }
 }
