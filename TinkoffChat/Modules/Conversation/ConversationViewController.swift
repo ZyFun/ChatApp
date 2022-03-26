@@ -10,15 +10,19 @@ import UIKit
 final class ConversationViewController: UIViewController {
     
     // MARK: - Public properties
+    
     var conversationNameTitle: String?
     
     // MARK: - Private properties
+    
     private let messages = MessageMock.getMessages()
     
     // MARK: - IB Outlets
+    
     @IBOutlet weak var conversationTableView: UITableView!
     
     // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +31,7 @@ final class ConversationViewController: UIViewController {
 }
 
 // MARK: - Private methods
+
 private extension ConversationViewController {
     func setup() {
         setupNavigationBar()
@@ -74,6 +79,7 @@ private extension ConversationViewController {
 }
 
 // MARK: - Table view data source
+
 extension ConversationViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView,
