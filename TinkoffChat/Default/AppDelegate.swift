@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 // MARK: - Initial application settings
+
 private extension AppDelegate {
     func createAndShowStartVC() {
         let ChannelListVC = ChannelListViewController(
@@ -36,7 +37,7 @@ private extension AppDelegate {
             rootViewController: ChannelListVC
         )
         
-        navigationController.navigationBar.scrollEdgeAppearance =  navigationController.navigationBar.standardAppearance
+        navigationController.navigationBar.scrollEdgeAppearance = navigationController.navigationBar.standardAppearance
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigationController
@@ -50,4 +51,3 @@ private extension AppDelegate {
         }
     }
 }
-
