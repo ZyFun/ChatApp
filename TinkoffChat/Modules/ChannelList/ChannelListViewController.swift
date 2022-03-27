@@ -19,7 +19,12 @@ final class ChannelListViewController: UITableViewController {
     
     // MARK: - Private properties
     
-    private let channels = ChannelMock.getChannels()
+    private var channels: [Channel] = []
+    
+//    private lazy var referenceTest: CollectionReference = {
+//        guard let channelID = channel?.identifier else { fatalError() }
+//        return reference.document(channelID).collection("message")
+//    }()
     
     // MARK: - Life Cycle
     
@@ -27,6 +32,7 @@ final class ChannelListViewController: UITableViewController {
         super.viewDidLoad()
         
         setup()
+        fetchChannels()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,14 +63,22 @@ final class ChannelListViewController: UITableViewController {
         ) as? ChannelCell else { return UITableViewCell() }
         
         let channel = channels[indexPath.row]
-
+        
         cell.configure(
             name: channel.name,
-            message: channel.message,
-            date: channel.date,
-            online: channel.online,
-            hasUnreadMessages: channel.hasUnreadMessages
+            message: channel.lastMessage,
+            date: channel.lastActivity,
+            online: false,
+            hasUnreadMessages: false
         )
+
+//        cell.configure(
+//            name: channel.name,
+//            message: channel.message,
+//            date: channel.date,
+//            online: channel.online,
+//            hasUnreadMessages: channel.hasUnreadMessages
+//        )
 
         return cell
     }
@@ -187,7 +201,7 @@ private extension ChannelListViewController {
             action: #selector(profileButtonPressed)
         )
         
-        profileButton.text = "UN" // TODO: ([09.03.2022]) Сделать выбор букв из имени и фамилии
+        profileButton.text = "UN" // TODO: ([27.03.2022]) Сделать выбор букв из названия канала
         profileButton.textAlignment = .center
         profileButton.backgroundColor = .appColorLoadFor(.profileImageView)
         profileButton.textColor = .appColorLoadFor(.textImageView)
@@ -226,7 +240,30 @@ private extension ChannelListViewController {
             forCellReuseIdentifier: String(describing: ChannelCell.self)
         )
     }
+    
+    // MARK: - Firestore request
+    
+    func fetchChannels() {
+        FirestoreService.shared.fetchChannels { result in
+            switch result {
+            case .success(let channels):
+                self.channels = channels
+                self.tableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func addNewChannel(name: String) {
+        FirestoreService.shared.addNewChannel(name: name)
+        
+        // Обновляю список каналов
+        fetchChannels()
+    }
 }
+
+// MARK: - Theme delegate
 
 extension ChannelListViewController: ThemeDelegate {
     func updateTheme(
