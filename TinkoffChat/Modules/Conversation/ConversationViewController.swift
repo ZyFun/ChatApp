@@ -122,7 +122,6 @@ extension ConversationViewController: UITableViewDataSource {
         
         let message = messages[indexPath.row]
         
-        // TODO: ([27.03.2022)] Это всё можно сделать одним методом, нужно присвоить идентификатор в зависимости от того, какая нужна ячейка
         if message.senderId != mySenderId {
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: MessageCell.Identifier.incoming.rawValue,
@@ -145,7 +144,7 @@ extension ConversationViewController: UITableViewDataSource {
 
             cell.textMessage = message.content
             cell.configure(
-                senderName: message.senderName,
+                senderName: nil,
                 textMessage: message.content,
                 dateCreated: message.created
             )

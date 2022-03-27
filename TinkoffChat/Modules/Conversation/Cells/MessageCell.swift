@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MessageCellConfiguration: AnyObject {
-    var senderName: String { get set }
+    var senderName: String? { get set }
     var textMessage: String? { get set }
     var dateCreated: Date { get set }
 }
@@ -37,9 +37,9 @@ final class MessageCell: UITableViewCell {
 }
 
 extension MessageCell: MessageCellConfiguration {
-    var senderName: String {
+    var senderName: String? {
         get {
-            ""
+            nil
         }
         set {
             senderNameLabel.text = newValue
@@ -98,7 +98,7 @@ private extension MessageCell {
 
 extension MessageCellConfiguration {
     func configure(
-        senderName: String,
+        senderName: String?,
         textMessage: String,
         dateCreated: Date
     ) {
