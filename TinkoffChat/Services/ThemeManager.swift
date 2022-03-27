@@ -17,7 +17,9 @@ enum AssetsColor: String {
     case separator
     case leftMessage
     case rightMessage
+    case senderName
     case text
+    case dateCreated
     case textImageView
     case online
     case headerBackground

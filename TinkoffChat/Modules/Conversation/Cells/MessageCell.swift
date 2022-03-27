@@ -81,6 +81,8 @@ private extension MessageCell {
         changePrototypeColorCells()
         backgroundColor = .clear
         textMessageLabel.textColor = .appColorLoadFor(.text)
+        senderNameLabel.textColor = .appColorLoadFor(.senderName)
+        dateCreatedLabel.textColor = .appColorLoadFor(.dateCreated)
     }
     
     func changePrototypeColorCells() {
