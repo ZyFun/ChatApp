@@ -8,7 +8,9 @@
 import UIKit
 
 protocol MessageCellConfiguration: AnyObject {
+    var senderName: String { get set }
     var textMessage: String? { get set }
+    var dateCreated: Date { get set }
 }
 
 final class MessageCell: UITableViewCell {
@@ -22,8 +24,10 @@ final class MessageCell: UITableViewCell {
         case outgoing = "OutgoingMessageCell"
     }
     
-    @IBOutlet weak var textMessageLabel: UILabel!
     @IBOutlet weak var messageView: UIView!
+    @IBOutlet weak var senderNameLabel: UILabel!
+    @IBOutlet weak var textMessageLabel: UILabel!
+    @IBOutlet weak var dateCreatedLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,6 +37,15 @@ final class MessageCell: UITableViewCell {
 }
 
 extension MessageCell: MessageCellConfiguration {
+    var senderName: String {
+        get {
+            ""
+        }
+        set {
+            senderNameLabel.text = newValue
+        }
+    }
+    
     var textMessage: String? {
         get {
             nil
@@ -41,12 +54,26 @@ extension MessageCell: MessageCellConfiguration {
             textMessageLabel.text = newValue
         }
     }
+    
+    var dateCreated: Date {
+        get {
+            Date()
+        }
+        set {
+            dateCreatedLabel.text = Date().toString(date: newValue)
+        }
+    }
 }
 
 private extension MessageCell {
     func setupUI() {
         selectionStyle = .none
         messageView.layer.cornerRadius = 8
+        
+        senderNameLabel.font = .boldSystemFont(ofSize: 16)
+        
+        dateCreatedLabel.font = .systemFont(ofSize: 11)
+        
         setupTheme()
     }
     
@@ -63,5 +90,18 @@ private extension MessageCell {
             messageView.backgroundColor = .appColorLoadFor(.rightMessage)
         }
     }
-    
+}
+
+// MARK: - Protocol extension
+
+extension MessageCellConfiguration {
+    func configure(
+        senderName: String,
+        textMessage: String,
+        dateCreated: Date
+    ) {
+        self.senderName = senderName
+        self.textMessage = textMessage
+        self.dateCreated = dateCreated
+    }
 }

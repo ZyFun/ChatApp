@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,18 +11,30 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="outgoingMessage" rowHeight="105" id="KGk-i7-Jjw" customClass="MessageCell" customModule="TinkoffChat" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="105"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="outgoingMessage" rowHeight="178" id="HIM-1T-Gb8" customClass="MessageCell" customModule="TinkoffChat" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="178"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="105"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HIM-1T-Gb8" id="Oeh-vw-OGi">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="178"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MY7-XZ-r9T">
-                        <rect key="frame" x="132" y="11" width="164" height="83"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Vv-eH-PNh">
+                        <rect key="frame" x="132" y="22" width="164" height="145"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Outgoing message Outgoing message Outgoing message Outgoing message Outgoing message Outgoing message " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kmp-7C-Gds">
-                                <rect key="frame" x="8" y="8" width="148" height="67"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Outgoing message Outgoing message Outgoing message Outgoing message Outgoing message Outgoing message " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Bg-BM-g75">
+                                <rect key="frame" x="8" y="31.5" width="148" height="79.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserName" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oue-qM-06o">
+                                <rect key="frame" x="8" y="8" width="148" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ppE-Ol-XhI">
+                                <rect key="frame" x="120" y="118" width="36" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -30,26 +42,33 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGray4Color"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="kmp-7C-Gds" secondAttribute="trailing" constant="8" id="KA4-8v-jYc"/>
-                            <constraint firstItem="kmp-7C-Gds" firstAttribute="top" secondItem="MY7-XZ-r9T" secondAttribute="top" constant="8" id="KEr-Qm-5s4"/>
-                            <constraint firstItem="kmp-7C-Gds" firstAttribute="leading" secondItem="MY7-XZ-r9T" secondAttribute="leadingMargin" id="fG9-Yo-LsB"/>
-                            <constraint firstItem="kmp-7C-Gds" firstAttribute="bottom" secondItem="MY7-XZ-r9T" secondAttribute="bottomMargin" id="jQv-TA-RWO"/>
+                            <constraint firstAttribute="trailing" secondItem="ppE-Ol-XhI" secondAttribute="trailing" constant="8" id="0i8-2v-x1M"/>
+                            <constraint firstItem="2Bg-BM-g75" firstAttribute="top" secondItem="Oue-qM-06o" secondAttribute="bottom" constant="3" id="3wQ-uS-DnC"/>
+                            <constraint firstItem="Oue-qM-06o" firstAttribute="leading" secondItem="4Vv-eH-PNh" secondAttribute="leading" constant="8" id="Cg2-wD-4Hn"/>
+                            <constraint firstAttribute="trailing" secondItem="Oue-qM-06o" secondAttribute="trailing" constant="8" id="Eu1-yu-AHZ"/>
+                            <constraint firstItem="ppE-Ol-XhI" firstAttribute="top" secondItem="2Bg-BM-g75" secondAttribute="bottom" constant="7" id="G5T-Md-5vB"/>
+                            <constraint firstItem="Oue-qM-06o" firstAttribute="top" secondItem="4Vv-eH-PNh" secondAttribute="top" constant="8" id="cBr-BV-Ucm"/>
+                            <constraint firstAttribute="trailing" secondItem="2Bg-BM-g75" secondAttribute="trailing" constant="8" id="iuU-8x-gdm"/>
+                            <constraint firstAttribute="bottom" secondItem="ppE-Ol-XhI" secondAttribute="bottom" constant="6" id="lJ2-Ts-GTU"/>
+                            <constraint firstItem="2Bg-BM-g75" firstAttribute="leading" secondItem="4Vv-eH-PNh" secondAttribute="leadingMargin" id="y6T-3O-xTq"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="MY7-XZ-r9T" secondAttribute="trailing" constant="8" id="N8J-XM-nAl"/>
-                    <constraint firstItem="MY7-XZ-r9T" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="gA0-RN-NTN"/>
-                    <constraint firstItem="MY7-XZ-r9T" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="jWc-LU-ZsA"/>
-                    <constraint firstItem="MY7-XZ-r9T" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="74" id="sOO-r1-DOI"/>
+                    <constraint firstItem="4Vv-eH-PNh" firstAttribute="top" secondItem="Oeh-vw-OGi" secondAttribute="topMargin" constant="11" id="72x-6i-IPx"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="4Vv-eH-PNh" secondAttribute="bottom" id="Nb7-QP-KHS"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="4Vv-eH-PNh" secondAttribute="trailing" constant="8" id="OQS-3a-Z1Q"/>
+                    <constraint firstItem="4Vv-eH-PNh" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Oeh-vw-OGi" secondAttribute="leadingMargin" constant="74" id="XFy-zN-TY6"/>
                 </constraints>
             </tableViewCellContentView>
-            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <viewLayoutGuide key="safeArea" id="oe7-kL-faM"/>
             <connections>
-                <outlet property="messageView" destination="MY7-XZ-r9T" id="sIH-JM-JbE"/>
-                <outlet property="textMessageLabel" destination="kmp-7C-Gds" id="gIm-0L-Bp2"/>
+                <outlet property="dateCreatedLabel" destination="ppE-Ol-XhI" id="7PE-CV-bqU"/>
+                <outlet property="messageView" destination="4Vv-eH-PNh" id="65m-sD-vbY"/>
+                <outlet property="senderNameLabel" destination="Oue-qM-06o" id="X6H-za-fx3"/>
+                <outlet property="textMessageLabel" destination="2Bg-BM-g75" id="4fn-gF-Thh"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="159.04017857142856"/>
+            <point key="canvasLocation" x="305.79710144927537" y="16.741071428571427"/>
         </tableViewCell>
     </objects>
     <resources>

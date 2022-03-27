@@ -6,5 +6,5 @@
 //
 
 enum NetworkError: String, Error {
-    case nameApiError = "Ошибка получения данных с сервера"
+    case apiError = "Ошибка получения данных с сервера"
 }

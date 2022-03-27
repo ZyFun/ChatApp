@@ -21,11 +21,6 @@ final class ChannelListViewController: UITableViewController {
     
     private var channels: [Channel] = []
     
-//    private lazy var referenceTest: CollectionReference = {
-//        guard let channelID = channel?.identifier else { fatalError() }
-//        return reference.document(channelID).collection("message")
-//    }()
-    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -72,14 +67,6 @@ final class ChannelListViewController: UITableViewController {
             hasUnreadMessages: false
         )
 
-//        cell.configure(
-//            name: channel.name,
-//            message: channel.message,
-//            date: channel.date,
-//            online: channel.online,
-//            hasUnreadMessages: channel.hasUnreadMessages
-//        )
-
         return cell
     }
     
@@ -103,12 +90,19 @@ final class ChannelListViewController: UITableViewController {
         
         let channel = channels[indexPath.row]
         
-        conversationVC.conversationNameTitle = channel.name
+        conversationVC.channelID = channel.identifier
+        conversationVC.channelTitle = channel.name
         
         navigationController?.pushViewController(
             conversationVC,
             animated: true
         )
+        
+//        FirestoreService.shared.sendMessage(
+//            channelID: channel.identifier,
+//            message: "🖖🏻",
+//            senderID: "ZyFun"
+//        )
     }
 }
 
@@ -244,11 +238,11 @@ private extension ChannelListViewController {
     // MARK: - Firestore request
     
     func fetchChannels() {
-        FirestoreService.shared.fetchChannels { result in
+        FirestoreService.shared.fetchChannels { [weak self] result in
             switch result {
             case .success(let channels):
-                self.channels = channels
-                self.tableView.reloadData()
+                self?.channels = channels
+                self?.tableView.reloadData()
             case .failure(let error):
                 print(error)
             }

@@ -11,11 +11,10 @@ final class ConversationViewController: UIViewController {
     
     // MARK: - Public properties
     
-    var conversationNameTitle: String?
-    
-    // MARK: - Private properties
-    
-    private let messages = MessageMock.getMessages()
+    var channelTitle: String?
+    var channelID: String = ""
+    var messages: [Message] = []
+    let mySenderId: String = "ZyFun"
     
     // MARK: - IB Outlets
     
@@ -27,6 +26,7 @@ final class ConversationViewController: UIViewController {
         super.viewDidLoad()
         
         setup()
+        loadMessages()
     }
 }
 
@@ -41,7 +41,7 @@ private extension ConversationViewController {
     
     func setupNavigationBar() {
         navigationItem.largeTitleDisplayMode = .never
-        title = conversationNameTitle
+        title = channelTitle
     }
     
     func setupTableView() {
@@ -76,6 +76,32 @@ private extension ConversationViewController {
     func setupTheme() {
         conversationTableView.backgroundColor = .appColorLoadFor(.backgroundView)
     }
+    
+    func loadMessages() {
+        FirestoreService.shared.fetchMessages(
+            channelID: channelID
+        ) { [weak self] result in
+            
+            switch result {
+            case .success(let messages):
+                self?.messages = messages
+                // TODO: ([27.03.2022]) Посмотреть где оптимальнее делать сортировку
+                self?.messages.sort(by: { $0.created > $1.created })
+                self?.conversationTableView.reloadData()
+            case .failure(let error):
+                printDebug(error.localizedDescription)
+            }
+        }
+    }
+    
+    // TODO: ([27.03.2022]) доделать метод отправки сообщения
+    func sendMessage(channelID: String, senderID: String, message: String) {
+        FirestoreService.shared.sendMessage(
+            channelID: channelID,
+            message: senderID,
+            senderID: message
+        )
+    }
 }
 
 // MARK: - Table view data source
@@ -96,13 +122,19 @@ extension ConversationViewController: UITableViewDataSource {
         
         let message = messages[indexPath.row]
         
-        if message.isIncoming {
+        // TODO: ([27.03.2022)] Это всё можно сделать одним методом, нужно присвоить идентификатор в зависимости от того, какая нужна ячейка
+        if message.senderId != mySenderId {
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: MessageCell.Identifier.incoming.rawValue,
                 for: indexPath
             ) as? MessageCell else { return UITableViewCell() }
-            
-            cell.textMessage = message.text
+
+            cell.textMessage = message.content
+            cell.configure(
+                senderName: message.senderName,
+                textMessage: message.content,
+                dateCreated: message.created
+            )
             
             return cell
         } else {
@@ -110,8 +142,13 @@ extension ConversationViewController: UITableViewDataSource {
                 withIdentifier: MessageCell.Identifier.outgoing.rawValue,
                 for: indexPath
             ) as? MessageCell else { return UITableViewCell() }
-            
-            cell.textMessage = message.text
+
+            cell.textMessage = message.content
+            cell.configure(
+                senderName: message.senderName,
+                textMessage: message.content,
+                dateCreated: message.created
+            )
             
             return cell
         }
