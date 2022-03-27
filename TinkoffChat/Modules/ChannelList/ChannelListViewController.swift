@@ -83,18 +83,18 @@ final class ChannelListViewController: UITableViewController {
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        let conversationVC = ConversationViewController(
-            nibName: String(describing: ConversationViewController.self),
+        let channelVC = ChannelViewController(
+            nibName: String(describing: ChannelViewController.self),
             bundle: nil
         )
         
         let channel = channels[indexPath.row]
         
-        conversationVC.channelID = channel.identifier
-        conversationVC.channelTitle = channel.name
+        channelVC.channelID = channel.identifier
+        channelVC.channelTitle = channel.name
         
         navigationController?.pushViewController(
-            conversationVC,
+            channelVC,
             animated: true
         )
         

@@ -1,5 +1,5 @@
 //
-//  ConversationViewController.swift
+//  ChannelViewController.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 07.03.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ConversationViewController: UIViewController {
+final class ChannelViewController: UIViewController {
     
     // MARK: - Public properties
     
@@ -18,7 +18,7 @@ final class ConversationViewController: UIViewController {
     
     // MARK: - IB Outlets
     
-    @IBOutlet weak var conversationTableView: UITableView!
+    @IBOutlet weak var channelTableView: UITableView!
     
     // MARK: - Life Cycle
     
@@ -32,7 +32,7 @@ final class ConversationViewController: UIViewController {
 
 // MARK: - Private methods
 
-private extension ConversationViewController {
+private extension ChannelViewController {
     func setup() {
         setupNavigationBar()
         setupTableView()
@@ -45,18 +45,18 @@ private extension ConversationViewController {
     }
     
     func setupTableView() {
-        conversationTableView.dataSource = self
+        channelTableView.dataSource = self
         
-        conversationTableView.separatorStyle = .none
+        channelTableView.separatorStyle = .none
         
         setupXibs()
     }
     
     func scrollCellsToBottom() {
         if !messages.isEmpty {
-            let lastRow = conversationTableView.numberOfRows(inSection: 0) - 1
+            let lastRow = channelTableView.numberOfRows(inSection: 0) - 1
             let indexPath = IndexPath(row: lastRow, section: 0)
-            conversationTableView.scrollToRow(
+            channelTableView.scrollToRow(
                 at: indexPath,
                 at: .top,
                 animated: false
@@ -66,7 +66,7 @@ private extension ConversationViewController {
     
     /// Инициализация Xibs
     func setupXibs() {
-        conversationTableView.register(
+        channelTableView.register(
             UINib(
                 nibName: MessageCell.NibName.incoming.rawValue,
                 bundle: nil
@@ -76,7 +76,7 @@ private extension ConversationViewController {
             )
         )
         
-        conversationTableView.register(
+        channelTableView.register(
             UINib(
                 nibName: MessageCell.NibName.outgoing.rawValue,
                 bundle: nil
@@ -86,7 +86,7 @@ private extension ConversationViewController {
     }
     
     func setupTheme() {
-        conversationTableView.backgroundColor = .appColorLoadFor(.backgroundView)
+        channelTableView.backgroundColor = .appColorLoadFor(.backgroundView)
     }
     
     // MARK: - Firestore request
@@ -102,7 +102,7 @@ private extension ConversationViewController {
                 self?.messages = messages
                 // TODO: ([27.03.2022]) Посмотреть где оптимальнее делать сортировку
                 self?.messages.sort(by: { $0.created < $1.created })
-                self?.conversationTableView.reloadData()
+                self?.channelTableView.reloadData()
                 self?.scrollCellsToBottom()
             case .failure(let error):
                 printDebug(error.localizedDescription)
@@ -122,7 +122,7 @@ private extension ConversationViewController {
 
 // MARK: - Table view data source
 
-extension ConversationViewController: UITableViewDataSource {
+extension ChannelViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
