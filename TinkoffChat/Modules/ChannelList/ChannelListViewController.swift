@@ -237,6 +237,7 @@ private extension ChannelListViewController {
     
     // MARK: - Firestore request
     
+    // TODO: ([27.03.2022]) Добавить активити индикатор, пока грузятся каналы.
     func fetchChannels() {
         FirestoreService.shared.fetchChannels { [weak self] result in
             switch result {

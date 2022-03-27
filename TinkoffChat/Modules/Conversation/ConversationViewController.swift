@@ -52,6 +52,18 @@ private extension ConversationViewController {
         setupXibs()
     }
     
+    func scrollCellsToBottom() {
+        if !messages.isEmpty {
+            let lastRow = conversationTableView.numberOfRows(inSection: 0) - 1
+            let indexPath = IndexPath(row: lastRow, section: 0)
+            conversationTableView.scrollToRow(
+                at: indexPath,
+                at: .top,
+                animated: false
+            )
+        }
+    }
+    
     /// Инициализация Xibs
     func setupXibs() {
         conversationTableView.register(
@@ -77,6 +89,9 @@ private extension ConversationViewController {
         conversationTableView.backgroundColor = .appColorLoadFor(.backgroundView)
     }
     
+    // MARK: - Firestore request
+    
+    // TODO: ([27.03.2022]) Добавить активити индикатор, пока грузятся сообщения.
     func loadMessages() {
         FirestoreService.shared.fetchMessages(
             channelID: channelID
@@ -86,8 +101,9 @@ private extension ConversationViewController {
             case .success(let messages):
                 self?.messages = messages
                 // TODO: ([27.03.2022]) Посмотреть где оптимальнее делать сортировку
-                self?.messages.sort(by: { $0.created > $1.created })
+                self?.messages.sort(by: { $0.created < $1.created })
                 self?.conversationTableView.reloadData()
+                self?.scrollCellsToBottom()
             case .failure(let error):
                 printDebug(error.localizedDescription)
             }
