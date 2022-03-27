@@ -33,8 +33,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1tJ-z0-YfO">
-                                <rect key="frame" x="119.5" y="91" width="36" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1tJ-z0-YfO">
+                                <rect key="frame" x="8" y="91" width="147.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -48,6 +48,7 @@
                             <constraint firstItem="pJq-GB-Uoz" firstAttribute="top" secondItem="raF-6J-GlO" secondAttribute="top" constant="8" id="Vcs-Oj-hiu"/>
                             <constraint firstItem="VGY-w8-LzU" firstAttribute="leading" secondItem="raF-6J-GlO" secondAttribute="leadingMargin" id="XjU-fV-48D"/>
                             <constraint firstItem="1tJ-z0-YfO" firstAttribute="top" secondItem="VGY-w8-LzU" secondAttribute="bottom" constant="7" id="app-HJ-fn8"/>
+                            <constraint firstItem="1tJ-z0-YfO" firstAttribute="leading" secondItem="raF-6J-GlO" secondAttribute="leading" constant="8" id="gBW-j9-bf2"/>
                             <constraint firstItem="VGY-w8-LzU" firstAttribute="top" secondItem="pJq-GB-Uoz" secondAttribute="bottom" constant="3" id="viH-tW-mRa"/>
                             <constraint firstAttribute="trailing" secondItem="VGY-w8-LzU" secondAttribute="trailing" constant="8" id="vok-mm-0Ke"/>
                             <constraint firstAttribute="trailing" secondItem="1tJ-z0-YfO" secondAttribute="trailing" constant="8" id="yPi-i4-GVL"/>

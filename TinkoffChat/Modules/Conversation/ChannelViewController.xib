@@ -12,6 +12,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChannelViewController" customModule="TinkoffChat" customModuleProvider="target">
             <connections>
                 <outlet property="channelTableView" destination="dqO-XP-PQD" id="isZ-v8-myE"/>
+                <outlet property="messageTextView" destination="4Pe-Ei-y6V" id="CAK-Z8-tcz"/>
+                <outlet property="messageToolbarView" destination="oDo-34-6TD" id="o0e-v7-O7F"/>
+                <outlet property="messageView" destination="fea-Q4-8L2" id="zwd-sf-HZi"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,24 +24,90 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="dqO-XP-PQD">
-                    <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="772"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oDo-34-6TD">
+                    <rect key="frame" x="0.0" y="816" width="414" height="80"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fea-Q4-8L2">
+                            <rect key="frame" x="50.5" y="17" width="344.5" height="32"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="155-zz-ifI">
+                                    <rect key="frame" x="310.5" y="7.5" width="17" height="17"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="17" id="YzH-ik-G0d"/>
+                                        <constraint firstAttribute="height" constant="17" id="xYX-hp-kZL"/>
+                                    </constraints>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" image="SendIcon"/>
+                                    <connections>
+                                        <action selector="sendMessageButtonPressed" destination="-1" eventType="touchUpInside" id="n0R-Vl-9KY"/>
+                                    </connections>
+                                </button>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4Pe-Ei-y6V">
+                                    <rect key="frame" x="45" y="0.0" width="255.5" height="32"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <color key="textColor" systemColor="labelColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="155-zz-ifI" secondAttribute="trailing" constant="17" id="5VU-lO-jmB"/>
+                                <constraint firstItem="4Pe-Ei-y6V" firstAttribute="top" secondItem="fea-Q4-8L2" secondAttribute="top" id="7yZ-cJ-akA"/>
+                                <constraint firstAttribute="height" constant="32" id="O1c-VK-CrZ"/>
+                                <constraint firstItem="155-zz-ifI" firstAttribute="leading" secondItem="4Pe-Ei-y6V" secondAttribute="trailing" constant="10" id="lkx-bE-AHq"/>
+                                <constraint firstAttribute="bottom" secondItem="4Pe-Ei-y6V" secondAttribute="bottom" id="s7l-wN-duO"/>
+                                <constraint firstItem="4Pe-Ei-y6V" firstAttribute="leading" secondItem="fea-Q4-8L2" secondAttribute="leading" constant="45" id="uhc-s5-xTm"/>
+                                <constraint firstItem="155-zz-ifI" firstAttribute="centerY" secondItem="fea-Q4-8L2" secondAttribute="centerY" id="vHe-NU-VDp"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ze5-Yk-oQI">
+                            <rect key="frame" x="14" y="22" width="22.5" height="22"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" image="plus" catalog="system">
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemGray3Color"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="fea-Q4-8L2" secondAttribute="trailing" constant="19" id="GOt-Ac-hx3"/>
+                        <constraint firstItem="fea-Q4-8L2" firstAttribute="leading" secondItem="ze5-Yk-oQI" secondAttribute="trailing" constant="14" id="Te7-nK-Fd1"/>
+                        <constraint firstAttribute="height" constant="80" id="hoP-if-mOS"/>
+                        <constraint firstItem="ze5-Yk-oQI" firstAttribute="leading" secondItem="oDo-34-6TD" secondAttribute="leading" constant="14" id="iIj-OT-6vB"/>
+                        <constraint firstItem="ze5-Yk-oQI" firstAttribute="centerY" secondItem="fea-Q4-8L2" secondAttribute="centerY" id="pMs-lt-a55"/>
+                        <constraint firstItem="fea-Q4-8L2" firstAttribute="top" secondItem="oDo-34-6TD" secondAttribute="top" constant="17" id="rUf-Gh-Ixe"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="oDo-34-6TD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="1PB-2G-wOM"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dqO-XP-PQD" secondAttribute="trailing" id="2Ol-d4-PS4"/>
                 <constraint firstItem="dqO-XP-PQD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="FKv-Yz-vyG"/>
-                <constraint firstAttribute="bottom" secondItem="dqO-XP-PQD" secondAttribute="bottom" id="SUC-uB-axU"/>
+                <constraint firstItem="oDo-34-6TD" firstAttribute="top" secondItem="dqO-XP-PQD" secondAttribute="bottom" id="awv-AU-N5G"/>
                 <constraint firstItem="dqO-XP-PQD" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="ekx-H3-djZ"/>
+                <constraint firstAttribute="bottom" secondItem="oDo-34-6TD" secondAttribute="bottom" id="h6q-WY-exP"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="oDo-34-6TD" secondAttribute="trailing" id="mSR-a7-GX3"/>
             </constraints>
-            <point key="canvasLocation" x="137.68115942028987" y="138.61607142857142"/>
+            <point key="canvasLocation" x="136.23188405797103" y="137.94642857142856"/>
         </view>
     </objects>
     <resources>
+        <image name="SendIcon" width="19" height="19"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

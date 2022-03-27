@@ -18,7 +18,10 @@ final class ChannelViewController: UIViewController {
     
     // MARK: - IB Outlets
     
+    @IBOutlet weak var messageToolbarView: UIView!
     @IBOutlet weak var channelTableView: UITableView!
+    @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var messageView: UIView!
     
     // MARK: - Life Cycle
     
@@ -28,6 +31,15 @@ final class ChannelViewController: UIViewController {
         setup()
         loadMessages()
     }
+    
+    @IBAction func sendMessageButtonPressed() {
+        sendMessage(
+            channelID: channelID,
+            senderID: mySenderId,
+            message: messageTextView.text
+        )
+    }
+    
 }
 
 // MARK: - Private methods
@@ -37,6 +49,15 @@ private extension ChannelViewController {
         setupNavigationBar()
         setupTableView()
         setupTheme()
+        
+        // TODO: ([28.02.2022]) вынести настройку в отдельный метод и добавить цвета для светлой и темной темы
+        messageToolbarView.backgroundColor = #colorLiteral(red: 0.9647058845, green: 0.9647058845, blue: 0.9647058845, alpha: 1)
+        messageToolbarView.layer.borderWidth = 0.5
+        messageToolbarView.layer.borderColor = #colorLiteral(red: 0.6251094341, green: 0.6256788373, blue: 0.6430239081, alpha: 1)
+        
+        messageView.layer.cornerRadius = 16
+        messageView.layer.borderWidth = 0.5
+        messageView.layer.borderColor = #colorLiteral(red: 0.6251094341, green: 0.6256788373, blue: 0.6430239081, alpha: 1)
     }
     
     func setupNavigationBar() {
@@ -58,7 +79,7 @@ private extension ChannelViewController {
             let indexPath = IndexPath(row: lastRow, section: 0)
             channelTableView.scrollToRow(
                 at: indexPath,
-                at: .top,
+                at: .bottom,
                 animated: false
             )
         }
@@ -110,13 +131,14 @@ private extension ChannelViewController {
         }
     }
     
-    // TODO: ([27.03.2022]) доделать метод отправки сообщения
     func sendMessage(channelID: String, senderID: String, message: String) {
         FirestoreService.shared.sendMessage(
             channelID: channelID,
-            message: senderID,
-            senderID: message
+            message: message,
+            senderID: senderID
         )
+        
+        messageTextView.text = ""
     }
 }
 
