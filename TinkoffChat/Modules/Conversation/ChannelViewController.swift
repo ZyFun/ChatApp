@@ -14,7 +14,7 @@ final class ChannelViewController: UIViewController {
     var channelTitle: String?
     var channelID: String = ""
     var messages: [Message] = []
-    let mySenderId: String = "ZyFun"
+    var mySenderId: String?
     
     // MARK: - IB Outlets
     
@@ -33,13 +33,16 @@ final class ChannelViewController: UIViewController {
     }
     
     @IBAction func sendMessageButtonPressed() {
-        sendMessage(
-            channelID: channelID,
-            senderID: mySenderId,
-            message: messageTextView.text
-        )
+        if let mySenderId = mySenderId {
+            sendMessage(
+                channelID: channelID,
+                senderID: mySenderId,
+                message: messageTextView.text
+            )
+        } else {
+            printDebug("ID Профиля не получено")
+        }
     }
-    
 }
 
 // MARK: - Private methods

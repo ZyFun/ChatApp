@@ -16,6 +16,9 @@ protocol ThemeDelegate: AnyObject {
 }
 
 final class ChannelListViewController: UITableViewController {
+    // MARK: - Public properties
+    
+    var mySenderID: String?
     
     // MARK: - Private properties
     
@@ -92,17 +95,12 @@ final class ChannelListViewController: UITableViewController {
         
         channelVC.channelID = channel.identifier
         channelVC.channelTitle = channel.name
+        channelVC.mySenderId = mySenderID
         
         navigationController?.pushViewController(
             channelVC,
             animated: true
         )
-        
-//        FirestoreService.shared.sendMessage(
-//            channelID: channel.identifier,
-//            message: "🖖🏻",
-//            senderID: "ZyFun"
-//        )
     }
 }
 

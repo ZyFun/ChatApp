@@ -112,7 +112,7 @@ final class FirestoreService {
             "content": message,
             "created": Timestamp(date: Date()),
             "senderId": senderID,
-            "senderName": "Дмитрий Данилин"
+            "senderName": "Дмитрий Данилин" // TODO: ([27.03.2022]) После всех доработок имя будет браться из профиля
         ]
         
         DispatchQueue.global().async {
