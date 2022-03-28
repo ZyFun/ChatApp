@@ -115,8 +115,7 @@ final class MyProfileViewController: UIViewController {
             saveButton
         )
     }
-    
-    @IBAction func saveButtonPressed(_ sender: UIButton) { // TODO: ([26.03.2022]) Заменить на кнопку без сендера
+    @IBAction func saveButtonPressed() {
         activityIndicator.startAnimating()
         
         let userName = userNameTextField.text
@@ -149,10 +148,7 @@ final class MyProfileViewController: UIViewController {
                 
                 self.showResultAlert(isResultError: false)
             } else {
-                self.showResultAlert(
-                    isResultError: true,
-                    senderButton: sender
-                )
+                self.showResultAlert(isResultError: true)
             }
             
             self.activityIndicator.stopAnimating()
@@ -417,12 +413,13 @@ private extension MyProfileViewController {
             }
         }
         
-        let repeatButton = UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
-            if senderButton == self?.saveButton {
-                self?.saveButtonPressed(senderButton)
-            } else {
-                self?.saveButtonPressed(senderButton)
-            }
+        let repeatButton = UIAlertAction(
+            title: "Повторить",
+            style: .default
+        ) { [weak self] _ in
+            
+            self?.saveButtonPressed()
+
         }
         
         alert.addAction(okButton)
