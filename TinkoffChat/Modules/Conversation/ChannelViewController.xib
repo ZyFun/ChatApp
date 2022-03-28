@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChannelViewController" customModule="TinkoffChat" customModuleProvider="target">
             <connections>
+                <outlet property="bottomScreenConstraint" destination="h6q-WY-exP" id="9BY-1m-P10"/>
                 <outlet property="channelTableView" destination="dqO-XP-PQD" id="isZ-v8-myE"/>
                 <outlet property="messageTextView" destination="4Pe-Ei-y6V" id="CAK-Z8-tcz"/>
                 <outlet property="messageToolbarView" destination="oDo-34-6TD" id="o0e-v7-O7F"/>

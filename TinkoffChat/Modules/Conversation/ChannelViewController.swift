@@ -23,6 +23,8 @@ final class ChannelViewController: UIViewController {
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var messageView: UIView!
     
+    @IBOutlet weak var bottomScreenConstraint: NSLayoutConstraint!
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -30,6 +32,10 @@ final class ChannelViewController: UIViewController {
         
         setup()
         loadMessages()
+    }
+    
+    deinit {
+        removeKeyboardNotifications()
     }
     
     @IBAction func sendMessageButtonPressed() {
@@ -52,6 +58,8 @@ private extension ChannelViewController {
         setupNavigationBar()
         setupTableView()
         setupTheme()
+        registerForKeyboardNotifications()
+        setTapGestureForDismissKeyboard()
         
         // TODO: ([28.02.2022]) вынести настройку в отдельный метод и добавить цвета для светлой и темной темы
         messageToolbarView.backgroundColor = #colorLiteral(red: 0.9647058845, green: 0.9647058845, blue: 0.9647058845, alpha: 1)
@@ -142,6 +150,63 @@ private extension ChannelViewController {
         )
         
         messageTextView.text = ""
+    }
+    
+    // MARK: - Keyboard observer notification
+    
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    func removeKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        let userInfo = notification.userInfo
+        let keyboardFrameSize = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        bottomScreenConstraint.constant = keyboardFrameSize?.height ?? 0
+    }
+    
+    @objc func keyboardWillHide() {
+        bottomScreenConstraint.constant = .zero
+    }
+    
+    // MARK: - Keyboard hide
+    
+    func setTapGestureForDismissKeyboard() {
+        let tap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissKeyboard)
+        )
+        
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
