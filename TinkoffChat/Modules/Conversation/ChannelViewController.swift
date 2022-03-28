@@ -39,6 +39,8 @@ final class ChannelViewController: UIViewController {
     }
     
     @IBAction func sendMessageButtonPressed() {
+        guard !messageTextView.text.isEmpty else { return }
+        
         if let mySenderId = mySenderId {
             sendMessage(
                 channelID: channelID,
