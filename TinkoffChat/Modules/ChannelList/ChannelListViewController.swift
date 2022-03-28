@@ -131,6 +131,8 @@ private extension ChannelListViewController {
         view.backgroundColor = backgroundViewTheme
     }
     
+    // MARK: - Navigation bar setup
+    
     func setupNavigationBar() {
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -140,21 +142,23 @@ private extension ChannelListViewController {
     }
     
     func setupNavBarButtons() {
-        setupSettingsButton()
-        setupProfileButton()
+        setupLeftButton()
+        setupRightButtons()
     }
     
-    func setupSettingsButton() {
-        let barButton = UIBarButtonItem(
+    // MARK: - NavBar left button
+    
+    func setupLeftButton() {
+        let settingsButton = UIBarButtonItem(
             image: UIImage(named: "SettingsIcon"),
             style: .plain,
             target: self,
             action: #selector(pushThemeVC)
         )
         
-        barButton.tintColor = .appColorLoadFor(.buttonNavBar)
+        settingsButton.tintColor = .appColorLoadFor(.buttonNavBar)
         
-        navigationItem.leftBarButtonItem = barButton
+        navigationItem.leftBarButtonItem = settingsButton
     }
     
     @objc func pushThemeVC() {
@@ -185,8 +189,18 @@ private extension ChannelListViewController {
         navigationController?.pushViewController(themesVC, animated: true)
     }
     
-    func setupProfileButton() {
-        let profileButton = UILabel(
+    // MARK: - NavBar right buttons
+    
+    func setupRightButtons() {
+        let addChannelButton = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addChannelButtonPressed)
+        )
+        
+        addChannelButton.tintColor = .appColorLoadFor(.buttonNavBar)
+        
+        let profileLabel = UILabel(
             frame: CGRect(x: 0, y: 0, width: 40, height: 40)
         )
         
@@ -195,19 +209,23 @@ private extension ChannelListViewController {
             action: #selector(profileButtonPressed)
         )
         
-        profileButton.text = "UN" // TODO: ([27.03.2022]) Сделать выбор букв из названия канала
-        profileButton.textAlignment = .center
-        profileButton.backgroundColor = .appColorLoadFor(.profileImageView)
-        profileButton.textColor = .appColorLoadFor(.textImageView)
-        profileButton.layer.cornerRadius = profileButton.frame.height / 2
-        profileButton.layer.masksToBounds = true
+        profileLabel.text = "UN" // TODO: ([27.03.2022]) Сделать выбор букв из названия канала
+        profileLabel.textAlignment = .center
+        profileLabel.backgroundColor = .appColorLoadFor(.profileImageView)
+        profileLabel.textColor = .appColorLoadFor(.textImageView)
+        profileLabel.layer.cornerRadius = profileLabel.frame.height / 2
+        profileLabel.layer.masksToBounds = true
         
-        profileButton.isUserInteractionEnabled = true
-        profileButton.addGestureRecognizer(tapGesture)
+        profileLabel.isUserInteractionEnabled = true
+        profileLabel.addGestureRecognizer(tapGesture)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            customView: profileButton
-        )
+        let profileCustomButton = UIBarButtonItem(customView: profileLabel)
+        
+        navigationItem.rightBarButtonItems = [profileCustomButton, addChannelButton]
+    }
+    
+    @objc func addChannelButtonPressed() {
+        showAlertAddChannel()
     }
     
     @objc func profileButtonPressed() {
@@ -218,6 +236,8 @@ private extension ChannelListViewController {
         
         present(myProfileVC, animated: true)
     }
+    
+    // MARK: - Table View setup
     
     func setupTableView() {
         tableView.separatorColor = .appColorLoadFor(.separator)
@@ -233,6 +253,42 @@ private extension ChannelListViewController {
             ),
             forCellReuseIdentifier: String(describing: ChannelCell.self)
         )
+    }
+    
+    // MARK: - Alert Controllers
+    
+    func showAlertAddChannel() {
+        let alert = UIAlertController(
+            title: "Новый канал",
+            message: "Введите название канала и подтвердите создание",
+            preferredStyle: .alert
+        )
+        
+        let addButton = UIAlertAction(
+            title: "Создать",
+            style: .default
+        ) { [weak self] _ in
+            guard let channelName = alert.textFields?.first?.text else { return }
+            guard !channelName.isEmpty else { return }
+            self?.addNewChannel(name: channelName)
+        }
+        
+        let cancelButton = UIAlertAction(title: "Отмена", style: .destructive)
+        
+        alert.addAction(addButton)
+        alert.addAction(cancelButton)
+        alert.addTextField { textField in
+            textField.placeholder = "Введите название канала"
+        }
+        
+        let currentTheme = ThemeManager.shared.currentTheme
+        if currentTheme == Theme.night.rawValue {
+            alert.overrideUserInterfaceStyle = .dark
+        } else {
+            alert.overrideUserInterfaceStyle = .light
+        }
+        
+        present(alert, animated: true)
     }
     
     // MARK: - Firestore request
