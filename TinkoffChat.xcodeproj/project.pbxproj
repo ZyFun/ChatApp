@@ -29,6 +29,7 @@
 		2CE58AB627F06E590087B3D9 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE58AB527F06E590087B3D9 /* NetworkError.swift */; };
 		2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */; };
 		2CEA6AF527D3ADCE0028DF67 /* ChannelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF427D3ADCE0028DF67 /* ChannelMock.swift */; };
+		2CEBC52427F3287D0025DB1A /* NotificationKeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBC52327F3287D0025DB1A /* NotificationKeyboardObserver.swift */; };
 		2CEBE04D27D2225F005CBCB0 /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE04B27D2225F005CBCB0 /* ChannelListViewController.swift */; };
 		2CEBE04E27D2225F005CBCB0 /* ChannelListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE04C27D2225F005CBCB0 /* ChannelListViewController.xib */; };
 		2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE05427D23547005CBCB0 /* ChannelCell.swift */; };
@@ -68,6 +69,7 @@
 		2CE58AB527F06E590087B3D9 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateFormatter.swift"; sourceTree = "<group>"; };
 		2CEA6AF427D3ADCE0028DF67 /* ChannelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMock.swift; sourceTree = "<group>"; };
+		2CEBC52327F3287D0025DB1A /* NotificationKeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationKeyboardObserver.swift; sourceTree = "<group>"; };
 		2CEBE04B27D2225F005CBCB0 /* ChannelListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
 		2CEBE04C27D2225F005CBCB0 /* ChannelListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelListViewController.xib; sourceTree = "<group>"; };
 		2CEBE05427D23547005CBCB0 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */,
+				2CEBC52327F3287D0025DB1A /* NotificationKeyboardObserver.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */,
 				2CE58AB627F06E590087B3D9 /* NetworkError.swift in Sources */,
 				2CFF7B5627EF4B7500055DC6 /* +ImagePicker.swift in Sources */,
+				2CEBC52427F3287D0025DB1A /* NotificationKeyboardObserver.swift in Sources */,
 				2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */,
 				2CEBE04D27D2225F005CBCB0 /* ChannelListViewController.swift in Sources */,
 				2C7D10F027E73ADA00035DF5 /* ProfileService.swift in Sources */,
