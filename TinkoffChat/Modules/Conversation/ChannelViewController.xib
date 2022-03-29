@@ -14,6 +14,7 @@
                 <outlet property="bottomScreenConstraint" destination="h6q-WY-exP" id="9BY-1m-P10"/>
                 <outlet property="channelTableView" destination="dqO-XP-PQD" id="isZ-v8-myE"/>
                 <outlet property="messageTextView" destination="4Pe-Ei-y6V" id="CAK-Z8-tcz"/>
+                <outlet property="messageToolBarHeightConstraint" destination="hoP-if-mOS" id="m2Q-a8-oy9"/>
                 <outlet property="messageToolbarView" destination="oDo-34-6TD" id="o0e-v7-O7F"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

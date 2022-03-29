@@ -26,6 +26,7 @@ final class ChannelViewController: UIViewController {
     @IBOutlet weak var channelTableView: UITableView!
     @IBOutlet weak var messageTextView: UITextView!
     
+    @IBOutlet weak var messageToolBarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomScreenConstraint: NSLayoutConstraint!
     
     // MARK: - Life Cycle
@@ -48,6 +49,9 @@ final class ChannelViewController: UIViewController {
                 senderID: mySenderId,
                 message: messageTextView.text
             )
+            
+            // Возврат размеров панели отправки сообщений, после их изменения при написании многострочного текста
+            messageToolBarHeightConstraint.constant = 80
         } else {
             printDebug("ID Профиля не получено")
         }
@@ -95,7 +99,6 @@ private extension ChannelViewController {
             messageToolbarView.layer.borderColor = #colorLiteral(red: 0.6235294118, green: 0.6274509804, blue: 0.6431372549, alpha: 0)
         }
         
-        // TODO: ([29.03.2022]) Сделать увеличение высоты в зависимости от количества строк
         messageTextView.delegate = self
         messageTextView.layer.cornerRadius = 16
         messageTextView.layer.borderWidth = 0.5
@@ -247,5 +250,11 @@ extension ChannelViewController: UITableViewDataSource {
 extension ChannelViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         scrollCellsToBottom()
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if messageTextView.contentSize.height <= 130 {
+            messageToolBarHeightConstraint.constant = messageTextView.contentSize.height + 48
+        }
     }
 }
