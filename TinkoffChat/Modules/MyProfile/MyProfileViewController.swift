@@ -35,8 +35,7 @@ final class MyProfileViewController: UIViewController {
     // MARK: - Private properties
     
     private var profile: Profile?
-    
-    private var currentDevice = UIDevice.current.name
+    private var observer = NotificationKeyboardObserver()
     
     // MARK: - LifeCycle
     
@@ -90,6 +89,8 @@ final class MyProfileViewController: UIViewController {
     }
     
     @IBAction func cancelButtonPressed() {
+        view.endEditing(true)
+        
         // Возврат к текущему состоянию с отменой изменений
         if let imageData = profile?.image {
             profileImageView.image = UIImage(data: imageData)
@@ -468,27 +469,21 @@ extension MyProfileViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        // TODO: ([23.03.2022]) Кривой костыль для маленького экрана, нужно подумать как это улучшить
-        // Я знаю что с маленьким экраном есть еще другие телефоны,
-        // просто показал таким образом решение которое пришло мне в голову :)
-        if currentDevice == "iPod touch (7th generation)" {
-            topConstraintProfileImage.constant = -130
-            
-            if profileImageView.image == nil {
-                noProfileImageLabel.isHidden = true
-            }
+        // TODO: ([29.03.2022]) Кривой костыль. Перекрывает поля ввода на некоторых экранах. нужно подумать как это улучшить.
+        topConstraintProfileImage.constant = -130
+        
+        if profileImageView.image == nil {
+            noProfileImageLabel.isHidden = true
         }
+        
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        // TODO: ([23.03.2022]) Кривой костыль для маленького экрана, нужно подумать как это улучшить
-        // Я знаю что с маленьким экраном есть еще другие телефоны, просто показал таким образом решение которое пришло мне в голову :)
-        if currentDevice == "iPod touch (7th generation)" {
-            topConstraintProfileImage.constant = 7
-            
-            if profileImageView.image == nil {
-                noProfileImageLabel.isHidden = false
-            }
+        // TODO: ([29.03.2022]) Кривой костыль. Перекрывает поля ввода на некоторых экранах. нужно подумать как это улучшить.
+        topConstraintProfileImage.constant = 7
+        
+        if profileImageView.image == nil {
+            noProfileImageLabel.isHidden = false
         }
     }
 }
