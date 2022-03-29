@@ -25,7 +25,6 @@ final class ChannelViewController: UIViewController {
     @IBOutlet weak var messageToolbarView: UIView!
     @IBOutlet weak var channelTableView: UITableView!
     @IBOutlet weak var messageTextView: UITextView!
-    @IBOutlet weak var messageView: UIView!
     
     @IBOutlet weak var bottomScreenConstraint: NSLayoutConstraint!
     
@@ -96,15 +95,14 @@ private extension ChannelViewController {
             messageToolbarView.layer.borderColor = #colorLiteral(red: 0.6235294118, green: 0.6274509804, blue: 0.6431372549, alpha: 0)
         }
         
-        messageView.layer.cornerRadius = 16
-        messageView.layer.borderWidth = 0.5
-        messageView.layer.borderColor = #colorLiteral(red: 0.6251094341, green: 0.6256788373, blue: 0.6430239081, alpha: 1)
-        messageView.backgroundColor = .appColorLoadFor(.textFieldToolBar)
-        
+        // TODO: ([29.03.2022]) Сделать увеличение высоты в зависимости от количества строк
         messageTextView.delegate = self
+        messageTextView.layer.cornerRadius = 16
+        messageTextView.layer.borderWidth = 0.5
+        messageTextView.layer.borderColor = #colorLiteral(red: 0.6251094341, green: 0.6256788373, blue: 0.6430239081, alpha: 1)
+        messageTextView.textContainer.lineFragmentPadding = 44
         messageTextView.backgroundColor = .appColorLoadFor(.textFieldToolBar)
         messageTextView.textColor = .appColorLoadFor(.text)
-        
     }
     
     func scrollCellsToBottom() {
