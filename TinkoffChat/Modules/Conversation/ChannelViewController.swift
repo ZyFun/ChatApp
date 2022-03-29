@@ -18,7 +18,7 @@ final class ChannelViewController: UIViewController {
     
     // MARK: - Private properties
     
-    private var observer = NotificationKeyboardObserver()
+    private var observerKeyboard = NotificationKeyboardObserver()
     
     // MARK: - IB Outlets
     
@@ -63,7 +63,7 @@ private extension ChannelViewController {
         setupTableView()
         setupViews()
         setupToolBar()
-        registerForKeyboardNotifications()
+        setupKeyboardNotificationsObserver()
         setTapGestureForDismissKeyboard()
     }
     
@@ -86,6 +86,7 @@ private extension ChannelViewController {
     }
     
     func setupToolBar() {
+        
         messageToolbarView.backgroundColor = .appColorLoadFor(.backgroundToolBar)
         messageToolbarView.layer.borderWidth = 0.5
         
@@ -100,6 +101,7 @@ private extension ChannelViewController {
         messageView.layer.borderColor = #colorLiteral(red: 0.6251094341, green: 0.6256788373, blue: 0.6430239081, alpha: 1)
         messageView.backgroundColor = .appColorLoadFor(.textFieldToolBar)
         
+        messageTextView.delegate = self
         messageTextView.backgroundColor = .appColorLoadFor(.textFieldToolBar)
         messageTextView.textColor = .appColorLoadFor(.text)
         
@@ -169,14 +171,14 @@ private extension ChannelViewController {
         messageTextView.text = ""
     }
     
-    // MARK: - Keyboard observer notification
+    // MARK: - Keyboard
     
-    func registerForKeyboardNotifications() {
-        observer.constraint = bottomScreenConstraint
-        observer.registerForKeyboardNotifications()
+    func setupKeyboardNotificationsObserver() {
+        observerKeyboard.addChangeHeightObserver(
+            for: view,
+            changeValueFor: bottomScreenConstraint
+        )
     }
-    
-    // MARK: - Keyboard hide
     
     func setTapGestureForDismissKeyboard() {
         let tap = UITapGestureRecognizer(
@@ -239,5 +241,13 @@ extension ChannelViewController: UITableViewDataSource {
             
             return cell
         }
+    }
+}
+
+// MARK: - Text View Delegate
+
+extension ChannelViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        scrollCellsToBottom()
     }
 }

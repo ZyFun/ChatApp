@@ -11,13 +11,30 @@ class NotificationKeyboardObserver {
     
     /// Constraint, который будет изменять размер в соответствии с размером клавиатуры
     /// при её вызове.
-    var constraint: NSLayoutConstraint?
+    private var constraint: NSLayoutConstraint?
+    /// Используется для анимированного изменения констреинтов на текущем экране
+    private var view: UIView?
     
     deinit {
         removeKeyboardNotifications()
     }
     
-    func registerForKeyboardNotifications() {
+    /// Добавляет наблюдателя для отслеживания размеров клавиатуры
+    /// - Parameters:
+    ///   - view: Используется для анимированного изменения констреинтов на текущем экране
+    ///   - constraint: Constraint, который будет изменять размер в соответствии с размером
+    ///   клавиатуры при её вызове.
+    func addChangeHeightObserver(
+        for view: UIView,
+        changeValueFor constraint: NSLayoutConstraint
+    ) {
+        self.constraint = constraint
+        self.view = view
+        
+        registerForKeyboardNotifications()
+    }
+    
+    private func registerForKeyboardNotifications() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -50,16 +67,26 @@ class NotificationKeyboardObserver {
     @objc private func keyboardWillShow(_ notification: Notification) {
         let userInfo = notification.userInfo
         let keyboardFrameSize = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        let keyboardAnimation = userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0
         
         if let constraint = constraint {
             constraint.constant = keyboardFrameSize?.height ?? 0
+            UIView.animate(withDuration: keyboardAnimation) { [weak self] in
+                self?.view?.layoutIfNeeded()
+            }
         }
         
     }
     
-    @objc private func keyboardWillHide() {
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        let userInfo = notification.userInfo
+        let keyboardAnimation = userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0
+        
         if let constraint = constraint {
             constraint.constant = .zero
+            UIView.animate(withDuration: keyboardAnimation) { [weak self] in
+                self?.view?.layoutIfNeeded()
+            }
         }
     }
 }
