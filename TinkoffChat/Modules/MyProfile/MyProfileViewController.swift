@@ -245,7 +245,6 @@ private extension MyProfileViewController {
         noProfileImageLabel.isHidden = false
     }
     
-    // TODO: ([20.03.2022]) Сделать преобразование символов в большие
     func setFirstCharacters(from fullName: String?) -> String? {
         if let fullName = fullName {
             let separateFullName = fullName.split(separator: " ")
@@ -261,7 +260,9 @@ private extension MyProfileViewController {
                 characters = "\(firstSymbol)\(lastSymbol)"
             }
             
-            return characters
+            let bigCharacters = characters.uppercased()
+            
+            return bigCharacters
         } else {
             return "UN"
         }
