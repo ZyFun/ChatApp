@@ -14,6 +14,8 @@ enum Theme: String {
 enum AssetsColor: String {
     case backgroundView
     case backgroundNavBar
+    case backgroundToolBar
+    case textFieldToolBar
     case separator
     case leftMessage
     case rightMessage

@@ -59,18 +59,10 @@ private extension ChannelViewController {
     func setup() {
         setupNavigationBar()
         setupTableView()
-        setupTheme()
+        setupViews()
+        setupToolBar()
         registerForKeyboardNotifications()
         setTapGestureForDismissKeyboard()
-        
-        // TODO: ([28.02.2022]) вынести настройку в отдельный метод и добавить цвета для светлой и темной темы
-        messageToolbarView.backgroundColor = #colorLiteral(red: 0.9647058845, green: 0.9647058845, blue: 0.9647058845, alpha: 1)
-        messageToolbarView.layer.borderWidth = 0.5
-        messageToolbarView.layer.borderColor = #colorLiteral(red: 0.6251094341, green: 0.6256788373, blue: 0.6430239081, alpha: 1)
-        
-        messageView.layer.cornerRadius = 16
-        messageView.layer.borderWidth = 0.5
-        messageView.layer.borderColor = #colorLiteral(red: 0.6251094341, green: 0.6256788373, blue: 0.6430239081, alpha: 1)
     }
     
     func setupNavigationBar() {
@@ -84,6 +76,31 @@ private extension ChannelViewController {
         channelTableView.separatorStyle = .none
         
         setupXibs()
+    }
+    
+    func setupViews() {
+        channelTableView.backgroundColor = .appColorLoadFor(.backgroundView)
+        view.backgroundColor = .appColorLoadFor(.backgroundView)
+    }
+    
+    func setupToolBar() {
+        messageToolbarView.backgroundColor = .appColorLoadFor(.backgroundToolBar)
+        messageToolbarView.layer.borderWidth = 0.5
+        
+        if ThemeManager.shared.currentTheme != Theme.night.rawValue {
+            messageToolbarView.layer.borderColor = #colorLiteral(red: 0.6235294118, green: 0.6274509804, blue: 0.6431372549, alpha: 1)
+        } else {
+            messageToolbarView.layer.borderColor = #colorLiteral(red: 0.6235294118, green: 0.6274509804, blue: 0.6431372549, alpha: 0)
+        }
+        
+        messageView.layer.cornerRadius = 16
+        messageView.layer.borderWidth = 0.5
+        messageView.layer.borderColor = #colorLiteral(red: 0.6251094341, green: 0.6256788373, blue: 0.6430239081, alpha: 1)
+        messageView.backgroundColor = .appColorLoadFor(.textFieldToolBar)
+        
+        messageTextView.backgroundColor = .appColorLoadFor(.textFieldToolBar)
+        messageTextView.textColor = .appColorLoadFor(.text)
+        
     }
     
     func scrollCellsToBottom() {
@@ -117,10 +134,6 @@ private extension ChannelViewController {
             ),
             forCellReuseIdentifier: MessageCell.Identifier.outgoing.rawValue
         )
-    }
-    
-    func setupTheme() {
-        channelTableView.backgroundColor = .appColorLoadFor(.backgroundView)
     }
     
     // MARK: - Firestore request
