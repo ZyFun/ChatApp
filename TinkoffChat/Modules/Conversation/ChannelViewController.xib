@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChannelViewController" customModule="TinkoffChat" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="ypU-6f-aEY" id="as0-YK-oyK"/>
                 <outlet property="bottomScreenConstraint" destination="h6q-WY-exP" id="9BY-1m-P10"/>
                 <outlet property="channelTableView" destination="dqO-XP-PQD" id="isZ-v8-myE"/>
                 <outlet property="messageTextView" destination="4Pe-Ei-y6V" id="CAK-Z8-tcz"/>
@@ -71,6 +72,9 @@
                         <constraint firstAttribute="trailing" secondItem="4Pe-Ei-y6V" secondAttribute="trailing" constant="19" id="ir5-LD-cv8"/>
                     </constraints>
                 </view>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ypU-6f-aEY">
+                    <rect key="frame" x="197" y="438" width="20" height="20"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -78,6 +82,8 @@
                 <constraint firstItem="oDo-34-6TD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="1PB-2G-wOM"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dqO-XP-PQD" secondAttribute="trailing" id="2Ol-d4-PS4"/>
                 <constraint firstItem="dqO-XP-PQD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="FKv-Yz-vyG"/>
+                <constraint firstItem="ypU-6f-aEY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="PYJ-Hz-kgh"/>
+                <constraint firstItem="ypU-6f-aEY" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="XyO-G4-BRn"/>
                 <constraint firstItem="oDo-34-6TD" firstAttribute="top" secondItem="dqO-XP-PQD" secondAttribute="bottom" id="awv-AU-N5G"/>
                 <constraint firstItem="dqO-XP-PQD" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="ekx-H3-djZ"/>
                 <constraint firstAttribute="bottom" secondItem="oDo-34-6TD" secondAttribute="bottom" id="h6q-WY-exP"/>

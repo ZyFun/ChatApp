@@ -207,7 +207,7 @@ private extension ChannelListViewController {
             action: #selector(profileButtonPressed)
         )
         
-        profileLabel.text = "UN" // TODO: ([27.03.2022]) Сделать выбор букв из названия канала
+        profileLabel.text = "UN" // TODO: ([27.03.2022]) Сделать выбор букв из имени профиля
         profileLabel.textAlignment = .center
         profileLabel.backgroundColor = .appColorLoadFor(.profileImageView)
         profileLabel.textColor = .appColorLoadFor(.textImageView)
@@ -299,7 +299,8 @@ private extension ChannelListViewController {
                 self?.channels = channels
                 self?.tableView.reloadData()
             case .failure(let error):
-                print(error)
+                // TODO: ([30.03.2022]) Добавить обработку ошибок при отсутствии подключения к сети.
+                printDebug(error)
             }
         }
     }

@@ -26,6 +26,8 @@ final class ChannelViewController: UIViewController {
     @IBOutlet weak var channelTableView: UITableView!
     @IBOutlet weak var messageTextView: UITextView!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     @IBOutlet weak var messageToolBarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomScreenConstraint: NSLayoutConstraint!
     
@@ -65,6 +67,7 @@ private extension ChannelViewController {
         setupNavigationBar()
         setupTableView()
         setupViews()
+        setupActivityIndicator()
         setupToolBar()
         setupKeyboardNotificationsObserver()
         setTapGestureForDismissKeyboard()
@@ -108,6 +111,11 @@ private extension ChannelViewController {
         messageTextView.textColor = .appColorLoadFor(.text)
     }
     
+    func setupActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = .systemGray
+    }
+    
     func scrollCellsToBottom() {
         if !messages.isEmpty {
             let lastRow = channelTableView.numberOfRows(inSection: 0) - 1
@@ -143,8 +151,9 @@ private extension ChannelViewController {
     
     // MARK: - Firestore request
     
-    // TODO: ([27.03.2022]) Добавить активити индикатор, пока грузятся сообщения.
     func loadMessages() {
+        activityIndicator.startAnimating()
+        
         FirestoreService.shared.fetchMessages(
             channelID: channelID
         ) { [weak self] result in
@@ -156,7 +165,9 @@ private extension ChannelViewController {
                 self?.messages.sort(by: { $0.created < $1.created })
                 self?.channelTableView.reloadData()
                 self?.scrollCellsToBottom()
+                self?.activityIndicator.stopAnimating()
             case .failure(let error):
+                // TODO: ([30.03.2022]) Добавить обработку ошибок при отсутствии сети
                 printDebug(error.localizedDescription)
             }
         }
