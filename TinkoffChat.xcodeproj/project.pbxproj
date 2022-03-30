@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */; };
-		2CF231B627BFBB2400CE77C2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B527BFBB2400CE77C2 /* ViewController.swift */; };
+		2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */; };
 		2CF231B927BFBB2400CE77C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231B727BFBB2400CE77C2 /* Main.storyboard */; };
 		2CF231BB27BFBB2600CE77C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231BA27BFBB2600CE77C2 /* Assets.xcassets */; };
 		2CF231BE27BFBB2600CE77C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231BC27BFBB2600CE77C2 /* LaunchScreen.storyboard */; };
@@ -19,7 +19,7 @@
 /* Begin PBXFileReference section */
 		2CF231AE27BFBB2400CE77C2 /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2CF231B527BFBB2400CE77C2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		2CF231B827BFBB2400CE77C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2CF231BA27BFBB2600CE77C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2CF231BD27BFBB2600CE77C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 			children = (
 				2CF231C827BFFFA000CE77C2 /* Supports */,
 				2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */,
-				2CF231B527BFBB2400CE77C2 /* ViewController.swift */,
+				2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */,
 				2CF231B727BFBB2400CE77C2 /* Main.storyboard */,
 				2CF231BA27BFBB2600CE77C2 /* Assets.xcassets */,
 				2CF231BC27BFBB2600CE77C2 /* LaunchScreen.storyboard */,
@@ -150,7 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CF231B627BFBB2400CE77C2 /* ViewController.swift in Sources */,
+				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */,
 				2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */,
 			);
@@ -229,7 +229,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -284,7 +284,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
