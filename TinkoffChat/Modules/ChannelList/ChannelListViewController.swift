@@ -23,6 +23,7 @@ final class ChannelListViewController: UITableViewController {
     // MARK: - Private properties
     
     private var channels: [Channel] = []
+    private let activityIndicator = UIActivityIndicatorView()
     
     // MARK: - Life Cycle
     
@@ -109,6 +110,7 @@ final class ChannelListViewController: UITableViewController {
 private extension ChannelListViewController {
     func setup() {
         setupNavigationBar()
+        setupActivityIndicator()
         setupTableView()
     }
     
@@ -237,9 +239,18 @@ private extension ChannelListViewController {
     
     // MARK: - Table View setup
     
+    func setupActivityIndicator() {
+        activityIndicator.center = view.center
+        
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = .systemGray
+    }
+    
     func setupTableView() {
         tableView.separatorColor = .appColorLoadFor(.separator)
         setupXibs()
+        
+        tableView.addSubview(activityIndicator)
     }
     
     /// Инициализация Xibs
@@ -293,11 +304,14 @@ private extension ChannelListViewController {
     
     // TODO: ([27.03.2022]) Добавить активити индикатор, пока грузятся каналы.
     func fetchChannels() {
+        activityIndicator.startAnimating()
+        
         FirestoreService.shared.fetchChannels { [weak self] result in
             switch result {
             case .success(let channels):
                 self?.channels = channels
                 self?.tableView.reloadData()
+                self?.activityIndicator.stopAnimating()
             case .failure(let error):
                 // TODO: ([30.03.2022]) Добавить обработку ошибок при отсутствии подключения к сети.
                 printDebug(error)
@@ -307,9 +321,6 @@ private extension ChannelListViewController {
     
     func addNewChannel(name: String) {
         FirestoreService.shared.addNewChannel(name: name)
-        
-        // Обновляю список каналов
-        fetchChannels()
     }
 }
 
