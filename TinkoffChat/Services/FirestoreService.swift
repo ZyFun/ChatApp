@@ -77,16 +77,16 @@ final class FirestoreService {
                 var messages: [Message] = []
                 
                 snap?.documents.forEach {
-                    // TODO: ([27.03.2022]) расскомментировать после всех тестов, многие не записывают все поля
+                    // TODO: ([27.03.2022]) расскомментировать после всех тестов, многие не заполняют все свойства. Хотя они должны быть обязательными
                     // и немного доработать убрав лишнее.
-                    //                    guard
-                    let content = $0["content"] as? String ?? ""
-                    let created = ($0["created"] as? Timestamp)?.dateValue() ?? Date()
-                    let senderId = $0["senderId"] as? String ?? ""
-                    let senderName = $0["senderName"] as? String ?? ""
-                    //                        else {
-                    //                            return completion(.failure(NetworkError.apiError))
-                    //                        }
+//                    guard
+                        let content = $0["content"] as? String ?? ""
+                        let created = ($0["created"] as? Timestamp)?.dateValue() ?? Date()
+                        let senderId = $0["senderId"] as? String ?? ""
+                        let senderName = $0["senderName"] as? String ?? ""
+//                    else {
+//                        return completion(.failure(NetworkError.apiError))
+//                    }
                     
                     let message = Message(
                         content: content,
