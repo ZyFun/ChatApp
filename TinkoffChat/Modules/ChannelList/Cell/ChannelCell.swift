@@ -33,6 +33,7 @@ final class ChannelCell: UITableViewCell {
         
         setupTheme()
         nameLabel.text = ""
+        profileImageLabel.text = "UN"
         lastMessageLabel.text = ""
         dateLabel.text = ""
         backgroundColor = .clear
@@ -61,6 +62,17 @@ private extension ChannelCell {
     func setupTheme() {
         nameLabel.textColor = .appColorLoadFor(.text)
         profileImageLabel.textColor = .appColorLoadFor(.textImageView)
+    }
+    
+    func setFirstCharacter(from channelName: String?) -> String? {
+        if let channelName = channelName {
+            guard let firstSymbol = channelName.first else { return "UN" }
+            let bigCharacter = firstSymbol.uppercased()
+            
+            return bigCharacter
+        } else {
+            return "UN"
+        }
     }
 }
 
@@ -92,6 +104,7 @@ extension ChannelCell: ChannelCellConfiguration {
         }
         set {
             nameLabel.text = newValue
+            profileImageLabel.text = setFirstCharacter(from: newValue)
         }
     }
     

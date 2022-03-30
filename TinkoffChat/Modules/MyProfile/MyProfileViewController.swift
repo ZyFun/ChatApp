@@ -245,6 +245,8 @@ private extension MyProfileViewController {
         noProfileImageLabel.isHidden = false
     }
     
+    // TODO: ([30.03.2022]) Логика частично дублируется на нескольких экранах, отрефакторить. (Ячейка канала)
+    // сделать в отдельном менеджере по управлению изображениями, так-как на данный момент они присутствуют в трех местах
     func setFirstCharacters(from fullName: String?) -> String? {
         if let fullName = fullName {
             let separateFullName = fullName.split(separator: " ")
