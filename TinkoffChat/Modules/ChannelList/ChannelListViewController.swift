@@ -302,7 +302,6 @@ private extension ChannelListViewController {
     
     // MARK: - Firestore request
     
-    // TODO: ([27.03.2022]) Добавить активити индикатор, пока грузятся каналы.
     func fetchChannels() {
         activityIndicator.startAnimating()
         
@@ -310,6 +309,9 @@ private extension ChannelListViewController {
             switch result {
             case .success(let channels):
                 self?.channels = channels
+                // TODO: ([30.03.2022]) Посмотреть где оптимальнее делать сортировку
+                // По хорошему, каналы в которых не было активности, нужно добавлять в конец списка, но пока так.
+                self?.channels.sort(by: { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() })
                 self?.tableView.reloadData()
                 self?.activityIndicator.stopAnimating()
             case .failure(let error):

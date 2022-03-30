@@ -51,7 +51,7 @@ final class FirestoreService {
     func addNewChannel(name: String) {
         let channel: [String: Any] = [
             "name": name,
-            "lastActivity": Timestamp(date: Date())
+            "lastActivity": FieldValue.serverTimestamp()
         ]
         
         DispatchQueue.global().async {
@@ -107,7 +107,7 @@ final class FirestoreService {
     func sendMessage(channelID: String, message: String, senderID: String) {
         let message: [String: Any] = [
             "content": message,
-            "created": Timestamp(date: Date()),
+            "created": FieldValue.serverTimestamp(),
             "senderId": senderID,
             "senderName": "Дмитрий Данилин" // TODO: ([27.03.2022]) После всех доработок имя будет браться из профиля
         ]
