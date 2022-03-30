@@ -23,29 +23,27 @@ final class FirestoreService {
             
             var channels: [Channel] = []
             
-            DispatchQueue.global().async {
-                snapshot?.documents.forEach {
-                    
-                    guard let name = $0["name"] as? String else {
-                        return completion(.failure(NetworkError.apiError))
-                    }
-                    let identifier = $0.documentID
-                    let lastMessage = $0["lastMessage"] as? String
-                    let lastActivity = ($0["lastActivity"] as? Timestamp)?.dateValue()
-                    
-                    let channel = Channel(
-                        identifier: identifier,
-                        name: name,
-                        lastMessage: lastMessage,
-                        lastActivity: lastActivity
-                    )
-                    
-                    channels.append(channel)
-                    
+            snapshot?.documents.forEach {
+                guard let name = $0["name"] as? String else {
+                    return completion(.failure(NetworkError.apiError))
                 }
-                DispatchQueue.main.async {
-                    completion(.success(channels))
-                }
+                let identifier = $0.documentID
+                let lastMessage = $0["lastMessage"] as? String
+                let lastActivity = ($0["lastActivity"] as? Timestamp)?.dateValue()
+                
+                let channel = Channel(
+                    identifier: identifier,
+                    name: name,
+                    lastMessage: lastMessage,
+                    lastActivity: lastActivity
+                )
+                
+                channels.append(channel)
+                
+            }
+            
+            DispatchQueue.main.async {
+                completion(.success(channels))
             }
         }
     }
@@ -78,31 +76,30 @@ final class FirestoreService {
                 
                 var messages: [Message] = []
                 
-                DispatchQueue.global().async {
-                    snap?.documents.forEach {
-                        // TODO: ([27.03.2022]) расскомментировать после всех тестов, многие не записывают все поля
-//                    guard
-                        let content = $0["content"] as? String ?? ""
-                        let created = ($0["created"] as? Timestamp)?.dateValue() ?? Date()
-                        let senderId = $0["senderId"] as? String ?? ""
-                        let senderName = $0["senderName"] as? String ?? ""
-//                        else {
-//                            return completion(.failure(NetworkError.apiError))
-//                        }
-                        
-                        let message = Message(
-                            content: content,
-                            created: created,
-                            senderId: senderId,
-                            senderName: senderName
-                        )
-                        
-                        messages.append(message)
-                    }
+                snap?.documents.forEach {
+                    // TODO: ([27.03.2022]) расскомментировать после всех тестов, многие не записывают все поля
+                    // и немного доработать убрав лишнее.
+                    //                    guard
+                    let content = $0["content"] as? String ?? ""
+                    let created = ($0["created"] as? Timestamp)?.dateValue() ?? Date()
+                    let senderId = $0["senderId"] as? String ?? ""
+                    let senderName = $0["senderName"] as? String ?? ""
+                    //                        else {
+                    //                            return completion(.failure(NetworkError.apiError))
+                    //                        }
                     
-                    DispatchQueue.main.async {
-                        completion(.success(messages))
-                    }
+                    let message = Message(
+                        content: content,
+                        created: created,
+                        senderId: senderId,
+                        senderName: senderName
+                    )
+                    
+                    messages.append(message)
+                }
+                
+                DispatchQueue.main.async {
+                    completion(.success(messages))
                 }
             }
     }
@@ -115,8 +112,6 @@ final class FirestoreService {
             "senderName": "Дмитрий Данилин" // TODO: ([27.03.2022]) После всех доработок имя будет браться из профиля
         ]
         
-        DispatchQueue.global().async {
-            self.referenceChannels.document(channelID).collection("messages").addDocument(data: message)
-        }
+        self.referenceChannels.document(channelID).collection("messages").addDocument(data: message)
     }
 }
