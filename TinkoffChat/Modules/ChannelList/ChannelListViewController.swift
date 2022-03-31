@@ -103,6 +103,17 @@ final class ChannelListViewController: UITableViewController {
             animated: true
         )
     }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let channel = channels[indexPath.row]
+
+            channels.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            deleteChannel(id: channel.identifier)
+        }
+    }
 }
 
 // MARK: - Private methods
@@ -323,6 +334,10 @@ private extension ChannelListViewController {
     
     func addNewChannel(name: String) {
         FirestoreService.shared.addNewChannel(name: name)
+    }
+    
+    func deleteChannel(id: String) {
+        FirestoreService.shared.deleteChanel(channelID: id)
     }
 }
 

@@ -54,8 +54,14 @@ final class FirestoreService {
             "lastActivity": FieldValue.serverTimestamp()
         ]
         
-        DispatchQueue.global().async {
-            self.referenceChannels.addDocument(data: channel)
+        DispatchQueue.global().async { [weak self] in
+            self?.referenceChannels.addDocument(data: channel)
+        }
+    }
+    
+    func deleteChanel(channelID: String) {
+        DispatchQueue.global().async { [weak self] in
+            self?.referenceChannels.document(channelID).delete()
         }
     }
     

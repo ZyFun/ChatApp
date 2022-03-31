@@ -51,11 +51,10 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="9XD-Ym-iE0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" symbolic="YES" id="0JT-Cq-rYc"/>
                     <constraint firstItem="nJ1-9r-7jA" firstAttribute="leading" secondItem="9XD-Ym-iE0" secondAttribute="trailing" constant="13" id="18x-E0-B7c"/>
                     <constraint firstAttribute="trailing" secondItem="nJ1-9r-7jA" secondAttribute="trailing" constant="15.5" id="Ghj-E5-cM4"/>
                     <constraint firstItem="9XD-Ym-iE0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15.5" id="JCe-3V-5Id"/>
-                    <constraint firstAttribute="bottom" secondItem="9XD-Ym-iE0" secondAttribute="bottom" constant="22" id="LP7-sw-PYc"/>
-                    <constraint firstItem="9XD-Ym-iE0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="P3x-cV-eXb"/>
                     <constraint firstItem="MJT-LQ-2kV" firstAttribute="centerY" secondItem="9XD-Ym-iE0" secondAttribute="centerY" id="TkM-QE-hLd"/>
                     <constraint firstItem="MJT-LQ-2kV" firstAttribute="centerX" secondItem="9XD-Ym-iE0" secondAttribute="centerX" id="Wny-ZO-xYs"/>
                     <constraint firstItem="F8J-Ce-Wz7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="Yz5-An-NXS"/>
