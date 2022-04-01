@@ -100,7 +100,7 @@ extension ChannelCellConfiguration {
 extension ChannelCell: ChannelCellConfiguration {
     var name: String? {
         get {
-            nil
+            nameLabel.text
         }
         set {
             nameLabel.text = newValue
@@ -110,7 +110,7 @@ extension ChannelCell: ChannelCellConfiguration {
     
     var message: String? {
         get {
-            nil
+            lastMessageLabel.text
         }
         set {
             if newValue == nil {
