@@ -10,7 +10,7 @@ import Photos
 
 final class MyProfileViewController: UIViewController {
     
-    // MARK: IB Outlets
+    // MARK: - IB Outlets
     @IBOutlet weak var topBarView: UIView!
     @IBOutlet weak var noProfileImageLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
@@ -18,18 +18,10 @@ final class MyProfileViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
     
     // MARK: - LifeCycle
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        
-        // saveButton.frame не будет распечатан в этом методе, потому что кнопка еще не инициализирована и её еще нет в памяти.
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
-        
-        printDebug("Save button frame from \(#function): \(saveButton.frame)")
     }
     
     override func viewWillLayoutSubviews() {
@@ -37,22 +29,18 @@ final class MyProfileViewController: UIViewController {
         
         setupProfileImageSize()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        printDebug("Save button frame from \(#function): \(saveButton.frame)") // Размеры кнопки отличаются, потому что весь интерфейс в сториборде подогнан под размеры SE. А в момент отображения экрана, когда как раз срабатывает этот метод, элементы уже расставлены под размеры текущего экрана.
-    }
 
     // MARK: IB Actions
     @IBAction func editLogoButtonPressed() {
-        printDebug("Выбери изображение профиля")
-        
         changeProfileLogoAlertController()
+    }
+    
+    @IBAction func closeButtonPressed() {
+        dismiss(animated: true)
     }
 }
 
-// MARK: - Настройки для ViewController
+// MARK: - Private properties
 private extension MyProfileViewController {
     func setup() {
         setupUI()
@@ -93,7 +81,7 @@ private extension MyProfileViewController {
         editLogoButton.titleLabel?.font = .systemFont(ofSize: 16)
     }
     
-    // MARK: - Alert Controller
+    // MARK: Alert Controller
     func changeProfileLogoAlertController() {
         let choosePhoto = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -127,7 +115,7 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
         dismiss(animated: true)
     }
     
-    // MARK: Private method
+    // MARK: Private methods
     private func chooseImagePicker(source: UIImagePickerController.SourceType) {
         if UIImagePickerController.isSourceTypeAvailable(source) {
             let imagePicker = UIImagePickerController()

@@ -46,6 +46,9 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="Close"/>
+                                        <connections>
+                                            <action selector="closeButtonPressed" destination="BYZ-38-t0r" eventType="touchUpInside" id="mSe-aH-NLg"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -111,9 +114,6 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Tml-Wn-26T" secondAttribute="trailing" constant="78" id="vYE-GT-2dW"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="PUc-d7-dLL">
-                        <nil key="title"/>
-                    </navigationItem>
                     <connections>
                         <outlet property="editLogoButton" destination="lI1-aM-knx" id="AjC-PG-X7I"/>
                         <outlet property="noProfileImageLabel" destination="tSH-2l-kpc" id="o1N-oD-Zwp"/>
@@ -124,7 +124,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1839.1304347826087" y="78.348214285714278"/>
+            <point key="canvasLocation" x="1733" y="78"/>
         </scene>
     </scenes>
     <resources>
