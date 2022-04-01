@@ -21,10 +21,12 @@ final class StorageManager {
     
     private let userDefaults = UserDefaults()
     
-    private init(){}
+    private init() {}
     
     func saveTheme(theme: Theme) {
-        userDefaults.set(theme.rawValue, forKey: StorageManager.Key.theme.rawValue)
+        DispatchQueue.global().async { [weak self] in
+            self?.userDefaults.set(theme.rawValue, forKey: StorageManager.Key.theme.rawValue)
+        }
         
         // TODO: Не уверен что это должно быть тут
         ThemeManager.shared.currentTheme = theme.rawValue

@@ -12,14 +12,32 @@ final class MyProfileViewController: UIViewController {
     
     // MARK: - IB Outlets
     @IBOutlet weak var topBarView: UIView!
+    
     @IBOutlet weak var noProfileImageLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
+    
     @IBOutlet weak var editLogoButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var saveGCDButton: UIButton!
+    @IBOutlet weak var saveOperationButton: UIButton!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    
+    @IBOutlet weak var userNameTextField: UITextField!
+    @IBOutlet weak var descriptionTextField: UITextField!
+    
+    // Используется для того, чтобы поднять интерфейс на экранах с небольшим разрешением
+    @IBOutlet weak var topConstraintProfileImage: NSLayoutConstraint!
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    // MARK: Private properties
+    private var profile: Profile?
+    
+    private var currentDevice = UIDevice.current.name
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -33,6 +51,10 @@ final class MyProfileViewController: UIViewController {
         
         setupProfileImageSize()
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 
     // MARK: IB Actions
     @IBAction func editLogoButtonPressed() {
@@ -42,60 +64,439 @@ final class MyProfileViewController: UIViewController {
     @IBAction func closeButtonPressed() {
         dismiss(animated: true)
     }
+    
+    @IBAction func editButtonPressed() {
+        nameLabel.isHidden = true
+        descriptionLabel.isHidden = true
+        
+        userNameTextField.isHidden = false
+        descriptionTextField.isHidden = false
+        
+        showButtons(
+            cancelButton,
+            saveGCDButton,
+            saveOperationButton
+        )
+        
+        hideButtons(saveButton)
+        
+        userNameTextField.text = nameLabel.text
+        descriptionTextField.text = descriptionLabel.text
+        
+        userNameTextField.becomeFirstResponder()
+        
+        // Состояние меняется, при изменении текста в TF
+        setSaveButtonsIsNotActive()
+    }
+    
+    @IBAction func cancelButtonPressed() {
+        // Возврат к текущему состоянию с отменой изменений
+        if let imageData = profile?.image {
+            profileImageView.image = UIImage(data: imageData)
+        } else {
+            noProfileImageLabel.text = setFirstCharacters(from: profile?.name)
+            noProfileImageLabel.isHidden = false
+        }
+        
+        userNameTextField.isHidden = true
+        descriptionTextField.isHidden = true
+        
+        nameLabel.isHidden = false
+        descriptionLabel.isHidden = false
+        
+        showButtons(
+            saveButton,
+            editLogoButton // Нужно в тот момент, когда скрывается кнопка при изменении изображения
+        )
+        
+        hideButtons(
+            cancelButton,
+            saveGCDButton,
+            saveOperationButton
+        )
+    }
+    
+    @IBAction func saveButtonPressed(_ sender: UIButton) {
+        activityIndicator.startAnimating()
+        
+        let userName = userNameTextField.text
+        let description = descriptionTextField.text
+        
+        if profileImageView.image == nil {
+            noProfileImageLabel.text = setFirstCharacters(from: userName)
+        }
+        
+        setSaveButtonsIsNotActive()
+        setEditButtonIsNotActive()
+        setTextFieldsIsNotActive()
+        
+        if sender == saveGCDButton {
+            
+            ProfileServiceGCD.shared.saveProfileData(
+                name: userName,
+                description: description,
+                imageData: profileImageView.image?.pngData()
+            ) { [weak self] response in
+                guard let self = self else { return }
+                
+                if response == nil {
+                    // Нужно для того, чтобы при нажатии на cancel
+                    // не происходило изменений, так как данные уже сохранены
+                    self.profile?.image = self.profileImageView.image?.pngData()
+                    // TODO: Имя скорее всего должно быть обязательным, по этому пока так
+                    if userName != "" {
+                        self.nameLabel.text = userName
+                    }
+                    self.descriptionLabel.text = description
+                    
+                    self.showResultAlert(isResultError: false)
+                } else {
+                    self.showResultAlert(
+                        isResultError: true,
+                        senderButton: sender
+                    )
+                }
+                
+                self.activityIndicator.stopAnimating()
+            }
+        } else {
+            let addQueue = OperationQueue()
+            let saveData = ProfileServiceOperation(
+                .saveData,
+                profile: profile, 
+                name: userName,
+                description: description,
+                imageData: profileImageView.image?.pngData()
+            )
+            
+            saveData.completionBlock = { [weak self] in
+                guard let self = self else { return }
+                
+                // TODO: Не знаю как правильно вернуть операцию в main поток с Operation
+                DispatchQueue.main.async {
+                    let error = saveData.error
+                    
+                    if error == nil {
+                        // Нужно для того, чтобы при нажатии на cancel
+                        // не происходило изменений, так как данные уже сохранены
+                        self.profile?.image = self.profileImageView.image?.pngData()
+                        // TODO: Имя скорее всего должно быть обязательным, по этому пока так
+                        if userName != "" {
+                            self.nameLabel.text = userName
+                        }
+                        self.descriptionLabel.text = description
+                        
+                        self.showResultAlert(isResultError: false)
+                    } else {
+                        self.showResultAlert(
+                            isResultError: true,
+                            senderButton: sender
+                        )
+                    }
+                    
+                    self.activityIndicator.stopAnimating()
+                }
+            }
+            
+            addQueue.addOperation(saveData)
+        }
+    }
 }
 
 // MARK: - Private properties
 private extension MyProfileViewController {
     func setup() {
-        setupUI()
-    }
-    
-    func setupUI() {
-        setupTopBarView()
-        setupProfileImage()
+//        loadProfile()
+        loadProfileWithOperation()
+        
+        setupActivityIndicator()
+        setupViews()
         setupButtons()
-        setupThemeVC()
+        setupTextFields()
+        setupProfileImage()
+        setupLabels()
     }
     
-    func setupTopBarView() {
+    func loadProfileWithOperation() {
+        activityIndicator.startAnimating()
+        
+        let addQueue = OperationQueue()
+        let loadData = ProfileServiceOperation(.loadData)
+        loadData.completionBlock = { [weak self] in
+            
+            // TODO: Не знаю как правильно вернуть операцию в main поток с Operation
+            DispatchQueue.main.async {
+                self?.profile = loadData.profile
+                self?.setupProfileImage()
+                self?.setupLabels()
+                
+                self?.activityIndicator.stopAnimating()
+            }
+        }
+        
+        addQueue.addOperation(loadData)
+    }
+    
+    func loadProfile() {
+        activityIndicator.startAnimating()
+        
+        ProfileServiceGCD.shared.fetchProfileData { [weak self] result in
+            switch result {
+            case .success(let savedProfile):
+                self?.profile = savedProfile
+                self?.setupProfileImage()
+                self?.setupLabels()
+                
+                self?.activityIndicator.stopAnimating()
+            case .failure(let error):
+                printDebug("Что то пошло не так: \(error)")
+                // TODO: Нужен будет алерт о том, что данные не получены
+            }
+        }
+    }
+    
+    func setupActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = .systemGray
+        activityIndicator.style = .large
+    }
+    
+    func setupViews() {
         topBarView.backgroundColor = .appColorLoadFor(.backgroundNavBar)
+        view.backgroundColor = .appColorLoadFor(.backgroundView)
     }
     
+    // MARK: Profile image settings
     func setupProfileImage() {
+        if let imageData = profile?.image {
+            profileImageView.image = UIImage(data: imageData)
+            noProfileImageLabel.isHidden = true
+        } else {
+            setupNoProfileImageLabel()
+        }
+        
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.backgroundColor = .appColorLoadFor(.profileImageView)
-        setupNoProfileImageLabel()
-    }
-    
-    func setupNoProfileImageLabel() {
-        noProfileImageLabel.textColor = .appColorLoadFor(.textImageView)
-        noProfileImageLabel.adjustsFontSizeToFitWidth = true
-        noProfileImageLabel.baselineAdjustment = .alignCenters
-        noProfileImageLabel.minimumScaleFactor = 0.5
     }
     
     func setupProfileImageSize() {
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
     }
     
-    func setupThemeVC() {
-        view.backgroundColor = .appColorLoadFor(.backgroundView)
-        
+    func setupNoProfileImageLabel() {
+        noProfileImageLabel.text = setFirstCharacters(from: profile?.name)
+        noProfileImageLabel.textColor = .appColorLoadFor(.textImageView)
+        noProfileImageLabel.adjustsFontSizeToFitWidth = true
+        noProfileImageLabel.baselineAdjustment = .alignCenters
+        noProfileImageLabel.minimumScaleFactor = 0.5
+        noProfileImageLabel.isHidden = false
+    }
+    
+    // TODO: Сделать преобразование символов в большие
+    func setFirstCharacters(from fullName: String?) -> String? {
+        if let fullName = fullName {
+            let separateFullName = fullName.split(separator: " ")
+            let numberWords = separateFullName.count
+            var characters = ""
+            
+            if numberWords == 1 {
+                guard let firstSymbol = separateFullName.first?.first else { return "UN"}
+                return String(firstSymbol)
+            } else {
+                guard let firstSymbol = separateFullName.first?.first else { return "UN"}
+                guard let lastSymbol = separateFullName.last?.first else { return "UN"}
+                characters = "\(firstSymbol)\(lastSymbol)"
+            }
+            
+            return characters
+        } else {
+            return "UN"
+        }
+    }
+    
+    // MARK: Labels settings
+    func setupLabels() {
         titleLabel.textColor = .appColorLoadFor(.text)
         nameLabel.textColor = .appColorLoadFor(.text)
         descriptionLabel.textColor = .appColorLoadFor(.text)
-    }
-    
-    func setupButtons() {
-        saveButton.backgroundColor = .appColorLoadFor(.button)
-        saveButton.layer.cornerRadius = 14
-        saveButton.titleLabel?.font = .systemFont(ofSize: 19)
-        saveButton.setTitleColor(.systemBlue, for: .normal)
         
-        editLogoButton.titleLabel?.font = .systemFont(ofSize: 16)
+        nameLabel.text = profile?.name
+        descriptionLabel.text = profile?.description
+        
+        // TODO: Вероятно костыль. Нужно для защиты от обнуления данных, при установке фотографии, так как иначе поля nil и при нажатии сохранить без изменения данных, данные удаляются
+        userNameTextField.text = nameLabel.text
+        descriptionTextField.text = descriptionLabel.text
     }
     
-    // MARK: Alert Controller
+    // MARK: Textfield settings
+    func setupTextFields() {
+        userNameTextField.delegate = self
+        descriptionTextField.delegate = self
+        
+        userNameTextField.textColor = .appColorLoadFor(.text)
+        descriptionTextField.textColor = .appColorLoadFor(.text)
+        
+        userNameTextField.isHidden = true
+        descriptionTextField.isHidden = true
+        
+        userNameTextField.addTarget(
+            self,
+            action: #selector(profileTextFieldDidChanged),
+            for: .editingChanged)
+        
+        descriptionTextField.addTarget(
+            self,
+            action: #selector(profileTextFieldDidChanged),
+            for: .editingChanged)
+    }
+    
+    func setTextFieldsIsNotActive() {
+        userNameTextField.isEnabled = false
+        descriptionTextField.isEnabled = false
+    }
+    
+    func setTextFieldsIsActive() {
+        userNameTextField.isEnabled = true
+        descriptionTextField.isEnabled = true
+    }
+    
+    // TODO: Если поле с именем должно будет быть обязательным, добавить сюда логику на проверку nil и не отображать кнопки сохранения
+    @objc func profileTextFieldDidChanged() {
+        if userNameTextField.text != nameLabel.text
+        || descriptionTextField.text != descriptionLabel.text {
+            setSaveButtonsIsActive()
+        } else {
+            setSaveButtonsIsNotActive()
+        }
+    }
+    
+    // MARK: Button settings
+    func setupButtons() {
+        editLogoButton.titleLabel?.font = .systemFont(ofSize: 16)
+        
+        settingButtons(
+            saveButton,
+            cancelButton,
+            saveGCDButton,
+            saveOperationButton
+        )
+        
+        hideButtons(
+            cancelButton,
+            saveGCDButton,
+            saveOperationButton
+        )
+    }
+    
+    func settingButtons(_ buttons: UIButton...) {
+        for button in buttons {
+            button.backgroundColor = .appColorLoadFor(.button)
+            button.layer.cornerRadius = 14
+            button.titleLabel?.font = .systemFont(ofSize: 19)
+            button.setTitleColor(.systemBlue, for: .normal)
+        }
+    }
+    
+    func hideButtons(_ buttons: UIButton...) {
+        for button in buttons {
+            button.isHidden = true
+        }
+    }
+    
+    func showButtons(_ buttons: UIButton...) {
+        for button in buttons {
+            button.isHidden = false
+        }
+    }
+    
+    func setEditButtonIsNotActive() {
+        editLogoButton.isEnabled = false
+        editLogoButton.tintColor = .systemGray
+    }
+    
+    func setEditButtonIsActive() {
+        editLogoButton.isEnabled = true
+        editLogoButton.tintColor = .systemBlue
+    }
+    
+    func setSaveButtonsIsNotActive() {
+        saveGCDButton.isEnabled = false
+        saveGCDButton.setTitleColor(.systemGray, for: .normal)
+        
+        saveOperationButton.isEnabled = false
+        saveOperationButton.setTitleColor(.systemGray, for: .normal)
+    }
+    
+    func setSaveButtonsIsActive() {
+        saveGCDButton.isEnabled = true
+        saveGCDButton.setTitleColor(.systemBlue, for: .normal)
+        
+        saveOperationButton.isEnabled = true
+        saveOperationButton.setTitleColor(.systemBlue, for: .normal)
+    }
+    
+    // MARK: Alert Controllers
+    // Принимает значение по умолчанию в виде кнопки, для того
+    // чтобы не передавать кнопку если результат работы клоужера был без ошибки
+    func showResultAlert(isResultError: Bool, senderButton: UIButton = UIButton()) {
+        var title: String?
+        var message: String?
+        
+        if isResultError {
+            title = "Ошибка"
+            message = "Не удалось сохранить данные"
+        } else {
+            title = "Данные сохранены"
+        }
+        
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        let okButton = UIAlertAction(title: "Ок", style: .cancel) { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.setEditButtonIsActive()
+            self.setSaveButtonsIsActive()
+            self.setTextFieldsIsActive()
+            
+            if !isResultError {
+                self.userNameTextField.isHidden = true
+                self.descriptionTextField.isHidden = true
+                
+                self.nameLabel.isHidden = false
+                self.descriptionLabel.isHidden = false
+                
+                self.hideButtons(
+                    self.cancelButton,
+                    self.saveGCDButton,
+                    self.saveOperationButton
+                )
+                
+                self.showButtons(self.saveButton)
+            }
+        }
+        
+        let repeatButton = UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
+            if senderButton == self?.saveGCDButton {
+                self?.saveButtonPressed(senderButton)
+            } else {
+                self?.saveButtonPressed(senderButton)
+            }
+        }
+        
+        alert.addAction(okButton)
+        
+        if isResultError {
+            alert.addAction(repeatButton)
+        }
+        
+        present(alert, animated: true)
+        
+    }
+    
     func changeProfileLogoAlertController() {
         let choosePhoto = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -132,8 +533,24 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
         if profileImageView != nil {
             noProfileImageLabel.isHidden = true
         }
-
-        dismiss(animated: true)
+        
+        // TODO: Отрабатывает с паузой. Надо подумать как можно улучшить
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            
+            self.showButtons(
+                self.cancelButton,
+                self.saveGCDButton,
+                self.saveOperationButton
+            )
+            
+            self.setSaveButtonsIsActive()
+            
+            self.hideButtons(
+                self.editLogoButton,
+                self.saveButton
+            )
+        }
     }
     
     // MARK: Private methods
@@ -199,4 +616,34 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
            return
        }
    }
+}
+
+// MARK: - Text Field Delegate
+extension MyProfileViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        // TODO: Кривой костыль для маленького экрана, нужно подумать как это улучшить
+        if currentDevice == "iPod touch (7th generation)" { // Я знаю что с маленьким экраном есть еще другие телефоны, просто показал таким образом решение которое пришло мне в голову :)
+            topConstraintProfileImage.constant = -130
+            
+            if profileImageView.image == nil {
+                noProfileImageLabel.isHidden = true
+            }
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // TODO: Кривой костыль для маленького экрана, нужно подумать как это улучшить
+        if currentDevice == "iPod touch (7th generation)" { // Я знаю что с маленьким экраном есть еще другие телефоны, просто показал таким образом решение которое пришло мне в голову :)
+            topConstraintProfileImage.constant = 7
+            
+            if profileImageView.image == nil {
+                noProfileImageLabel.isHidden = false
+            }
+        }
+        
+    }
 }
