@@ -17,10 +17,11 @@ protocol ConversationsCellConfiguration: AnyObject {
 
 final class ConversationsCell: UITableViewCell {
     @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var profileImageLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var lastMessageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    
+
     override func awakeFromNib() {
         setupUI()
     }
@@ -28,10 +29,11 @@ final class ConversationsCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        setupTheme()
         nameLabel.text = ""
         lastMessageLabel.text = ""
         dateLabel.text = ""
-        backgroundColor = contentView.backgroundColor
+        backgroundColor = .clear
         lastMessageLabel.font = .systemFont(ofSize: 15)
     }
 }
@@ -39,6 +41,7 @@ final class ConversationsCell: UITableViewCell {
 // MARK: - Private methods
 private extension ConversationsCell {
     func setupUI() {
+        setupTheme()
         setupCell()
         setupProfileImage()
     }
@@ -48,8 +51,13 @@ private extension ConversationsCell {
     }
     
     func setupProfileImage() {
-        profileImageView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
+        profileImageView.backgroundColor = .appColorLoadFor(.profileImageView)
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+    }
+    
+    func setupTheme() {
+        nameLabel.textColor = .appColorLoadFor(.text)
+        profileImageLabel.textColor = .appColorLoadFor(.textImageView)
     }
 }
 
@@ -115,7 +123,9 @@ extension ConversationsCell: ConversationsCellConfiguration {
         }
         set {
             if newValue {
-                backgroundColor = #colorLiteral(red: 1, green: 1, blue: 0.7568627451, alpha: 1)
+                backgroundColor = .appColorLoadFor(.online)
+            } else {
+                backgroundColor = .clear
             }
         }
     }

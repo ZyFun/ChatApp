@@ -115,10 +115,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="descriptionLabel" destination="Tml-Wn-26T" id="aRW-FQ-ZRj"/>
                         <outlet property="editLogoButton" destination="lI1-aM-knx" id="AjC-PG-X7I"/>
+                        <outlet property="nameLabel" destination="bZR-EE-9bQ" id="Zw0-O7-PX3"/>
                         <outlet property="noProfileImageLabel" destination="tSH-2l-kpc" id="o1N-oD-Zwp"/>
                         <outlet property="profileImageView" destination="9cl-U9-M7N" id="g0U-Af-fjn"/>
                         <outlet property="saveButton" destination="ftQ-bc-bGE" id="XOD-zY-qiq"/>
+                        <outlet property="titleLabel" destination="lrm-Ol-Ob5" id="oIl-Je-bpk"/>
                         <outlet property="topBarView" destination="a1Z-mk-kTm" id="Du8-lk-8hG"/>
                     </connections>
                 </viewController>

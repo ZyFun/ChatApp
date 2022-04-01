@@ -17,6 +17,10 @@ final class MyProfileViewController: UIViewController {
     @IBOutlet weak var editLogoButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,19 +54,21 @@ private extension MyProfileViewController {
         setupTopBarView()
         setupProfileImage()
         setupButtons()
+        setupThemeVC()
     }
     
     func setupTopBarView() {
-        topBarView.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
+        topBarView.backgroundColor = .appColorLoadFor(.backgroundNavBar)
     }
     
     func setupProfileImage() {
         profileImageView.contentMode = .scaleAspectFill
-        profileImageView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
+        profileImageView.backgroundColor = .appColorLoadFor(.profileImageView)
         setupNoProfileImageLabel()
     }
     
     func setupNoProfileImageLabel() {
+        noProfileImageLabel.textColor = .appColorLoadFor(.textImageView)
         noProfileImageLabel.adjustsFontSizeToFitWidth = true
         noProfileImageLabel.baselineAdjustment = .alignCenters
         noProfileImageLabel.minimumScaleFactor = 0.5
@@ -72,8 +78,16 @@ private extension MyProfileViewController {
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
     }
     
+    func setupThemeVC() {
+        view.backgroundColor = .appColorLoadFor(.backgroundView)
+        
+        titleLabel.textColor = .appColorLoadFor(.text)
+        nameLabel.textColor = .appColorLoadFor(.text)
+        descriptionLabel.textColor = .appColorLoadFor(.text)
+    }
+    
     func setupButtons() {
-        saveButton.backgroundColor = #colorLiteral(red: 0.9647058845, green: 0.9647058845, blue: 0.9647058845, alpha: 1)
+        saveButton.backgroundColor = .appColorLoadFor(.button)
         saveButton.layer.cornerRadius = 14
         saveButton.titleLabel?.font = .systemFont(ofSize: 19)
         saveButton.setTitleColor(.systemBlue, for: .normal)
@@ -98,6 +112,13 @@ private extension MyProfileViewController {
         choosePhoto.addAction(camera)
         choosePhoto.addAction(photo)
         choosePhoto.addAction(cancel)
+        
+        let currentTheme = ThemeManager.shared.currentTheme
+        if currentTheme == Theme.night.rawValue {
+            choosePhoto.overrideUserInterfaceStyle = .dark
+        } else {
+            choosePhoto.overrideUserInterfaceStyle = .light
+        }
         
         present(choosePhoto, animated: true)
     }

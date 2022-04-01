@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol ThemeDelegate: AnyObject {
+    func updateTheme(
+        backgroundViewTheme: UIColor,
+        backgroundNavBarTheme: UIColor,
+        textTheme: UIColor
+    )
+}
+
 final class ConversationsListViewController: UITableViewController {
     
     // MARK: - Private properties
@@ -20,6 +28,13 @@ final class ConversationsListViewController: UITableViewController {
         
         setup()
         sortingConversationSections()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
+        setupTheme()
     }
 
     // MARK: - Table view data source
@@ -77,6 +92,19 @@ final class ConversationsListViewController: UITableViewController {
     
     override func tableView(
         _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+    ) -> UIView? {
+        
+        let header = UITableViewHeaderFooterView()
+        
+        header.contentView.backgroundColor = .appColorLoadFor(.headerBackground)
+        header.textLabel?.textColor = .appColorLoadFor(.headerText)
+        
+        return header
+    }
+    
+    override func tableView(
+        _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
         let conversationVC = ConversationViewController(
@@ -104,6 +132,23 @@ private extension ConversationsListViewController {
         setupTableView()
     }
     
+    func setupTheme() {
+        let backgroundViewTheme = UIColor.appColorLoadFor(.backgroundView)
+        let backgroundNavBarTheme = UIColor.appColorLoadFor(.backgroundNavBar)
+        let textTheme = UIColor.appColorLoadFor(.text)
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.titleTextAttributes = [.foregroundColor: textTheme ?? .label]
+        appearance.largeTitleTextAttributes = [.foregroundColor: textTheme ?? .label]
+        appearance.backgroundColor = backgroundNavBarTheme
+        
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        view.backgroundColor = backgroundViewTheme
+    }
+    
     func setupNavigationBar() {
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -113,6 +158,53 @@ private extension ConversationsListViewController {
     }
     
     func setupNavBarButtons() {
+        setupSettingsButton()
+        setupProfileButton()
+    }
+    
+    func setupSettingsButton() {
+        let barButton = UIBarButtonItem(
+            image: UIImage(named: "SettingsIcon"),
+            style: .plain,
+            target: self,
+            action: #selector(pushThemeVC)
+        )
+        
+        // TODO: Нужно доработать, чтобы обновление цвета происходило при переходе между экранами (нужен метод для всех экранов, иначе замучаюсь искать места где настраивается цвета элементов)
+        barButton.tintColor = .appColorLoadFor(.buttonNavBar)
+        
+        navigationItem.leftBarButtonItem = barButton
+    }
+    
+    @objc func pushThemeVC() {
+        let themesVC = ThemesViewController(
+            nibName: String(describing: ThemesViewController.self),
+            bundle: nil
+        )
+        
+        themesVC.themeDelegate = self
+        
+        themesVC.completion = { [weak self] viewTheme, navBarTheme, textTheme in
+
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.titleTextAttributes = [.foregroundColor: textTheme]
+            appearance.largeTitleTextAttributes = [.foregroundColor: textTheme]
+            appearance.backgroundColor = navBarTheme
+
+            self?.navigationController?.navigationBar.standardAppearance = appearance
+            self?.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
+            self?.view.backgroundColor = viewTheme
+            
+            // Нужно для того, чтобы поменять цвета в ячейках
+            self?.tableView.reloadData()
+        }
+        
+        navigationController?.pushViewController(themesVC, animated: true)
+    }
+    
+    func setupProfileButton() {
         let profileButton = UILabel(
             frame: CGRect(x: 0, y: 0, width: 40, height: 40)
         )
@@ -124,7 +216,8 @@ private extension ConversationsListViewController {
         
         profileButton.text = "UN" // TODO: Сделать выбор букв из имени и фамилии
         profileButton.textAlignment = .center
-        profileButton.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.9098039216, blue: 0.168627451, alpha: 1)
+        profileButton.backgroundColor = .appColorLoadFor(.profileImageView)
+        profileButton.textColor = .appColorLoadFor(.textImageView)
         profileButton.layer.cornerRadius = profileButton.frame.height / 2
         profileButton.layer.masksToBounds = true
         
@@ -147,6 +240,14 @@ private extension ConversationsListViewController {
     }
     
     func setupTableView() {
+        // Исправил непонятный отступ между хедером и заголовком. Такое есть только в 15 версии
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = .zero
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        tableView.separatorColor = .appColorLoadFor(.separator)
         setupXibs()
     }
     
@@ -170,5 +271,24 @@ private extension ConversationsListViewController {
                 historyConversations.append(conversation)
             }
         }
+    }
+}
+
+extension ConversationsListViewController: ThemeDelegate {
+    func updateTheme(
+        backgroundViewTheme: UIColor,
+        backgroundNavBarTheme: UIColor,
+        textTheme: UIColor
+    ) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.titleTextAttributes = [.foregroundColor: textTheme]
+        appearance.largeTitleTextAttributes = [.foregroundColor: textTheme]
+        appearance.backgroundColor = backgroundNavBarTheme
+        
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        view.backgroundColor = backgroundViewTheme
     }
 }

@@ -136,8 +136,6 @@ struct Conversation {
                          online: false,
                          hasUnreadMessages: true
                         ),
-            
-        
         ]
     }
     
