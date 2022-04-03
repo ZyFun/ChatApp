@@ -26,7 +26,7 @@
 		2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3827127DB6AC600456139 /* ThemesViewController.swift */; };
 		2CA3827427DB6AC600456139 /* ThemesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3827227DB6AC600456139 /* ThemesViewController.xib */; };
 		2CE33CE827F85FE500BA59CE /* Chat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2CE33CE627F85FE500BA59CE /* Chat.xcdatamodeld */; };
-		2CE33CEA27F863C200BA59CE /* ChatDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE33CE927F863C200BA59CE /* ChatDBService.swift */; };
+		2CE33CEA27F863C200BA59CE /* ChatCoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */; };
 		2CE58AB427F067960087B3D9 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE58AB327F067960087B3D9 /* FirestoreService.swift */; };
 		2CE58AB627F06E590087B3D9 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE58AB527F06E590087B3D9 /* NetworkError.swift */; };
 		2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */; };
@@ -68,7 +68,7 @@
 		2CA3827127DB6AC600456139 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		2CA3827227DB6AC600456139 /* ThemesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemesViewController.xib; sourceTree = "<group>"; };
 		2CE33CE727F85FE500BA59CE /* Chat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chat.xcdatamodel; sourceTree = "<group>"; };
-		2CE33CE927F863C200BA59CE /* ChatDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDBService.swift; sourceTree = "<group>"; };
+		2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCoreDataService.swift; sourceTree = "<group>"; };
 		2CE58AB327F067960087B3D9 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		2CE58AB527F06E590087B3D9 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateFormatter.swift"; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 				2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */,
 				2CE58AB327F067960087B3D9 /* FirestoreService.swift */,
 				2CE58AB527F06E590087B3D9 /* NetworkError.swift */,
-				2CE33CE927F863C200BA59CE /* ChatDBService.swift */,
+				2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -467,7 +467,7 @@
 				2C5C8C2627DF7B7900AE48F6 /* StorageManager.swift in Sources */,
 				2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */,
 				2C3CFCA627D64BB7005436A3 /* MessageCell.swift in Sources */,
-				2CE33CEA27F863C200BA59CE /* ChatDBService.swift in Sources */,
+				2CE33CEA27F863C200BA59CE /* ChatCoreDataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

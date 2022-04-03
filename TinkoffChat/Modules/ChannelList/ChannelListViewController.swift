@@ -22,7 +22,9 @@ final class ChannelListViewController: UITableViewController {
     
     // MARK: - Private properties
     
+    private let chatCoreDataService = ChatCoreDataService()
     private var channels: [Channel] = []
+    private var channelsDB: [DBChannel] = []
     private let activityIndicator = UIActivityIndicatorView()
     
     // MARK: - Life Cycle
@@ -31,6 +33,7 @@ final class ChannelListViewController: UITableViewController {
         super.viewDidLoad()
         
         setup()
+        fetchDBChannels()
         fetchChannels()
     }
     
@@ -40,7 +43,7 @@ final class ChannelListViewController: UITableViewController {
         // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
         setupTheme()
     }
-
+    
     // MARK: - Table view data source
     
     override func tableView(
@@ -48,9 +51,13 @@ final class ChannelListViewController: UITableViewController {
         numberOfRowsInSection section: Int
     ) -> Int {
         
-        channels.count
+        let count = channels.isEmpty
+        ? channelsDB.count
+        : channels.count
+        
+        return count
     }
-
+    
     override func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
@@ -61,16 +68,28 @@ final class ChannelListViewController: UITableViewController {
             for: indexPath
         ) as? ChannelCell else { return UITableViewCell() }
         
-        let channel = channels[indexPath.row]
+        if channels.isEmpty {
+            let channel = channelsDB[indexPath.row]
+            
+            cell.configure(
+                name: channel.name,
+                message: channel.lastMessage,
+                date: channel.lastActivity,
+                online: false,
+                hasUnreadMessages: false
+            )
+        } else {
+            let channel = channels[indexPath.row]
+            
+            cell.configure(
+                name: channel.name,
+                message: channel.lastMessage,
+                date: channel.lastActivity,
+                online: false,
+                hasUnreadMessages: false
+            )
+        }
         
-        cell.configure(
-            name: channel.name,
-            message: channel.lastMessage,
-            date: channel.lastActivity,
-            online: false,
-            hasUnreadMessages: false
-        )
-
         return cell
     }
     
@@ -92,12 +111,21 @@ final class ChannelListViewController: UITableViewController {
             bundle: nil
         )
         
-        let channel = channels[indexPath.row]
-        
-        channelVC.channelID = channel.identifier
-        channelVC.channelTitle = channel.name
-        channelVC.mySenderId = mySenderID
-        
+        if channels.isEmpty {
+            let channel = channelsDB[indexPath.row]
+            
+            channelVC.channelID = channel.identifier ?? ""
+            channelVC.channelTitle = channel.name
+            channelVC.mySenderId = mySenderID
+            
+        } else {
+            let channel = channels[indexPath.row]
+            
+            channelVC.channelID = channel.identifier
+            channelVC.channelTitle = channel.name
+            channelVC.mySenderId = mySenderID
+        }
+
         navigationController?.pushViewController(
             channelVC,
             animated: true
@@ -108,7 +136,13 @@ final class ChannelListViewController: UITableViewController {
         if editingStyle == .delete {
             
             let channel = channels[indexPath.row]
-
+            
+            // Это код для очистки каналов после Инны 😀
+//            for channel in channels where channel.name == "" {
+//                    printDebug("delete ID: \(channel.identifier)")
+//                    deleteChannel(id: channel.identifier)
+//            }
+            
             channels.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             deleteChannel(id: channel.identifier)
@@ -181,16 +215,16 @@ private extension ChannelListViewController {
         themesVC.themeDelegate = self
         
         themesVC.completion = { [weak self] viewTheme, navBarTheme, textTheme in
-
+            
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
             appearance.titleTextAttributes = [.foregroundColor: textTheme]
             appearance.largeTitleTextAttributes = [.foregroundColor: textTheme]
             appearance.backgroundColor = navBarTheme
-
+            
             self?.navigationController?.navigationBar.standardAppearance = appearance
             self?.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-
+            
             self?.view.backgroundColor = viewTheme
             
             // Нужно для того, чтобы поменять цвета в ячейках
@@ -240,10 +274,10 @@ private extension ChannelListViewController {
     }
     
     @objc func profileButtonPressed() {
-         guard let myProfileVC = UIStoryboard(
+        guard let myProfileVC = UIStoryboard(
             name: String(describing: MyProfileViewController.self),
             bundle: nil
-         ).instantiateInitialViewController() else { return }
+        ).instantiateInitialViewController() else { return }
         
         present(myProfileVC, animated: true)
     }
@@ -320,11 +354,15 @@ private extension ChannelListViewController {
             switch result {
             case .success(let channels):
                 self?.channels = channels
+                printDebug("Данные из Firebase получены")
                 // TODO: ([30.03.2022]) Посмотреть где оптимальнее делать сортировку
                 // По хорошему, каналы в которых не было активности, нужно добавлять в конец списка, но пока так.
                 self?.channels.sort(by: { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() })
                 self?.tableView.reloadData()
                 self?.activityIndicator.stopAnimating()
+                printDebug("Отображены данные из Firebase")
+                
+                self?.saveLoaded(channels)
             case .failure(let error):
                 // TODO: ([30.03.2022]) Добавить обработку ошибок при отсутствии подключения к сети.
                 printDebug(error)
@@ -338,6 +376,60 @@ private extension ChannelListViewController {
     
     func deleteChannel(id: String) {
         FirestoreService.shared.deleteChanel(channelID: id)
+    }
+    
+    // MARK: - Core Data Cache
+    
+    func fetchDBChannels() {
+        chatCoreDataService.fetchChannels { [weak self] result in
+            switch result {
+            case .success(let channelsDB):
+                self?.channelsDB = channelsDB
+                self?.channels.sort(by: { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() })
+                self?.tableView.reloadData()
+                printDebug("Отображены данные из Core Data")
+            case .failure(let error):
+                printDebug(error)
+            }
+        }
+    }
+    
+    func saveLoaded(_ channels: [Channel]) {
+        printDebug("Процесс обновления CoreData запущен")
+        chatCoreDataService.performSave { [weak self] context in
+            var channelsDB: [DBChannel] = []
+            
+            self?.chatCoreDataService.fetchChannels(from: context) { result in
+                switch result {
+                case .success(let channels):
+                    channelsDB = channels
+                    printDebug("Из базы загружено \(channels.count) каналов")
+                case .failure(let error):
+                    printDebug(error.localizedDescription)
+                }
+            }
+            
+            printDebug("Запуск процесса проверки данных на изменение")
+            channels.forEach { channel in
+                if let channelDB = channelsDB.filter({ $0.identifier == channel.identifier }).first {
+                    
+                    if channelDB.lastActivity != channel.lastActivity {
+                        channelDB.lastActivity = channel.lastActivity
+                        printDebug("Последнее сообщение в канале '\(channel.name)' изменено на: \(channel.lastMessage ?? "")")
+                    }
+                    
+                    if channelDB.lastMessage != channel.lastMessage {
+                        channelDB.lastMessage = channel.lastMessage
+                        printDebug("Последняя активность канала '\(channel.name)' изменена: '\(String(describing: channel.lastActivity))'")
+                    }
+                    
+                } else {
+                    printDebug("Канал '\(channel.name)' отсутствует в базе")
+                    self?.chatCoreDataService.channelSave(channel, context: context)
+                    printDebug("В базу добавлен новый канал")
+                }
+            }
+        }
     }
 }
 
