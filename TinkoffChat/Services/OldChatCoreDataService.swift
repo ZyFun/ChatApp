@@ -1,24 +1,68 @@
 //
-//  ChatCoreDataService.swift
+//  OldChatCoreDataService.swift
 //  TinkoffChat
 //
-//  Created by Дмитрий Данилин on 02.04.2022.
+//  Created by Дмитрий Данилин on 04.04.2022.
 //
 
 import CoreData
 
-final class ChatCoreDataService {
-    private lazy var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Chat")
-        container.loadPersistentStores { storeDescription, error in
-            if let error = error {
-                printDebug(error)
-            } else {
-                printDebug(storeDescription)
-            }
-        }
-        return container
+final class OldChatCoreDataService {
+    private lazy var managedObjectModel: NSManagedObjectModel? = {
+        guard let moduleURL = Bundle.main.url(forResource: "Chat", withExtension: "momd") else { return nil }
+        guard let managedObjectModel = NSManagedObjectModel(contentsOf: moduleURL) else { return nil }
+        
+        return managedObjectModel
     }()
+    
+    private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
+        guard let managedObjectModel = managedObjectModel  else { return nil }
+        
+        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+        
+        let fileManager = FileManager.default
+        let storeName = "Chat.sqlite"
+        
+        var documentsDirectoryURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        
+        let persistentStoreURL = documentsDirectoryURL?.appendingPathComponent(storeName)
+        
+        do {
+            try coordinator.addPersistentStore(
+                ofType: NSSQLiteStoreType,
+                configurationName: nil,
+                at: persistentStoreURL
+            )
+        } catch {
+            printDebug(error.localizedDescription)
+        }
+        
+        return coordinator
+    }()
+    
+    private lazy var readContext: NSManagedObjectContext = {
+        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        context.persistentStoreCoordinator = persistentStoreCoordinator
+        return context
+    }()
+    
+    private lazy var writeContext: NSManagedObjectContext = {
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        context.persistentStoreCoordinator = persistentStoreCoordinator
+        context.mergePolicy = NSOverwriteMergePolicy
+        return context
+    }()
+    
+    func fetchChannels(completion: (Result<[DBChannel], Error>) -> Void) {
+        let fetchRequest: NSFetchRequest<DBChannel> = DBChannel.fetchRequest()
+
+        do {
+            let channels = try readContext.fetch(fetchRequest)
+            completion(.success(channels))
+        } catch {
+            completion(.failure(error))
+        }
+    }
     
     func fetchChannels(from context: NSManagedObjectContext, completion: (Result<[DBChannel], Error>) -> Void) {
         let fetchRequest: NSFetchRequest<DBChannel> = DBChannel.fetchRequest()
@@ -31,20 +75,9 @@ final class ChatCoreDataService {
         }
     }
     
-    func fetchChannels(completion: (Result<[DBChannel], Error>) -> Void) {
-        let fetchRequest: NSFetchRequest<DBChannel> = DBChannel.fetchRequest()
-        
-        do {
-            let channels = try container.viewContext.fetch(fetchRequest)
-            completion(.success(channels))
-        } catch {
-            completion(.failure(error))
-        }
-    }
-    
     func channelSave(_ cannel: Channel, context: NSManagedObjectContext) {
         let channelDB = DBChannel(context: context)
-        
+
         channelDB.identifier = cannel.identifier
         channelDB.name = cannel.name
         channelDB.lastMessage = cannel.lastMessage
@@ -77,7 +110,7 @@ final class ChatCoreDataService {
     }
     
     func performSave(_ block: @escaping (NSManagedObjectContext) -> Void) {
-        let context = container.newBackgroundContext()
+        let context = writeContext
         context.perform { [weak self] in
             block(context)
             printDebug("Проверка контекста на изменение")

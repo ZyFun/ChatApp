@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C13C6EA27E60A6100955499 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C13C6E927E60A6100955499 /* ProfileModel.swift */; };
+		2C2B246527FB55F9008075C3 /* OldChatCoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */; };
 		2C3CFCA027D62164005436A3 /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9E27D62164005436A3 /* ChannelViewController.swift */; };
 		2C3CFCA127D62164005436A3 /* ChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9F27D62164005436A3 /* ChannelViewController.xib */; };
 		2C3CFCA627D64BB7005436A3 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFCA427D64BB7005436A3 /* MessageCell.swift */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		2C13C6E927E60A6100955499 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldChatCoreDataService.swift; sourceTree = "<group>"; };
 		2C3CFC9E27D62164005436A3 /* ChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelViewController.swift; sourceTree = "<group>"; };
 		2C3CFC9F27D62164005436A3 /* ChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelViewController.xib; sourceTree = "<group>"; };
 		2C3CFCA427D64BB7005436A3 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				2CE58AB327F067960087B3D9 /* FirestoreService.swift */,
 				2CE58AB527F06E590087B3D9 /* NetworkError.swift */,
 				2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */,
+				2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -463,6 +466,7 @@
 				2CE58AB427F067960087B3D9 /* FirestoreService.swift in Sources */,
 				2CEA6AF527D3ADCE0028DF67 /* ChannelMock.swift in Sources */,
 				2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */,
+				2C2B246527FB55F9008075C3 /* OldChatCoreDataService.swift in Sources */,
 				2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */,
 				2C5C8C2627DF7B7900AE48F6 /* StorageManager.swift in Sources */,
 				2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */,
