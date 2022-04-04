@@ -34,7 +34,7 @@ final class ChannelListViewController: UITableViewController {
         
         setup()
         fetchDBChannels()
-        fetchChannels()
+        loadChannels()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -347,7 +347,7 @@ private extension ChannelListViewController {
     
     // MARK: - Firestore request
     
-    func fetchChannels() {
+    func loadChannels() {
         activityIndicator.startAnimating()
         
         FirestoreService.shared.fetchChannels { [weak self] result in
@@ -385,9 +385,9 @@ private extension ChannelListViewController {
             switch result {
             case .success(let channelsDB):
                 self?.channelsDB = channelsDB
-                self?.channels.sort(by: { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() })
+                self?.channelsDB.sort(by: { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() })
                 self?.tableView.reloadData()
-                printDebug("Отображены данные из Core Data")
+                printDebug("=====Отображены данные из Core Data=====")
             case .failure(let error):
                 printDebug(error)
             }
@@ -395,14 +395,13 @@ private extension ChannelListViewController {
     }
     
     func saveLoaded(_ channels: [Channel]) {
-        printDebug("Процесс обновления CoreData запущен")
+        printDebug("=====Процесс обновления каналов в CoreData запущен=====")
         chatCoreDataService.performSave { [weak self] context in
-            var channelsDB: [DBChannel] = []
-            
             self?.chatCoreDataService.fetchChannels(from: context) { result in
                 switch result {
                 case .success(let channels):
-                    channelsDB = channels
+                    printDebug("Обновление массива каналов")
+                    self?.channelsDB = channels
                     printDebug("Из базы загружено \(channels.count) каналов")
                 case .failure(let error):
                     printDebug(error.localizedDescription)
@@ -411,7 +410,7 @@ private extension ChannelListViewController {
             
             printDebug("Запуск процесса проверки данных на изменение")
             channels.forEach { channel in
-                if let channelDB = channelsDB.filter({ $0.identifier == channel.identifier }).first {
+                if let channelDB = self?.channelsDB.filter({ $0.identifier == channel.identifier }).first {
                     
                     if channelDB.lastActivity != channel.lastActivity {
                         channelDB.lastActivity = channel.lastActivity

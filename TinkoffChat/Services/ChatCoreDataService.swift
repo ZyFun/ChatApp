@@ -51,6 +51,31 @@ final class ChatCoreDataService {
         channelDB.lastActivity = cannel.lastActivity
     }
     
+    func messageSave(_ message: Message, currentChannel: DBChannel?, context: NSManagedObjectContext) {
+        printDebug("Процесс записи нового сообщения начался")
+        let managedObject = NSEntityDescription.insertNewObject(
+            forEntityName: String(describing: DBMessage.self),
+            into: context
+        )
+        
+        guard let messageDB = managedObject as? DBMessage else {
+            printDebug("Ошибка каста до DBMessage")
+            return
+        }
+        
+        messageDB.content = message.content
+        messageDB.created = message.created
+        messageDB.senderId = message.senderId
+        messageDB.senderName = message.senderName
+        
+        if let currentChannel = currentChannel {
+            currentChannel.addToMessages(messageDB)
+            printDebug("В базу добавлено новое сообщение")
+            printDebug("Текущее количество сообщений в базе: \(currentChannel.messages?.count ?? 0)")
+        }
+        
+    }
+    
     func performSave(_ block: @escaping (NSManagedObjectContext) -> Void) {
         let context = container.newBackgroundContext()
         context.perform { [weak self] in

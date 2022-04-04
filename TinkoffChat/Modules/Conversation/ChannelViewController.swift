@@ -19,6 +19,8 @@ final class ChannelViewController: UIViewController {
     // MARK: - Private properties
     
     private var observerKeyboard = NotificationKeyboardObserver()
+    private var chatCoreDataService = ChatCoreDataService()
+    private var messagesDB: [DBMessage] = []
     
     // MARK: - IB Outlets
     
@@ -37,6 +39,7 @@ final class ChannelViewController: UIViewController {
         super.viewDidLoad()
         
         setup()
+        fetchMessagesFromDBChannel()
         loadMessages()
     }
     
@@ -160,12 +163,16 @@ private extension ChannelViewController {
             
             switch result {
             case .success(let messages):
+                printDebug("Данные из Firebase получены")
                 self?.messages = messages
                 // TODO: ([27.03.2022]) Посмотреть где оптимальнее делать сортировку
                 self?.messages.sort(by: { $0.created < $1.created })
                 self?.channelTableView.reloadData()
                 self?.scrollCellsToBottom()
                 self?.activityIndicator.stopAnimating()
+                printDebug("Отображены данные из Firebase")
+                
+                self?.saveLoaded(messages)
             case .failure(let error):
                 // TODO: ([30.03.2022]) Добавить обработку ошибок при отсутствии сети
                 printDebug(error.localizedDescription)
@@ -181,6 +188,68 @@ private extension ChannelViewController {
         )
         
         messageTextView.text = ""
+    }
+    
+    // MARK: - Core Data Cache
+    
+    func fetchMessagesFromDBChannel() {
+        chatCoreDataService.fetchChannels { [weak self] result in
+            switch result {
+            case .success(let channels):
+                if let currentChannel = channels.filter({ $0.identifier == self?.channelID }).first {
+                    if let channelMessages = currentChannel.messages?.allObjects as? [DBMessage] {
+                        self?.messagesDB = channelMessages
+                        self?.messagesDB.sort(by: { $0.created ?? Date() < $1.created ?? Date() })
+                        self?.channelTableView.reloadData()
+                        printDebug("=====Отображены данные из Core Data=====")
+                    }
+                }
+            case .failure(let error):
+                printDebug(error)
+            }
+        }
+    }
+    
+    func saveLoaded(_ messages: [Message]) {
+        printDebug("=====Процесс обновления сообщений в CoreData запущен=====")
+        chatCoreDataService.performSave { [weak self] context in
+            var messagesDB: [DBMessage] = []
+            var currentChannel: DBChannel?
+            
+            self?.chatCoreDataService.fetchChannels(from: context) { result in
+                switch result {
+                case .success(let channels):
+                    if let channel = channels.filter({ $0.identifier == self?.channelID }).first {
+                        currentChannel = channel
+                        printDebug("Загружено сообщений из базы: \(channel.messages?.count ?? 0)")
+                        if let channelMessages = channel.messages?.allObjects as? [DBMessage] {
+                            messagesDB = channelMessages
+                        }
+                    }
+                case .failure(let error):
+                    printDebug(error.localizedDescription)
+                }
+            }
+            
+            printDebug("Запуск процесса поиска новых данных")
+            messages.forEach { message in
+                
+                guard messagesDB.filter({
+                    $0.created == message.created &&
+                    $0.senderName == message.senderName
+                }).first == nil else {
+                    printDebug("Сообщение уже есть в базе")
+                    return
+                }
+                
+                printDebug("Найдено новое сообщение")
+                self?.chatCoreDataService.messageSave(
+                    message,
+                    currentChannel: currentChannel,
+                    context: context
+                )
+            }
+        }
     }
     
     // MARK: - Keyboard
@@ -214,7 +283,11 @@ extension ChannelViewController: UITableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         
-        messages.count
+        let count = messages.isEmpty
+        ? messagesDB.count
+        : messages.count
+        
+        return count
     }
     
     func tableView(
@@ -222,36 +295,77 @@ extension ChannelViewController: UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         
-        let message = messages[indexPath.row]
-        
-        if message.senderId != mySenderId {
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: MessageCell.Identifier.incoming.rawValue,
-                for: indexPath
-            ) as? MessageCell else { return UITableViewCell() }
-
-            cell.textMessage = message.content
-            cell.configure(
-                senderName: message.senderName,
-                textMessage: message.content,
-                dateCreated: message.created
-            )
+        // TODO: ([03.04.2022]) Нужен менеджер в виде парсера для избавления от дублирования
+        // парсер должен будет возвращать данные в массив, чтобы можно было работать с одном типом данных
+        // а не выбирать между двумя как сейчас.
+        // А так же нужно написать ячейку кодом, чтобы не приходилось выбирать между двух ячеек,
+        // это так же увеличивает количество кода. через xib я не понял как поменять параметры
+        // у констреинтов для relation
+        if messages.isEmpty {
+            let message = messagesDB[indexPath.row]
             
-            return cell
+            if message.senderId != mySenderId {
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: MessageCell.Identifier.incoming.rawValue,
+                    for: indexPath
+                ) as? MessageCell else { return UITableViewCell() }
+
+                cell.textMessage = message.content
+                cell.configure(
+                    senderName: message.senderName,
+                    textMessage: message.content ?? "", // TODO: ([03.04.2022]) Раобраться почему в БД опционал. Аналогично по остальным
+                    // Видимо это баг xcode, так как галочку я снял, а в файле значения остались опциональными
+                    dateCreated: message.created ?? Date()
+                )
+                
+                return cell
+            } else {
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: MessageCell.Identifier.outgoing.rawValue,
+                    for: indexPath
+                ) as? MessageCell else { return UITableViewCell() }
+
+                cell.textMessage = message.content
+                cell.configure(
+                    senderName: nil,
+                    textMessage: message.content ?? "",
+                    dateCreated: message.created ?? Date()
+                )
+                
+                return cell
+            }
         } else {
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: MessageCell.Identifier.outgoing.rawValue,
-                for: indexPath
-            ) as? MessageCell else { return UITableViewCell() }
-
-            cell.textMessage = message.content
-            cell.configure(
-                senderName: nil,
-                textMessage: message.content,
-                dateCreated: message.created
-            )
+            let message = messages[indexPath.row]
             
-            return cell
+            if message.senderId != mySenderId {
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: MessageCell.Identifier.incoming.rawValue,
+                    for: indexPath
+                ) as? MessageCell else { return UITableViewCell() }
+
+                cell.textMessage = message.content
+                cell.configure(
+                    senderName: message.senderName,
+                    textMessage: message.content,
+                    dateCreated: message.created
+                )
+                
+                return cell
+            } else {
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: MessageCell.Identifier.outgoing.rawValue,
+                    for: indexPath
+                ) as? MessageCell else { return UITableViewCell() }
+
+                cell.textMessage = message.content
+                cell.configure(
+                    senderName: nil,
+                    textMessage: message.content,
+                    dateCreated: message.created
+                )
+                
+                return cell
+            }
         }
     }
 }
