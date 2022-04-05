@@ -37,6 +37,7 @@
 		2CEBE04E27D2225F005CBCB0 /* ChannelListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE04C27D2225F005CBCB0 /* ChannelListViewController.xib */; };
 		2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE05427D23547005CBCB0 /* ChannelCell.swift */; };
 		2CEBE05727D23547005CBCB0 /* ChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE05527D23547005CBCB0 /* ChannelCell.xib */; };
+		2CEDDEBF27FC5A1E00EC448B /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEDDEBE27FC5A1E00EC448B /* Logger.swift */; };
 		2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */; };
 		2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */; };
 		2CF231B927BFBB2400CE77C2 /* MyProfileViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231B727BFBB2400CE77C2 /* MyProfileViewController.storyboard */; };
@@ -80,6 +81,7 @@
 		2CEBE04C27D2225F005CBCB0 /* ChannelListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelListViewController.xib; sourceTree = "<group>"; };
 		2CEBE05427D23547005CBCB0 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		2CEBE05527D23547005CBCB0 /* ChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelCell.xib; sourceTree = "<group>"; };
+		2CEDDEBE27FC5A1E00EC448B /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		2CF231AE27BFBB2400CE77C2 /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				2CF231C927BFFFBF00CE77C2 /* Debug.swift */,
+				2CEDDEBE27FC5A1E00EC448B /* Logger.swift */,
 			);
 			path = Supports;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */,
 				2C3CFCA027D62164005436A3 /* ChannelViewController.swift in Sources */,
 				2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */,
+				2CEDDEBF27FC5A1E00EC448B /* Logger.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */,
 				2C98466327DE237700BF6272 /* UIColor+ThemeColor.swift in Sources */,
