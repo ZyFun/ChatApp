@@ -114,6 +114,15 @@ final class ChatCoreDataService {
         
     }
     
+    func delete(_ currentDBChannel: DBChannel, context: NSManagedObjectContext) {
+        context.delete(currentDBChannel)
+        
+        Logger.info(
+            "Канал был удалён из базы",
+            showInConsole: isLogActivate
+        )
+    }
+    
     func performSave(_ block: @escaping (NSManagedObjectContext) -> Void) {
         let context = container.newBackgroundContext()
         context.perform { [weak self] in

@@ -433,7 +433,7 @@ private extension ChannelListViewController {
             }
             
             Logger.info(
-                "Запуск процесса проверки данных на изменение",
+                "Запуск процесса проверки каналов на изменение",
                 showInConsole: self?.isLogActivate
             )
             channels.forEach { channel in
@@ -456,14 +456,22 @@ private extension ChannelListViewController {
                             showInConsole: self?.isLogActivate
                         )
                     }
-                    
                 } else {
                     Logger.info(
-                        "Канал '\(channel.name)' отсутствует в базе",
+                        "Канал '\(channel.name)' отсутствует в базе и будет добавлен",
                         showInConsole: self?.isLogActivate
                     )
-                    
                     self?.chatCoreDataService.channelSave(channel, context: context)
+                }
+            }
+            
+            self?.channelsDB.forEach { channelDB in
+                if channels.filter({ $0.identifier == channelDB.identifier }).first == nil {
+                    Logger.info(
+                        "Канал '\(channelDB.name ?? "")' отсутствует на сервере и будет удалён",
+                        showInConsole: self?.isLogActivate
+                    )
+                    self?.chatCoreDataService.delete(channelDB, context: context)
                 }
             }
         }
