@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol MessageCellConfiguration: AnyObject {
-    var senderName: String? { get set }
-    var textMessage: String? { get set }
-    var dateCreated: Date { get set }
-}
+//protocol MessageCellConfiguration: AnyObject {
+//    var senderName: String? { get set }
+//    var textMessage: String? { get set }
+//    var dateCreated: Date { get set }
+//}
 
 final class MessageCell: UITableViewCell {
     enum Identifier: String {
@@ -36,34 +36,34 @@ final class MessageCell: UITableViewCell {
     }
 }
 
-extension MessageCell: MessageCellConfiguration {
-    var senderName: String? {
-        get {
-            nil
-        }
-        set {
-            senderNameLabel.text = newValue
-        }
-    }
-    
-    var textMessage: String? {
-        get {
-            nil
-        }
-        set {
-            textMessageLabel.text = newValue
-        }
-    }
-    
-    var dateCreated: Date {
-        get {
-            Date()
-        }
-        set {
-            dateCreatedLabel.text = Date().toString(date: newValue)
-        }
-    }
-}
+//extension MessageCell: MessageCellConfiguration {
+//    var senderName: String? {
+//        get {
+//            nil
+//        }
+//        set {
+//            senderNameLabel.text = newValue
+//        }
+//    }
+//
+//    var textMessage: String? {
+//        get {
+//            nil
+//        }
+//        set {
+//            textMessageLabel.text = newValue
+//        }
+//    }
+//
+//    var dateCreated: Date {
+//        get {
+//            Date()
+//        }
+//        set {
+//            dateCreatedLabel.text = Date().toString(date: newValue)
+//        }
+//    }
+//}
 
 private extension MessageCell {
     func setupUI() {
@@ -75,6 +75,10 @@ private extension MessageCell {
         dateCreatedLabel.font = .systemFont(ofSize: 11)
         
         setupTheme()
+    }
+    
+    func setupCell() {
+        
     }
     
     func setupTheme() {
@@ -94,16 +98,16 @@ private extension MessageCell {
     }
 }
 
-// MARK: - Protocol extension
-
-extension MessageCellConfiguration {
-    func configure(
-        senderName: String?,
-        textMessage: String,
-        dateCreated: Date
-    ) {
-        self.senderName = senderName
-        self.textMessage = textMessage
-        self.dateCreated = dateCreated
-    }
-}
+//// MARK: - Protocol extension
+//
+//extension MessageCellConfiguration {
+//    func configure(
+//        senderName: String?,
+//        textMessage: String,
+//        dateCreated: Date
+//    ) {
+//        self.senderName = senderName
+//        self.textMessage = textMessage
+//        self.dateCreated = dateCreated
+//    }
+//}

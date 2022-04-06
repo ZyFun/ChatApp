@@ -155,6 +155,11 @@ private extension ChannelViewController {
             ),
             forCellReuseIdentifier: MessageCell.Identifier.outgoing.rawValue
         )
+        
+        channelTableView.register(
+            MessageCodeCell.self,
+            forCellReuseIdentifier: "id"
+        )
     }
     
     // MARK: - Firestore request
@@ -323,11 +328,11 @@ extension ChannelViewController: UITableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         
-        let count = messages.isEmpty
-        ? messagesDB.count
-        : messages.count
+//        let count = messages.isEmpty
+//        ? messagesDB.count
+//        : messages.count
         
-        return count
+        return messages.count
     }
     
     func tableView(
@@ -341,72 +346,90 @@ extension ChannelViewController: UITableViewDataSource {
         // А так же нужно написать ячейку кодом, чтобы не приходилось выбирать между двух ячеек,
         // это так же увеличивает количество кода. через xib я не понял как поменять параметры
         // у констреинтов для relation
-        if messages.isEmpty {
-            let message = messagesDB[indexPath.row]
-            
-            if message.senderId != mySenderId {
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: MessageCell.Identifier.incoming.rawValue,
-                    for: indexPath
-                ) as? MessageCell else { return UITableViewCell() }
-
-                cell.textMessage = message.content
-                cell.configure(
-                    senderName: message.senderName,
-                    textMessage: message.content ?? "", // TODO: ([03.04.2022]) Раобраться почему в БД опционал. Аналогично по остальным
-                    // Видимо это баг xcode, так как галочку я снял, а в файле значения остались опциональными
-                    dateCreated: message.created ?? Date()
-                )
-                
-                return cell
-            } else {
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: MessageCell.Identifier.outgoing.rawValue,
-                    for: indexPath
-                ) as? MessageCell else { return UITableViewCell() }
-
-                cell.textMessage = message.content
-                cell.configure(
-                    senderName: nil,
-                    textMessage: message.content ?? "",
-                    dateCreated: message.created ?? Date()
-                )
-                
-                return cell
-            }
-        } else {
-            let message = messages[indexPath.row]
-            
-            if message.senderId != mySenderId {
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: MessageCell.Identifier.incoming.rawValue,
-                    for: indexPath
-                ) as? MessageCell else { return UITableViewCell() }
-
-                cell.textMessage = message.content
-                cell.configure(
-                    senderName: message.senderName,
-                    textMessage: message.content,
-                    dateCreated: message.created
-                )
-                
-                return cell
-            } else {
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: MessageCell.Identifier.outgoing.rawValue,
-                    for: indexPath
-                ) as? MessageCell else { return UITableViewCell() }
-
-                cell.textMessage = message.content
-                cell.configure(
-                    senderName: nil,
-                    textMessage: message.content,
-                    dateCreated: message.created
-                )
-                
-                return cell
-            }
-        }
+        
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "id",
+            for: indexPath
+        ) as? MessageCodeCell else { return UITableViewCell() }
+        
+        let message = messages[indexPath.row]
+        
+        cell.configure(
+            senderName: message.senderName,
+            textMessage: message.content,
+            dateCreated: message.created,
+            isIncoming: message.senderId != mySenderId
+        )
+        
+        cell.incoming = message.senderId != mySenderId
+        
+        return cell
+//        if messages.isEmpty {
+//            let message = messagesDB[indexPath.row]
+//
+//            if message.senderId != mySenderId {
+//                guard let cell = tableView.dequeueReusableCell(
+//                    withIdentifier: MessageCell.Identifier.incoming.rawValue,
+//                    for: indexPath
+//                ) as? MessageCell else { return UITableViewCell() }
+//
+//                cell.textMessage = message.content
+//                cell.configure(
+//                    senderName: message.senderName,
+//                    textMessage: message.content ?? "", // TODO: ([03.04.2022]) Раобраться почему в БД опционал. Аналогично по остальным
+//                    // Видимо это баг xcode, так как галочку я снял, а в файле значения остались опциональными
+//                    dateCreated: message.created ?? Date()
+//                )
+//
+//                return cell
+//            } else {
+//                guard let cell = tableView.dequeueReusableCell(
+//                    withIdentifier: MessageCell.Identifier.outgoing.rawValue,
+//                    for: indexPath
+//                ) as? MessageCell else { return UITableViewCell() }
+//
+//                cell.textMessage = message.content
+//                cell.configure(
+//                    senderName: nil,
+//                    textMessage: message.content ?? "",
+//                    dateCreated: message.created ?? Date()
+//                )
+//
+//                return cell
+//            }
+//        } else {
+//            let message = messages[indexPath.row]
+//
+//            if message.senderId != mySenderId {
+//                guard let cell = tableView.dequeueReusableCell(
+//                    withIdentifier: MessageCell.Identifier.incoming.rawValue,
+//                    for: indexPath
+//                ) as? MessageCell else { return UITableViewCell() }
+//
+//                cell.textMessage = message.content
+//                cell.configure(
+//                    senderName: message.senderName,
+//                    textMessage: message.content,
+//                    dateCreated: message.created
+//                )
+//
+//                return cell
+//            } else {
+//                guard let cell = tableView.dequeueReusableCell(
+//                    withIdentifier: MessageCell.Identifier.outgoing.rawValue,
+//                    for: indexPath
+//                ) as? MessageCell else { return UITableViewCell() }
+//
+//                cell.textMessage = message.content
+//                cell.configure(
+//                    senderName: nil,
+//                    textMessage: message.content,
+//                    dateCreated: message.created
+//                )
+//
+//                return cell
+//            }
+//        }
     }
 }
 
