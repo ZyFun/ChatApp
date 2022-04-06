@@ -23,6 +23,7 @@
 		2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */; };
 		2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */; };
 		2C7D10F027E73ADA00035DF5 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */; };
+		2C80DE4F27FE268000E8A0F3 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80DE4E27FE268000E8A0F3 /* Test.swift */; };
 		2C96684527FDAC2F004F1F78 /* MessageCodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C96684427FDAC2F004F1F78 /* MessageCodeCell.swift */; };
 		2C98466327DE237700BF6272 /* UIColor+ThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C98466227DE237700BF6272 /* UIColor+ThemeColor.swift */; };
 		2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3827127DB6AC600456139 /* ThemesViewController.swift */; };
@@ -68,6 +69,7 @@
 		2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstStartAppManager.swift; sourceTree = "<group>"; };
 		2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		2C80DE4E27FE268000E8A0F3 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		2C96684427FDAC2F004F1F78 /* MessageCodeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCodeCell.swift; sourceTree = "<group>"; };
 		2C98466227DE237700BF6272 /* UIColor+ThemeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+ThemeColor.swift"; sourceTree = "<group>"; };
 		2CA3827127DB6AC600456139 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				2C96684427FDAC2F004F1F78 /* MessageCodeCell.swift */,
 				2C3CFCA527D64BB7005436A3 /* IncomingMessageCell.xib */,
 				2C3CFCAD27D66284005436A3 /* OutgoingMessageCell.xib */,
+				2C80DE4E27FE268000E8A0F3 /* Test.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				2CEDDEBF27FC5A1E00EC448B /* Logger.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */,
+				2C80DE4F27FE268000E8A0F3 /* Test.swift in Sources */,
 				2C98466327DE237700BF6272 /* UIColor+ThemeColor.swift in Sources */,
 				2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */,
 				2CE58AB627F06E590087B3D9 /* NetworkError.swift in Sources */,

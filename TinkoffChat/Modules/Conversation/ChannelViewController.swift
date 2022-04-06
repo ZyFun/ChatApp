@@ -157,7 +157,7 @@ private extension ChannelViewController {
         )
         
         channelTableView.register(
-            MessageCodeCell.self,
+            Test.self,
             forCellReuseIdentifier: "id"
         )
     }
@@ -350,18 +350,32 @@ extension ChannelViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: "id",
             for: indexPath
-        ) as? MessageCodeCell else { return UITableViewCell() }
+        ) as? Test else { return UITableViewCell() }
         
         let message = messages[indexPath.row]
         
-        cell.configure(
-            senderName: message.senderName,
-            textMessage: message.content,
-            dateCreated: message.created,
-            isIncoming: message.senderId != mySenderId
-        )
+        if message.senderId != mySenderId {
+            cell.setIncomingMessage(
+                messageText: message.content,
+                date: message.created.toString(date: Date()),
+                name: message.senderName
+            )
+        } else {
+            cell.setOutdoingMessage(
+                messageText: message.content,
+                date: message.created.toString(date: Date())
+            )
+        }
         
-        cell.incoming = message.senderId != mySenderId
+//
+//        cell.configure(
+//            senderName: message.senderName,
+//            textMessage: message.content,
+//            dateCreated: message.created,
+//            isIncoming: message.senderId != mySenderId
+//        )
+//
+//        cell.incoming = message.senderId != mySenderId
         
         return cell
 //        if messages.isEmpty {
