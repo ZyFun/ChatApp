@@ -2,108 +2,119 @@
 //  MessageCell.swift
 //  TinkoffChat
 //
-//  Created by Дмитрий Данилин on 07.03.2022.
+//  Created by Дмитрий Данилин on 07.04.2022.
 //
 
 import UIKit
 
-protocol MessageCellConfiguration: AnyObject {
-    var senderName: String? { get set }
-    var textMessage: String? { get set }
-    var dateCreated: Date { get set }
-}
-
-final class MessageCell: UITableViewCell {
-    enum Identifier: String {
-        case incoming = "incomingMessage"
-        case outgoing = "outgoingMessage"
-    }
+class MessageCell: UITableViewCell {
+    static let identifier = String(describing: MessageCell.self)
     
-    enum NibName: String {
-        case incoming = "IncomingMessageCell"
-        case outgoing = "OutgoingMessageCell"
-    }
+    // MARK: - Private properties
     
-    @IBOutlet weak var messageView: UIView!
-    @IBOutlet weak var senderNameLabel: UILabel!
-    @IBOutlet weak var textMessageLabel: UILabel!
-    @IBOutlet weak var dateCreatedLabel: UILabel!
+    private var leadingConstraintViewContainer = NSLayoutConstraint()
+    private var trailingConstraintViewContainer = NSLayoutConstraint()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    private let viewContainer: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        return view
+    }()
+    
+    private let senderNameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .appColorLoadFor(.senderName)
+        label.font = .boldSystemFont(ofSize: 16)
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private let textMessageLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .appColorLoadFor(.text)
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private let dateCreatedLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .appColorLoadFor(.dateCreated)
+        label.font = .systemFont(ofSize: 11)
+        label.textAlignment = .right
+        return label
+    }()
+    
+    // MARK: - Init
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        setupUI()
-    }
-}
-
-extension MessageCell: MessageCellConfiguration {
-    var senderName: String? {
-        get {
-            nil
-        }
-        set {
-            senderNameLabel.text = newValue
-        }
-    }
-    
-    var textMessage: String? {
-        get {
-            nil
-        }
-        set {
-            textMessageLabel.text = newValue
-        }
-    }
-    
-    var dateCreated: Date {
-        get {
-            Date()
-        }
-        set {
-            dateCreatedLabel.text = Date().toString(date: newValue)
-        }
-    }
-}
-
-private extension MessageCell {
-    func setupUI() {
-        selectionStyle = .none
-        messageView.layer.cornerRadius = 8
+        viewContainer.translatesAutoresizingMaskIntoConstraints = false
+        senderNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        textMessageLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateCreatedLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        senderNameLabel.font = .boldSystemFont(ofSize: 16)
+        contentView.addSubview(viewContainer)
+        viewContainer.addSubview(senderNameLabel)
+        viewContainer.addSubview(textMessageLabel)
+        viewContainer.addSubview(dateCreatedLabel)
         
-        dateCreatedLabel.font = .systemFont(ofSize: 11)
+        NSLayoutConstraint.activate([
+            viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 11),
+            viewContainer.widthAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.width * 2 / 3),
+            viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -11),
+            
+            senderNameLabel.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 8),
+            senderNameLabel.leadingAnchor.constraint(equalTo: viewContainer.leadingAnchor, constant: 8),
+            senderNameLabel.trailingAnchor.constraint(equalTo: viewContainer.trailingAnchor, constant: -8),
+            senderNameLabel.bottomAnchor.constraint(equalTo: textMessageLabel.topAnchor, constant: -3),
+            
+            textMessageLabel.leadingAnchor.constraint(equalTo: viewContainer.leadingAnchor, constant: 8),
+            textMessageLabel.trailingAnchor.constraint(equalTo: viewContainer.trailingAnchor, constant: -8),
+            
+            dateCreatedLabel.topAnchor.constraint(equalTo: textMessageLabel.bottomAnchor, constant: 7),
+            dateCreatedLabel.leadingAnchor.constraint(equalTo: viewContainer.leadingAnchor, constant: 8),
+            dateCreatedLabel.trailingAnchor.constraint(equalTo: viewContainer.trailingAnchor, constant: -8),
+            dateCreatedLabel.bottomAnchor.constraint(equalTo: viewContainer.bottomAnchor, constant: -6)
+        ])
         
-        setupTheme()
+        leadingConstraintViewContainer = viewContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11)
+        leadingConstraintViewContainer.isActive = true
+        
+        trailingConstraintViewContainer = viewContainer.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -11)
+        trailingConstraintViewContainer.isActive = false
     }
     
-    func setupTheme() {
-        changePrototypeColorCells()
-        backgroundColor = .clear
-        textMessageLabel.textColor = .appColorLoadFor(.text)
-        senderNameLabel.textColor = .appColorLoadFor(.senderName)
-        dateCreatedLabel.textColor = .appColorLoadFor(.dateCreated)
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
     
-    func changePrototypeColorCells() {
-        if reuseIdentifier == MessageCell.Identifier.incoming.rawValue {
-            messageView.backgroundColor = .appColorLoadFor(.leftMessage)
+    private func setupIncomingOrOutgoingMessageConstraint(incoming: Bool) {
+        if incoming {
+            leadingConstraintViewContainer.isActive = true
+            trailingConstraintViewContainer.isActive = false
+            viewContainer.backgroundColor = .appColorLoadFor(.leftMessage)
         } else {
-            messageView.backgroundColor = .appColorLoadFor(.rightMessage)
+            leadingConstraintViewContainer.isActive = false
+            trailingConstraintViewContainer.isActive = true
+            senderNameLabel.text = nil
+            viewContainer.backgroundColor = .appColorLoadFor(.rightMessage)
         }
     }
 }
 
-// MARK: - Protocol extension
+// MARK: - Public methods
 
-extension MessageCellConfiguration {
-    func configure(
+extension MessageCell {
+    func configureMessageCell(
         senderName: String?,
         textMessage: String,
-        dateCreated: Date
+        dateCreated: Date,
+        isIncoming: Bool
     ) {
-        self.senderName = senderName
-        self.textMessage = textMessage
-        self.dateCreated = dateCreated
+        senderNameLabel.text = senderName
+        textMessageLabel.text = textMessage
+        dateCreatedLabel.text = Date().toString(date: dateCreated)
+        setupIncomingOrOutgoingMessageConstraint(incoming: isIncoming)
     }
 }
