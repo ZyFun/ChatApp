@@ -13,13 +13,15 @@ final class ChannelViewController: UIViewController {
     
     var channelTitle: String?
     var channelID: String = ""
-    var messages: [Message] = []
     var mySenderId: String?
     
     // MARK: - Private properties
     
     private var observerKeyboard = NotificationKeyboardObserver()
     private var chatCoreDataService = ChatCoreDataService()
+    /// массив хранит в себе данные, которые были загружены из сети
+    private var messages: [Message] = []
+    /// Массив хранит в себе данные, которые были загружены из CoreData
     private var messagesDB: [DBMessage] = []
     
     /// Свойство для активации и отображения логов в данном классе
@@ -333,36 +335,22 @@ extension ChannelViewController: UITableViewDataSource {
         if messages.isEmpty {
             let message = messagesDB[indexPath.row]
             
-            if message.senderId != mySenderId {
-                cell.configureIncomingMessage(
-                    senderName: message.senderName,
-                    textMessage: message.content ?? "", // TODO: ([03.04.2022]) Разобраться почему в БД опционал. Аналогично по остальным
-                    // Видимо это баг xcode, так как галочку я снял, а в файле значения остались опциональными
-                    dateCreated: message.created ?? Date()
-                )
-            } else {
-                cell.configureOutgoingMessage(
-                    senderName: message.senderName,
-                    textMessage: message.content ?? "",
-                    dateCreated: message.created ?? Date()
-                )
-            }
+            cell.configureMessageCell(
+                senderName: message.senderName,
+                textMessage: message.content ?? "", // TODO: ([03.04.2022]) Разобраться почему в БД опционал. Аналогично по остальным
+                // Видимо это баг xcode, так как галочку я снял, а в файле значения остались опциональными
+                dateCreated: message.created ?? Date(),
+                isIncoming: message.senderId != mySenderId
+            )
         } else {
             let message = messages[indexPath.row]
             
-            if message.senderId != mySenderId {
-                cell.configureIncomingMessage(
-                    senderName: message.senderName,
-                    textMessage: message.content,
-                    dateCreated: message.created
-                )
-            } else {
-                cell.configureOutgoingMessage(
-                    senderName: message.senderName,
-                    textMessage: message.content,
-                    dateCreated: message.created
-                )
-            }
+            cell.configureMessageCell(
+                senderName: message.senderName,
+                textMessage: message.content,
+                dateCreated: message.created,
+                isIncoming: message.senderId != mySenderId
+            )
         }
         
         return cell

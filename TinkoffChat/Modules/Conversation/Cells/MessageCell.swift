@@ -7,14 +7,13 @@
 
 import UIKit
 
-struct MessageCellConfiguration {
-    var senderName: String?
-    var textMessage: String?
-    var dateCreated: Date
-}
-
 class MessageCell: UITableViewCell {
     static let identifier = String(describing: MessageCell.self)
+    
+    // MARK: - Private properties
+    
+    private var leadingConstraintViewContainer = NSLayoutConstraint()
+    private var trailingConstraintViewContainer = NSLayoutConstraint()
     
     private let viewContainer: UIView = {
         let view = UIView()
@@ -45,6 +44,8 @@ class MessageCell: UITableViewCell {
         return label
     }()
     
+    // MARK: - Init
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -60,7 +61,7 @@ class MessageCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 11),
-//            viewContainer.widthAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.width * 2/3),
+            viewContainer.widthAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.width * 2 / 3),
             viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -11),
             
             senderNameLabel.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 8),
@@ -76,75 +77,44 @@ class MessageCell: UITableViewCell {
             dateCreatedLabel.trailingAnchor.constraint(equalTo: viewContainer.trailingAnchor, constant: -8),
             dateCreatedLabel.bottomAnchor.constraint(equalTo: viewContainer.bottomAnchor, constant: -6)
         ])
+        
+        leadingConstraintViewContainer = viewContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11)
+        leadingConstraintViewContainer.isActive = true
+        
+        trailingConstraintViewContainer = viewContainer.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -11)
+        trailingConstraintViewContainer.isActive = false
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
-    private lazy var incomingMessageConstraint = [
-        viewContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
-        viewContainer.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -90)
-    ]
-    
-    private lazy var outgoingMessageConstraint = [
-        viewContainer.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 90),
-        viewContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11)
-    ]
-    
-    private func setupIncomingMessageConstraint() {
-        incomingMessageConstraint.forEach({ $0.isActive = true })
-        outgoingMessageConstraint.forEach({ $0.isActive = false })
-        viewContainer.backgroundColor = .appColorLoadFor(.leftMessage)
+    private func setupIncomingOrOutgoingMessageConstraint(incoming: Bool) {
+        if incoming {
+            leadingConstraintViewContainer.isActive = true
+            trailingConstraintViewContainer.isActive = false
+            viewContainer.backgroundColor = .appColorLoadFor(.leftMessage)
+        } else {
+            leadingConstraintViewContainer.isActive = false
+            trailingConstraintViewContainer.isActive = true
+            senderNameLabel.text = nil
+            viewContainer.backgroundColor = .appColorLoadFor(.rightMessage)
+        }
     }
-    
-    private func setupOutgoingMessageConstraint() {
-        incomingMessageConstraint.forEach({ $0.isActive = false })
-        outgoingMessageConstraint.forEach({ $0.isActive = true })
-        viewContainer.backgroundColor = .appColorLoadFor(.rightMessage)
-    }
-    
-    private func setConfigure() {
-        
-    }
-    
 }
 
 // MARK: - Public methods
 
 extension MessageCell {
-    func configureIncomingMessage(
+    func configureMessageCell(
         senderName: String?,
         textMessage: String,
-        dateCreated: Date
+        dateCreated: Date,
+        isIncoming: Bool
     ) {
-        let configureModel = MessageCellConfiguration(
-            senderName: senderName,
-            textMessage: textMessage,
-            dateCreated: dateCreated
-        )
-        
-        senderNameLabel.text = configureModel.senderName
-        textMessageLabel.text = configureModel.textMessage
-        dateCreatedLabel.text = Date().toString(date: configureModel.dateCreated)
-        setupIncomingMessageConstraint()
-    }
-    
-    func configureOutgoingMessage(
-        senderName: String?,
-        textMessage: String,
-        dateCreated: Date
-    ) {
-        let configureModel = MessageCellConfiguration(
-            senderName: nil,
-            textMessage: textMessage,
-            dateCreated: dateCreated
-        )
-        
-        senderNameLabel.text = configureModel.senderName
-        textMessageLabel.text = configureModel.textMessage
-        dateCreatedLabel.text = Date().toString(date: configureModel.dateCreated)
-        setupOutgoingMessageConstraint()
-        setConfigure()
+        senderNameLabel.text = senderName
+        textMessageLabel.text = textMessage
+        dateCreatedLabel.text = Date().toString(date: dateCreated)
+        setupIncomingOrOutgoingMessageConstraint(incoming: isIncoming)
     }
 }
