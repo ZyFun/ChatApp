@@ -91,7 +91,7 @@ private extension ChannelViewController {
         
         channelTableView.separatorStyle = .none
         
-        setupXibs()
+        registerCell()
     }
     
     func setupViews() {
@@ -136,29 +136,10 @@ private extension ChannelViewController {
         }
     }
     
-    /// Инициализация Xibs
-    func setupXibs() {
+    func registerCell() {
         channelTableView.register(
-            UINib(
-                nibName: MessageCell.NibName.incoming.rawValue,
-                bundle: nil
-            ),
-            forCellReuseIdentifier: String(
-                describing: MessageCell.Identifier.incoming.rawValue
-            )
-        )
-        
-        channelTableView.register(
-            UINib(
-                nibName: MessageCell.NibName.outgoing.rawValue,
-                bundle: nil
-            ),
-            forCellReuseIdentifier: MessageCell.Identifier.outgoing.rawValue
-        )
-        
-        channelTableView.register(
-            Test.self,
-            forCellReuseIdentifier: "id"
+            MessageCell.self,
+            forCellReuseIdentifier: MessageCell.identifier
         )
     }
     
@@ -328,11 +309,11 @@ extension ChannelViewController: UITableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         
-//        let count = messages.isEmpty
-//        ? messagesDB.count
-//        : messages.count
+        let count = messages.isEmpty
+        ? messagesDB.count
+        : messages.count
         
-        return messages.count
+        return count
     }
     
     func tableView(
@@ -343,107 +324,48 @@ extension ChannelViewController: UITableViewDataSource {
         // TODO: ([03.04.2022]) Нужен менеджер в виде парсера для избавления от дублирования
         // парсер должен будет возвращать данные в массив, чтобы можно было работать с одном типом данных
         // а не выбирать между двумя как сейчас.
-        // А так же нужно написать ячейку кодом, чтобы не приходилось выбирать между двух ячеек,
-        // это так же увеличивает количество кода. через xib я не понял как поменять параметры
-        // у констреинтов для relation
         
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "id",
+            withIdentifier: MessageCell.identifier,
             for: indexPath
-        ) as? Test else { return UITableViewCell() }
+        ) as? MessageCell else { return UITableViewCell() }
         
-        let message = messages[indexPath.row]
-        
-        if message.senderId != mySenderId {
-            cell.setIncomingMessage(
-                messageText: message.content,
-                date: message.created.toString(date: Date()),
-                name: message.senderName
-            )
+        if messages.isEmpty {
+            let message = messagesDB[indexPath.row]
+            
+            if message.senderId != mySenderId {
+                cell.configureIncomingMessage(
+                    senderName: message.senderName,
+                    textMessage: message.content ?? "", // TODO: ([03.04.2022]) Разобраться почему в БД опционал. Аналогично по остальным
+                    // Видимо это баг xcode, так как галочку я снял, а в файле значения остались опциональными
+                    dateCreated: message.created ?? Date()
+                )
+            } else {
+                cell.configureOutgoingMessage(
+                    senderName: message.senderName,
+                    textMessage: message.content ?? "",
+                    dateCreated: message.created ?? Date()
+                )
+            }
         } else {
-            cell.setOutdoingMessage(
-                messageText: message.content,
-                date: message.created.toString(date: Date())
-            )
+            let message = messages[indexPath.row]
+            
+            if message.senderId != mySenderId {
+                cell.configureIncomingMessage(
+                    senderName: message.senderName,
+                    textMessage: message.content,
+                    dateCreated: message.created
+                )
+            } else {
+                cell.configureOutgoingMessage(
+                    senderName: message.senderName,
+                    textMessage: message.content,
+                    dateCreated: message.created
+                )
+            }
         }
         
-//
-//        cell.configure(
-//            senderName: message.senderName,
-//            textMessage: message.content,
-//            dateCreated: message.created,
-//            isIncoming: message.senderId != mySenderId
-//        )
-//
-//        cell.incoming = message.senderId != mySenderId
-        
         return cell
-//        if messages.isEmpty {
-//            let message = messagesDB[indexPath.row]
-//
-//            if message.senderId != mySenderId {
-//                guard let cell = tableView.dequeueReusableCell(
-//                    withIdentifier: MessageCell.Identifier.incoming.rawValue,
-//                    for: indexPath
-//                ) as? MessageCell else { return UITableViewCell() }
-//
-//                cell.textMessage = message.content
-//                cell.configure(
-//                    senderName: message.senderName,
-//                    textMessage: message.content ?? "", // TODO: ([03.04.2022]) Раобраться почему в БД опционал. Аналогично по остальным
-//                    // Видимо это баг xcode, так как галочку я снял, а в файле значения остались опциональными
-//                    dateCreated: message.created ?? Date()
-//                )
-//
-//                return cell
-//            } else {
-//                guard let cell = tableView.dequeueReusableCell(
-//                    withIdentifier: MessageCell.Identifier.outgoing.rawValue,
-//                    for: indexPath
-//                ) as? MessageCell else { return UITableViewCell() }
-//
-//                cell.textMessage = message.content
-//                cell.configure(
-//                    senderName: nil,
-//                    textMessage: message.content ?? "",
-//                    dateCreated: message.created ?? Date()
-//                )
-//
-//                return cell
-//            }
-//        } else {
-//            let message = messages[indexPath.row]
-//
-//            if message.senderId != mySenderId {
-//                guard let cell = tableView.dequeueReusableCell(
-//                    withIdentifier: MessageCell.Identifier.incoming.rawValue,
-//                    for: indexPath
-//                ) as? MessageCell else { return UITableViewCell() }
-//
-//                cell.textMessage = message.content
-//                cell.configure(
-//                    senderName: message.senderName,
-//                    textMessage: message.content,
-//                    dateCreated: message.created
-//                )
-//
-//                return cell
-//            } else {
-//                guard let cell = tableView.dequeueReusableCell(
-//                    withIdentifier: MessageCell.Identifier.outgoing.rawValue,
-//                    for: indexPath
-//                ) as? MessageCell else { return UITableViewCell() }
-//
-//                cell.textMessage = message.content
-//                cell.configure(
-//                    senderName: nil,
-//                    textMessage: message.content,
-//                    dateCreated: message.created
-//                )
-//
-//                return cell
-//            }
-//        }
     }
 }
 
