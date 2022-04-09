@@ -34,16 +34,12 @@ final class ChannelListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setup()
-        loadChannels()
-        
         fetchedResultsController.delegate = self
         
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            Logger.error("\(error.localizedDescription)")
-        }
+        setup()
+        loadChannelsFromCoreData()
+        loadChannelsFromFirebase()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -338,7 +334,7 @@ private extension ChannelListViewController {
     
     // MARK: - Firestore request
     
-    func loadChannels() {
+    func loadChannelsFromFirebase() {
         activityIndicator.startAnimating()
 
         FirestoreService.shared.fetchChannels { [weak self] result in
@@ -362,6 +358,14 @@ private extension ChannelListViewController {
     }
     
     // MARK: - Core Data Cache
+    
+    func loadChannelsFromCoreData() {
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+        }
+    }
     
     func saveLoaded(_ channels: [Channel]) {
         var channelsDB: [DBChannel] = []
