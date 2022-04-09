@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol ThemeDelegate: AnyObject {
     func updateTheme(
@@ -22,10 +23,11 @@ final class ChannelListViewController: UITableViewController {
     
     // MARK: - Private properties
     
-    private let chatCoreDataService = ChatCoreDataService()
-    private var channels: [Channel] = []
-    private var channelsDB: [DBChannel] = []
     private let activityIndicator = UIActivityIndicatorView()
+    private var fetchedResultsController = ChatCoreDataService.shared.fetchResultController(
+        entityName: String(describing: DBChannel.self),
+        keyForSort: #keyPath(DBChannel.lastActivity)
+    )
     
     // MARK: - Life Cycle
     
@@ -33,8 +35,15 @@ final class ChannelListViewController: UITableViewController {
         super.viewDidLoad()
         
         setup()
-        fetchDBChannels()
         loadChannels()
+        
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,12 +59,11 @@ final class ChannelListViewController: UITableViewController {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        
-        let count = channels.isEmpty
-        ? channelsDB.count
-        : channels.count
-        
-        return count
+        if let sections = fetchedResultsController.sections {
+            return sections[section].numberOfObjects
+        } else {
+            return 0
+        }
     }
     
     override func tableView(
@@ -68,27 +76,18 @@ final class ChannelListViewController: UITableViewController {
             for: indexPath
         ) as? ChannelCell else { return UITableViewCell() }
         
-        if channels.isEmpty {
-            let channel = channelsDB[indexPath.row]
-            
-            cell.configure(
-                name: channel.name,
-                message: channel.lastMessage,
-                date: channel.lastActivity,
-                online: false,
-                hasUnreadMessages: false
-            )
-        } else {
-            let channel = channels[indexPath.row]
-            
-            cell.configure(
-                name: channel.name,
-                message: channel.lastMessage,
-                date: channel.lastActivity,
-                online: false,
-                hasUnreadMessages: false
-            )
+        guard let channel = fetchedResultsController.object(at: indexPath) as? DBChannel else {
+            Logger.error("Ошибка каста object к DBChannel")
+            return UITableViewCell()
         }
+        
+        cell.configure(
+            name: channel.name,
+            message: channel.lastMessage,
+            date: channel.lastActivity,
+            online: false,
+            hasUnreadMessages: false
+        )
         
         return cell
     }
@@ -111,21 +110,12 @@ final class ChannelListViewController: UITableViewController {
             bundle: nil
         )
         
-        if channels.isEmpty {
-            let channel = channelsDB[indexPath.row]
-            
-            channelVC.channelID = channel.identifier ?? ""
-            channelVC.channelTitle = channel.name
-            channelVC.mySenderId = mySenderID
-            
-        } else {
-            let channel = channels[indexPath.row]
-            
-            channelVC.channelID = channel.identifier
-            channelVC.channelTitle = channel.name
-            channelVC.mySenderId = mySenderID
-        }
+        let channel = fetchedResultsController.object(at: indexPath) as? DBChannel
 
+        channelVC.channelID = channel?.identifier ?? ""
+        channelVC.channelTitle = channel?.name
+        channelVC.mySenderId = mySenderID
+        
         navigationController?.pushViewController(
             channelVC,
             animated: true
@@ -135,17 +125,18 @@ final class ChannelListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            let channel = channels[indexPath.row]
+            guard let channel = fetchedResultsController.object(at: indexPath) as? DBChannel else {
+                Logger.error("Ошибка каста object до DBChannel при удалении ячейки")
+                return
+            }
             
             // Это код для очистки каналов после Инны 😀
 //            for channel in channels where channel.name == "" {
 //                    printDebug("delete ID: \(channel.identifier)")
-//                    deleteChannel(id: channel.identifier)
+//                    deleteFromFirebase(channel)
 //            }
             
-            channels.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            deleteChannel(id: channel.identifier)
+            deleteFromFirebase(channel)
         }
     }
 }
@@ -349,19 +340,13 @@ private extension ChannelListViewController {
     
     func loadChannels() {
         activityIndicator.startAnimating()
-        
+
         FirestoreService.shared.fetchChannels { [weak self] result in
             switch result {
             case .success(let channels):
-                self?.channels = channels
-                // По хорошему, каналы в которых не было активности, нужно добавлять в конец списка, но пока так.
-                self?.channels.sort(by: { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() })
-                self?.tableView.reloadData()
-                self?.activityIndicator.stopAnimating()
-                
-                Logger.info("Отображены данные из Firebase")
-                
+                Logger.info("Данные из Firebase загружены")
                 self?.saveLoaded(channels)
+                self?.activityIndicator.stopAnimating()
             case .failure(let error):
                 Logger.error("\(error.localizedDescription)")
             }
@@ -372,37 +357,23 @@ private extension ChannelListViewController {
         FirestoreService.shared.addNewChannel(name: name)
     }
     
-    func deleteChannel(id: String) {
-        FirestoreService.shared.deleteChanel(channelID: id)
+    func deleteFromFirebase(_ channel: DBChannel) {
+        FirestoreService.shared.deleteChanel(channelID: channel.identifier ?? "")
     }
     
     // MARK: - Core Data Cache
     
-    func fetchDBChannels() {
-        chatCoreDataService.fetchChannels { [weak self] result in
-            switch result {
-            case .success(let channelsDB):
-                self?.channelsDB = channelsDB
-                self?.channelsDB.sort(by: { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() })
-                self?.tableView.reloadData()
-                
-                Logger.info("=====Отображены данные из Core Data=====")
-            case .failure(let error):
-                Logger.error("\(error.localizedDescription)")
-            }
-        }
-    }
-    
     func saveLoaded(_ channels: [Channel]) {
+        var channelsDB: [DBChannel] = []
+        
         Logger.info("=====Процесс обновления каналов в CoreData запущен=====")
-        chatCoreDataService.performSave { [weak self] context in
-            self?.chatCoreDataService.fetchChannels(from: context) { result in
+        
+        ChatCoreDataService.shared.performSave { context in
+            ChatCoreDataService.shared.fetchChannels(from: context) { result in
                 switch result {
                 case .success(let channels):
-                    self?.channelsDB = channels
-                    
+                    channelsDB = channels
                     Logger.info("Из базы загружено \(channels.count) каналов")
-                    
                 case .failure(let error):
                     Logger.error("\(error.localizedDescription)")
                 }
@@ -410,7 +381,7 @@ private extension ChannelListViewController {
             
             Logger.info("Запуск процесса проверки каналов на изменение")
             channels.forEach { channel in
-                if let channelDB = self?.channelsDB.filter({ $0.identifier == channel.identifier }).first {
+                if let channelDB = channelsDB.filter({ $0.identifier == channel.identifier }).first {
                     
                     if channelDB.lastActivity != channel.lastActivity {
                         channelDB.lastActivity = channel.lastActivity
@@ -425,14 +396,14 @@ private extension ChannelListViewController {
                     }
                 } else {
                     Logger.info("Канал '\(channel.name)' отсутствует в базе и будет добавлен")
-                    self?.chatCoreDataService.channelSave(channel, context: context)
+                    ChatCoreDataService.shared.channelSave(channel, context: context)
                 }
             }
             
-            self?.channelsDB.forEach { channelDB in
+            channelsDB.forEach { channelDB in
                 if channels.filter({ $0.identifier == channelDB.identifier }).first == nil {
                     Logger.info("Канал '\(channelDB.name ?? "")' отсутствует на сервере и будет удалён")
-                    self?.chatCoreDataService.delete(channelDB, context: context)
+                    ChatCoreDataService.shared.delete(channelDB, context: context)
                 }
             }
         }
@@ -457,5 +428,59 @@ extension ChannelListViewController: ThemeDelegate {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         view.backgroundColor = backgroundViewTheme
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
+
+extension ChannelListViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+        didChange anObject: Any,
+        at indexPath: IndexPath?,
+        for type: NSFetchedResultsChangeType,
+        newIndexPath: IndexPath?
+    ) {
+        
+        switch type {
+        case .insert:
+            if let indexPath = newIndexPath {
+                tableView.insertRows(at: [indexPath], with: .automatic)
+            }
+        case .delete:
+            if let indexPath = indexPath {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+        case .move:
+            if let indexPath = indexPath {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+
+            if let newIndexPath = newIndexPath {
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+        case .update:
+            if let indexPath = indexPath {
+                let channel = fetchedResultsController.object(at: indexPath) as? DBChannel
+                let cell = tableView.cellForRow(at: indexPath) as? ChannelCell
+                cell?.configure(
+                    name: channel?.name,
+                    message: channel?.lastMessage,
+                    date: channel?.lastActivity,
+                    online: false,
+                    hasUnreadMessages: false
+                )
+            }
+        @unknown default:
+            Logger.error("Что то пошло не так в NSFetchedResultsControllerDelegate")
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
     }
 }

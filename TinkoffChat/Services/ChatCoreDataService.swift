@@ -8,6 +8,8 @@
 import CoreData
 
 final class ChatCoreDataService {
+    static let shared = ChatCoreDataService()
+    
     private lazy var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Chat")
         container.loadPersistentStores { storeDescription, error in
@@ -19,6 +21,28 @@ final class ChatCoreDataService {
         }
         return container
     }()
+    
+    func fetchResultController(
+        entityName: String,
+        keyForSort: String
+    ) -> NSFetchedResultsController<NSFetchRequestResult> {
+        let context = container.viewContext
+        context.automaticallyMergesChangesFromParent = true
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        let descriptorDateLastActivity = NSSortDescriptor(key: keyForSort, ascending: false)
+        
+        fetchRequest.sortDescriptors = [descriptorDateLastActivity]
+        
+        let fetchResultController = NSFetchedResultsController<NSFetchRequestResult>(
+            fetchRequest: fetchRequest,
+            managedObjectContext: context,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+        
+        return fetchResultController
+    }
     
     func fetchChannels(from context: NSManagedObjectContext, completion: (Result<[DBChannel], Error>) -> Void) {
         let fetchRequest: NSFetchRequest<DBChannel> = DBChannel.fetchRequest()
