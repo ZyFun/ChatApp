@@ -24,9 +24,6 @@ final class ChannelViewController: UIViewController {
     /// Массив хранит в себе данные, которые были загружены из CoreData
     private var messagesDB: [DBMessage] = []
     
-    /// Свойство для активации и отображения логов в данном классе
-    private let isLogActivate = true
-    
     // MARK: - IB Outlets
     
     @IBOutlet weak var messageToolbarView: UIView!
@@ -63,9 +60,7 @@ final class ChannelViewController: UIViewController {
             // Возврат размеров панели отправки сообщений, после их изменения при написании многострочного текста
             messageToolBarHeightConstraint.constant = 80
         } else {
-            Logger.warning(
-                "ID Профиля не получено",
-                showInConsole: isLogActivate)
+            Logger.warning("ID Профиля не получено")
         }
     }
 }
@@ -163,17 +158,11 @@ private extension ChannelViewController {
                 self?.scrollCellsToBottom()
                 self?.activityIndicator.stopAnimating()
                 
-                Logger.info(
-                    "Отображены данные из Firebase",
-                    showInConsole: self?.isLogActivate
-                )
+                Logger.info("Отображены данные из Firebase")
                 
                 self?.saveLoaded(messages)
             case .failure(let error):
-                Logger.error(
-                    "\(error.localizedDescription)",
-                    showInConsole: self?.isLogActivate
-                )
+                Logger.error("\(error.localizedDescription)")
             }
         }
     }
@@ -200,26 +189,17 @@ private extension ChannelViewController {
                         self?.messagesDB.sort(by: { $0.created ?? Date() < $1.created ?? Date() })
                         self?.channelTableView.reloadData()
                         
-                        Logger.info(
-                            "=====Отображены данные из Core Data=====",
-                            showInConsole: self?.isLogActivate
-                        )
+                        Logger.info("=====Отображены данные из Core Data=====")
                     }
                 }
             case .failure(let error):
-                Logger.error(
-                    "\(error.localizedDescription)",
-                    showInConsole: self?.isLogActivate
-                )
+                Logger.error("\(error.localizedDescription)")
             }
         }
     }
     
     func saveLoaded(_ messages: [Message]) {
-        Logger.info(
-            "=====Процесс обновления сообщений в CoreData запущен=====",
-            showInConsole: isLogActivate
-        )
+        Logger.info("=====Процесс обновления сообщений в CoreData запущен=====")
         
         chatCoreDataService.performSave { [weak self] context in
             var messagesDB: [DBMessage] = []
@@ -231,27 +211,18 @@ private extension ChannelViewController {
                     if let channel = channels.filter({ $0.identifier == self?.channelID }).first {
                         currentChannel = channel
                         
-                        Logger.info(
-                            "Загружено сообщений из базы: \(channel.messages?.count ?? 0)",
-                            showInConsole: self?.isLogActivate
-                        )
+                        Logger.info("Загружено сообщений из базы: \(channel.messages?.count ?? 0)")
                         
                         if let channelMessages = channel.messages?.allObjects as? [DBMessage] {
                             messagesDB = channelMessages
                         }
                     }
                 case .failure(let error):
-                    Logger.error(
-                        "\(error.localizedDescription)",
-                        showInConsole: self?.isLogActivate
-                    )
+                    Logger.error("\(error.localizedDescription)")
                 }
             }
             
-            Logger.info(
-                "Запуск процесса поиска новых данных",
-                showInConsole: self?.isLogActivate
-            )
+            Logger.info("Запуск процесса поиска новых данных")
             
             messages.forEach { message in
                 
@@ -259,18 +230,11 @@ private extension ChannelViewController {
                     $0.created == message.created &&
                     $0.senderName == message.senderName
                 }).first == nil else {
-                    Logger.info(
-                        "Сообщение уже есть в базе",
-                        showInConsole: self?.isLogActivate
-                    )
-                    
+                    Logger.info("Сообщение уже есть в базе")
                     return
                 }
                 
-                Logger.info(
-                    "Найдено новое сообщение",
-                    showInConsole: self?.isLogActivate
-                )
+                Logger.info("Найдено новое сообщение")
                 self?.chatCoreDataService.messageSave(
                     message,
                     currentChannel: currentChannel,

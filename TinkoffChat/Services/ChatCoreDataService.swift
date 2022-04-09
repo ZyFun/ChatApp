@@ -8,22 +8,13 @@
 import CoreData
 
 final class ChatCoreDataService {
-    /// Свойство для активации и отображения логов в данном классе
-    private var isLogActivate = true
-    
     private lazy var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Chat")
-        container.loadPersistentStores { [weak self] storeDescription, error in
+        container.loadPersistentStores { storeDescription, error in
             if let error = error {
-                Logger.error(
-                    "\(error)",
-                    shouldLogContext: self?.isLogActivate
-                )
+                Logger.error("\(error)")
             } else {
-                Logger.info(
-                    "\(storeDescription)",
-                    shouldLogContext: self?.isLogActivate
-                )
+                Logger.info("\(storeDescription)")
             }
         }
         return container
@@ -52,10 +43,7 @@ final class ChatCoreDataService {
     }
     
     func channelSave(_ cannel: Channel, context: NSManagedObjectContext) {
-        Logger.info(
-            "Процесс записи нового канала начался",
-            showInConsole: isLogActivate
-        )
+        Logger.info("Процесс записи нового канала начался")
         
         let managedObject = NSEntityDescription.insertNewObject(
             forEntityName: String(describing: DBChannel.self),
@@ -63,10 +51,7 @@ final class ChatCoreDataService {
         )
         
         guard let channelDB = managedObject as? DBChannel else {
-            Logger.error(
-                "Ошибка каста до DBChannel",
-                showInConsole: isLogActivate
-            )
+            Logger.error("Ошибка каста до DBChannel")
             
             return
         }
@@ -79,10 +64,7 @@ final class ChatCoreDataService {
     }
     
     func messageSave(_ message: Message, currentChannel: DBChannel?, context: NSManagedObjectContext) {
-        Logger.info(
-            "Процесс записи нового сообщения начался",
-            showInConsole: isLogActivate
-        )
+        Logger.info("Процесс записи нового сообщения начался")
         
         let managedObject = NSEntityDescription.insertNewObject(
             forEntityName: String(describing: DBMessage.self),
@@ -90,10 +72,7 @@ final class ChatCoreDataService {
         )
         
         guard let messageDB = managedObject as? DBMessage else {
-            Logger.error(
-                "Ошибка каста до DBMessage",
-                showInConsole: isLogActivate
-            )
+            Logger.error("Ошибка каста до DBMessage")
             
             return
         }
@@ -106,10 +85,7 @@ final class ChatCoreDataService {
         if let currentChannel = currentChannel {
             currentChannel.addToMessages(messageDB)
             
-            Logger.info(
-                "В базу добавлено новое сообщение. Сообщений в базе: \(currentChannel.messages?.count ?? 0)",
-                showInConsole: isLogActivate
-            )
+            Logger.info("В базу добавлено новое сообщение. Сообщений в базе: \(currentChannel.messages?.count ?? 0)")
         }
         
     }
@@ -117,53 +93,32 @@ final class ChatCoreDataService {
     func delete(_ currentDBChannel: DBChannel, context: NSManagedObjectContext) {
         context.delete(currentDBChannel)
         
-        Logger.info(
-            "Канал был удалён из базы",
-            showInConsole: isLogActivate
-        )
+        Logger.info("Канал был удалён из базы")
     }
     
     func performSave(_ block: @escaping (NSManagedObjectContext) -> Void) {
         let context = container.newBackgroundContext()
         context.perform { [weak self] in
             block(context)
-            Logger.info(
-                "Проверка контекста на изменение",
-                showInConsole: self?.isLogActivate
-            )
+            Logger.info("Проверка контекста на изменение")
             if context.hasChanges {
-                Logger.info(
-                    "Данные изменены, попытка сохранения",
-                    showInConsole: self?.isLogActivate
-                )
+                Logger.info("Данные изменены, попытка сохранения")
                 do {
                     try self?.performSave(in: context)
                 } catch {
-                    Logger.error(
-                        "\(error.localizedDescription)",
-                        showInConsole: self?.isLogActivate
-                    )
+                    Logger.error("\(error.localizedDescription)")
                 }
             } else {
-                Logger.info(
-                    "Изменений нет",
-                    showInConsole: self?.isLogActivate
-                )
+                Logger.info("Изменений нет")
             }
             
-            Logger.info(
-                "Проверка контекста на изменение закончена",
-                showInConsole: self?.isLogActivate
-            )
+            Logger.info("Проверка контекста на изменение закончена")
         }
     }
     
     private func performSave(in context: NSManagedObjectContext) throws {
         try context.save()
-        Logger.info(
-            "Данные сохранены",
-            showInConsole: isLogActivate
-        )
+        Logger.info("Данные сохранены")
         
         // Знаю что не используется тут, но просто записал чтобы запомнить на будущее
 //        if let parent = context.parent {

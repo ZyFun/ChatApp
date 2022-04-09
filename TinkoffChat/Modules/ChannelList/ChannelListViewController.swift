@@ -27,9 +27,6 @@ final class ChannelListViewController: UITableViewController {
     private var channelsDB: [DBChannel] = []
     private let activityIndicator = UIActivityIndicatorView()
     
-    /// Свойство для активации и отображения логов в данном классе
-    private let isLogActivate = true
-    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -362,17 +359,11 @@ private extension ChannelListViewController {
                 self?.tableView.reloadData()
                 self?.activityIndicator.stopAnimating()
                 
-                Logger.info(
-                    "Отображены данные из Firebase",
-                    showInConsole: self?.isLogActivate
-                )
+                Logger.info("Отображены данные из Firebase")
                 
                 self?.saveLoaded(channels)
             case .failure(let error):
-                Logger.error(
-                    "\(error.localizedDescription)",
-                    showInConsole: self?.isLogActivate
-                )
+                Logger.error("\(error.localizedDescription)")
             }
         }
     }
@@ -395,82 +386,52 @@ private extension ChannelListViewController {
                 self?.channelsDB.sort(by: { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() })
                 self?.tableView.reloadData()
                 
-                Logger.info(
-                    "=====Отображены данные из Core Data=====",
-                    showInConsole: self?.isLogActivate
-                )
+                Logger.info("=====Отображены данные из Core Data=====")
             case .failure(let error):
-                Logger.error(
-                    "\(error.localizedDescription)",
-                    showInConsole: self?.isLogActivate
-                )
+                Logger.error("\(error.localizedDescription)")
             }
         }
     }
     
     func saveLoaded(_ channels: [Channel]) {
-        Logger.info(
-            "=====Процесс обновления каналов в CoreData запущен=====",
-            showInConsole: isLogActivate
-        )
+        Logger.info("=====Процесс обновления каналов в CoreData запущен=====")
         chatCoreDataService.performSave { [weak self] context in
             self?.chatCoreDataService.fetchChannels(from: context) { result in
                 switch result {
                 case .success(let channels):
                     self?.channelsDB = channels
                     
-                    Logger.info(
-                        "Из базы загружено \(channels.count) каналов",
-                        showInConsole: self?.isLogActivate
-                    )
+                    Logger.info("Из базы загружено \(channels.count) каналов")
                     
                 case .failure(let error):
-                    Logger.error(
-                        "\(error.localizedDescription)",
-                        showInConsole: self?.isLogActivate
-                    )
+                    Logger.error("\(error.localizedDescription)")
                 }
             }
             
-            Logger.info(
-                "Запуск процесса проверки каналов на изменение",
-                showInConsole: self?.isLogActivate
-            )
+            Logger.info("Запуск процесса проверки каналов на изменение")
             channels.forEach { channel in
                 if let channelDB = self?.channelsDB.filter({ $0.identifier == channel.identifier }).first {
                     
                     if channelDB.lastActivity != channel.lastActivity {
                         channelDB.lastActivity = channel.lastActivity
                         
-                        Logger.info(
-                            "Последнее сообщение в канале '\(channel.name)' изменено на: '\(channel.lastMessage ?? "")'",
-                            showInConsole: self?.isLogActivate
-                        )
+                        Logger.info("Последнее сообщение в канале '\(channel.name)' изменено на: '\(channel.lastMessage ?? "")'")
                     }
                     
                     if channelDB.lastMessage != channel.lastMessage {
                         channelDB.lastMessage = channel.lastMessage
                         
-                        Logger.info(
-                            "Последняя активность канала '\(channel.name)' изменена: '\(String(describing: channel.lastActivity))'",
-                            showInConsole: self?.isLogActivate
-                        )
+                        Logger.info("Последняя активность канала '\(channel.name)' изменена: '\(String(describing: channel.lastActivity))'")
                     }
                 } else {
-                    Logger.info(
-                        "Канал '\(channel.name)' отсутствует в базе и будет добавлен",
-                        showInConsole: self?.isLogActivate
-                    )
+                    Logger.info("Канал '\(channel.name)' отсутствует в базе и будет добавлен")
                     self?.chatCoreDataService.channelSave(channel, context: context)
                 }
             }
             
             self?.channelsDB.forEach { channelDB in
                 if channels.filter({ $0.identifier == channelDB.identifier }).first == nil {
-                    Logger.info(
-                        "Канал '\(channelDB.name ?? "")' отсутствует на сервере и будет удалён",
-                        showInConsole: self?.isLogActivate
-                    )
+                    Logger.info("Канал '\(channelDB.name ?? "")' отсутствует на сервере и будет удалён")
                     self?.chatCoreDataService.delete(channelDB, context: context)
                 }
             }
