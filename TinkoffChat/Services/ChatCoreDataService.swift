@@ -24,15 +24,21 @@ final class ChatCoreDataService {
     
     func fetchResultController(
         entityName: String,
-        keyForSort: String
+        keyForSort: String,
+        sortAscending: Bool,
+        currentChannel: DBChannel? = nil
     ) -> NSFetchedResultsController<NSFetchRequestResult> {
         let context = container.viewContext
         context.automaticallyMergesChangesFromParent = true
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-        let descriptorDateLastActivity = NSSortDescriptor(key: keyForSort, ascending: false)
+        let descriptorDateLastActivity = NSSortDescriptor(key: keyForSort, ascending: sortAscending)
         
         fetchRequest.sortDescriptors = [descriptorDateLastActivity]
+        
+        if let currentChannel = currentChannel {
+            fetchRequest.predicate = NSPredicate(format: "%K == %@", "channel", currentChannel)
+        }
         
         let fetchResultController = NSFetchedResultsController<NSFetchRequestResult>(
             fetchRequest: fetchRequest,
@@ -49,17 +55,6 @@ final class ChatCoreDataService {
         
         do {
             let channels = try context.fetch(fetchRequest)
-            completion(.success(channels))
-        } catch {
-            completion(.failure(error))
-        }
-    }
-    
-    func fetchChannels(completion: (Result<[DBChannel], Error>) -> Void) {
-        let fetchRequest: NSFetchRequest<DBChannel> = DBChannel.fetchRequest()
-        
-        do {
-            let channels = try container.viewContext.fetch(fetchRequest)
             completion(.success(channels))
         } catch {
             completion(.failure(error))

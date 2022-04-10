@@ -26,7 +26,8 @@ final class ChannelListViewController: UITableViewController {
     private let activityIndicator = UIActivityIndicatorView()
     private var fetchedResultsController = ChatCoreDataService.shared.fetchResultController(
         entityName: String(describing: DBChannel.self),
-        keyForSort: #keyPath(DBChannel.lastActivity)
+        keyForSort: #keyPath(DBChannel.lastActivity),
+        sortAscending: false
     )
     
     // MARK: - Life Cycle
@@ -108,9 +109,8 @@ final class ChannelListViewController: UITableViewController {
         
         let channel = fetchedResultsController.object(at: indexPath) as? DBChannel
 
-        channelVC.channelID = channel?.identifier ?? ""
-        channelVC.channelTitle = channel?.name
         channelVC.mySenderId = mySenderID
+        channelVC.currentChannel = channel
         
         navigationController?.pushViewController(
             channelVC,

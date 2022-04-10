@@ -6,23 +6,25 @@
 //
 
 import UIKit
+import CoreData
 
 final class ChannelViewController: UIViewController {
     
     // MARK: - Public properties
     
-    var channelTitle: String?
-    var channelID: String = ""
     var mySenderId: String?
+    var currentChannel: DBChannel?
     
     // MARK: - Private properties
     
     private var observerKeyboard = NotificationKeyboardObserver()
-    private var chatCoreDataService = ChatCoreDataService()
-    /// массив хранит в себе данные, которые были загружены из сети
-    private var messages: [Message] = []
-    /// Массив хранит в себе данные, которые были загружены из CoreData
-    private var messagesDB: [DBMessage] = []
+    
+    private lazy var fetchedResultsController = ChatCoreDataService.shared.fetchResultController(
+        entityName: String(describing: DBMessage.self),
+        keyForSort: #keyPath(DBMessage.created),
+        sortAscending: true,
+        currentChannel: currentChannel
+    )
     
     // MARK: - IB Outlets
     
@@ -40,15 +42,24 @@ final class ChannelViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fetchedResultsController.delegate = self
+        
         setup()
-        fetchMessagesFromDBChannel()
-        loadMessages()
+        loadMessagesFromCoreData()
+        loadMessagesFromFirebase()
     }
     
     // MARK: - IB Actions
     
     @IBAction func sendMessageButtonPressed() {
-        guard !messageTextView.text.isEmpty else { return }
+        guard !messageTextView.text.isEmpty else {
+            Logger.warning("Сообщение не введено")
+            return
+        }
+        guard let channelID = currentChannel?.identifier else {
+            Logger.error("Отсутствует идентификатор канала")
+            return
+        }
         
         if let mySenderId = mySenderId {
             sendMessage(
@@ -80,7 +91,7 @@ private extension ChannelViewController {
     
     func setupNavigationBar() {
         navigationItem.largeTitleDisplayMode = .never
-        title = channelTitle
+        title = currentChannel?.name
     }
     
     func setupTableView() {
@@ -121,18 +132,6 @@ private extension ChannelViewController {
         activityIndicator.color = .systemGray
     }
     
-    func scrollCellsToBottom() {
-        if !messages.isEmpty {
-            let lastRow = channelTableView.numberOfRows(inSection: 0) - 1
-            let indexPath = IndexPath(row: lastRow, section: 0)
-            channelTableView.scrollToRow(
-                at: indexPath,
-                at: .bottom,
-                animated: false
-            )
-        }
-    }
-    
     func registerCell() {
         channelTableView.register(
             MessageCell.self,
@@ -140,10 +139,32 @@ private extension ChannelViewController {
         )
     }
     
+    func scrollCellsToBottom(animated: Bool) {
+        guard let isNoObjects = fetchedResultsController.fetchedObjects?.isEmpty else { return }
+        if !isNoObjects {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                let lastRow = self.channelTableView.numberOfRows(inSection: 0) - 1
+                guard lastRow > 0 else { return }
+                let indexPath = IndexPath(row: lastRow, section: 0)
+                self.channelTableView.scrollToRow(
+                    at: indexPath,
+                    at: .bottom,
+                    animated: animated
+                )
+            }
+        }
+    }
+    
     // MARK: - Firestore request
     
-    func loadMessages() {
+    func loadMessagesFromFirebase() {
         activityIndicator.startAnimating()
+        guard let channelID = currentChannel?.identifier else {
+            Logger.error("Отсутствует идентификатор канала")
+            return
+        }
         
         FirestoreService.shared.fetchMessages(
             channelID: channelID
@@ -151,18 +172,11 @@ private extension ChannelViewController {
             
             switch result {
             case .success(let messages):
-                self?.messages = messages
-                // TODO: ([27.03.2022]) Посмотреть где оптимальнее делать сортировку
-                self?.messages.sort(by: { $0.created < $1.created })
-                self?.channelTableView.reloadData()
-                self?.scrollCellsToBottom()
-                self?.activityIndicator.stopAnimating()
-                
-                Logger.info("Отображены данные из Firebase")
-                
+                Logger.info("Данные из Firebase загружены")
                 self?.saveLoaded(messages)
+                self?.activityIndicator.stopAnimating()
             case .failure(let error):
-                Logger.error("\(error.localizedDescription)")
+                Logger.error(error.localizedDescription)
             }
         }
     }
@@ -179,36 +193,30 @@ private extension ChannelViewController {
     
     // MARK: - Core Data Cache
     
-    func fetchMessagesFromDBChannel() {
-        chatCoreDataService.fetchChannels { [weak self] result in
-            switch result {
-            case .success(let channels):
-                if let currentChannel = channels.filter({ $0.identifier == self?.channelID }).first {
-                    if let channelMessages = currentChannel.messages?.allObjects as? [DBMessage] {
-                        self?.messagesDB = channelMessages
-                        self?.messagesDB.sort(by: { $0.created ?? Date() < $1.created ?? Date() })
-                        self?.channelTableView.reloadData()
-                        
-                        Logger.info("=====Отображены данные из Core Data=====")
-                    }
-                }
-            case .failure(let error):
-                Logger.error("\(error.localizedDescription)")
-            }
+    func loadMessagesFromCoreData() {
+        do {
+            try fetchedResultsController.performFetch()
+            scrollCellsToBottom(animated: false)
+        } catch {
+            Logger.error(error.localizedDescription)
         }
     }
     
     func saveLoaded(_ messages: [Message]) {
         Logger.info("=====Процесс обновления сообщений в CoreData запущен=====")
+        guard let channelID = currentChannel?.identifier else {
+            Logger.error("Отсутствует идентификатор канала")
+            return
+        }
         
-        chatCoreDataService.performSave { [weak self] context in
+        ChatCoreDataService.shared.performSave { context in
             var messagesDB: [DBMessage] = []
             var currentChannel: DBChannel?
             
-            self?.chatCoreDataService.fetchChannels(from: context) { result in
+            ChatCoreDataService.shared.fetchChannels(from: context) { result in
                 switch result {
                 case .success(let channels):
-                    if let channel = channels.filter({ $0.identifier == self?.channelID }).first {
+                    if let channel = channels.filter({ $0.identifier == channelID }).first {
                         currentChannel = channel
                         
                         Logger.info("Загружено сообщений из базы: \(channel.messages?.count ?? 0)")
@@ -235,7 +243,7 @@ private extension ChannelViewController {
                 }
                 
                 Logger.info("Найдено новое сообщение")
-                self?.chatCoreDataService.messageSave(
+                ChatCoreDataService.shared.messageSave(
                     message,
                     currentChannel: currentChannel,
                     context: context
@@ -275,47 +283,30 @@ extension ChannelViewController: UITableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         
-        let count = messages.isEmpty
-        ? messagesDB.count
-        : messages.count
-        
-        return count
+        if let sections = fetchedResultsController.sections {
+            return sections[section].numberOfObjects
+        } else {
+            return 0
+        }
     }
     
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        
-        // TODO: ([03.04.2022]) Нужен менеджер в виде парсера для избавления от дублирования
-        // парсер должен будет возвращать данные в массив, чтобы можно было работать с одном типом данных
-        // а не выбирать между двумя как сейчас.
-        
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: MessageCell.identifier,
             for: indexPath
         ) as? MessageCell else { return UITableViewCell() }
         
-        if messages.isEmpty {
-            let message = messagesDB[indexPath.row]
-            
-            cell.configureMessageCell(
-                senderName: message.senderName,
-                textMessage: message.content ?? "", // TODO: ([03.04.2022]) Разобраться почему в БД опционал. Аналогично по остальным
-                // Видимо это баг xcode, так как галочку я снял, а в файле значения остались опциональными
-                dateCreated: message.created ?? Date(),
-                isIncoming: message.senderId != mySenderId
-            )
-        } else {
-            let message = messages[indexPath.row]
-            
-            cell.configureMessageCell(
-                senderName: message.senderName,
-                textMessage: message.content,
-                dateCreated: message.created,
-                isIncoming: message.senderId != mySenderId
-            )
-        }
+        let message = fetchedResultsController.object(at: indexPath) as? DBMessage
+        
+        cell.configureMessageCell(
+            senderName: message?.senderName,
+            textMessage: message?.content ?? "",
+            dateCreated: message?.created ?? Date(),
+            isIncoming: message?.senderId != mySenderId
+        )
         
         return cell
     }
@@ -325,12 +316,68 @@ extension ChannelViewController: UITableViewDataSource {
 
 extension ChannelViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        scrollCellsToBottom()
+        scrollCellsToBottom(animated: true)
     }
     
     func textViewDidChange(_ textView: UITextView) {
         if messageTextView.contentSize.height <= 130 {
             messageToolBarHeightConstraint.constant = messageTextView.contentSize.height + 48
         }
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
+
+extension ChannelViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        channelTableView.beginUpdates()
+    }
+    
+    func controller(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+        didChange anObject: Any,
+        at indexPath: IndexPath?,
+        for type: NSFetchedResultsChangeType,
+        newIndexPath: IndexPath?
+    ) {
+        
+        switch type {
+        case .insert:
+            if let indexPath = newIndexPath {
+                // TODO: ([10.04.2022]) Не могу понять, почему вызывает ошибку в консоли при появлении нового сообщения
+                channelTableView.insertRows(at: [indexPath], with: .automatic)
+                scrollCellsToBottom(animated: true)
+            }
+        case .delete:
+            if let indexPath = indexPath {
+                channelTableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+        case .move:
+            if let indexPath = indexPath {
+                channelTableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+
+            if let newIndexPath = newIndexPath {
+                channelTableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+        case .update:
+            if let indexPath = indexPath {
+                let message = fetchedResultsController.object(at: indexPath) as? DBMessage
+                let cell = channelTableView.cellForRow(at: indexPath) as? MessageCell
+                
+                cell?.configureMessageCell(
+                    senderName: message?.senderName,
+                    textMessage: message?.content ?? "",
+                    dateCreated: message?.created ?? Date(),
+                    isIncoming: message?.senderId != mySenderId
+                )
+            }
+        @unknown default:
+            Logger.error("Что то пошло не так в NSFetchedResultsControllerDelegate")
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        channelTableView.endUpdates()
     }
 }
