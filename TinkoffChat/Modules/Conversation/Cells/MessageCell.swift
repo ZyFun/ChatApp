@@ -49,6 +49,8 @@ class MessageCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        setupUI()
+        
         viewContainer.translatesAutoresizingMaskIntoConstraints = false
         senderNameLabel.translatesAutoresizingMaskIntoConstraints = false
         textMessageLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -100,6 +102,10 @@ class MessageCell: UITableViewCell {
             senderNameLabel.text = nil
             viewContainer.backgroundColor = .appColorLoadFor(.rightMessage)
         }
+    }
+    
+    func setupUI() {
+        contentView.backgroundColor = .appColorLoadFor(.backgroundView)
     }
 }
 
