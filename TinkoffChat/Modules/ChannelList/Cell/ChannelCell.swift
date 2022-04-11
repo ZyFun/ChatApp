@@ -55,13 +55,13 @@ private extension ChannelCell {
     }
     
     func setupProfileImage() {
-        profileImageView.backgroundColor = .appColorLoadFor(.profileImageView)
+        profileImageView.backgroundColor = ThemeManager.shared.appColorLoadFor(.profileImageView)
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
     }
     
     func setupTheme() {
-        nameLabel.textColor = .appColorLoadFor(.text)
-        profileImageLabel.textColor = .appColorLoadFor(.textImageView)
+        nameLabel.textColor = ThemeManager.shared.appColorLoadFor(.text)
+        profileImageLabel.textColor = ThemeManager.shared.appColorLoadFor(.textImageView)
     }
     
     func setFirstCharacter(from channelName: String?) -> String? {
@@ -141,7 +141,7 @@ extension ChannelCell: ChannelCellConfiguration {
         }
         set {
             if newValue {
-                backgroundColor = .appColorLoadFor(.online)
+                backgroundColor = ThemeManager.shared.appColorLoadFor(.online)
             } else {
                 backgroundColor = .clear
             }

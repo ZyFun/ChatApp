@@ -10,20 +10,20 @@ import UIKit
 final class ThemesViewController: UIViewController {
     // MARK: - Private properties
     
-    private let classicColorBackgroundView = UIColor.appColorSetup(.classic, .backgroundView)
-    private let classicColorBackgroundNavBar = UIColor.appColorSetup(.classic, .backgroundNavBar)
-    private let classicColorLeftMessage = UIColor.appColorSetup(.classic, .leftMessage)
-    private let classicColorRightMessage = UIColor.appColorSetup(.classic, .rightMessage)
+    private let classicColorBackgroundView = ThemeManager.shared.appColorSetup(.classic, .backgroundView)
+    private let classicColorBackgroundNavBar = ThemeManager.shared.appColorSetup(.classic, .backgroundNavBar)
+    private let classicColorLeftMessage = ThemeManager.shared.appColorSetup(.classic, .leftMessage)
+    private let classicColorRightMessage = ThemeManager.shared.appColorSetup(.classic, .rightMessage)
     
-    private let dayColorBackgroundView = UIColor.appColorSetup(.day, .backgroundView)
-    private let dayColorBackgroundNavBar = UIColor.appColorSetup(.day, .backgroundNavBar)
-    private let dayColorLeftMessage = UIColor.appColorSetup(.day, .leftMessage)
-    private let dayColorRightMessage = UIColor.appColorSetup(.day, .rightMessage)
+    private let dayColorBackgroundView = ThemeManager.shared.appColorSetup(.day, .backgroundView)
+    private let dayColorBackgroundNavBar = ThemeManager.shared.appColorSetup(.day, .backgroundNavBar)
+    private let dayColorLeftMessage = ThemeManager.shared.appColorSetup(.day, .leftMessage)
+    private let dayColorRightMessage = ThemeManager.shared.appColorSetup(.day, .rightMessage)
     
-    private let nightColorBackgroundView = UIColor.appColorSetup(.night, .backgroundView)
-    private let nightBackgroundNavBar = UIColor.appColorSetup(.night, .backgroundNavBar)
-    private let nightColorLeftMessage = UIColor.appColorSetup(.night, .leftMessage)
-    private let nightColorRightMessage = UIColor.appColorSetup(.night, .rightMessage)
+    private let nightColorBackgroundView = ThemeManager.shared.appColorSetup(.night, .backgroundView)
+    private let nightBackgroundNavBar = ThemeManager.shared.appColorSetup(.night, .backgroundNavBar)
+    private let nightColorLeftMessage = ThemeManager.shared.appColorSetup(.night, .leftMessage)
+    private let nightColorRightMessage = ThemeManager.shared.appColorSetup(.night, .rightMessage)
     
     // MARK: - Public properties
     
@@ -259,11 +259,11 @@ private extension ThemesViewController {
     }
     
     func setupThemeVC() {
-        view.backgroundColor = .appColorLoadFor(.backgroundView)
+        view.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
         
-        classicLabel.textColor = .appColorLoadFor(.text)
-        dayLabel.textColor = .appColorLoadFor(.text)
-        nightLabel.textColor = .appColorLoadFor(.text)
+        classicLabel.textColor = ThemeManager.shared.appColorLoadFor(.text)
+        dayLabel.textColor = ThemeManager.shared.appColorLoadFor(.text)
+        nightLabel.textColor = ThemeManager.shared.appColorLoadFor(.text)
     }
     
     func selectedCurrentTheme() {

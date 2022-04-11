@@ -23,7 +23,7 @@ class MessageCell: UITableViewCell {
     
     private let senderNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .appColorLoadFor(.senderName)
+        label.textColor = ThemeManager.shared.appColorLoadFor(.senderName)
         label.font = .boldSystemFont(ofSize: 16)
         label.numberOfLines = 0
         return label
@@ -31,14 +31,14 @@ class MessageCell: UITableViewCell {
     
     private let textMessageLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .appColorLoadFor(.text)
+        label.textColor = ThemeManager.shared.appColorLoadFor(.text)
         label.numberOfLines = 0
         return label
     }()
     
     private let dateCreatedLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .appColorLoadFor(.dateCreated)
+        label.textColor = ThemeManager.shared.appColorLoadFor(.dateCreated)
         label.font = .systemFont(ofSize: 11)
         label.textAlignment = .right
         return label
@@ -95,17 +95,17 @@ class MessageCell: UITableViewCell {
         if incoming {
             leadingConstraintViewContainer.isActive = true
             trailingConstraintViewContainer.isActive = false
-            viewContainer.backgroundColor = .appColorLoadFor(.leftMessage)
+            viewContainer.backgroundColor = ThemeManager.shared.appColorLoadFor(.leftMessage)
         } else {
             leadingConstraintViewContainer.isActive = false
             trailingConstraintViewContainer.isActive = true
             senderNameLabel.text = nil
-            viewContainer.backgroundColor = .appColorLoadFor(.rightMessage)
+            viewContainer.backgroundColor = ThemeManager.shared.appColorLoadFor(.rightMessage)
         }
     }
     
     func setupUI() {
-        contentView.backgroundColor = .appColorLoadFor(.backgroundView)
+        contentView.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
     }
 }
 

@@ -155,9 +155,9 @@ private extension ChannelListViewController {
     }
     
     func setupTheme() {
-        let backgroundViewTheme = UIColor.appColorLoadFor(.backgroundView)
-        let backgroundNavBarTheme = UIColor.appColorLoadFor(.backgroundNavBar)
-        let textTheme = UIColor.appColorLoadFor(.text)
+        let backgroundViewTheme = ThemeManager.shared.appColorLoadFor(.backgroundView)
+        let backgroundNavBarTheme = ThemeManager.shared.appColorLoadFor(.backgroundNavBar)
+        let textTheme = ThemeManager.shared.appColorLoadFor(.text)
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -196,7 +196,7 @@ private extension ChannelListViewController {
             action: #selector(pushThemeVC)
         )
         
-        settingsButton.tintColor = .appColorLoadFor(.buttonNavBar)
+        settingsButton.tintColor = ThemeManager.shared.appColorLoadFor(.buttonNavBar)
         
         navigationItem.leftBarButtonItem = settingsButton
     }
@@ -238,7 +238,7 @@ private extension ChannelListViewController {
             action: #selector(addChannelButtonPressed)
         )
         
-        addChannelButton.tintColor = .appColorLoadFor(.buttonNavBar)
+        addChannelButton.tintColor = ThemeManager.shared.appColorLoadFor(.buttonNavBar)
         
         let profileLabel = UILabel(
             frame: CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -251,8 +251,8 @@ private extension ChannelListViewController {
         
         profileLabel.text = "UN" // TODO: ([27.03.2022]) Сделать выбор букв из имени профиля
         profileLabel.textAlignment = .center
-        profileLabel.backgroundColor = .appColorLoadFor(.profileImageView)
-        profileLabel.textColor = .appColorLoadFor(.textImageView)
+        profileLabel.backgroundColor = ThemeManager.shared.appColorLoadFor(.profileImageView)
+        profileLabel.textColor = ThemeManager.shared.appColorLoadFor(.textImageView)
         profileLabel.layer.cornerRadius = profileLabel.frame.height / 2
         profileLabel.layer.masksToBounds = true
         
@@ -287,7 +287,7 @@ private extension ChannelListViewController {
     
     func setupTableView() {
         setupXibs()
-        tableView.separatorColor = .appColorLoadFor(.separator)
+        tableView.separatorColor = ThemeManager.shared.appColorLoadFor(.separator)
         tableView.addSubview(activityIndicator)
     }
     

@@ -103,13 +103,13 @@ private extension ChannelViewController {
     }
     
     func setupViews() {
-        channelTableView.backgroundColor = .appColorLoadFor(.backgroundView)
-        view.backgroundColor = .appColorLoadFor(.backgroundView)
+        channelTableView.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
+        view.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
     }
     
     func setupToolBar() {
         
-        messageToolbarView.backgroundColor = .appColorLoadFor(.backgroundToolBar)
+        messageToolbarView.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundToolBar)
         messageToolbarView.layer.borderWidth = 0.5
         
         if ThemeManager.shared.currentTheme != Theme.night.rawValue {
@@ -123,8 +123,8 @@ private extension ChannelViewController {
         messageTextView.layer.borderWidth = 0.5
         messageTextView.layer.borderColor = #colorLiteral(red: 0.6251094341, green: 0.6256788373, blue: 0.6430239081, alpha: 1)
         messageTextView.textContainer.lineFragmentPadding = 44
-        messageTextView.backgroundColor = .appColorLoadFor(.textFieldToolBar)
-        messageTextView.textColor = .appColorLoadFor(.text)
+        messageTextView.backgroundColor = ThemeManager.shared.appColorLoadFor(.textFieldToolBar)
+        messageTextView.textColor = ThemeManager.shared.appColorLoadFor(.text)
     }
     
     func setupActivityIndicator() {
