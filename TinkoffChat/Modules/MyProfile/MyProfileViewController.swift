@@ -134,25 +134,32 @@ final class MyProfileViewController: UIViewController {
             name: userName,
             description: description,
             imageData: profileImageView.image?.pngData()
-        ) { [weak self] response in
+        ) { [weak self] result in
             guard let self = self else { return }
             
-            if response == nil {
-                // Нужно для того, чтобы при нажатии на cancel
-                // не происходило изменений, так как данные уже сохранены
-                self.profile?.image = self.profileImageView.image?.pngData()
-                // TODO: ([20.03.2022]) Имя скорее всего должно быть обязательным, по этому пока так
-                if userName != "" {
-                    self.nameLabel.text = userName
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let swiftlint):
+                    // TODO: ([11.04.2022]) swiftlint не даёт оставить пустым, хотя мне не нужно отсюда ничего.
+                    Logger.info("\(swiftlint)", showInConsole: false)
+                    
+                    // Нужно для того, чтобы при нажатии на cancel
+                    // не происходило изменений, так как данные уже сохранены
+                    self.profile?.image = self.profileImageView.image?.pngData()
+                    // TODO: ([20.03.2022]) Имя скорее всего должно быть обязательным, по этому пока так
+                    if userName != "" {
+                        self.nameLabel.text = userName
+                    }
+                    self.descriptionLabel.text = description
+                    
+                    self.showResultAlert(isResultError: false)
+                case .failure(let error):
+                    Logger.warning(error.localizedDescription)
+                    self.showResultAlert(isResultError: true)
                 }
-                self.descriptionLabel.text = description
                 
-                self.showResultAlert(isResultError: false)
-            } else {
-                self.showResultAlert(isResultError: true)
+                self.activityIndicator.stopAnimating()
             }
-            
-            self.activityIndicator.stopAnimating()
         }
     }
     
@@ -196,10 +203,12 @@ private extension MyProfileViewController {
             switch result {
             case .success(let savedProfile):
                 self?.profile = savedProfile
-                self?.setupProfileImage()
-                self?.setupLabels()
                 
-                self?.activityIndicator.stopAnimating()
+                DispatchQueue.main.async {
+                    self?.setupProfileImage()
+                    self?.setupLabels()
+                    self?.activityIndicator.stopAnimating()
+                }
             case .failure(let error):
                 printDebug("Что то пошло не так: \(error)")
                 // TODO: ([21.03.2022]) Нужен будет алерт о том, что данные не получены
@@ -421,9 +430,7 @@ private extension MyProfileViewController {
             title: "Повторить",
             style: .default
         ) { [weak self] _ in
-            
             self?.saveButtonPressed()
-
         }
         
         alert.addAction(okButton)
@@ -433,7 +440,6 @@ private extension MyProfileViewController {
         }
         
         present(alert, animated: true)
-        
     }
     
     func changeProfileLogoAlertController() {
@@ -478,7 +484,6 @@ extension MyProfileViewController: UITextFieldDelegate {
         if profileImageView.image == nil {
             noProfileImageLabel.isHidden = true
         }
-        
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
