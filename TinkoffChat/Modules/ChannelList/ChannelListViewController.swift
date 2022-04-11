@@ -30,6 +30,10 @@ final class ChannelListViewController: UITableViewController {
         sortAscending: false
     )
     
+    // TODO: ([11.04.2022]) Скорее всего костыль, и не знаю уместно такое использовать или нет.
+    /// Метод для решения проблемы с ошибкой обновления данных, когда экран не активен.
+    private var isAppear = true
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -40,7 +44,6 @@ final class ChannelListViewController: UITableViewController {
         setup()
         loadChannelsFromCoreData()
         loadChannelsFromFirebase()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,6 +51,17 @@ final class ChannelListViewController: UITableViewController {
         
         // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
         setupTheme()
+        
+        if !isAppear {
+            tableView.reloadData()
+            isAppear.toggle()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        isAppear.toggle()
     }
     
     // MARK: - Table view data source
@@ -125,12 +139,6 @@ final class ChannelListViewController: UITableViewController {
                 Logger.error("Ошибка каста object до DBChannel при удалении ячейки")
                 return
             }
-            
-            // Это код для очистки каналов после Инны 😀
-//            for channel in channels where channel.name == "" {
-//                    printDebug("delete ID: \(channel.identifier)")
-//                    deleteFromFirebase(channel)
-//            }
             
             deleteFromFirebase(channel)
         }
@@ -272,16 +280,14 @@ private extension ChannelListViewController {
     // MARK: - Table View setup
     
     func setupActivityIndicator() {
-        activityIndicator.center = view.center
-        
         activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = view.center
         activityIndicator.color = .systemGray
     }
     
     func setupTableView() {
-        tableView.separatorColor = .appColorLoadFor(.separator)
         setupXibs()
-        
+        tableView.separatorColor = .appColorLoadFor(.separator)
         tableView.addSubview(activityIndicator)
     }
     
@@ -336,7 +342,6 @@ private extension ChannelListViewController {
     
     func loadChannelsFromFirebase() {
         activityIndicator.startAnimating()
-
         FirestoreService.shared.fetchChannels { [weak self] result in
             switch result {
             case .success(let channels):
@@ -371,7 +376,6 @@ private extension ChannelListViewController {
         var channelsDB: [DBChannel] = []
         
         Logger.info("=====Процесс обновления каналов в CoreData запущен=====")
-        
         ChatCoreDataService.shared.performSave { context in
             ChatCoreDataService.shared.fetchChannels(from: context) { result in
                 switch result {
@@ -389,13 +393,11 @@ private extension ChannelListViewController {
                     
                     if channelDB.lastActivity != channel.lastActivity {
                         channelDB.lastActivity = channel.lastActivity
-                        
                         Logger.info("Последнее сообщение в канале '\(channel.name)' изменено на: '\(channel.lastMessage ?? "")'")
                     }
                     
                     if channelDB.lastMessage != channel.lastMessage {
                         channelDB.lastMessage = channel.lastMessage
-                        
                         Logger.info("Последняя активность канала '\(channel.name)' изменена: '\(String(describing: channel.lastActivity))'")
                     }
                 } else {
@@ -439,7 +441,9 @@ extension ChannelListViewController: ThemeDelegate {
 
 extension ChannelListViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
+        if isAppear {
+            tableView.beginUpdates()
+        }
     }
     
     func controller(
@@ -449,42 +453,45 @@ extension ChannelListViewController: NSFetchedResultsControllerDelegate {
         for type: NSFetchedResultsChangeType,
         newIndexPath: IndexPath?
     ) {
-        
-        switch type {
-        case .insert:
-            if let indexPath = newIndexPath {
-                tableView.insertRows(at: [indexPath], with: .automatic)
-            }
-        case .delete:
-            if let indexPath = indexPath {
-                tableView.deleteRows(at: [indexPath], with: .automatic)
-            }
-        case .move:
-            if let indexPath = indexPath {
-                tableView.deleteRows(at: [indexPath], with: .automatic)
-            }
+        if isAppear {
+            switch type {
+            case .insert:
+                if let indexPath = newIndexPath {
+                    tableView.insertRows(at: [indexPath], with: .automatic)
+                }
+            case .delete:
+                if let indexPath = indexPath {
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            case .move:
+                if let indexPath = indexPath {
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
 
-            if let newIndexPath = newIndexPath {
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
+                if let newIndexPath = newIndexPath {
+                    tableView.insertRows(at: [newIndexPath], with: .automatic)
+                }
+            case .update:
+                if let indexPath = indexPath {
+                    let channel = fetchedResultsController.object(at: indexPath) as? DBChannel
+                    let cell = tableView.cellForRow(at: indexPath) as? ChannelCell
+                    cell?.configure(
+                        name: channel?.name,
+                        message: channel?.lastMessage,
+                        date: channel?.lastActivity,
+                        online: false,
+                        hasUnreadMessages: false
+                    )
+                }
+            @unknown default:
+                Logger.error("Что то пошло не так в NSFetchedResultsControllerDelegate")
             }
-        case .update:
-            if let indexPath = indexPath {
-                let channel = fetchedResultsController.object(at: indexPath) as? DBChannel
-                let cell = tableView.cellForRow(at: indexPath) as? ChannelCell
-                cell?.configure(
-                    name: channel?.name,
-                    message: channel?.lastMessage,
-                    date: channel?.lastActivity,
-                    online: false,
-                    hasUnreadMessages: false
-                )
-            }
-        @unknown default:
-            Logger.error("Что то пошло не так в NSFetchedResultsControllerDelegate")
         }
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
+        if isAppear {
+            tableView.endUpdates()
+        }
     }
 }

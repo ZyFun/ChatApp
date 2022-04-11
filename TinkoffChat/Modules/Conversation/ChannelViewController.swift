@@ -344,7 +344,6 @@ extension ChannelViewController: NSFetchedResultsControllerDelegate {
         switch type {
         case .insert:
             if let indexPath = newIndexPath {
-                // TODO: ([10.04.2022]) Не могу понять, почему вызывает ошибку в консоли при появлении нового сообщения
                 channelTableView.insertRows(at: [indexPath], with: .automatic)
                 scrollCellsToBottom(animated: true)
             }

@@ -22,6 +22,8 @@ final class ChatCoreDataService {
         return container
     }()
     
+    private init() {}
+    
     func fetchResultController(
         entityName: String,
         keyForSort: String,

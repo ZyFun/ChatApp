@@ -13,6 +13,8 @@ final class FirestoreService {
     private lazy var db = Firestore.firestore()
     private lazy var referenceChannels = db.collection("channels")
     
+    private init() {}
+    
     // MARK: - Channels
     
     func fetchChannels(completion: @escaping (Result<[Channel], Error>) -> Void) {
