@@ -42,13 +42,15 @@ final class ThemeManager {
     
     func appColorSetup(_ theme: Theme, _ colors: AssetsColor) -> UIColor {
         let colorName = "\(theme.rawValue) - \(colors.rawValue)"
-        return UIColor(named: colorName) ?? .clear
+        return UIColor(named: colorName) ?? .red
     }
     
-    func appColorLoadFor(_ name: AssetsColor) -> UIColor? {
+    func appColorLoadFor(_ name: AssetsColor) -> UIColor {
         let theme = ThemeManager.shared.currentTheme
         let colorName = "\(theme) - \(name.rawValue)"
         
-        return UIColor(named: colorName)
+        return UIColor(named: colorName) ?? .red
      }
+    
+    // делаю возврат красного, чтобы сразу было понятно о том, что где-то есть ошибка
 }

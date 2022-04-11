@@ -161,8 +161,8 @@ private extension ChannelListViewController {
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.titleTextAttributes = [.foregroundColor: textTheme ?? .label]
-        appearance.largeTitleTextAttributes = [.foregroundColor: textTheme ?? .label]
+        appearance.titleTextAttributes = [.foregroundColor: textTheme]
+        appearance.largeTitleTextAttributes = [.foregroundColor: textTheme]
         appearance.backgroundColor = backgroundNavBarTheme
         
         navigationController?.navigationBar.standardAppearance = appearance
@@ -209,18 +209,16 @@ private extension ChannelListViewController {
         
         themesVC.themeDelegate = self
         
-        themesVC.completion = { [weak self] viewTheme, navBarTheme, textTheme in
+        themesVC.completion = { [weak self] in
             
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
-            appearance.titleTextAttributes = [.foregroundColor: textTheme]
-            appearance.largeTitleTextAttributes = [.foregroundColor: textTheme]
-            appearance.backgroundColor = navBarTheme
+            appearance.titleTextAttributes = [.foregroundColor: ThemeManager.shared.appColorLoadFor(.text)]
+            appearance.largeTitleTextAttributes = [.foregroundColor: ThemeManager.shared.appColorLoadFor(.text)]
+            appearance.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundNavBar)
             
             self?.navigationController?.navigationBar.standardAppearance = appearance
             self?.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-            
-            self?.view.backgroundColor = viewTheme
             
             // Нужно для того, чтобы поменять цвета в ячейках
             self?.tableView.reloadData()

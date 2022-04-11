@@ -27,13 +27,7 @@ final class ThemesViewController: UIViewController {
     
     // MARK: - Public properties
     
-    var completion: (
-        (
-            _ backgroundView: UIColor,
-            _ backgroundNavBar: UIColor,
-            _ text: UIColor
-        ) -> Void
-    )?
+    var completion: (() -> Void)?
     
     weak var themeDelegate: ThemeDelegate?
     
@@ -182,11 +176,7 @@ private extension ThemesViewController {
             StorageManager.shared.saveTheme(theme: .classic)
             setNeedsStatusBarAppearanceUpdate()
             
-            completion?(
-                classicColorBackgroundView,
-                classicColorBackgroundNavBar,
-                .black
-            )
+            completion?()
         case dayMainView:
             setSelectedState(dayChatView)
             setDeselectedState(classicChatView)
@@ -204,11 +194,7 @@ private extension ThemesViewController {
             StorageManager.shared.saveTheme(theme: .day)
             setNeedsStatusBarAppearanceUpdate()
             
-            completion?(
-                dayColorBackgroundView,
-                dayColorBackgroundNavBar,
-                .black
-            )
+            completion?()
         case nightMainView:
             setSelectedState(nightChatView)
             setDeselectedState(classicChatView)
@@ -226,11 +212,7 @@ private extension ThemesViewController {
             StorageManager.shared.saveTheme(theme: .night)
             setNeedsStatusBarAppearanceUpdate()
             
-            completion?(
-                nightColorBackgroundView,
-                nightBackgroundNavBar,
-                .white
-            )
+            completion?()
         default:
             break
         }
