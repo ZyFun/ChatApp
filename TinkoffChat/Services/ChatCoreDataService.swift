@@ -102,6 +102,7 @@ final class ChatCoreDataService {
         messageDB.created = message.created
         messageDB.senderId = message.senderId
         messageDB.senderName = message.senderName
+        messageDB.messageId = message.messageId
         
         if let currentChannel = currentChannel {
             currentChannel.addToMessages(messageDB)

@@ -235,8 +235,7 @@ private extension ChannelViewController {
             messages.forEach { message in
                 
                 guard messagesDB.filter({
-                    $0.created == message.created &&
-                    $0.senderName == message.senderName
+                    $0.messageId == message.messageId
                 }).first == nil else {
                     Logger.info("Сообщение уже есть в базе")
                     return

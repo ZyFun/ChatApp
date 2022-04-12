@@ -92,6 +92,7 @@ final class FirestoreService {
                         let created = ($0["created"] as? Timestamp)?.dateValue() ?? Date()
                         let senderId = $0["senderId"] as? String ?? ""
                         let senderName = $0["senderName"] as? String ?? ""
+                        let messageId = $0.documentID
 //                    else {
 //                        return completion(.failure(NetworkError.apiError))
 //                    }
@@ -100,7 +101,8 @@ final class FirestoreService {
                         content: content,
                         created: created,
                         senderId: senderId,
-                        senderName: senderName
+                        senderName: senderName,
+                        messageId: messageId
                     )
                     
                     messages.append(message)
@@ -115,13 +117,7 @@ final class FirestoreService {
     func sendMessage(channelID: String, message: String, senderID: String) {
         let message: [String: Any] = [
             "content": message,
-            // По не понятным мне причинам, при использовании серверного времени,
-            // дублируется сообщение при сохранении в кордату,
-            // так как время отличается на доли секунд.
-            // Я так и не понял почему, может у меня код кривой?
-            // По идее для грамотной фильтрации нужно id сообщения а не время.
-            // Но у нас его нет.
-            "created": Timestamp(date: Date()), // FieldValue.serverTimestamp(),
+            "created": FieldValue.serverTimestamp(),
             "senderId": senderID,
             "senderName": "Дмитрий Данилин" // TODO: ([27.03.2022]) После всех доработок имя будет браться из профиля
         ]
