@@ -106,6 +106,10 @@ class MessageCell: UITableViewCell {
     
     func setupUI() {
         contentView.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
+        
+        // Развернул отображение ячейки, так как таблицу я тоже развернул,
+        // чтобы первая ячейка была снизу.
+        contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
     }
 }
 

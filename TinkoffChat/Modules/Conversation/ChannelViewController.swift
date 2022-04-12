@@ -22,7 +22,7 @@ final class ChannelViewController: UIViewController {
     private lazy var fetchedResultsController = ChatCoreDataService.shared.fetchResultController(
         entityName: String(describing: DBMessage.self),
         keyForSort: #keyPath(DBMessage.created),
-        sortAscending: true,
+        sortAscending: false,
         currentChannel: currentChannel
     )
     
@@ -98,6 +98,11 @@ private extension ChannelViewController {
         channelTableView.dataSource = self
         
         channelTableView.separatorStyle = .none
+        // Развернул отображение таблицы, чтобы первая ячейка была снизу
+        channelTableView.transform = CGAffineTransform(scaleX: 1, y: -1)
+        // TODO: ([12.04.2022]) Найти решение, как развернуть направление скролла по тапу или сделать свои кнопки
+        // в идеале, сделать подъем на 1 экран, а не листать до конца.
+        channelTableView.scrollsToTop = false
         
         registerCell()
     }
@@ -144,10 +149,10 @@ private extension ChannelViewController {
         if !isNoObjects {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                
-                let lastRow = self.channelTableView.numberOfRows(inSection: 0) - 1
-                guard lastRow > 0 else { return }
-                let indexPath = IndexPath(row: lastRow, section: 0)
+
+//                let lastRow = self.channelTableView.numberOfRows(inSection: 0) - 1
+//                guard lastRow > 0 else { return }
+                let indexPath = IndexPath(row: 0, section: 0)
                 self.channelTableView.scrollToRow(
                     at: indexPath,
                     at: .bottom,
@@ -196,7 +201,7 @@ private extension ChannelViewController {
     func loadMessagesFromCoreData() {
         do {
             try fetchedResultsController.performFetch()
-            scrollCellsToBottom(animated: false)
+//            scrollCellsToBottom(animated: false)
         } catch {
             Logger.error(error.localizedDescription)
         }
@@ -344,7 +349,7 @@ extension ChannelViewController: NSFetchedResultsControllerDelegate {
         case .insert:
             if let indexPath = newIndexPath {
                 channelTableView.insertRows(at: [indexPath], with: .automatic)
-                scrollCellsToBottom(animated: true)
+//                scrollCellsToBottom(animated: true)
             }
         case .delete:
             if let indexPath = indexPath {

@@ -40,6 +40,7 @@ final class ChatCoreDataService {
         
         if let currentChannel = currentChannel {
             fetchRequest.predicate = NSPredicate(format: "%K == %@", "channel", currentChannel)
+            fetchRequest.fetchBatchSize = 15
         }
         
         let fetchResultController = NSFetchedResultsController<NSFetchRequestResult>(
