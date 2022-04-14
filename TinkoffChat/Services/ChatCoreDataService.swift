@@ -50,6 +50,12 @@ final class ChatCoreDataService {
             cacheName: nil
         )
         
+        do {
+            try fetchResultController.performFetch()
+        } catch {
+            Logger.error(error.localizedDescription)
+        }
+        
         return fetchResultController
     }
     

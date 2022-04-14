@@ -45,7 +45,6 @@ final class ChannelViewController: UIViewController {
         fetchedResultsController.delegate = self
         
         setup()
-        loadMessagesFromCoreData()
         loadMessagesFromFirebase()
     }
     
@@ -197,15 +196,6 @@ private extension ChannelViewController {
     }
     
     // MARK: - Core Data Cache
-    
-    func loadMessagesFromCoreData() {
-        do {
-            try fetchedResultsController.performFetch()
-//            scrollCellsToBottom(animated: false)
-        } catch {
-            Logger.error(error.localizedDescription)
-        }
-    }
     
     func saveLoaded(_ messages: [Message]) {
         Logger.info("=====Процесс обновления сообщений в CoreData запущен=====")

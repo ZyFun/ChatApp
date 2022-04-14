@@ -42,7 +42,6 @@ final class ChannelListViewController: UITableViewController {
         fetchedResultsController.delegate = self
         
         setup()
-        loadChannelsFromCoreData()
         loadChannelsFromFirebase()
     }
     
@@ -361,14 +360,6 @@ private extension ChannelListViewController {
     }
     
     // MARK: - Core Data Cache
-    
-    func loadChannelsFromCoreData() {
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            Logger.error("\(error.localizedDescription)")
-        }
-    }
     
     func saveLoaded(_ channels: [Channel]) {
         var channelsDB: [DBChannel] = []
