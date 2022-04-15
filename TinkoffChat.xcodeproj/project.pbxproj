@@ -23,6 +23,7 @@
 		2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3827127DB6AC600456139 /* ThemesViewController.swift */; };
 		2CA3827427DB6AC600456139 /* ThemesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3827227DB6AC600456139 /* ThemesViewController.xib */; };
 		2CA9A10427FE962E00B99C5B /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A10327FE962E00B99C5B /* MessageCell.swift */; };
+		2CCA2B122808B6AE007CF597 /* ChannelFetchedResultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCA2B112808B6AE007CF597 /* ChannelFetchedResultsManager.swift */; };
 		2CE33CE827F85FE500BA59CE /* Chat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2CE33CE627F85FE500BA59CE /* Chat.xcdatamodeld */; };
 		2CE33CEA27F863C200BA59CE /* ChatCoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */; };
 		2CE58AB427F067960087B3D9 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE58AB327F067960087B3D9 /* FirestoreService.swift */; };
@@ -65,6 +66,7 @@
 		2CA3827127DB6AC600456139 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		2CA3827227DB6AC600456139 /* ThemesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemesViewController.xib; sourceTree = "<group>"; };
 		2CA9A10327FE962E00B99C5B /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		2CCA2B112808B6AE007CF597 /* ChannelFetchedResultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelFetchedResultsManager.swift; sourceTree = "<group>"; };
 		2CE33CE727F85FE500BA59CE /* Chat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chat.xcdatamodel; sourceTree = "<group>"; };
 		2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCoreDataService.swift; sourceTree = "<group>"; };
 		2CE58AB327F067960087B3D9 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			children = (
 				2C3CFCA327D64B4B005436A3 /* Cells */,
 				2C3CFC9E27D62164005436A3 /* ChannelViewController.swift */,
+				2CCA2B112808B6AE007CF597 /* ChannelFetchedResultsManager.swift */,
 				2C3CFC9F27D62164005436A3 /* ChannelViewController.xib */,
 			);
 			path = Conversation;
@@ -439,6 +442,7 @@
 			files = (
 				2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */,
 				2C5449FA27EDFAB100C209C8 /* Channel.swift in Sources */,
+				2CCA2B122808B6AE007CF597 /* ChannelFetchedResultsManager.swift in Sources */,
 				2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */,
 				2C3CFCA027D62164005436A3 /* ChannelViewController.swift in Sources */,
 				2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */,

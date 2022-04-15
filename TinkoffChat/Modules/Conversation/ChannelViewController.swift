@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreData
 
 final class ChannelViewController: UIViewController {
     
@@ -18,6 +17,7 @@ final class ChannelViewController: UIViewController {
     // MARK: - Private properties
     
     private var observerKeyboard = NotificationKeyboardObserver()
+    private var resultManager: ChannelFetchedResultsManager!
     
     private lazy var fetchedResultsController = ChatCoreDataService.shared.fetchResultController(
         entityName: String(describing: DBMessage.self),
@@ -42,9 +42,8 @@ final class ChannelViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchedResultsController.delegate = self
-        
         setup()
+        fetchResultManagerInit()
         loadMessagesFromFirebase()
     }
     
@@ -136,6 +135,14 @@ private extension ChannelViewController {
         activityIndicator.color = .systemGray
     }
     
+    func fetchResultManagerInit() {
+        resultManager = ChannelFetchedResultsManager(
+            mySenderId: mySenderId,
+            tableView: channelTableView,
+            fetchedResultsController: fetchedResultsController
+        )
+    }
+    
     func registerCell() {
         channelTableView.register(
             MessageCell.self,
@@ -148,9 +155,6 @@ private extension ChannelViewController {
         if !isNoObjects {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-
-//                let lastRow = self.channelTableView.numberOfRows(inSection: 0) - 1
-//                guard lastRow > 0 else { return }
                 let indexPath = IndexPath(row: 0, section: 0)
                 self.channelTableView.scrollToRow(
                     at: indexPath,
@@ -317,60 +321,5 @@ extension ChannelViewController: UITextViewDelegate {
         if messageTextView.contentSize.height <= 130 {
             messageToolBarHeightConstraint.constant = messageTextView.contentSize.height + 48
         }
-    }
-}
-
-// MARK: - Fetched Results Controller Delegate
-
-extension ChannelViewController: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        channelTableView.beginUpdates()
-    }
-    
-    func controller(
-        _ controller: NSFetchedResultsController<NSFetchRequestResult>,
-        didChange anObject: Any,
-        at indexPath: IndexPath?,
-        for type: NSFetchedResultsChangeType,
-        newIndexPath: IndexPath?
-    ) {
-        
-        switch type {
-        case .insert:
-            if let indexPath = newIndexPath {
-                channelTableView.insertRows(at: [indexPath], with: .automatic)
-//                scrollCellsToBottom(animated: true)
-            }
-        case .delete:
-            if let indexPath = indexPath {
-                channelTableView.deleteRows(at: [indexPath], with: .automatic)
-            }
-        case .move:
-            if let indexPath = indexPath {
-                channelTableView.deleteRows(at: [indexPath], with: .automatic)
-            }
-
-            if let newIndexPath = newIndexPath {
-                channelTableView.insertRows(at: [newIndexPath], with: .automatic)
-            }
-        case .update:
-            if let indexPath = indexPath {
-                let message = fetchedResultsController.object(at: indexPath) as? DBMessage
-                let cell = channelTableView.cellForRow(at: indexPath) as? MessageCell
-                
-                cell?.configureMessageCell(
-                    senderName: message?.senderName,
-                    textMessage: message?.content ?? "",
-                    dateCreated: message?.created ?? Date(),
-                    isIncoming: message?.senderId != mySenderId
-                )
-            }
-        @unknown default:
-            Logger.error("Что то пошло не так в NSFetchedResultsControllerDelegate")
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        channelTableView.endUpdates()
     }
 }
