@@ -17,14 +17,7 @@ final class ChannelViewController: UIViewController {
     // MARK: - Private properties
     
     private var observerKeyboard = NotificationKeyboardObserver()
-    private var resultManager: ChannelFetchedResultsManager!
-    
-    private lazy var fetchedResultsController = ChatCoreDataService.shared.fetchResultController(
-        entityName: String(describing: DBMessage.self),
-        keyForSort: #keyPath(DBMessage.created),
-        sortAscending: false,
-        currentChannel: currentChannel
-    )
+    private var resultManager: ChannelFetchedResultsManagerProtocol
     
     // MARK: - IB Outlets
     
@@ -39,11 +32,22 @@ final class ChannelViewController: UIViewController {
     
     // MARK: - Life Cycle
     
+    init(resultManager: ChannelFetchedResultsManagerProtocol) {
+        self.resultManager = resultManager
+        super.init(
+            nibName: String(describing: ChannelViewController.self),
+            bundle: nil
+        )
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
-        fetchResultManagerInit()
         loadMessagesFromFirebase()
     }
     
@@ -68,6 +72,7 @@ final class ChannelViewController: UIViewController {
             
             // Возврат размеров панели отправки сообщений, после их изменения при написании многострочного текста
             messageToolBarHeightConstraint.constant = 80
+            scrollCellsToBottom(animated: true)
         } else {
             Logger.warning("ID Профиля не получено")
         }
@@ -85,6 +90,9 @@ private extension ChannelViewController {
         setupToolBar()
         setupKeyboardNotificationsObserver()
         setTapGestureForDismissKeyboard()
+        
+        resultManager.mySenderId = mySenderId
+        resultManager.tableView = channelTableView
     }
     
     func setupNavigationBar() {
@@ -135,14 +143,6 @@ private extension ChannelViewController {
         activityIndicator.color = .systemGray
     }
     
-    func fetchResultManagerInit() {
-        resultManager = ChannelFetchedResultsManager(
-            mySenderId: mySenderId,
-            tableView: channelTableView,
-            fetchedResultsController: fetchedResultsController
-        )
-    }
-    
     func registerCell() {
         channelTableView.register(
             MessageCell.self,
@@ -151,7 +151,7 @@ private extension ChannelViewController {
     }
     
     func scrollCellsToBottom(animated: Bool) {
-        guard let isNoObjects = fetchedResultsController.fetchedObjects?.isEmpty else { return }
+        guard let isNoObjects = resultManager.fetchedResultsController.fetchedObjects?.isEmpty else { return }
         if !isNoObjects {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
@@ -281,7 +281,7 @@ extension ChannelViewController: UITableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         
-        if let sections = fetchedResultsController.sections {
+        if let sections = resultManager.fetchedResultsController.sections {
             return sections[section].numberOfObjects
         } else {
             return 0
@@ -297,7 +297,7 @@ extension ChannelViewController: UITableViewDataSource {
             for: indexPath
         ) as? MessageCell else { return UITableViewCell() }
         
-        let message = fetchedResultsController.object(at: indexPath) as? DBMessage
+        let message = resultManager.fetchedResultsController.object(at: indexPath) as? DBMessage
         
         cell.configureMessageCell(
             senderName: message?.senderName,

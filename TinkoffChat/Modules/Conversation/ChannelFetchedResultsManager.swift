@@ -8,26 +8,26 @@
 import UIKit
 import CoreData
 
-final class ChannelFetchedResultsManager: NSObject, NSFetchedResultsControllerDelegate {
-    var tableView: UITableView
+protocol ChannelFetchedResultsManagerProtocol {
+    var tableView: UITableView? { get set }
+    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> { get set }
+    var mySenderId: String? { get set }
+}
+
+final class ChannelFetchedResultsManager: NSObject, NSFetchedResultsControllerDelegate, ChannelFetchedResultsManagerProtocol {
+    var tableView: UITableView?
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
     var mySenderId: String?
     
-    init(
-        mySenderId: String?,
-        tableView: UITableView,
-        fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
-    ) {
-        self.tableView = tableView
+    init(fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>) {
         self.fetchedResultsController = fetchedResultsController
-        self.mySenderId = mySenderId
         
         super.init()
         self.fetchedResultsController.delegate = self
     }
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
+        tableView?.beginUpdates()
     }
     
     func controller(
@@ -41,24 +41,24 @@ final class ChannelFetchedResultsManager: NSObject, NSFetchedResultsControllerDe
         switch type {
         case .insert:
             if let indexPath = newIndexPath {
-                tableView.insertRows(at: [indexPath], with: .automatic)
+                tableView?.insertRows(at: [indexPath], with: .automatic)
             }
         case .delete:
             if let indexPath = indexPath {
-                tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView?.deleteRows(at: [indexPath], with: .automatic)
             }
         case .move:
             if let indexPath = indexPath {
-                tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView?.deleteRows(at: [indexPath], with: .automatic)
             }
 
             if let newIndexPath = newIndexPath {
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
+                tableView?.insertRows(at: [newIndexPath], with: .automatic)
             }
         case .update:
             if let indexPath = indexPath {
                 let message = fetchedResultsController.object(at: indexPath) as? DBMessage
-                let cell = tableView.cellForRow(at: indexPath) as? MessageCell
+                let cell = tableView?.cellForRow(at: indexPath) as? MessageCell
                 
                 cell?.configureMessageCell(
                     senderName: message?.senderName,
@@ -73,6 +73,6 @@ final class ChannelFetchedResultsManager: NSObject, NSFetchedResultsControllerDe
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
+        tableView?.endUpdates()
     }
 }
