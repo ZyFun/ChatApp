@@ -12,6 +12,7 @@
 		2C3CFCA027D62164005436A3 /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9E27D62164005436A3 /* ChannelViewController.swift */; };
 		2C3CFCA127D62164005436A3 /* ChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9F27D62164005436A3 /* ChannelViewController.xib */; };
 		2C3CFCA927D65033005436A3 /* MessageMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFCA827D65033005436A3 /* MessageMock.swift */; };
+		2C4661CF280B23E700CBD141 /* ChannelDataSourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4661CE280B23E700CBD141 /* ChannelDataSourceManager.swift */; };
 		2C5449FA27EDFAB100C209C8 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5449F927EDFAB100C209C8 /* Channel.swift */; };
 		2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5449FB27EDFB2700C209C8 /* Message.swift */; };
 		2C5449FE27EE048500C209C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C5449FD27EE048500C209C8 /* GoogleService-Info.plist */; };
@@ -54,6 +55,7 @@
 		2C3CFC9E27D62164005436A3 /* ChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelViewController.swift; sourceTree = "<group>"; };
 		2C3CFC9F27D62164005436A3 /* ChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelViewController.xib; sourceTree = "<group>"; };
 		2C3CFCA827D65033005436A3 /* MessageMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMock.swift; sourceTree = "<group>"; };
+		2C4661CE280B23E700CBD141 /* ChannelDataSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDataSourceManager.swift; sourceTree = "<group>"; };
 		2C49DBB52805A676003BA109 /* Chat 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Chat 2.xcdatamodel"; sourceTree = "<group>"; };
 		2C5449F927EDFAB100C209C8 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		2C5449FB27EDFB2700C209C8 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -115,15 +117,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		2C3CFCA227D6216A005436A3 /* Conversation */ = {
+		2C3CFCA227D6216A005436A3 /* Channel */ = {
 			isa = PBXGroup;
 			children = (
 				2C3CFCA327D64B4B005436A3 /* Cells */,
 				2C3CFC9E27D62164005436A3 /* ChannelViewController.swift */,
+				2C4661CE280B23E700CBD141 /* ChannelDataSourceManager.swift */,
 				2CCA2B112808B6AE007CF597 /* ChannelFetchedResultsManager.swift */,
 				2C3CFC9F27D62164005436A3 /* ChannelViewController.xib */,
 			);
-			path = Conversation;
+			path = Channel;
 			sourceTree = "<group>";
 		};
 		2C3CFCA327D64B4B005436A3 /* Cells */ = {
@@ -156,7 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				2CEBE04A27D221C5005CBCB0 /* ChannelList */,
-				2C3CFCA227D6216A005436A3 /* Conversation */,
+				2C3CFCA227D6216A005436A3 /* Channel */,
 				2C3D0C3727D8CC1300BA9CA6 /* MyProfile */,
 				2CA3827027DB6A8300456139 /* Themes */,
 			);
@@ -440,6 +443,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C4661CF280B23E700CBD141 /* ChannelDataSourceManager.swift in Sources */,
 				2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */,
 				2C5449FA27EDFAB100C209C8 /* Channel.swift in Sources */,
 				2CCA2B122808B6AE007CF597 /* ChannelFetchedResultsManager.swift in Sources */,

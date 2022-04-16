@@ -117,14 +117,16 @@ final class ChannelListViewController: UITableViewController {
     ) {
         let channel = fetchedResultsController.object(at: indexPath) as? DBChannel
         
-        let channelVC = ChannelViewController(resultManager: ChannelFetchedResultsManager(
-            fetchedResultsController: ChatCoreDataService.shared.fetchResultController(
-                entityName: String(describing: DBMessage.self),
-                keyForSort: #keyPath(DBMessage.created),
-                sortAscending: false,
-                currentChannel: channel
+        let channelVC = ChannelViewController(
+            resultManager: ChannelFetchedResultsManager(
+                fetchedResultsController: ChatCoreDataService.shared.fetchResultController(
+                    entityName: String(describing: DBMessage.self),
+                    keyForSort: #keyPath(DBMessage.created),
+                    sortAscending: false,
+                    currentChannel: channel
+                )
             )
-        ))
+        )
         
         channelVC.mySenderId = mySenderID
         channelVC.currentChannel = channel

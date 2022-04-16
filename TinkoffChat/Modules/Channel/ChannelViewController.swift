@@ -18,6 +18,7 @@ final class ChannelViewController: UIViewController {
     
     private var observerKeyboard = NotificationKeyboardObserver()
     private var resultManager: ChannelFetchedResultsManagerProtocol
+    private var dataSourceManager: ChannelDataSourceManagerProtocol?
     
     // MARK: - IB Outlets
     
@@ -48,6 +49,19 @@ final class ChannelViewController: UIViewController {
         super.viewDidLoad()
         
         setup()
+        
+        // TODO: ([16.0472022]) Я не понимаю как заставить работать его через протокол :(
+        // не могу понять, как datasource назначить без инита таблицы, при ините класса менеджера,
+        // и при передаче текущей таблицы, уже не ей управляются методы datasorce
+        // Аналогично и с резалт контроллером, пришлось инитить его при ините текущего класса
+        // чтобы сразу передать этот параметр и сделать его делегатом.
+        dataSourceManager = ChannelDataSourceManager(
+            resultManager: resultManager,
+            tableView: channelTableView
+        )
+        
+        dataSourceManager?.mySenderId = mySenderId
+        
         loadMessagesFromFirebase()
     }
     
@@ -101,8 +115,6 @@ private extension ChannelViewController {
     }
     
     func setupTableView() {
-        channelTableView.dataSource = self
-        
         channelTableView.separatorStyle = .none
         // Развернул отображение таблицы, чтобы первая ячейка была снизу
         channelTableView.transform = CGAffineTransform(scaleX: 1, y: -1)
@@ -270,43 +282,6 @@ private extension ChannelViewController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
-    }
-}
-
-// MARK: - Table view data source
-
-extension ChannelViewController: UITableViewDataSource {
-    func tableView(
-        _ tableView: UITableView,
-        numberOfRowsInSection section: Int
-    ) -> Int {
-        
-        if let sections = resultManager.fetchedResultsController.sections {
-            return sections[section].numberOfObjects
-        } else {
-            return 0
-        }
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: MessageCell.identifier,
-            for: indexPath
-        ) as? MessageCell else { return UITableViewCell() }
-        
-        let message = resultManager.fetchedResultsController.object(at: indexPath) as? DBMessage
-        
-        cell.configureMessageCell(
-            senderName: message?.senderName,
-            textMessage: message?.content ?? "",
-            dateCreated: message?.created ?? Date(),
-            isIncoming: message?.senderId != mySenderId
-        )
-        
-        return cell
     }
 }
 
