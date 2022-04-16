@@ -17,6 +17,8 @@ final class ChannelViewController: UIViewController {
     // MARK: - Private properties
     
     private var observerKeyboard = NotificationKeyboardObserver()
+    
+    private var chatCoreDataService: ChatCoreDataServiceProtocol
     private var resultManager: ChannelFetchedResultsManagerProtocol
     private var dataSourceManager: ChannelDataSourceManagerProtocol?
     
@@ -33,7 +35,11 @@ final class ChannelViewController: UIViewController {
     
     // MARK: - Life Cycle
     
-    init(resultManager: ChannelFetchedResultsManagerProtocol) {
+    init(
+        chatCoreDataService: ChatCoreDataServiceProtocol,
+        resultManager: ChannelFetchedResultsManagerProtocol
+    ) {
+        self.chatCoreDataService = chatCoreDataService
         self.resultManager = resultManager
         super.init(
             nibName: String(describing: ChannelViewController.self),
@@ -220,11 +226,11 @@ private extension ChannelViewController {
             return
         }
         
-        ChatCoreDataService.shared.performSave { context in
+        chatCoreDataService.performSave { [weak self] context in
             var messagesDB: [DBMessage] = []
             var currentChannel: DBChannel?
             
-            ChatCoreDataService.shared.fetchChannels(from: context) { result in
+            self?.chatCoreDataService.fetchChannels(from: context) { result in
                 switch result {
                 case .success(let channels):
                     if let channel = channels.filter({ $0.identifier == channelID }).first {
@@ -253,7 +259,7 @@ private extension ChannelViewController {
                 }
                 
                 Logger.info("Найдено новое сообщение")
-                ChatCoreDataService.shared.messageSave(
+                self?.chatCoreDataService.messageSave(
                     message,
                     currentChannel: currentChannel,
                     context: context

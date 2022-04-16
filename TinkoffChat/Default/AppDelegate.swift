@@ -31,10 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 private extension AppDelegate {
     func createAndShowStartVC() {
-        let ChannelListVC = ChannelListViewController(
-            nibName: String(describing: ChannelListViewController.self),
-            bundle: nil
-        )
+        let ChannelListVC = ChannelListViewController(chatCoreDataService: ChatCoreDataService())
         
         ChannelListVC.mySenderID = StorageManager.shared.loadUserID()
         

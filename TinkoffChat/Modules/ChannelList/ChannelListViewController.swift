@@ -23,11 +23,13 @@ final class ChannelListViewController: UITableViewController {
     
     // MARK: - Private properties
     
+    private var chatCoreDataService: ChatCoreDataServiceProtocol
     private let activityIndicator = UIActivityIndicatorView()
-    private var fetchedResultsController = ChatCoreDataService.shared.fetchResultController(
+    private lazy var fetchedResultsController = chatCoreDataService.fetchResultController(
         entityName: String(describing: DBChannel.self),
         keyForSort: #keyPath(DBChannel.lastActivity),
-        sortAscending: false
+        sortAscending: false,
+        currentChannel: nil
     )
     
     // TODO: ([11.04.2022]) Скорее всего костыль, и не знаю уместно такое использовать или нет.
@@ -35,6 +37,18 @@ final class ChannelListViewController: UITableViewController {
     private var isAppear = true
     
     // MARK: - Life Cycle
+    
+    init(chatCoreDataService: ChatCoreDataServiceProtocol) {
+        self.chatCoreDataService = chatCoreDataService
+        super.init(
+            nibName: String(describing: ChannelListViewController.self),
+            bundle: nil
+        )
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,8 +132,9 @@ final class ChannelListViewController: UITableViewController {
         let channel = fetchedResultsController.object(at: indexPath) as? DBChannel
         
         let channelVC = ChannelViewController(
+            chatCoreDataService: chatCoreDataService,
             resultManager: ChannelFetchedResultsManager(
-                fetchedResultsController: ChatCoreDataService.shared.fetchResultController(
+                fetchedResultsController: chatCoreDataService.fetchResultController(
                     entityName: String(describing: DBMessage.self),
                     keyForSort: #keyPath(DBMessage.created),
                     sortAscending: false,
@@ -371,8 +386,8 @@ private extension ChannelListViewController {
         var channelsDB: [DBChannel] = []
         
         Logger.info("=====Процесс обновления каналов в CoreData запущен=====")
-        ChatCoreDataService.shared.performSave { context in
-            ChatCoreDataService.shared.fetchChannels(from: context) { result in
+        chatCoreDataService.performSave { [weak self] context in
+            self?.chatCoreDataService.fetchChannels(from: context) { result in
                 switch result {
                 case .success(let channels):
                     channelsDB = channels
@@ -397,14 +412,14 @@ private extension ChannelListViewController {
                     }
                 } else {
                     Logger.info("Канал '\(channel.name)' отсутствует в базе и будет добавлен")
-                    ChatCoreDataService.shared.channelSave(channel, context: context)
+                    self?.chatCoreDataService.channelSave(channel, context: context)
                 }
             }
             
             channelsDB.forEach { channelDB in
                 if channels.filter({ $0.identifier == channelDB.identifier }).first == nil {
                     Logger.info("Канал '\(channelDB.name ?? "")' отсутствует на сервере и будет удалён")
-                    ChatCoreDataService.shared.delete(channelDB, context: context)
+                    self?.chatCoreDataService.delete(channelDB, context: context)
                 }
             }
         }

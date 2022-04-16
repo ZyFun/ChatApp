@@ -7,9 +7,22 @@
 
 import CoreData
 
-final class ChatCoreDataService {
-    static let shared = ChatCoreDataService()
+protocol ChatCoreDataServiceProtocol {
+    func fetchResultController(
+        entityName: String,
+        keyForSort: String,
+        sortAscending: Bool,
+        currentChannel: DBChannel?
+    ) -> NSFetchedResultsController<NSFetchRequestResult>
     
+    func fetchChannels(from context: NSManagedObjectContext, completion: (Result<[DBChannel], Error>) -> Void)
+    func channelSave(_ cannel: Channel, context: NSManagedObjectContext)
+    func messageSave(_ message: Message, currentChannel: DBChannel?, context: NSManagedObjectContext)
+    func delete(_ currentDBChannel: DBChannel, context: NSManagedObjectContext)
+    func performSave(_ block: @escaping (NSManagedObjectContext) -> Void)
+}
+
+final class ChatCoreDataService: ChatCoreDataServiceProtocol {
     private lazy var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Chat")
         container.loadPersistentStores { storeDescription, error in
@@ -21,8 +34,6 @@ final class ChatCoreDataService {
         }
         return container
     }()
-    
-    private init() {}
     
     func fetchResultController(
         entityName: String,
