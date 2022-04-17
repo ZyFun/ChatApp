@@ -15,16 +15,11 @@ final class ChannelListViewController: UITableViewController {
     
     // MARK: - Private properties
     
-    private var chatCoreDataService: ChatCoreDataServiceProtocol
     private let activityIndicator = UIActivityIndicatorView()
-    private lazy var fetchedResultsController = chatCoreDataService.fetchResultController(
-        entityName: String(describing: DBChannel.self),
-        keyForSort: #keyPath(DBChannel.lastActivity),
-        sortAscending: false,
-        currentChannel: nil
-    )
     
-    // TODO: ([11.04.2022]) Скорее всего костыль, и не знаю уместно такое использовать или нет.
+    private let chatCoreDataService: ChatCoreDataServiceProtocol
+    private var resultManager: ChannelListFetchedResultsManagerProtocol?
+    
     /// Метод для решения проблемы с ошибкой обновления данных, когда экран не активен.
     private var isAppear = true
     
@@ -45,7 +40,18 @@ final class ChannelListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchedResultsController.delegate = self
+        // TODO: ([17.04.2022]) не понимаю как сделать более правильный инит и работать через протокол
+        // Так как в делегате это сделать не получится, как это сделано с ChannelViewController,
+        // там же более подробно описал что у меня не получается сделать.
+        // Не понимаю как по другому передать fetchedResultsController и сразу работать с нужным
+        resultManager = ChannelListFetchedResultsManager(
+            fetchedResultsController: chatCoreDataService.fetchResultController(
+                entityName: String(describing: DBChannel.self),
+                keyForSort: #keyPath(DBChannel.lastActivity),
+                sortAscending: false,
+                currentChannel: nil
+            )
+        )
         
         setup()
         loadChannelsFromFirebase()
@@ -59,6 +65,7 @@ final class ChannelListViewController: UITableViewController {
         if !isAppear {
             tableView.reloadData()
             isAppear.toggle()
+            resultManager?.isAppear = isAppear
         }
     }
     
@@ -66,6 +73,7 @@ final class ChannelListViewController: UITableViewController {
         super.viewWillDisappear(animated)
         
         isAppear.toggle()
+        resultManager?.isAppear = isAppear
     }
     
     // MARK: - Table view data source
@@ -74,7 +82,7 @@ final class ChannelListViewController: UITableViewController {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        if let sections = fetchedResultsController.sections {
+        if let sections = resultManager?.fetchedResultsController.sections {
             return sections[section].numberOfObjects
         } else {
             return 0
@@ -91,7 +99,7 @@ final class ChannelListViewController: UITableViewController {
             for: indexPath
         ) as? ChannelCell else { return UITableViewCell() }
         
-        guard let channel = fetchedResultsController.object(at: indexPath) as? DBChannel else {
+        guard let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel else {
             Logger.error("Ошибка каста object к DBChannel")
             return UITableViewCell()
         }
@@ -120,7 +128,7 @@ final class ChannelListViewController: UITableViewController {
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        let channel = fetchedResultsController.object(at: indexPath) as? DBChannel
+        let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel
         
         let channelVC = ChannelViewController(
             chatCoreDataService: chatCoreDataService,
@@ -146,7 +154,7 @@ final class ChannelListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            guard let channel = fetchedResultsController.object(at: indexPath) as? DBChannel else {
+            guard let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel else {
                 Logger.error("Ошибка каста object до DBChannel при удалении ячейки")
                 return
             }
@@ -163,6 +171,8 @@ private extension ChannelListViewController {
         setupNavigationBar()
         setupActivityIndicator()
         setupTableView()
+        
+        resultManager?.tableView = tableView
     }
     
     func setupTheme() {
@@ -411,65 +421,6 @@ private extension ChannelListViewController {
                     self?.chatCoreDataService.delete(channelDB, context: context)
                 }
             }
-        }
-    }
-}
-
-// MARK: - Fetched Results Controller Delegate
-
-extension ChannelListViewController: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        if isAppear {
-            tableView.beginUpdates()
-        }
-    }
-    
-    func controller(
-        _ controller: NSFetchedResultsController<NSFetchRequestResult>,
-        didChange anObject: Any,
-        at indexPath: IndexPath?,
-        for type: NSFetchedResultsChangeType,
-        newIndexPath: IndexPath?
-    ) {
-        if isAppear {
-            switch type {
-            case .insert:
-                if let indexPath = newIndexPath {
-                    tableView.insertRows(at: [indexPath], with: .automatic)
-                }
-            case .delete:
-                if let indexPath = indexPath {
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
-                }
-            case .move:
-                if let indexPath = indexPath {
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
-                }
-
-                if let newIndexPath = newIndexPath {
-                    tableView.insertRows(at: [newIndexPath], with: .automatic)
-                }
-            case .update:
-                if let indexPath = indexPath {
-                    let channel = fetchedResultsController.object(at: indexPath) as? DBChannel
-                    let cell = tableView.cellForRow(at: indexPath) as? ChannelCell
-                    cell?.configure(
-                        name: channel?.name,
-                        message: channel?.lastMessage,
-                        date: channel?.lastActivity,
-                        online: false,
-                        hasUnreadMessages: false
-                    )
-                }
-            @unknown default:
-                Logger.error("Что то пошло не так в NSFetchedResultsControllerDelegate")
-            }
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        if isAppear {
-            tableView.endUpdates()
         }
     }
 }
