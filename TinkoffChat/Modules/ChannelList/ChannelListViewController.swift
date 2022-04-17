@@ -6,7 +6,11 @@
 //
 
 import UIKit
-import CoreData
+
+protocol ChannelListViewControllerDelegate: AnyObject {
+    func pushChannelVC(with indexPath: IndexPath)
+    func deleteFromFirebase(_ channel: DBChannel)
+}
 
 final class ChannelListViewController: UIViewController {
     // MARK: - Public properties
@@ -17,6 +21,7 @@ final class ChannelListViewController: UIViewController {
     
     private let chatCoreDataService: ChatCoreDataServiceProtocol
     private var resultManager: ChannelListFetchedResultsManagerProtocol?
+    private var dataSourceManager: ChannelListDataSourceManagerProtocol?
     
     /// Метод для решения проблемы с ошибкой обновления данных, когда экран не активен.
     private var isAppear = true
@@ -56,6 +61,16 @@ final class ChannelListViewController: UIViewController {
             )
         )
         
+        guard let resultManager = resultManager else {
+            Logger.error("Что то не так с resultManager")
+            return
+        }
+
+        dataSourceManager = ChannelListDataSourceManager(
+            tableView: tableView,
+            resultManager: resultManager
+        )
+        
         setup()
         loadChannelsFromFirebase()
     }
@@ -89,6 +104,7 @@ private extension ChannelListViewController {
         setupTableView()
         
         resultManager?.tableView = tableView
+        dataSourceManager?.channelListViewControllerDelegate = self
     }
     
     func setupTheme() {
@@ -289,10 +305,6 @@ private extension ChannelListViewController {
         FirestoreService.shared.addNewChannel(name: name)
     }
     
-    func deleteFromFirebase(_ channel: DBChannel) {
-        FirestoreService.shared.deleteChanel(channelID: channel.identifier ?? "")
-    }
-    
     // MARK: - Core Data Cache
     
     func saveLoaded(_ channels: [Channel]) {
@@ -339,61 +351,12 @@ private extension ChannelListViewController {
     }
 }
 
-// MARK: - Table view data source
+// MARK: - Firebase action delegate
 
-extension ChannelListViewController: UITableViewDataSource {
-    func tableView(
-        _ tableView: UITableView,
-        numberOfRowsInSection section: Int
-    ) -> Int {
-        if let sections = resultManager?.fetchedResultsController.sections {
-            return sections[section].numberOfObjects
-        } else {
-            return 0
-        }
-    }
+extension ChannelListViewController: ChannelListViewControllerDelegate {
+    // MARK: - Navigation
     
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: String(describing: ChannelCell.self),
-            for: indexPath
-        ) as? ChannelCell else { return UITableViewCell() }
-        
-        guard let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel else {
-            Logger.error("Ошибка каста object к DBChannel")
-            return UITableViewCell()
-        }
-        
-        cell.configure(
-            name: channel.name,
-            message: channel.lastMessage,
-            date: channel.lastActivity,
-            online: false,
-            hasUnreadMessages: false
-        )
-        
-        return cell
-    }
-}
-
-// MARK: - Table view delegate
-
-extension ChannelListViewController: UITableViewDelegate {
-    func tableView(
-        _ tableView: UITableView,
-        heightForRowAt indexPath: IndexPath
-    ) -> CGFloat {
-        90
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath
-    ) {
+    func pushChannelVC(with indexPath: IndexPath) {
         let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel
         
         let channelVC = ChannelViewController(
@@ -417,15 +380,9 @@ extension ChannelListViewController: UITableViewDelegate {
         )
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            
-            guard let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel else {
-                Logger.error("Ошибка каста object до DBChannel при удалении ячейки")
-                return
-            }
-            
-            deleteFromFirebase(channel)
-        }
+    // MARK: - Firestore action
+    
+    func deleteFromFirebase(_ channel: DBChannel) {
+        FirestoreService.shared.deleteChanel(channelID: channel.identifier ?? "")
     }
 }
