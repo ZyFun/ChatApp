@@ -8,14 +8,6 @@
 import UIKit
 import CoreData
 
-protocol ThemeDelegate: AnyObject {
-    func updateTheme(
-        backgroundViewTheme: UIColor,
-        backgroundNavBarTheme: UIColor,
-        textTheme: UIColor
-    )
-}
-
 final class ChannelListViewController: UITableViewController {
     // MARK: - Public properties
     
@@ -62,7 +54,6 @@ final class ChannelListViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
         setupTheme()
         
         if !isAppear {
@@ -226,8 +217,6 @@ private extension ChannelListViewController {
             nibName: String(describing: ThemesViewController.self),
             bundle: nil
         )
-        
-        themesVC.themeDelegate = self
         
         themesVC.completion = { [weak self] in
             
@@ -423,27 +412,6 @@ private extension ChannelListViewController {
                 }
             }
         }
-    }
-}
-
-// MARK: - Theme delegate
-
-extension ChannelListViewController: ThemeDelegate {
-    func updateTheme(
-        backgroundViewTheme: UIColor,
-        backgroundNavBarTheme: UIColor,
-        textTheme: UIColor
-    ) {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.titleTextAttributes = [.foregroundColor: textTheme]
-        appearance.largeTitleTextAttributes = [.foregroundColor: textTheme]
-        appearance.backgroundColor = backgroundNavBarTheme
-        
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        view.backgroundColor = backgroundViewTheme
     }
 }
 

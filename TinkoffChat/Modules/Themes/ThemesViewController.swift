@@ -29,8 +29,6 @@ final class ThemesViewController: UIViewController {
     
     var completion: (() -> Void)?
     
-    weak var themeDelegate: ThemeDelegate?
-    
     // MARK: - IB Outlets
     
     @IBOutlet weak var classicMainView: UIView!
@@ -167,12 +165,6 @@ private extension ThemesViewController {
             setupLabelsColorForLightTheme()
             view.backgroundColor = classicColorBackgroundView
             
-//            themeDelegate?.updateTheme(
-//                backgroundViewTheme: classicColorBackgroundView,
-//                backgroundNavBarTheme: classicColorBackgroundNavBar,
-//                textTheme: .black)
-            
-            // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
             StorageManager.shared.saveTheme(theme: .classic)
             setNeedsStatusBarAppearanceUpdate()
             
@@ -185,12 +177,6 @@ private extension ThemesViewController {
             setupLabelsColorForLightTheme()
             view.backgroundColor = dayColorBackgroundView
             
-//            themeDelegate?.updateTheme(
-//                backgroundViewTheme: dayColorBackgroundView,
-//                backgroundNavBarTheme: dayColorBackgroundNavBar,
-//                textTheme: .black)
-            
-            // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
             StorageManager.shared.saveTheme(theme: .day)
             setNeedsStatusBarAppearanceUpdate()
             
@@ -203,12 +189,6 @@ private extension ThemesViewController {
             setupLabelsColorForDartTheme()
             view.backgroundColor = nightColorBackgroundView
             
-//            themeDelegate?.updateTheme(
-//                backgroundViewTheme: nightColorBackgroundView,
-//                backgroundNavBarTheme: nightBackgroundNavBar,
-//                textTheme: .white)
-            
-            // Для проверки работы делегата и замыкания нужно закомментировать. В делегате настроены не все цвета
             StorageManager.shared.saveTheme(theme: .night)
             setNeedsStatusBarAppearanceUpdate()
             

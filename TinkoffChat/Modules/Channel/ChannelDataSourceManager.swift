@@ -13,7 +13,7 @@ protocol ChannelDataSourceManagerProtocol {
     var mySenderId: String? { get set }
 }
 
-final class ChannelDataSourceManager: NSObject, UITableViewDataSource, ChannelDataSourceManagerProtocol {
+final class ChannelDataSourceManager: NSObject, ChannelDataSourceManagerProtocol {
     var tableView: UITableView
     var resultManager: ChannelFetchedResultsManagerProtocol
     var mySenderId: String?
@@ -27,7 +27,11 @@ final class ChannelDataSourceManager: NSObject, UITableViewDataSource, ChannelDa
         super.init()
         tableView.dataSource = self
     }
-    
+}
+
+// MARK: - Table view data source
+
+extension ChannelDataSourceManager: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
