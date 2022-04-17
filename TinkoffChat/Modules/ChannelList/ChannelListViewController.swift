@@ -8,20 +8,23 @@
 import UIKit
 import CoreData
 
-final class ChannelListViewController: UITableViewController {
+final class ChannelListViewController: UIViewController {
     // MARK: - Public properties
     
     var mySenderID: String?
     
     // MARK: - Private properties
     
-    private let activityIndicator = UIActivityIndicatorView()
-    
     private let chatCoreDataService: ChatCoreDataServiceProtocol
     private var resultManager: ChannelListFetchedResultsManagerProtocol?
     
     /// Метод для решения проблемы с ошибкой обновления данных, когда экран не активен.
     private var isAppear = true
+    
+    // MARK: - IB Outlets
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Life Cycle
     
@@ -74,93 +77,6 @@ final class ChannelListViewController: UITableViewController {
         
         isAppear.toggle()
         resultManager?.isAppear = isAppear
-    }
-    
-    // MARK: - Table view data source
-    
-    override func tableView(
-        _ tableView: UITableView,
-        numberOfRowsInSection section: Int
-    ) -> Int {
-        if let sections = resultManager?.fetchedResultsController.sections {
-            return sections[section].numberOfObjects
-        } else {
-            return 0
-        }
-    }
-    
-    override func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: String(describing: ChannelCell.self),
-            for: indexPath
-        ) as? ChannelCell else { return UITableViewCell() }
-        
-        guard let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel else {
-            Logger.error("Ошибка каста object к DBChannel")
-            return UITableViewCell()
-        }
-        
-        cell.configure(
-            name: channel.name,
-            message: channel.lastMessage,
-            date: channel.lastActivity,
-            online: false,
-            hasUnreadMessages: false
-        )
-        
-        return cell
-    }
-    
-    // MARK: - Table view delegate
-    
-    override func tableView(
-        _ tableView: UITableView,
-        heightForRowAt indexPath: IndexPath
-    ) -> CGFloat {
-        90
-    }
-    
-    override func tableView(
-        _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath
-    ) {
-        let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel
-        
-        let channelVC = ChannelViewController(
-            chatCoreDataService: chatCoreDataService,
-            resultManager: ChannelFetchedResultsManager(
-                fetchedResultsController: chatCoreDataService.fetchResultController(
-                    entityName: String(describing: DBMessage.self),
-                    keyForSort: #keyPath(DBMessage.created),
-                    sortAscending: false,
-                    currentChannel: channel
-                )
-            )
-        )
-        
-        channelVC.mySenderId = mySenderID
-        channelVC.currentChannel = channel
-        
-        navigationController?.pushViewController(
-            channelVC,
-            animated: true
-        )
-    }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            
-            guard let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel else {
-                Logger.error("Ошибка каста object до DBChannel при удалении ячейки")
-                return
-            }
-            
-            deleteFromFirebase(channel)
-        }
     }
 }
 
@@ -298,14 +214,12 @@ private extension ChannelListViewController {
     
     func setupActivityIndicator() {
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.center = view.center
         activityIndicator.color = .systemGray
     }
     
     func setupTableView() {
         setupXibs()
         tableView.separatorColor = ThemeManager.shared.appColorLoadFor(.separator)
-        tableView.addSubview(activityIndicator)
     }
     
     /// Инициализация Xibs
@@ -421,6 +335,97 @@ private extension ChannelListViewController {
                     self?.chatCoreDataService.delete(channelDB, context: context)
                 }
             }
+        }
+    }
+}
+
+// MARK: - Table view data source
+
+extension ChannelListViewController: UITableViewDataSource {
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+    ) -> Int {
+        if let sections = resultManager?.fetchedResultsController.sections {
+            return sections[section].numberOfObjects
+        } else {
+            return 0
+        }
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: String(describing: ChannelCell.self),
+            for: indexPath
+        ) as? ChannelCell else { return UITableViewCell() }
+        
+        guard let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel else {
+            Logger.error("Ошибка каста object к DBChannel")
+            return UITableViewCell()
+        }
+        
+        cell.configure(
+            name: channel.name,
+            message: channel.lastMessage,
+            date: channel.lastActivity,
+            online: false,
+            hasUnreadMessages: false
+        )
+        
+        return cell
+    }
+}
+
+// MARK: - Table view delegate
+
+extension ChannelListViewController: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+        90
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel
+        
+        let channelVC = ChannelViewController(
+            chatCoreDataService: chatCoreDataService,
+            resultManager: ChannelFetchedResultsManager(
+                fetchedResultsController: chatCoreDataService.fetchResultController(
+                    entityName: String(describing: DBMessage.self),
+                    keyForSort: #keyPath(DBMessage.created),
+                    sortAscending: false,
+                    currentChannel: channel
+                )
+            )
+        )
+        
+        channelVC.mySenderId = mySenderID
+        channelVC.currentChannel = channel
+        
+        navigationController?.pushViewController(
+            channelVC,
+            animated: true
+        )
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            guard let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel else {
+                Logger.error("Ошибка каста object до DBChannel при удалении ячейки")
+                return
+            }
+            
+            deleteFromFirebase(channel)
         }
     }
 }
