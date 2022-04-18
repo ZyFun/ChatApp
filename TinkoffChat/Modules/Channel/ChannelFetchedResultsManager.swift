@@ -19,6 +19,8 @@ final class ChannelFetchedResultsManager: NSObject, NSFetchedResultsControllerDe
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
     var mySenderId: String?
     
+    // MARK: - Initializer
+    
     init(fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>) {
         self.fetchedResultsController = fetchedResultsController
         

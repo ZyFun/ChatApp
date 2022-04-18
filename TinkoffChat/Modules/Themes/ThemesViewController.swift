@@ -10,20 +10,23 @@ import UIKit
 final class ThemesViewController: UIViewController {
     // MARK: - Private properties
     
-    private let classicColorBackgroundView = ThemeManager.shared.appColorSetup(.classic, .backgroundView)
-    private let classicColorBackgroundNavBar = ThemeManager.shared.appColorSetup(.classic, .backgroundNavBar)
-    private let classicColorLeftMessage = ThemeManager.shared.appColorSetup(.classic, .leftMessage)
-    private let classicColorRightMessage = ThemeManager.shared.appColorSetup(.classic, .rightMessage)
+    private var themeManager: ThemeManagerProtocol
+    private let storageManager: StorageManagerProtocol
     
-    private let dayColorBackgroundView = ThemeManager.shared.appColorSetup(.day, .backgroundView)
-    private let dayColorBackgroundNavBar = ThemeManager.shared.appColorSetup(.day, .backgroundNavBar)
-    private let dayColorLeftMessage = ThemeManager.shared.appColorSetup(.day, .leftMessage)
-    private let dayColorRightMessage = ThemeManager.shared.appColorSetup(.day, .rightMessage)
+    private lazy var classicColorBackgroundView = themeManager.appColorSetup(.classic, .backgroundView)
+    private lazy var classicColorBackgroundNavBar = themeManager.appColorSetup(.classic, .backgroundNavBar)
+    private lazy var classicColorLeftMessage = themeManager.appColorSetup(.classic, .leftMessage)
+    private lazy var classicColorRightMessage = themeManager.appColorSetup(.classic, .rightMessage)
     
-    private let nightColorBackgroundView = ThemeManager.shared.appColorSetup(.night, .backgroundView)
-    private let nightBackgroundNavBar = ThemeManager.shared.appColorSetup(.night, .backgroundNavBar)
-    private let nightColorLeftMessage = ThemeManager.shared.appColorSetup(.night, .leftMessage)
-    private let nightColorRightMessage = ThemeManager.shared.appColorSetup(.night, .rightMessage)
+    private lazy var dayColorBackgroundView = themeManager.appColorSetup(.day, .backgroundView)
+    private lazy var dayColorBackgroundNavBar = themeManager.appColorSetup(.day, .backgroundNavBar)
+    private lazy var dayColorLeftMessage = themeManager.appColorSetup(.day, .leftMessage)
+    private lazy var dayColorRightMessage = themeManager.appColorSetup(.day, .rightMessage)
+    
+    private lazy var nightColorBackgroundView = themeManager.appColorSetup(.night, .backgroundView)
+    private lazy var nightBackgroundNavBar = themeManager.appColorSetup(.night, .backgroundNavBar)
+    private lazy var nightColorLeftMessage = themeManager.appColorSetup(.night, .leftMessage)
+    private lazy var nightColorRightMessage = themeManager.appColorSetup(.night, .rightMessage)
     
     // MARK: - Public properties
     
@@ -48,6 +51,21 @@ final class ThemesViewController: UIViewController {
     @IBOutlet weak var nightChatView: UIView!
     @IBOutlet weak var nightMessageLeftView: UIView!
     @IBOutlet weak var nightMessageRightView: UIView!
+    
+    // MARK: - Initializer
+    
+    init() {
+        self.themeManager = ThemeManager.shared
+        self.storageManager = StorageManager()
+        super.init(
+            nibName: String(describing: ThemesViewController.self),
+            bundle: nil
+        )
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - LifeCycle
     
@@ -165,8 +183,8 @@ private extension ThemesViewController {
             setupLabelsColorForLightTheme()
             view.backgroundColor = classicColorBackgroundView
             
-            StorageManager.shared.saveTheme(theme: .classic) { theme in
-                ThemeManager.shared.currentTheme = theme.rawValue
+            storageManager.saveTheme(theme: .classic) { theme in
+                 themeManager.currentTheme = theme.rawValue
             }
             setNeedsStatusBarAppearanceUpdate()
             
@@ -179,8 +197,8 @@ private extension ThemesViewController {
             setupLabelsColorForLightTheme()
             view.backgroundColor = dayColorBackgroundView
             
-            StorageManager.shared.saveTheme(theme: .day) { theme in
-                ThemeManager.shared.currentTheme = theme.rawValue
+            storageManager.saveTheme(theme: .day) { theme in
+                themeManager.currentTheme = theme.rawValue
             }
             setNeedsStatusBarAppearanceUpdate()
             
@@ -193,8 +211,8 @@ private extension ThemesViewController {
             setupLabelsColorForDartTheme()
             view.backgroundColor = nightColorBackgroundView
             
-            StorageManager.shared.saveTheme(theme: .night) { theme in
-                ThemeManager.shared.currentTheme = theme.rawValue
+            storageManager.saveTheme(theme: .night) { theme in
+                themeManager.currentTheme = theme.rawValue
             }
             setNeedsStatusBarAppearanceUpdate()
             
@@ -227,15 +245,15 @@ private extension ThemesViewController {
     }
     
     func setupThemeVC() {
-        view.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
+        view.backgroundColor = themeManager.appColorLoadFor(.backgroundView)
         
-        classicLabel.textColor = ThemeManager.shared.appColorLoadFor(.text)
-        dayLabel.textColor = ThemeManager.shared.appColorLoadFor(.text)
-        nightLabel.textColor = ThemeManager.shared.appColorLoadFor(.text)
+        classicLabel.textColor = themeManager.appColorLoadFor(.text)
+        dayLabel.textColor = themeManager.appColorLoadFor(.text)
+        nightLabel.textColor = themeManager.appColorLoadFor(.text)
     }
     
     func selectedCurrentTheme() {
-        let currentTheme = ThemeManager.shared.currentTheme
+        let currentTheme = themeManager.currentTheme
         
         switch currentTheme {
         case Theme.classic.rawValue:

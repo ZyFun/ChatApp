@@ -18,6 +18,8 @@ final class ChannelDataSourceManager: NSObject, ChannelDataSourceManagerProtocol
     var resultManager: ChannelFetchedResultsManagerProtocol
     var mySenderId: String?
     
+    // MARK: - Initializer
+    
     init(
         resultManager: ChannelFetchedResultsManagerProtocol,
         tableView: UITableView

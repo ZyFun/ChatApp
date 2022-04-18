@@ -14,6 +14,7 @@ class MessageCell: UITableViewCell {
     
     private var leadingConstraintViewContainer = NSLayoutConstraint()
     private var trailingConstraintViewContainer = NSLayoutConstraint()
+    private var themeManager: ThemeManagerProtocol
     
     private let viewContainer: UIView = {
         let view = UIView()
@@ -23,7 +24,6 @@ class MessageCell: UITableViewCell {
     
     private let senderNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = ThemeManager.shared.appColorLoadFor(.senderName)
         label.font = .boldSystemFont(ofSize: 16)
         label.numberOfLines = 0
         return label
@@ -31,22 +31,21 @@ class MessageCell: UITableViewCell {
     
     private let textMessageLabel: UILabel = {
         let label = UILabel()
-        label.textColor = ThemeManager.shared.appColorLoadFor(.text)
         label.numberOfLines = 0
         return label
     }()
     
     private let dateCreatedLabel: UILabel = {
         let label = UILabel()
-        label.textColor = ThemeManager.shared.appColorLoadFor(.dateCreated)
         label.font = .systemFont(ofSize: 11)
         label.textAlignment = .right
         return label
     }()
     
-    // MARK: - Init
+    // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        self.themeManager = ThemeManager.shared
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupUI()
@@ -88,24 +87,27 @@ class MessageCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setupIncomingOrOutgoingMessageConstraint(incoming: Bool) {
         if incoming {
             leadingConstraintViewContainer.isActive = true
             trailingConstraintViewContainer.isActive = false
-            viewContainer.backgroundColor = ThemeManager.shared.appColorLoadFor(.leftMessage)
+            viewContainer.backgroundColor = themeManager.appColorLoadFor(.leftMessage)
         } else {
             leadingConstraintViewContainer.isActive = false
             trailingConstraintViewContainer.isActive = true
             senderNameLabel.text = nil
-            viewContainer.backgroundColor = ThemeManager.shared.appColorLoadFor(.rightMessage)
+            viewContainer.backgroundColor = themeManager.appColorLoadFor(.rightMessage)
         }
     }
     
     func setupUI() {
-        contentView.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
+        contentView.backgroundColor = themeManager.appColorLoadFor(.backgroundView)
+        senderNameLabel.textColor = themeManager.appColorLoadFor(.senderName)
+        textMessageLabel.textColor = themeManager.appColorLoadFor(.text)
+        dateCreatedLabel.textColor = themeManager.appColorLoadFor(.dateCreated)
         
         // Развернул отображение ячейки, так как таблицу я тоже развернул,
         // чтобы первая ячейка была снизу.

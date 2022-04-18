@@ -14,15 +14,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var storageManager: StorageManagerProtocol
     var firstStartAppManager: FirstStartAppManagerProtocol
+    var themeManager: ThemeManagerProtocol
     
-    // TODO: ([18.04.2022]) ВОзможно неправильный подход
-    // Так-как я не могу сделать инит определенного параметра, использую синглтон
-    // и делаю его инит таким образом, потому что он нужен мне именно в этом месте
-    // логика такая, первым экраном может поменяться, и чтобы не пришлось переносить код
-    // все методы которые я использую на старте приложения, используются именно здесь
     override init() {
-        self.storageManager = StorageManager.shared
-        self.firstStartAppManager = FirstStartAppManager.shared
+        self.storageManager = StorageManager()
+        self.firstStartAppManager = FirstStartAppManager()
+        self.themeManager = ThemeManager.shared
     }
 
     func application(
@@ -32,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
-        setupSchemeColorOnFirstStartApp()
+        setupSchemeColor()
         createAndShowStartVC()
         
         return true
@@ -58,11 +55,15 @@ private extension AppDelegate {
         window?.makeKeyAndVisible()
     }
     
-    func setupSchemeColorOnFirstStartApp() {
+    func setupSchemeColor() {
         if firstStartAppManager.isFirstStart() {
             createUserID()
-            ThemeManager.shared.setupDefaultTheme()
+            storageManager.saveTheme(theme: .classic) { _ in
+                themeManager.setupDefaultTheme()
+            }
             firstStartAppManager.setIsNotFirstStart()
+        } else {
+            themeManager.currentTheme = storageManager.loadTheme(withKey: .theme)
         }
     }
     

@@ -19,6 +19,8 @@ final class ChannelListFetchedResultsManager: NSObject, ChannelListFetchedResult
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
     var isAppear = true
     
+    // MARK: - Initializer
+    
     init(
         fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
     ) {

@@ -19,6 +19,8 @@ final class ChannelListDataSourceManager: NSObject, ChannelListDataSourceManager
     
     weak var channelListViewControllerDelegate: ChannelListViewControllerDelegate?
     
+    // MARK: - Initializer
+    
     init (
         tableView: UITableView,
         resultManager: ChannelListFetchedResultsManagerProtocol

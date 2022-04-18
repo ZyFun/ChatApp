@@ -21,7 +21,16 @@ final class ChannelCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var lastMessageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-
+    
+    private var themeManager: ThemeManagerProtocol
+    
+    // MARK: - Initializer
+    
+    required init?(coder: NSCoder) {
+        self.themeManager = ThemeManager.shared
+        super.init(coder: coder)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -55,13 +64,13 @@ private extension ChannelCell {
     }
     
     func setupProfileImage() {
-        profileImageView.backgroundColor = ThemeManager.shared.appColorLoadFor(.profileImageView)
+        profileImageView.backgroundColor = themeManager.appColorLoadFor(.profileImageView)
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
     }
     
     func setupTheme() {
-        nameLabel.textColor = ThemeManager.shared.appColorLoadFor(.text)
-        profileImageLabel.textColor = ThemeManager.shared.appColorLoadFor(.textImageView)
+        nameLabel.textColor = themeManager.appColorLoadFor(.text)
+        profileImageLabel.textColor = themeManager.appColorLoadFor(.textImageView)
     }
     
     func setFirstCharacter(from channelName: String?) -> String? {
@@ -141,7 +150,7 @@ extension ChannelCell: ChannelCellConfiguration {
         }
         set {
             if newValue {
-                backgroundColor = ThemeManager.shared.appColorLoadFor(.online)
+                backgroundColor = themeManager.appColorLoadFor(.online)
             } else {
                 backgroundColor = .clear
             }

@@ -36,6 +36,14 @@ final class MyProfileViewController: UIViewController {
     
     private var profile: Profile?
     private var observer = NotificationKeyboardObserver()
+    private let themeManager: ThemeManagerProtocol
+    
+    // MARK: - Initializer
+    
+    required init?(coder: NSCoder) {
+        self.themeManager = ThemeManager.shared
+        super.init(coder: coder)
+    }
     
     // MARK: - LifeCycle
     
@@ -223,8 +231,8 @@ private extension MyProfileViewController {
     }
     
     func setupViews() {
-        topBarView.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundNavBar)
-        view.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
+        topBarView.backgroundColor = themeManager.appColorLoadFor(.backgroundNavBar)
+        view.backgroundColor = themeManager.appColorLoadFor(.backgroundView)
     }
     
     // MARK: - Profile image settings
@@ -238,7 +246,7 @@ private extension MyProfileViewController {
         }
         
         profileImageView.contentMode = .scaleAspectFill
-        profileImageView.backgroundColor = ThemeManager.shared.appColorLoadFor(.profileImageView)
+        profileImageView.backgroundColor = themeManager.appColorLoadFor(.profileImageView)
     }
     
     func setupProfileImageSize() {
@@ -247,7 +255,7 @@ private extension MyProfileViewController {
     
     func setupNoProfileImageLabel() {
         noProfileImageLabel.text = setFirstCharacters(from: profile?.name)
-        noProfileImageLabel.textColor = ThemeManager.shared.appColorLoadFor(.textImageView)
+        noProfileImageLabel.textColor = themeManager.appColorLoadFor(.textImageView)
         noProfileImageLabel.adjustsFontSizeToFitWidth = true
         noProfileImageLabel.baselineAdjustment = .alignCenters
         noProfileImageLabel.minimumScaleFactor = 0.5
@@ -282,9 +290,9 @@ private extension MyProfileViewController {
     // MARK: - Labels settings
     
     func setupLabels() {
-        titleLabel.textColor = ThemeManager.shared.appColorLoadFor(.text)
-        nameLabel.textColor = ThemeManager.shared.appColorLoadFor(.text)
-        descriptionLabel.textColor = ThemeManager.shared.appColorLoadFor(.text)
+        titleLabel.textColor = themeManager.appColorLoadFor(.text)
+        nameLabel.textColor = themeManager.appColorLoadFor(.text)
+        descriptionLabel.textColor = themeManager.appColorLoadFor(.text)
         
         nameLabel.text = profile?.name
         descriptionLabel.text = profile?.description
@@ -302,8 +310,8 @@ private extension MyProfileViewController {
         userNameTextField.delegate = self
         descriptionTextField.delegate = self
         
-        userNameTextField.textColor = ThemeManager.shared.appColorLoadFor(.text)
-        descriptionTextField.textColor = ThemeManager.shared.appColorLoadFor(.text)
+        userNameTextField.textColor = themeManager.appColorLoadFor(.text)
+        descriptionTextField.textColor = themeManager.appColorLoadFor(.text)
         
         userNameTextField.isHidden = true
         descriptionTextField.isHidden = true
@@ -358,7 +366,7 @@ private extension MyProfileViewController {
     
     func settingButtons(_ buttons: UIButton...) {
         for button in buttons {
-            button.backgroundColor = ThemeManager.shared.appColorLoadFor(.button)
+            button.backgroundColor = themeManager.appColorLoadFor(.button)
             button.layer.cornerRadius = 14
             button.titleLabel?.font = .systemFont(ofSize: 19)
             button.setTitleColor(.systemBlue, for: .normal)
@@ -459,7 +467,7 @@ private extension MyProfileViewController {
         choosePhoto.addAction(photo)
         choosePhoto.addAction(cancel)
         
-        let currentTheme = ThemeManager.shared.currentTheme
+        let currentTheme = themeManager.currentTheme
         if currentTheme == Theme.night.rawValue {
             choosePhoto.overrideUserInterfaceStyle = .dark
         } else {

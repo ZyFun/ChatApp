@@ -13,10 +13,6 @@ protocol FirstStartAppManagerProtocol {
 }
 
 final class FirstStartAppManager: FirstStartAppManagerProtocol {
-    static let shared: FirstStartAppManagerProtocol = FirstStartAppManager()
-    
-    private init() {}
-    
     func isFirstStart() -> Bool {
         return !UserDefaults.standard.bool(forKey: "isFirstStart")
     }

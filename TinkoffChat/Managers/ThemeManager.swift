@@ -33,32 +33,42 @@ enum AssetsColor: String {
     case profileImageView
 }
 
-// Используется как синглтон, потому то нужен постоянный доступ к текущей теме
+protocol ThemeManagerProtocol {
+    var currentTheme: String? { get set }
+    func setupDefaultTheme()
+    func appColorSetup(_ theme: Theme, _ colors: AssetsColor) -> UIColor
+    func appColorLoadFor(_ name: AssetsColor) -> UIColor
+}
+
+// Используется как синглтон, потому что нужен постоянный доступ к текущей теме
 // для управления цветами приложения
-final class ThemeManager {
-    static let shared = ThemeManager()
+final class ThemeManager: ThemeManagerProtocol {
+    static let shared: ThemeManagerProtocol = ThemeManager()
     
-    var currentTheme = StorageManager.shared.loadTheme(withKey: .theme)
+    var currentTheme: String?
     
     private init() {}
     
     func setupDefaultTheme() {
-        StorageManager.shared.saveTheme(theme: .classic) { theme in
-            currentTheme = theme.rawValue
-        }
+        currentTheme = Theme.classic.rawValue
     }
     
+    // делаю возврат красного при неудаче, чтобы сразу было понятно о том, что где-то есть ошибка
     func appColorSetup(_ theme: Theme, _ colors: AssetsColor) -> UIColor {
         let colorName = "\(theme.rawValue) - \(colors.rawValue)"
         return UIColor(named: colorName) ?? .red
     }
     
     func appColorLoadFor(_ name: AssetsColor) -> UIColor {
+        guard let currentTheme = currentTheme else {
+            Logger.error("Что то не так с присвоением темы")
+            return .red
+        }
+
         let theme = currentTheme
         let colorName = "\(theme) - \(name.rawValue)"
         
         return UIColor(named: colorName) ?? .red
      }
     
-    // делаю возврат красного, чтобы сразу было понятно о том, что где-то есть ошибка
 }

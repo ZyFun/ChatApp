@@ -18,7 +18,8 @@ final class ChannelViewController: UIViewController {
     
     private var observerKeyboard = NotificationKeyboardObserver()
     
-    private var chatCoreDataService: ChatCoreDataServiceProtocol
+    private let themeManager: ThemeManagerProtocol
+    private let chatCoreDataService: ChatCoreDataServiceProtocol
     private var resultManager: ChannelFetchedResultsManagerProtocol
     private var dataSourceManager: ChannelDataSourceManagerProtocol?
     
@@ -33,7 +34,7 @@ final class ChannelViewController: UIViewController {
     @IBOutlet weak var messageToolBarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomScreenConstraint: NSLayoutConstraint!
     
-    // MARK: - Life Cycle
+    // MARK: - Initializer
     
     init(
         chatCoreDataService: ChatCoreDataServiceProtocol,
@@ -41,6 +42,7 @@ final class ChannelViewController: UIViewController {
     ) {
         self.chatCoreDataService = chatCoreDataService
         self.resultManager = resultManager
+        self.themeManager = ThemeManager.shared
         super.init(
             nibName: String(describing: ChannelViewController.self),
             bundle: nil
@@ -50,6 +52,8 @@ final class ChannelViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,16 +136,16 @@ private extension ChannelViewController {
     }
     
     func setupViews() {
-        channelTableView.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
-        view.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
+        channelTableView.backgroundColor = themeManager.appColorLoadFor(.backgroundView)
+        view.backgroundColor = themeManager.appColorLoadFor(.backgroundView)
     }
     
     func setupToolBar() {
         
-        messageToolbarView.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundToolBar)
+        messageToolbarView.backgroundColor = themeManager.appColorLoadFor(.backgroundToolBar)
         messageToolbarView.layer.borderWidth = 0.5
         
-        if ThemeManager.shared.currentTheme != Theme.night.rawValue {
+        if themeManager.currentTheme != Theme.night.rawValue {
             messageToolbarView.layer.borderColor = #colorLiteral(red: 0.6235294118, green: 0.6274509804, blue: 0.6431372549, alpha: 1)
         } else {
             messageToolbarView.layer.borderColor = #colorLiteral(red: 0.6235294118, green: 0.6274509804, blue: 0.6431372549, alpha: 0)
@@ -152,8 +156,8 @@ private extension ChannelViewController {
         messageTextView.layer.borderWidth = 0.5
         messageTextView.layer.borderColor = #colorLiteral(red: 0.6251094341, green: 0.6256788373, blue: 0.6430239081, alpha: 1)
         messageTextView.textContainer.lineFragmentPadding = 44
-        messageTextView.backgroundColor = ThemeManager.shared.appColorLoadFor(.textFieldToolBar)
-        messageTextView.textColor = ThemeManager.shared.appColorLoadFor(.text)
+        messageTextView.backgroundColor = themeManager.appColorLoadFor(.textFieldToolBar)
+        messageTextView.textColor = themeManager.appColorLoadFor(.text)
     }
     
     func setupActivityIndicator() {

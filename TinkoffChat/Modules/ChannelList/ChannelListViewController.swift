@@ -19,6 +19,7 @@ final class ChannelListViewController: UIViewController {
     
     // MARK: - Private properties
     
+    private let themeManager: ThemeManagerProtocol
     private let chatCoreDataService: ChatCoreDataServiceProtocol
     private var resultManager: ChannelListFetchedResultsManagerProtocol?
     private var dataSourceManager: ChannelListDataSourceManagerProtocol?
@@ -31,9 +32,10 @@ final class ChannelListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    // MARK: - Life Cycle
+    // MARK: - Initializer
     
     init(chatCoreDataService: ChatCoreDataServiceProtocol) {
+        self.themeManager = ThemeManager.shared
         self.chatCoreDataService = chatCoreDataService
         super.init(
             nibName: String(describing: ChannelListViewController.self),
@@ -44,6 +46,8 @@ final class ChannelListViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,9 +112,9 @@ private extension ChannelListViewController {
     }
     
     func setupTheme() {
-        let backgroundViewTheme = ThemeManager.shared.appColorLoadFor(.backgroundView)
-        let backgroundNavBarTheme = ThemeManager.shared.appColorLoadFor(.backgroundNavBar)
-        let textTheme = ThemeManager.shared.appColorLoadFor(.text)
+        let backgroundViewTheme = themeManager.appColorLoadFor(.backgroundView)
+        let backgroundNavBarTheme = themeManager.appColorLoadFor(.backgroundNavBar)
+        let textTheme = themeManager.appColorLoadFor(.text)
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -150,30 +154,29 @@ private extension ChannelListViewController {
             action: #selector(pushThemeVC)
         )
         
-        settingsButton.tintColor = ThemeManager.shared.appColorLoadFor(.buttonNavBar)
+        settingsButton.tintColor = themeManager.appColorLoadFor(.buttonNavBar)
         
         navigationItem.leftBarButtonItem = settingsButton
     }
     
     @objc func pushThemeVC() {
-        let themesVC = ThemesViewController(
-            nibName: String(describing: ThemesViewController.self),
-            bundle: nil
-        )
+        let themesVC = ThemesViewController()
         
+        // TODO: ([18.04.2022]) пересмотреть применение замыкания. С текущей работой с темой это лишнее
         themesVC.completion = { [weak self] in
+            guard let self = self else { return }
             
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
-            appearance.titleTextAttributes = [.foregroundColor: ThemeManager.shared.appColorLoadFor(.text)]
-            appearance.largeTitleTextAttributes = [.foregroundColor: ThemeManager.shared.appColorLoadFor(.text)]
-            appearance.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundNavBar)
+            appearance.titleTextAttributes = [.foregroundColor: self.themeManager.appColorLoadFor(.text)]
+            appearance.largeTitleTextAttributes = [.foregroundColor: self.themeManager.appColorLoadFor(.text)]
+            appearance.backgroundColor = self.themeManager.appColorLoadFor(.backgroundNavBar)
             
-            self?.navigationController?.navigationBar.standardAppearance = appearance
-            self?.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            self.navigationController?.navigationBar.standardAppearance = appearance
+            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
             
             // Нужно для того, чтобы поменять цвета в ячейках
-            self?.tableView.reloadData()
+            self.tableView.reloadData()
         }
         
         navigationController?.pushViewController(themesVC, animated: true)
@@ -188,7 +191,7 @@ private extension ChannelListViewController {
             action: #selector(addChannelButtonPressed)
         )
         
-        addChannelButton.tintColor = ThemeManager.shared.appColorLoadFor(.buttonNavBar)
+        addChannelButton.tintColor = themeManager.appColorLoadFor(.buttonNavBar)
         
         let profileLabel = UILabel(
             frame: CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -201,8 +204,8 @@ private extension ChannelListViewController {
         
         profileLabel.text = "UN" // TODO: ([27.03.2022]) Сделать выбор букв из имени профиля
         profileLabel.textAlignment = .center
-        profileLabel.backgroundColor = ThemeManager.shared.appColorLoadFor(.profileImageView)
-        profileLabel.textColor = ThemeManager.shared.appColorLoadFor(.textImageView)
+        profileLabel.backgroundColor = themeManager.appColorLoadFor(.profileImageView)
+        profileLabel.textColor = themeManager.appColorLoadFor(.textImageView)
         profileLabel.layer.cornerRadius = profileLabel.frame.height / 2
         profileLabel.layer.masksToBounds = true
         
@@ -236,7 +239,7 @@ private extension ChannelListViewController {
     
     func setupTableView() {
         setupXibs()
-        tableView.separatorColor = ThemeManager.shared.appColorLoadFor(.separator)
+        tableView.separatorColor = themeManager.appColorLoadFor(.separator)
     }
     
     /// Инициализация Xibs
@@ -276,7 +279,7 @@ private extension ChannelListViewController {
             textField.placeholder = "Введите название канала"
         }
         
-        let currentTheme = ThemeManager.shared.currentTheme
+        let currentTheme = themeManager.currentTheme
         if currentTheme == Theme.night.rawValue {
             alert.overrideUserInterfaceStyle = .dark
         } else {

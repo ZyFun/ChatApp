@@ -14,17 +14,16 @@ protocol StorageManagerProtocol {
     func loadUserID() -> String?
 }
 
+// TODO: ([18.04.2022]) Имеет ли смысл использовать как синглтон?
+// чтобы в памяти был только 1 класс, так как при старте приложения он уже висит
+// а при переходе на второй экран, появляется еще 1 объект в памяти.
 final class StorageManager: StorageManagerProtocol {
     enum Key: String {
         case theme
         case userID
     }
     
-    static let shared: StorageManagerProtocol = StorageManager()
-    
     private let userDefaults = UserDefaults()
-    
-    private init() {}
     
     // MARK: - Theme
     
