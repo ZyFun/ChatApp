@@ -165,7 +165,9 @@ private extension ThemesViewController {
             setupLabelsColorForLightTheme()
             view.backgroundColor = classicColorBackgroundView
             
-            StorageManager.shared.saveTheme(theme: .classic)
+            StorageManager.shared.saveTheme(theme: .classic) { theme in
+                ThemeManager.shared.currentTheme = theme.rawValue
+            }
             setNeedsStatusBarAppearanceUpdate()
             
             completion?()
@@ -177,7 +179,9 @@ private extension ThemesViewController {
             setupLabelsColorForLightTheme()
             view.backgroundColor = dayColorBackgroundView
             
-            StorageManager.shared.saveTheme(theme: .day)
+            StorageManager.shared.saveTheme(theme: .day) { theme in
+                ThemeManager.shared.currentTheme = theme.rawValue
+            }
             setNeedsStatusBarAppearanceUpdate()
             
             completion?()
@@ -189,7 +193,9 @@ private extension ThemesViewController {
             setupLabelsColorForDartTheme()
             view.backgroundColor = nightColorBackgroundView
             
-            StorageManager.shared.saveTheme(theme: .night)
+            StorageManager.shared.saveTheme(theme: .night) { theme in
+                ThemeManager.shared.currentTheme = theme.rawValue
+            }
             setNeedsStatusBarAppearanceUpdate()
             
             completion?()

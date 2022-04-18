@@ -8,7 +8,7 @@
 import Foundation
 
 protocol StorageManagerProtocol {
-    func saveTheme(theme: Theme)
+    func saveTheme(theme: Theme, completion: (Theme) -> Void)
     func loadTheme(withKey: StorageManager.Key) -> String
     func saveUserID(_ userID: String?)
     func loadUserID() -> String?
@@ -28,16 +28,19 @@ final class StorageManager: StorageManagerProtocol {
     
     // MARK: - Theme
     
-    func saveTheme(theme: Theme) {
+    func saveTheme(theme: Theme, completion: (Theme) -> Void) {
         DispatchQueue.global().async { [weak self] in
-            self?.userDefaults.set(theme.rawValue, forKey: StorageManager.Key.theme.rawValue)
+            self?.userDefaults.set(
+                theme.rawValue,
+                forKey: Key.theme.rawValue
+            )
         }
         
-        // TODO: ([16.03.2022]) Не уверен что это должно быть тут
-        ThemeManager.shared.currentTheme = theme.rawValue
+        // Возврат выбранной темы, для установки текущей темы
+        completion(theme)
     }
     
-    func loadTheme(withKey: StorageManager.Key) -> String {
+    func loadTheme(withKey: Key) -> String {
         userDefaults.string(forKey: withKey.rawValue) ?? ""
     }
     

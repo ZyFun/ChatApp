@@ -10,7 +10,6 @@ import Foundation
 protocol FirstStartAppManagerProtocol {
     func isFirstStart() -> Bool
     func setIsNotFirstStart()
-    func setupDefaultTheme()
 }
 
 final class FirstStartAppManager: FirstStartAppManagerProtocol {
@@ -24,10 +23,5 @@ final class FirstStartAppManager: FirstStartAppManagerProtocol {
 
     func setIsNotFirstStart() {
         UserDefaults.standard.set(true, forKey: "isFirstStart")
-    }
-    
-    // TODO: ([18.04.2022]) перенести в менеджер темы
-    func setupDefaultTheme() {
-        StorageManager.shared.saveTheme(theme: .classic)
     }
 }

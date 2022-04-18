@@ -33,6 +33,8 @@ enum AssetsColor: String {
     case profileImageView
 }
 
+// Используется как синглтон, потому то нужен постоянный доступ к текущей теме
+// для управления цветами приложения
 final class ThemeManager {
     static let shared = ThemeManager()
     
@@ -40,13 +42,19 @@ final class ThemeManager {
     
     private init() {}
     
+    func setupDefaultTheme() {
+        StorageManager.shared.saveTheme(theme: .classic) { theme in
+            currentTheme = theme.rawValue
+        }
+    }
+    
     func appColorSetup(_ theme: Theme, _ colors: AssetsColor) -> UIColor {
         let colorName = "\(theme.rawValue) - \(colors.rawValue)"
         return UIColor(named: colorName) ?? .red
     }
     
     func appColorLoadFor(_ name: AssetsColor) -> UIColor {
-        let theme = ThemeManager.shared.currentTheme
+        let theme = currentTheme
         let colorName = "\(theme) - \(name.rawValue)"
         
         return UIColor(named: colorName) ?? .red

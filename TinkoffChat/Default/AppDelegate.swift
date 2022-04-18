@@ -61,7 +61,7 @@ private extension AppDelegate {
     func setupSchemeColorOnFirstStartApp() {
         if firstStartAppManager.isFirstStart() {
             createUserID()
-            firstStartAppManager.setupDefaultTheme()
+            ThemeManager.shared.setupDefaultTheme()
             firstStartAppManager.setIsNotFirstStart()
         }
     }
