@@ -122,6 +122,7 @@ private extension ChannelListViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         view.backgroundColor = backgroundViewTheme
+        tableView.backgroundColor = backgroundViewTheme
     }
     
     // MARK: - Navigation bar setup
