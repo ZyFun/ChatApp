@@ -12,6 +12,16 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var storageManager: StorageManagerProtocol
+    
+    // TODO: ([18.04.2022]) ВОзможно неправильный подход
+    // Так-как я не могу сделать инит определенного параметра, использую синглтон
+    // и делаю его инит таким образом, потому что он нужен мне именно в этом месте
+    // логика такая, первым экраном может поменяться, и чтобы не пришлось переносить код
+    // все методы которые я использую на старте приложения, используются именно здесь
+    override init() {
+        self.storageManager = StorageManager.shared
+    }
 
     func application(
         _ application: UIApplication,
@@ -33,7 +43,7 @@ private extension AppDelegate {
     func createAndShowStartVC() {
         let ChannelListVC = ChannelListViewController(chatCoreDataService: ChatCoreDataService())
         
-        ChannelListVC.mySenderID = StorageManager.shared.loadUserID()
+        ChannelListVC.mySenderID = storageManager.loadUserID()
         
         let navigationController = CustomNavigationController(
             rootViewController: ChannelListVC
@@ -62,6 +72,6 @@ private extension AppDelegate {
     // откуда и будет в дальнейшем производится загрузка идентификатора
     func createUserID() {
         let userID = UIDevice.current.identifierForVendor?.uuidString
-        StorageManager.shared.saveUserID(userID)
+        storageManager.saveUserID(userID)
     }
 }

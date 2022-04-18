@@ -7,13 +7,20 @@
 
 import Foundation
 
-final class StorageManager {
+protocol StorageManagerProtocol {
+    func saveTheme(theme: Theme)
+    func loadTheme(withKey: StorageManager.Key) -> String
+    func saveUserID(_ userID: String?)
+    func loadUserID() -> String?
+}
+
+final class StorageManager: StorageManagerProtocol {
     enum Key: String {
         case theme
         case userID
     }
     
-    static let shared = StorageManager()
+    static let shared: StorageManagerProtocol = StorageManager()
     
     private let userDefaults = UserDefaults()
     
