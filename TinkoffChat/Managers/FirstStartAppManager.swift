@@ -7,8 +7,14 @@
 
 import Foundation
 
-final class FirstStartAppManager {
-    static let shared = FirstStartAppManager()
+protocol FirstStartAppManagerProtocol {
+    func isFirstStart() -> Bool
+    func setIsNotFirstStart()
+    func setupDefaultTheme()
+}
+
+final class FirstStartAppManager: FirstStartAppManagerProtocol {
+    static let shared: FirstStartAppManagerProtocol = FirstStartAppManager()
     
     private init() {}
     
@@ -20,6 +26,7 @@ final class FirstStartAppManager {
         UserDefaults.standard.set(true, forKey: "isFirstStart")
     }
     
+    // TODO: ([18.04.2022]) перенести в менеджер темы
     func setupDefaultTheme() {
         StorageManager.shared.saveTheme(theme: .classic)
     }

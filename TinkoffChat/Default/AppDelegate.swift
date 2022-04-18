@@ -13,6 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var storageManager: StorageManagerProtocol
+    var firstStartAppManager: FirstStartAppManagerProtocol
     
     // TODO: ([18.04.2022]) ВОзможно неправильный подход
     // Так-как я не могу сделать инит определенного параметра, использую синглтон
@@ -21,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // все методы которые я использую на старте приложения, используются именно здесь
     override init() {
         self.storageManager = StorageManager.shared
+        self.firstStartAppManager = FirstStartAppManager.shared
     }
 
     func application(
@@ -57,10 +59,10 @@ private extension AppDelegate {
     }
     
     func setupSchemeColorOnFirstStartApp() {
-        if FirstStartAppManager.shared.isFirstStart() {
+        if firstStartAppManager.isFirstStart() {
             createUserID()
-            FirstStartAppManager.shared.setupDefaultTheme()
-            FirstStartAppManager.shared.setIsNotFirstStart()
+            firstStartAppManager.setupDefaultTheme()
+            firstStartAppManager.setIsNotFirstStart()
         }
     }
     
