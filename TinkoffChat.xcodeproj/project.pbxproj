@@ -193,9 +193,6 @@
 		2C5C8C2427DF7B6000AE48F6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */,
-				2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */,
-				2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */,
 				2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */,
 				2CE58AB327F067960087B3D9 /* FirestoreService.swift */,
 				2CE58AB527F06E590087B3D9 /* NetworkError.swift */,
@@ -256,6 +253,16 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		2CF17642280D709D00680134 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */,
+				2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */,
+				2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		2CF231A527BFBB2400CE77C2 = {
 			isa = PBXGroup;
 			children = (
@@ -284,6 +291,7 @@
 				2C5C8C2127DF673000AE48F6 /* Common */,
 				2CEA6AF327D3AD9E0028DF67 /* Models */,
 				2C5C8C2427DF7B6000AE48F6 /* Services */,
+				2CF17642280D709D00680134 /* Managers */,
 				2C3D0C3627D8CA9A00BA9CA6 /* Modules */,
 				2CF231C827BFFFA000CE77C2 /* Supports */,
 				2CEA6AF027D36F080028DF67 /* Extensions */,
