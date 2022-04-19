@@ -47,7 +47,7 @@
 		2CF231C727BFF6FA00CE77C2 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231C627BFF6FA00CE77C2 /* .gitignore */; };
 		2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231C927BFFFBF00CE77C2 /* Debug.swift */; };
 		2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2C65927D4E575006CA6A6 /* String+DateFormatter.swift */; };
-		2CFF7B5627EF4B7500055DC6 /* +ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFF7B5527EF4B7500055DC6 /* +ImagePicker.swift */; };
+		2CFF7B5627EF4B7500055DC6 /* ImagePickerProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFF7B5527EF4B7500055DC6 /* ImagePickerProfileManager.swift */; };
 		7C918B99FB45DF0A9628448B /* Pods_TinkoffChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D9BD881D8A0E0B8AB07E2 /* Pods_TinkoffChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -95,7 +95,7 @@
 		2CF231C627BFF6FA00CE77C2 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		2CF231C927BFFFBF00CE77C2 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		2CF2C65927D4E575006CA6A6 /* String+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+DateFormatter.swift"; sourceTree = "<group>"; };
-		2CFF7B5527EF4B7500055DC6 /* +ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ImagePicker.swift"; sourceTree = "<group>"; };
+		2CFF7B5527EF4B7500055DC6 /* ImagePickerProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerProfileManager.swift; sourceTree = "<group>"; };
 		33618E2E3202AD3188E8005E /* Pods-TinkoffChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TinkoffChat.debug.xcconfig"; path = "Target Support Files/Pods-TinkoffChat/Pods-TinkoffChat.debug.xcconfig"; sourceTree = "<group>"; };
 		BFD5CDFB44EFE288EEA05E59 /* Pods-TinkoffChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TinkoffChat.release.xcconfig"; path = "Target Support Files/Pods-TinkoffChat/Pods-TinkoffChat.release.xcconfig"; sourceTree = "<group>"; };
 		FC4D9BD881D8A0E0B8AB07E2 /* Pods_TinkoffChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TinkoffChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,7 +175,7 @@
 			children = (
 				2C13C6E927E60A6100955499 /* ProfileModel.swift */,
 				2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */,
-				2CFF7B5527EF4B7500055DC6 /* +ImagePicker.swift */,
+				2CFF7B5527EF4B7500055DC6 /* ImagePickerProfileManager.swift */,
 				2CF231B727BFBB2400CE77C2 /* MyProfileViewController.storyboard */,
 			);
 			path = MyProfile;
@@ -470,7 +470,7 @@
 				2CA9BC26280C422D00C0CBB4 /* ChannelListFetchedResultsManager.swift in Sources */,
 				2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */,
 				2CE58AB627F06E590087B3D9 /* NetworkError.swift in Sources */,
-				2CFF7B5627EF4B7500055DC6 /* +ImagePicker.swift in Sources */,
+				2CFF7B5627EF4B7500055DC6 /* ImagePickerProfileManager.swift in Sources */,
 				2CEBC52427F3287D0025DB1A /* NotificationKeyboardObserver.swift in Sources */,
 				2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */,
 				2CE33CE827F85FE500BA59CE /* Chat.xcdatamodeld in Sources */,

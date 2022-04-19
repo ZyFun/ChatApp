@@ -38,12 +38,14 @@ final class MyProfileViewController: UIViewController {
     private var observer = NotificationKeyboardObserver()
     private let themeManager: ThemeManagerProtocol
     private let profileService: ProfileServiceProtocol
+    private var imagePickerController: ImagePickerProfileManagerProtocol
     
     // MARK: - Initializer
     
     required init?(coder: NSCoder) {
-        self.profileService = ProfileService()
-        self.themeManager = ThemeManager.shared
+        profileService = ProfileService()
+        themeManager = ThemeManager.shared
+        imagePickerController = ImagePickerProfileManager()
         super.init(coder: coder)
     }
     
@@ -69,6 +71,8 @@ final class MyProfileViewController: UIViewController {
     
     @IBAction func editLogoButtonPressed() {
         changeProfileLogoAlertController()
+        userNameTextField.text = nameLabel.text
+        descriptionTextField.text = descriptionLabel.text
     }
     
     @IBAction func closeButtonPressed() {
@@ -82,11 +86,7 @@ final class MyProfileViewController: UIViewController {
         userNameTextField.isHidden = false
         descriptionTextField.isHidden = false
         
-        showButtons(
-            cancelButton,
-            saveButton
-        )
-        
+        showButtons(cancelButton, saveButton)
         hideButtons(editButton)
         
         userNameTextField.text = nameLabel.text
@@ -126,6 +126,7 @@ final class MyProfileViewController: UIViewController {
             saveButton
         )
     }
+    
     @IBAction func saveButtonPressed() {
         activityIndicator.startAnimating()
         
@@ -170,24 +171,6 @@ final class MyProfileViewController: UIViewController {
                 
                 self.activityIndicator.stopAnimating()
             }
-        }
-    }
-    
-    // TODO: ([26.03.2022]) Временное решение, вернуть в приват 3 метода разобравшись с менеджером выбора фото профиля. Для уменьшения количества строк в коде
-    func setSaveButtonIsActive() {
-        saveButton.isEnabled = true
-        saveButton.setTitleColor(.systemBlue, for: .normal)
-    }
-    
-    func hideButtons(_ buttons: UIButton...) {
-        for button in buttons {
-            button.isHidden = true
-        }
-    }
-    
-    func showButtons(_ buttons: UIButton...) {
-        for button in buttons {
-            button.isHidden = false
         }
     }
 }
@@ -298,12 +281,6 @@ private extension MyProfileViewController {
         
         nameLabel.text = profile?.name
         descriptionLabel.text = profile?.description
-        
-        // TODO: ([20.03.2022]) Вероятно костыль. Нужно для защиты от обнуления данных
-        // При установке фотографии, так как иначе поля nil и при нажатии
-        // сохранить без изменения данных, данные удаляются
-        userNameTextField.text = nameLabel.text
-        descriptionTextField.text = descriptionLabel.text
     }
     
     // MARK: - Textfield settings
@@ -375,7 +352,22 @@ private extension MyProfileViewController {
         }
     }
     
-    // TODO: ([26.03.2022]) Вернуть сюда настройки, которые я сделал временно публичными
+    func setSaveButtonIsActive() {
+        saveButton.isEnabled = true
+        saveButton.setTitleColor(.systemBlue, for: .normal)
+    }
+    
+    func hideButtons(_ buttons: UIButton...) {
+        for button in buttons {
+            button.isHidden = true
+        }
+    }
+    
+    func showButtons(_ buttons: UIButton...) {
+        for button in buttons {
+            button.isHidden = false
+        }
+    }
     
     func setEditButtonIsNotActive() {
         editLogoButton.isEnabled = false
@@ -456,11 +448,19 @@ private extension MyProfileViewController {
         let choosePhoto = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let camera = UIAlertAction(title: "Сделать фото", style: .default) { [weak self] _ in
-            self?.chooseImagePicker(source: .camera)
+            self?.imagePickerController.chooseImagePicker(source: .camera)
+            self?.imagePickerController.didSelectPickerController = { imagePicker in
+                self?.present(imagePicker, animated: true)
+            }
+            self?.setChosenImage()
         }
         
         let photo = UIAlertAction(title: "Установить из галлереи", style: .default) { [weak self] _ in
-            self?.chooseImagePicker(source: .photoLibrary)
+            self?.imagePickerController.chooseImagePicker(source: .photoLibrary)
+            self?.imagePickerController.didSelectPickerController = { imagePicker in
+                self?.present(imagePicker, animated: true)
+            }
+            self?.setChosenImage()
         }
         
         let cancel = UIAlertAction(title: "Отмена", style: .cancel)
@@ -477,6 +477,28 @@ private extension MyProfileViewController {
         }
         
         present(choosePhoto, animated: true)
+    }
+    
+    func setChosenImage() {
+        imagePickerController.didSelectImage = { [weak self] image in
+            guard let strongSelf = self else { return }
+            strongSelf.profileImageView.image = image
+            strongSelf.imagePickerController.closeImagePicker {
+                if strongSelf.profileImageView != nil {
+                    strongSelf.noProfileImageLabel.isHidden = true
+                }
+                
+                strongSelf.showButtons(
+                    strongSelf.cancelButton,
+                    strongSelf.saveButton
+                )
+                strongSelf.setSaveButtonIsActive()
+                strongSelf.hideButtons(
+                    strongSelf.editLogoButton,
+                    strongSelf.editButton
+                )
+            }
+        }
     }
 }
 

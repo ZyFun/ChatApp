@@ -8,43 +8,29 @@
 import UIKit
 import Photos
 
-// TODO: ([26.03.2022]) Временное решение, нужно сделать не экстеншеном, а отдельным классом для работы с выбором фото профиля
-extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(
-        _ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-    ) {
-        profileImageView.image = info[.editedImage] as? UIImage
-        
-        if profileImageView != nil {
-            noProfileImageLabel.isHidden = true
-        }
-        
-        dismiss(animated: true) { [weak self] in
-            // TODO: ([18.03.2022]) Отрабатывает с паузой. Надо подумать как можно улучшить
-            guard let self = self else { return }
-            
-            self.showButtons(
-                self.cancelButton,
-                self.saveButton
-            )
-            
-            self.setSaveButtonIsActive()
-            
-            self.hideButtons(
-                self.editLogoButton,
-                self.editButton
-            )
-        }
-    }
+protocol ImagePickerProfileManagerProtocol{
+    var didSelectPickerController: ((UIImagePickerController) -> Void)? { get set }
+    var didSelectImage: ((UIImage?) -> Void)? { get set }
     
-    // MARK: - Private methods
+    func chooseImagePicker(source: UIImagePickerController.SourceType)
+    func closeImagePicker(completion: () -> Void)
+}
+
+class ImagePickerProfileManager: NSObject,
+                                 UIImagePickerControllerDelegate,
+                                 UINavigationControllerDelegate,
+                                 ImagePickerProfileManagerProtocol {
+    private let imagePicker = UIImagePickerController()
+    var didSelectImage: ((UIImage?) -> Void)?
+    var didSelectPickerController: ((UIImagePickerController) -> Void)?
+    
+    override init() {
+        super.init()
+        imagePicker.delegate = self
+    }
     
     func chooseImagePicker(source: UIImagePickerController.SourceType) {
         if UIImagePickerController.isSourceTypeAvailable(source) {
-            let imagePicker = UIImagePickerController()
-            
-            imagePicker.delegate = self
             imagePicker.allowsEditing = true
             imagePicker.sourceType = source
             
@@ -56,11 +42,30 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
         }
     }
     
+    func closeImagePicker(completion: () -> Void) {
+        imagePicker.dismiss(animated: true)
+        completion()
+    }
+    
+    internal func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        
+        let image = info[.editedImage] as? UIImage
+        
+        guard let didSelectImage = didSelectImage else { return }
+        didSelectImage(image)
+    }
+    
+    // MARK: - Private methods
+    
     private func checkPermission(camera imagePicker: UIImagePickerController) {
         AVCaptureDevice.requestAccess(for: .video) { [weak self] response in
             if response {
                 DispatchQueue.main.async {
-                    self?.present(imagePicker, animated: true)
+                    guard let didSelectPickerController = self?.didSelectPickerController else { return }
+                    didSelectPickerController(imagePicker)
                     printDebug("Access granted")
                 }
             } else {
@@ -74,13 +79,15 @@ extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigation
        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
        switch photoAuthorizationStatus {
        case .authorized:
-           present(imagePicker, animated: true)
+           guard let didSelectPickerController = didSelectPickerController else { return }
+           didSelectPickerController(imagePicker)
            printDebug("Access granted")
        case .notDetermined:
            PHPhotoLibrary.requestAuthorization { [weak self] newStatus in
                if newStatus == .authorized {
                    DispatchQueue.main.async {
-                       self?.present(imagePicker, animated: true)
+                       guard let didSelectPickerController = self?.didSelectPickerController else { return }
+                       didSelectPickerController(imagePicker)
                    }
                    printDebug("success")
                }
