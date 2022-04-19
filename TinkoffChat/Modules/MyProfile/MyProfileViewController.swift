@@ -37,10 +37,12 @@ final class MyProfileViewController: UIViewController {
     private var profile: Profile?
     private var observer = NotificationKeyboardObserver()
     private let themeManager: ThemeManagerProtocol
+    private let profileService: ProfileServiceProtocol
     
     // MARK: - Initializer
     
     required init?(coder: NSCoder) {
+        self.profileService = ProfileService()
         self.themeManager = ThemeManager.shared
         super.init(coder: coder)
     }
@@ -138,7 +140,7 @@ final class MyProfileViewController: UIViewController {
         setEditButtonIsNotActive()
         setTextFieldsIsNotActive()
         
-        ProfileService.shared.saveProfileData(
+        profileService.saveProfileData(
             name: userName,
             description: description,
             imageData: profileImageView.image?.pngData()
@@ -207,7 +209,7 @@ private extension MyProfileViewController {
     func loadProfile() {
         activityIndicator.startAnimating()
         
-        ProfileService.shared.fetchProfileData { [weak self] result in
+        profileService.fetchProfileData { [weak self] result in
             switch result {
             case .success(let savedProfile):
                 self?.profile = savedProfile

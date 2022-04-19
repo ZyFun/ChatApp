@@ -7,9 +7,20 @@
 
 import Foundation
 
-final class ProfileService {
-    static let shared = ProfileService()
+protocol ProfileServiceProtocol {
+    func saveProfileData(
+        name: String?,
+        description: String?,
+        imageData: Data?,
+        completion: @escaping (Result<Void, Error>) -> Void
+    )
     
+    func fetchProfileData(
+        completion: @escaping (Result<Profile?, Error>) -> Void
+    )
+}
+
+final class ProfileService: ProfileServiceProtocol {
     private var documentDirectory = FileManager.default.urls(
         for: .documentDirectory,
         in: .userDomainMask
@@ -24,8 +35,6 @@ final class ProfileService {
         
         return nil
     }
-    
-    private init() {}
     
     func saveProfileData(
         name: String?,
