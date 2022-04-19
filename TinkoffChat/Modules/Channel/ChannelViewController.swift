@@ -16,8 +16,7 @@ final class ChannelViewController: UIViewController {
     
     // MARK: - Private properties
     
-    private var observerKeyboard = NotificationKeyboardObserver()
-    
+    private var observerKeyboard: NotificationKeyboardObserverProtocol
     private let themeManager: ThemeManagerProtocol
     private let firebaseService: FirestoreServiceProtocol
     private let chatCoreDataService: ChatCoreDataServiceProtocol
@@ -41,6 +40,7 @@ final class ChannelViewController: UIViewController {
         chatCoreDataService: ChatCoreDataServiceProtocol,
         resultManager: ChannelFetchedResultsManagerProtocol
     ) {
+        observerKeyboard = NotificationKeyboardObserver()
         self.firebaseService = FirestoreService()
         self.chatCoreDataService = chatCoreDataService
         self.resultManager = resultManager
@@ -279,7 +279,8 @@ private extension ChannelViewController {
     func setupKeyboardNotificationsObserver() {
         observerKeyboard.addChangeHeightObserver(
             for: view,
-            changeValueFor: bottomScreenConstraint
+            changeValueFor: bottomScreenConstraint,
+            with: .channelView
         )
     }
     

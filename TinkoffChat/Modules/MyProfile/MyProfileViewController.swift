@@ -35,7 +35,7 @@ final class MyProfileViewController: UIViewController {
     // MARK: - Private properties
     
     private var profile: Profile?
-    private var observer = NotificationKeyboardObserver()
+    private var observerKeyboard: NotificationKeyboardObserverProtocol
     private let avatarTextManager: AvatarTextManagerProtocol
     private var imagePickerController: ImagePickerProfileManagerProtocol
     private let themeManager: ThemeManagerProtocol
@@ -44,6 +44,7 @@ final class MyProfileViewController: UIViewController {
     // MARK: - Initializer
     
     required init?(coder: NSCoder) {
+        observerKeyboard = NotificationKeyboardObserver()
         avatarTextManager = AvatarTextManager()
         imagePickerController = ImagePickerProfileManager()
         themeManager = ThemeManager.shared
@@ -189,6 +190,7 @@ private extension MyProfileViewController {
         setupTextFields()
         setupProfileImage()
         setupLabels()
+        setupObserverKeyboard()
     }
     
     func loadProfile() {
@@ -220,6 +222,14 @@ private extension MyProfileViewController {
     func setupViews() {
         topBarView.backgroundColor = themeManager.appColorLoadFor(.backgroundNavBar)
         view.backgroundColor = themeManager.appColorLoadFor(.backgroundView)
+    }
+    
+    func setupObserverKeyboard() {
+            observerKeyboard.addChangeHeightObserver(
+            for: view,
+            changeValueFor: topConstraintProfileImage,
+            with: .profileView
+        )
     }
     
     // MARK: - Profile image settings
@@ -487,18 +497,13 @@ extension MyProfileViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        // TODO: ([29.03.2022]) Кривой костыль. Перекрывает поля ввода на некоторых экранах. нужно подумать как это улучшить.
-        topConstraintProfileImage.constant = -130
-        
+        // TODO: ([19.04.2022]) сделать плавное исчезновение и появление наблюдая за клавиатурой
         if profileImageView.image == nil {
             noProfileImageLabel.isHidden = true
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        // TODO: ([29.03.2022]) Кривой костыль. Перекрывает поля ввода на некоторых экранах. нужно подумать как это улучшить.
-        topConstraintProfileImage.constant = 7
-        
         if profileImageView.image == nil {
             noProfileImageLabel.isHidden = false
         }
