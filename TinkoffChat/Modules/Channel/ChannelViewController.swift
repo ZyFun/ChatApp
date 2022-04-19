@@ -19,6 +19,7 @@ final class ChannelViewController: UIViewController {
     private var observerKeyboard = NotificationKeyboardObserver()
     
     private let themeManager: ThemeManagerProtocol
+    private let firebaseService: FirestoreServiceProtocol
     private let chatCoreDataService: ChatCoreDataServiceProtocol
     private var resultManager: ChannelFetchedResultsManagerProtocol
     private var dataSourceManager: ChannelDataSourceManagerProtocol?
@@ -40,6 +41,7 @@ final class ChannelViewController: UIViewController {
         chatCoreDataService: ChatCoreDataServiceProtocol,
         resultManager: ChannelFetchedResultsManagerProtocol
     ) {
+        self.firebaseService = FirestoreService()
         self.chatCoreDataService = chatCoreDataService
         self.resultManager = resultManager
         self.themeManager = ThemeManager.shared
@@ -196,7 +198,7 @@ private extension ChannelViewController {
             return
         }
         
-        FirestoreService.shared.fetchMessages(
+        firebaseService.fetchMessages(
             channelID: channelID
         ) { [weak self] result in
             
@@ -212,7 +214,7 @@ private extension ChannelViewController {
     }
     
     func sendMessage(channelID: String, senderID: String, message: String) {
-        FirestoreService.shared.sendMessage(
+        firebaseService.sendMessage(
             channelID: channelID,
             message: message,
             senderID: senderID

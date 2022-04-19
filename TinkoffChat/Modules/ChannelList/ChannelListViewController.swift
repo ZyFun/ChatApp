@@ -20,6 +20,7 @@ final class ChannelListViewController: UIViewController {
     // MARK: - Private properties
     
     private let themeManager: ThemeManagerProtocol
+    private let firebaseService: FirestoreServiceProtocol
     private let chatCoreDataService: ChatCoreDataServiceProtocol
     private var resultManager: ChannelListFetchedResultsManagerProtocol?
     private var dataSourceManager: ChannelListDataSourceManagerProtocol?
@@ -36,6 +37,7 @@ final class ChannelListViewController: UIViewController {
     
     init(chatCoreDataService: ChatCoreDataServiceProtocol) {
         self.themeManager = ThemeManager.shared
+        self.firebaseService = FirestoreService()
         self.chatCoreDataService = chatCoreDataService
         super.init(
             nibName: String(describing: ChannelListViewController.self),
@@ -293,7 +295,7 @@ private extension ChannelListViewController {
     
     func loadChannelsFromFirebase() {
         activityIndicator.startAnimating()
-        FirestoreService.shared.fetchChannels { [weak self] result in
+        firebaseService.fetchChannels { [weak self] result in
             switch result {
             case .success(let channels):
                 Logger.info("Данные из Firebase загружены")
@@ -306,7 +308,7 @@ private extension ChannelListViewController {
     }
     
     func addNewChannel(name: String) {
-        FirestoreService.shared.addNewChannel(name: name)
+        firebaseService.addNewChannel(name: name)
     }
     
     // MARK: - Core Data Cache
@@ -387,6 +389,6 @@ extension ChannelListViewController: ChannelListViewControllerDelegate {
     // MARK: - Firestore action
     
     func deleteFromFirebase(_ channel: DBChannel) {
-        FirestoreService.shared.deleteChanel(channelID: channel.identifier ?? "")
+        firebaseService.deleteChanel(channelID: channel.identifier ?? "")
     }
 }

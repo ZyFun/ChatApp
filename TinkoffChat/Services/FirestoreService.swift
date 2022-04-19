@@ -7,13 +7,20 @@
 
 import FirebaseFirestore
 
-final class FirestoreService {
-    static let shared = FirestoreService()
-    
+protocol FirestoreServiceProtocol {
+    func fetchChannels(completion: @escaping (Result<[Channel], Error>) -> Void)
+    func addNewChannel(name: String)
+    func deleteChanel(channelID: String)
+    func fetchMessages(
+        channelID: String,
+        completion: @escaping (Result<[Message], Error>) -> Void
+    )
+    func sendMessage(channelID: String, message: String, senderID: String)
+}
+
+final class FirestoreService: FirestoreServiceProtocol {    
     private lazy var db = Firestore.firestore()
     private lazy var referenceChannels = db.collection("channels")
-    
-    private init() {}
     
     // MARK: - Channels
     
