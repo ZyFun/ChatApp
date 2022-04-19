@@ -23,11 +23,13 @@ final class ChannelCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     
     private var themeManager: ThemeManagerProtocol
+    private let avatarTextManager: AvatarTextManagerProtocol
     
     // MARK: - Initializer
     
     required init?(coder: NSCoder) {
-        self.themeManager = ThemeManager.shared
+        themeManager = ThemeManager.shared
+        avatarTextManager = AvatarTextManager()
         super.init(coder: coder)
     }
     
@@ -72,17 +74,6 @@ private extension ChannelCell {
         nameLabel.textColor = themeManager.appColorLoadFor(.text)
         profileImageLabel.textColor = themeManager.appColorLoadFor(.textImageView)
     }
-    
-    func setFirstCharacter(from channelName: String?) -> String? {
-        if let channelName = channelName {
-            guard let firstSymbol = channelName.first else { return "UN" }
-            let bigCharacter = firstSymbol.uppercased()
-            
-            return bigCharacter
-        } else {
-            return "UN"
-        }
-    }
 }
 
 // MARK: - Protocol extension
@@ -113,7 +104,7 @@ extension ChannelCell: ChannelCellConfiguration {
         }
         set {
             nameLabel.text = newValue
-            profileImageLabel.text = setFirstCharacter(from: newValue)
+            profileImageLabel.text = avatarTextManager.setFirstCharacter(from: newValue)
         }
     }
     

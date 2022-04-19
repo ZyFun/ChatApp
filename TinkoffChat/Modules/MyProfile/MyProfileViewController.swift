@@ -36,16 +36,18 @@ final class MyProfileViewController: UIViewController {
     
     private var profile: Profile?
     private var observer = NotificationKeyboardObserver()
+    private let avatarTextManager: AvatarTextManagerProtocol
+    private var imagePickerController: ImagePickerProfileManagerProtocol
     private let themeManager: ThemeManagerProtocol
     private let profileService: ProfileServiceProtocol
-    private var imagePickerController: ImagePickerProfileManagerProtocol
     
     // MARK: - Initializer
     
     required init?(coder: NSCoder) {
-        profileService = ProfileService()
-        themeManager = ThemeManager.shared
+        avatarTextManager = AvatarTextManager()
         imagePickerController = ImagePickerProfileManager()
+        themeManager = ThemeManager.shared
+        profileService = ProfileService()
         super.init(coder: coder)
     }
     
@@ -106,7 +108,7 @@ final class MyProfileViewController: UIViewController {
             profileImageView.image = UIImage(data: imageData)
         } else {
             profileImageView.image = nil
-            noProfileImageLabel.text = setFirstCharacters(from: profile?.name)
+            noProfileImageLabel.text = avatarTextManager.setFirstCharacters(from: profile?.name)
             noProfileImageLabel.isHidden = false
         }
         
@@ -134,7 +136,7 @@ final class MyProfileViewController: UIViewController {
         let description = descriptionTextField.text
         
         if profileImageView.image == nil {
-            noProfileImageLabel.text = setFirstCharacters(from: userName)
+            noProfileImageLabel.text = avatarTextManager.setFirstCharacters(from: userName)
         }
         
         setSaveButtonIsNotActive()
@@ -239,37 +241,12 @@ private extension MyProfileViewController {
     }
     
     func setupNoProfileImageLabel() {
-        noProfileImageLabel.text = setFirstCharacters(from: profile?.name)
+        noProfileImageLabel.text = avatarTextManager.setFirstCharacters(from: profile?.name)
         noProfileImageLabel.textColor = themeManager.appColorLoadFor(.textImageView)
         noProfileImageLabel.adjustsFontSizeToFitWidth = true
         noProfileImageLabel.baselineAdjustment = .alignCenters
         noProfileImageLabel.minimumScaleFactor = 0.5
         noProfileImageLabel.isHidden = false
-    }
-    
-    // TODO: ([30.03.2022]) Логика частично дублируется на нескольких экранах, отрефакторить. (Ячейка канала)
-    // сделать в отдельном менеджере по управлению изображениями, так-как на данный момент они присутствуют в трех местах
-    func setFirstCharacters(from fullName: String?) -> String? {
-        if let fullName = fullName {
-            let separateFullName = fullName.split(separator: " ")
-            let numberWords = separateFullName.count
-            var characters = ""
-            
-            if numberWords == 1 {
-                guard let firstSymbol = separateFullName.first?.first else { return "UN" }
-                return String(firstSymbol)
-            } else {
-                guard let firstSymbol = separateFullName.first?.first else { return "UN" }
-                guard let lastSymbol = separateFullName.last?.first else { return "UN" }
-                characters = "\(firstSymbol)\(lastSymbol)"
-            }
-            
-            let bigCharacters = characters.uppercased()
-            
-            return bigCharacters
-        } else {
-            return "UN"
-        }
     }
     
     // MARK: - Labels settings
