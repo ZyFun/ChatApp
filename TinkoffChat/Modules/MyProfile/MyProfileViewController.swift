@@ -495,17 +495,4 @@ extension MyProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        // TODO: ([19.04.2022]) сделать плавное исчезновение и появление наблюдая за клавиатурой
-        if profileImageView.image == nil {
-            noProfileImageLabel.isHidden = true
-        }
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if profileImageView.image == nil {
-            noProfileImageLabel.isHidden = false
-        }
-    }
 }

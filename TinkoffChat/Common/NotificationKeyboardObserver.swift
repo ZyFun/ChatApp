@@ -93,7 +93,6 @@ class NotificationKeyboardObserver: NotificationKeyboardObserverProtocol {
                 constraint.constant = -(keyboardFrameSize?.height ?? 0) / 2
             default:
                 Logger.error("Что то пошло не так")
-                break
             }
             UIView.animate(withDuration: keyboardAnimation) { [weak self] in
                 self?.view?.layoutIfNeeded()
@@ -114,7 +113,6 @@ class NotificationKeyboardObserver: NotificationKeyboardObserverProtocol {
                 constraint.constant = 7
             default:
                 Logger.error("Что то пошло не так")
-                break
             }
             
             UIView.animate(withDuration: keyboardAnimation) { [weak self] in

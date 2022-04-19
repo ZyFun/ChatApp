@@ -8,7 +8,7 @@
 import UIKit
 import Photos
 
-protocol ImagePickerProfileManagerProtocol{
+protocol ImagePickerProfileManagerProtocol {
     var didSelectPickerController: ((UIImagePickerController) -> Void)? { get set }
     var didSelectImage: ((UIImage?) -> Void)? { get set }
     
