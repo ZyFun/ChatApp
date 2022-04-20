@@ -12,6 +12,7 @@
 		2C3CFCA027D62164005436A3 /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9E27D62164005436A3 /* ChannelViewController.swift */; };
 		2C3CFCA127D62164005436A3 /* ChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9F27D62164005436A3 /* ChannelViewController.xib */; };
 		2C3CFCA927D65033005436A3 /* MessageMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFCA827D65033005436A3 /* MessageMock.swift */; };
+		2C446DD028105CEB00D993C7 /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C446DCF28105CEB00D993C7 /* MessageManager.swift */; };
 		2C4661CF280B23E700CBD141 /* ChannelDataSourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4661CE280B23E700CBD141 /* ChannelDataSourceManager.swift */; };
 		2C5449FA27EDFAB100C209C8 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5449F927EDFAB100C209C8 /* Channel.swift */; };
 		2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5449FB27EDFB2700C209C8 /* Message.swift */; };
@@ -58,6 +59,7 @@
 		2C3CFC9E27D62164005436A3 /* ChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelViewController.swift; sourceTree = "<group>"; };
 		2C3CFC9F27D62164005436A3 /* ChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelViewController.xib; sourceTree = "<group>"; };
 		2C3CFCA827D65033005436A3 /* MessageMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMock.swift; sourceTree = "<group>"; };
+		2C446DCF28105CEB00D993C7 /* MessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
 		2C4661CE280B23E700CBD141 /* ChannelDataSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDataSourceManager.swift; sourceTree = "<group>"; };
 		2C49DBB52805A676003BA109 /* Chat 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Chat 2.xcdatamodel"; sourceTree = "<group>"; };
 		2C5449F927EDFAB100C209C8 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */,
 				2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */,
 				2CF6BEE7280EFBED00577E68 /* AvatarTextManager.swift */,
+				2C446DCF28105CEB00D993C7 /* MessageManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 				2CF6BEE8280EFBED00577E68 /* AvatarTextManager.swift in Sources */,
 				2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */,
 				2CA9A10427FE962E00B99C5B /* MessageCell.swift in Sources */,
+				2C446DD028105CEB00D993C7 /* MessageManager.swift in Sources */,
 				2CE33CEA27F863C200BA59CE /* ChatCoreDataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

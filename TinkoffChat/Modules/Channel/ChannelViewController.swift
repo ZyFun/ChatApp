@@ -20,6 +20,7 @@ final class ChannelViewController: UIViewController {
     private let themeManager: ThemeManagerProtocol
     private let firebaseService: FirestoreServiceProtocol
     private let chatCoreDataService: ChatCoreDataServiceProtocol
+    private let messageManager: MessageManagerProtocol
     private var resultManager: ChannelFetchedResultsManagerProtocol
     private var dataSourceManager: ChannelDataSourceManagerProtocol?
     
@@ -43,6 +44,7 @@ final class ChannelViewController: UIViewController {
         observerKeyboard = NotificationKeyboardObserver()
         self.firebaseService = FirestoreService()
         self.chatCoreDataService = chatCoreDataService
+        self.messageManager = MessageManager()
         self.resultManager = resultManager
         self.themeManager = ThemeManager.shared
         super.init(
@@ -62,7 +64,7 @@ final class ChannelViewController: UIViewController {
         
         setup()
         
-        // TODO: ([16.0472022]) Я не понимаю как заставить работать его через протокол :(
+        // TODO: ([16.0472022]) Я не понимаю как сделать инит аналогично остальным сервисам :(
         // не могу понять, как datasource назначить без инита таблицы, при ините класса менеджера,
         // и при передаче текущей таблицы, уже не ей управляются методы datasorce
         // Аналогично и с резалт контроллером, пришлось инитить его при ините текущего класса
@@ -75,8 +77,7 @@ final class ChannelViewController: UIViewController {
         dataSourceManager?.mySenderId = mySenderId
         
         activityIndicator.startAnimating()
-        
-        Message.loadMessagesFromFirebase(
+        messageManager.loadMessagesFromFirebase(
             for: currentChannel,
             with: firebaseService,
             and: chatCoreDataService) { [weak self] in
