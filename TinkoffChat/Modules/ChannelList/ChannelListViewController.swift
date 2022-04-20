@@ -9,7 +9,6 @@ import UIKit
 
 protocol ChannelListViewControllerDelegate: AnyObject {
     func pushChannelVC(with indexPath: IndexPath)
-    func deleteFromFirebase(_ channel: DBChannel)
 }
 
 final class ChannelListViewController: UIViewController {
@@ -20,8 +19,8 @@ final class ChannelListViewController: UIViewController {
     // MARK: - Private properties
     
     private let themeManager: ThemeManagerProtocol
-    private let firebaseService: FirestoreServiceProtocol
     private let chatCoreDataService: ChatCoreDataServiceProtocol
+    private let channelListManager: ChannelListManagerProtocol
     private var resultManager: ChannelListFetchedResultsManagerProtocol?
     private var dataSourceManager: ChannelListDataSourceManagerProtocol?
     
@@ -36,8 +35,8 @@ final class ChannelListViewController: UIViewController {
     // MARK: - Initializer
     
     init(chatCoreDataService: ChatCoreDataServiceProtocol) {
+        channelListManager = ChannelListManager()
         self.themeManager = ThemeManager.shared
-        self.firebaseService = FirestoreService()
         self.chatCoreDataService = chatCoreDataService
         super.init(
             nibName: String(describing: ChannelListViewController.self),
@@ -74,11 +73,17 @@ final class ChannelListViewController: UIViewController {
 
         dataSourceManager = ChannelListDataSourceManager(
             tableView: tableView,
-            resultManager: resultManager
+            resultManager: resultManager,
+            channelListManager: channelListManager
         )
         
         setup()
-        loadChannelsFromFirebase()
+        activityIndicator.startAnimating()
+        channelListManager.loadChannelsFromFirebase(
+            with: chatCoreDataService
+        ) { [weak self] in
+            self?.activityIndicator.stopAnimating()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -270,7 +275,7 @@ private extension ChannelListViewController {
         ) { [weak self] _ in
             guard let channelName = alert.textFields?.first?.text else { return }
             guard !channelName.isEmpty else { return }
-            self?.addNewChannel(name: channelName)
+            self?.channelListManager.addNewChannel(name: channelName)
         }
         
         let cancelButton = UIAlertAction(title: "Отмена", style: .destructive)
@@ -290,78 +295,11 @@ private extension ChannelListViewController {
         
         present(alert, animated: true)
     }
-    
-    // MARK: - Firestore request
-    
-    func loadChannelsFromFirebase() {
-        activityIndicator.startAnimating()
-        firebaseService.fetchChannels { [weak self] result in
-            switch result {
-            case .success(let channels):
-                Logger.info("Данные из Firebase загружены")
-                self?.saveLoaded(channels)
-                self?.activityIndicator.stopAnimating()
-            case .failure(let error):
-                Logger.error("\(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func addNewChannel(name: String) {
-        firebaseService.addNewChannel(name: name)
-    }
-    
-    // MARK: - Core Data Cache
-    
-    func saveLoaded(_ channels: [Channel]) {
-        var channelsDB: [DBChannel] = []
-        
-        Logger.info("=====Процесс обновления каналов в CoreData запущен=====")
-        chatCoreDataService.performSave { [weak self] context in
-            self?.chatCoreDataService.fetchChannels(from: context) { result in
-                switch result {
-                case .success(let channels):
-                    channelsDB = channels
-                    Logger.info("Из базы загружено \(channels.count) каналов")
-                case .failure(let error):
-                    Logger.error("\(error.localizedDescription)")
-                }
-            }
-            
-            Logger.info("Запуск процесса проверки каналов на изменение")
-            channels.forEach { channel in
-                if let channelDB = channelsDB.filter({ $0.identifier == channel.identifier }).first {
-                    
-                    if channelDB.lastActivity != channel.lastActivity {
-                        channelDB.lastActivity = channel.lastActivity
-                        Logger.info("Последнее сообщение в канале '\(channel.name)' изменено на: '\(channel.lastMessage ?? "")'")
-                    }
-                    
-                    if channelDB.lastMessage != channel.lastMessage {
-                        channelDB.lastMessage = channel.lastMessage
-                        Logger.info("Последняя активность канала '\(channel.name)' изменена: '\(String(describing: channel.lastActivity))'")
-                    }
-                } else {
-                    Logger.info("Канал '\(channel.name)' отсутствует в базе и будет добавлен")
-                    self?.chatCoreDataService.channelSave(channel, context: context)
-                }
-            }
-            
-            channelsDB.forEach { channelDB in
-                if channels.filter({ $0.identifier == channelDB.identifier }).first == nil {
-                    Logger.info("Канал '\(channelDB.name ?? "")' отсутствует на сервере и будет удалён")
-                    self?.chatCoreDataService.delete(channelDB, context: context)
-                }
-            }
-        }
-    }
 }
 
-// MARK: - Firebase action delegate
+// MARK: - Navigation delegate
 
 extension ChannelListViewController: ChannelListViewControllerDelegate {
-    // MARK: - Navigation
-    
     func pushChannelVC(with indexPath: IndexPath) {
         let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel
         
@@ -384,11 +322,5 @@ extension ChannelListViewController: ChannelListViewControllerDelegate {
             channelVC,
             animated: true
         )
-    }
-    
-    // MARK: - Firestore action
-    
-    func deleteFromFirebase(_ channel: DBChannel) {
-        firebaseService.deleteChanel(channelID: channel.identifier ?? "")
     }
 }

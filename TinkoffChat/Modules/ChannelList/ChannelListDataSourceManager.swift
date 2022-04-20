@@ -14,6 +14,7 @@ protocol ChannelListDataSourceManagerProtocol {
 }
 
 final class ChannelListDataSourceManager: NSObject, ChannelListDataSourceManagerProtocol {
+    private let channelListManager: ChannelListManagerProtocol
     var tableView: UITableView
     var resultManager: ChannelListFetchedResultsManagerProtocol
     
@@ -23,10 +24,12 @@ final class ChannelListDataSourceManager: NSObject, ChannelListDataSourceManager
     
     init (
         tableView: UITableView,
-        resultManager: ChannelListFetchedResultsManagerProtocol
+        resultManager: ChannelListFetchedResultsManagerProtocol,
+        channelListManager: ChannelListManagerProtocol
     ) {
         self.tableView = tableView
         self.resultManager = resultManager
+        self.channelListManager = channelListManager
         
         super.init()
         self.tableView.delegate = self
@@ -100,7 +103,7 @@ extension ChannelListDataSourceManager: UITableViewDelegate {
                 return
             }
             
-            channelListViewControllerDelegate?.deleteFromFirebase(channel)
+            channelListManager.deleteFromFirebase(channel)
         }
     }
 }

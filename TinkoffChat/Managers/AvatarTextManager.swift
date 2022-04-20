@@ -10,6 +10,8 @@ protocol AvatarTextManagerProtocol {
     func setFirstCharacter(from channelName: String?) -> String?
 }
 
+// TODO: ([20.04.2022]) Аналогичный вопрос по синглтону, имеет ли смысл?
+// без него получается так, что много объектов создаётся из-за использования в ячейках
 final class AvatarTextManager: AvatarTextManagerProtocol {
     func setFirstCharacters(from fullName: String?) -> String? {
         if let fullName = fullName {
