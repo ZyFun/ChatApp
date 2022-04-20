@@ -18,7 +18,6 @@ final class ChannelViewController: UIViewController {
     
     private var observerKeyboard: NotificationKeyboardObserverProtocol
     private let themeManager: ThemeManagerProtocol
-    private let firebaseService: FirestoreServiceProtocol
     private let chatCoreDataService: ChatCoreDataServiceProtocol
     private let messageManager: MessageManagerProtocol
     private var resultManager: ChannelFetchedResultsManagerProtocol
@@ -41,12 +40,11 @@ final class ChannelViewController: UIViewController {
         chatCoreDataService: ChatCoreDataServiceProtocol,
         resultManager: ChannelFetchedResultsManagerProtocol
     ) {
-        observerKeyboard = NotificationKeyboardObserver()
-        self.firebaseService = FirestoreService()
         self.chatCoreDataService = chatCoreDataService
-        self.messageManager = MessageManager()
         self.resultManager = resultManager
-        self.themeManager = ThemeManager.shared
+        observerKeyboard = NotificationKeyboardObserver()
+        messageManager = MessageManager()
+        themeManager = ThemeManager.shared
         super.init(
             nibName: String(describing: ChannelViewController.self),
             bundle: nil
@@ -79,8 +77,7 @@ final class ChannelViewController: UIViewController {
         activityIndicator.startAnimating()
         messageManager.loadMessagesFromFirebase(
             for: currentChannel,
-            with: firebaseService,
-            and: chatCoreDataService) { [weak self] in
+            with: chatCoreDataService) { [weak self] in
                 self?.activityIndicator.stopAnimating()
             }
     }
@@ -98,11 +95,13 @@ final class ChannelViewController: UIViewController {
         }
         
         if let mySenderId = mySenderId {
-            sendMessage(
+            messageManager.sendMessage(
                 channelID: channelID,
                 senderID: mySenderId,
                 message: messageTextView.text
-            )
+            ) {
+                messageTextView.text = ""
+            }
             
             // Возврат размеров панели отправки сообщений, после их изменения при написании многострочного текста
             messageToolBarHeightConstraint.constant = 80
@@ -195,16 +194,6 @@ private extension ChannelViewController {
                 )
             }
         }
-    }
-    
-    func sendMessage(channelID: String, senderID: String, message: String) {
-        firebaseService.sendMessage(
-            channelID: channelID,
-            message: message,
-            senderID: senderID
-        )
-        
-        messageTextView.text = ""
     }
     
     // MARK: - Keyboard

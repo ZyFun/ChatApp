@@ -8,19 +8,29 @@
 protocol MessageManagerProtocol {
     func loadMessagesFromFirebase(
         for currentChannel: DBChannel?,
-        with firebaseService: FirestoreServiceProtocol,
-        and chatCoreDataService: ChatCoreDataServiceProtocol,
+        with chatCoreDataService: ChatCoreDataServiceProtocol,
         completion: @escaping () -> Void
+    )
+    
+    func sendMessage(
+        channelID: String,
+        senderID: String,
+        message: String,
+        completion: () -> Void
     )
 }
 
 final class MessageManager: MessageManagerProtocol {
     private var messages: [Message] = []
+    private let firebaseService: FirestoreServiceProtocol
+    
+    init() {
+        firebaseService = FirestoreService()
+    }
     
     func loadMessagesFromFirebase(
         for currentChannel: DBChannel?,
-        with firebaseService: FirestoreServiceProtocol,
-        and chatCoreDataService: ChatCoreDataServiceProtocol,
+        with chatCoreDataService: ChatCoreDataServiceProtocol,
         completion: @escaping () -> Void
     ) {
         guard let channelID = currentChannel?.identifier else {
@@ -47,6 +57,21 @@ final class MessageManager: MessageManagerProtocol {
                 Logger.error(error.localizedDescription)
             }
         }
+    }
+    
+    func sendMessage(
+        channelID: String,
+        senderID: String,
+        message: String,
+        completion: () -> Void
+    ) {
+        firebaseService.sendMessage(
+            channelID: channelID,
+            message: message,
+            senderID: senderID
+        )
+        
+        completion()
     }
     
     private func saveLoadedMessages(
