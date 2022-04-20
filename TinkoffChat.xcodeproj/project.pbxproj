@@ -127,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				2C3CFCA327D64B4B005436A3 /* Cells */,
+				2C5449FB27EDFB2700C209C8 /* Message.swift */,
 				2C3CFC9E27D62164005436A3 /* ChannelViewController.swift */,
 				2C4661CE280B23E700CBD141 /* ChannelDataSourceManager.swift */,
 				2CCA2B112808B6AE007CF597 /* ChannelFetchedResultsManager.swift */,
@@ -228,7 +229,6 @@
 				2CEA6AF427D3ADCE0028DF67 /* ChannelMock.swift */,
 				2C3CFCA827D65033005436A3 /* MessageMock.swift */,
 				2C5449F927EDFAB100C209C8 /* Channel.swift */,
-				2C5449FB27EDFB2700C209C8 /* Message.swift */,
 				2CE33CE627F85FE500BA59CE /* Chat.xcdatamodeld */,
 			);
 			path = Models;

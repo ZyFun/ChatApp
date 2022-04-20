@@ -74,7 +74,14 @@ final class ChannelViewController: UIViewController {
         
         dataSourceManager?.mySenderId = mySenderId
         
-        loadMessagesFromFirebase()
+        activityIndicator.startAnimating()
+        
+        Message.loadMessagesFromFirebase(
+            for: currentChannel,
+            with: firebaseService,
+            and: chatCoreDataService) { [weak self] in
+                self?.activityIndicator.stopAnimating()
+            }
     }
     
     // MARK: - IB Actions
@@ -189,30 +196,6 @@ private extension ChannelViewController {
         }
     }
     
-    // MARK: - Firestore request
-    
-    func loadMessagesFromFirebase() {
-        activityIndicator.startAnimating()
-        guard let channelID = currentChannel?.identifier else {
-            Logger.error("Отсутствует идентификатор канала")
-            return
-        }
-        
-        firebaseService.fetchMessages(
-            channelID: channelID
-        ) { [weak self] result in
-            
-            switch result {
-            case .success(let messages):
-                Logger.info("Данные из Firebase загружены")
-                self?.saveLoaded(messages)
-                self?.activityIndicator.stopAnimating()
-            case .failure(let error):
-                Logger.error(error.localizedDescription)
-            }
-        }
-    }
-    
     func sendMessage(channelID: String, senderID: String, message: String) {
         firebaseService.sendMessage(
             channelID: channelID,
@@ -221,57 +204,6 @@ private extension ChannelViewController {
         )
         
         messageTextView.text = ""
-    }
-    
-    // MARK: - Core Data Cache
-    
-    func saveLoaded(_ messages: [Message]) {
-        Logger.info("=====Процесс обновления сообщений в CoreData запущен=====")
-        guard let channelID = currentChannel?.identifier else {
-            Logger.error("Отсутствует идентификатор канала")
-            return
-        }
-        
-        chatCoreDataService.performSave { [weak self] context in
-            var messagesDB: [DBMessage] = []
-            var currentChannel: DBChannel?
-            
-            self?.chatCoreDataService.fetchChannels(from: context) { result in
-                switch result {
-                case .success(let channels):
-                    if let channel = channels.filter({ $0.identifier == channelID }).first {
-                        currentChannel = channel
-                        
-                        Logger.info("Загружено сообщений из базы: \(channel.messages?.count ?? 0)")
-                        
-                        if let channelMessages = channel.messages?.allObjects as? [DBMessage] {
-                            messagesDB = channelMessages
-                        }
-                    }
-                case .failure(let error):
-                    Logger.error("\(error.localizedDescription)")
-                }
-            }
-            
-            Logger.info("Запуск процесса поиска новых данных")
-            
-            messages.forEach { message in
-                
-                guard messagesDB.filter({
-                    $0.messageId == message.messageId
-                }).first == nil else {
-                    Logger.info("Сообщение уже есть в базе")
-                    return
-                }
-                
-                Logger.info("Найдено новое сообщение")
-                self?.chatCoreDataService.messageSave(
-                    message,
-                    currentChannel: currentChannel,
-                    context: context
-                )
-            }
-        }
     }
     
     // MARK: - Keyboard
