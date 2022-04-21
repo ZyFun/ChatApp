@@ -40,12 +40,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 private extension AppDelegate {
     func createAndShowStartVC() {
-        let ChannelListVC = ChannelListViewController(chatCoreDataService: ChatCoreDataService())
+        let channelListVC = ChannelListViewController()
         
-        ChannelListVC.mySenderID = storageManager.loadUserID()
+        channelListVC.mySenderID = storageManager.loadUserID()
         
         let navigationController = CustomNavigationController(
-            rootViewController: ChannelListVC
+            rootViewController: channelListVC
         )
         
         navigationController.navigationBar.scrollEdgeAppearance = navigationController.navigationBar.standardAppearance

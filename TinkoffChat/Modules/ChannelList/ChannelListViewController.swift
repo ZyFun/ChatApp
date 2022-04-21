@@ -34,10 +34,10 @@ final class ChannelListViewController: UIViewController {
     
     // MARK: - Initializer
     
-    init(chatCoreDataService: ChatCoreDataServiceProtocol) {
+    init() {
         channelListManager = ChannelListManager()
-        self.themeManager = ThemeManager.shared
-        self.chatCoreDataService = chatCoreDataService
+        themeManager = ThemeManager.shared
+        chatCoreDataService = ChatCoreDataService()
         super.init(
             nibName: String(describing: ChannelListViewController.self),
             bundle: nil

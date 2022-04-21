@@ -35,15 +35,23 @@ final class ChatCoreDataService: ChatCoreDataServiceProtocol {
         return container
     }()
     
+    private var readContext: NSManagedObjectContext {
+        let context = container.viewContext
+        context.automaticallyMergesChangesFromParent = true
+        return context
+    }
+    
+    private var writheContext: NSManagedObjectContext {
+        let context = container.newBackgroundContext()
+        return context
+    }
+    
     func fetchResultController(
         entityName: String,
         keyForSort: String,
         sortAscending: Bool,
         currentChannel: DBChannel? = nil
     ) -> NSFetchedResultsController<NSFetchRequestResult> {
-        let context = container.viewContext
-        context.automaticallyMergesChangesFromParent = true
-        
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let descriptorDateLastActivity = NSSortDescriptor(key: keyForSort, ascending: sortAscending)
         
@@ -56,7 +64,7 @@ final class ChatCoreDataService: ChatCoreDataServiceProtocol {
         
         let fetchResultController = NSFetchedResultsController<NSFetchRequestResult>(
             fetchRequest: fetchRequest,
-            managedObjectContext: context,
+            managedObjectContext: readContext,
             sectionNameKeyPath: nil,
             cacheName: nil
         )
@@ -137,7 +145,7 @@ final class ChatCoreDataService: ChatCoreDataServiceProtocol {
     }
     
     func performSave(_ block: @escaping (NSManagedObjectContext) -> Void) {
-        let context = container.newBackgroundContext()
+        let context = writheContext
         context.perform { [weak self] in
             block(context)
             Logger.info("Проверка контекста на изменение")

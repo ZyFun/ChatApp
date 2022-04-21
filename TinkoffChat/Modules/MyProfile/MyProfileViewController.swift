@@ -101,7 +101,7 @@ final class MyProfileViewController: UIViewController {
     @IBAction func cancelButtonPressed() {
         view.endEditing(true)
         
-        // Возврат к текущему состоянию с отменой изменений
+        // Отмена изменений
         setValueProfileImage()
         setupLabels()
         
@@ -111,15 +111,8 @@ final class MyProfileViewController: UIViewController {
         nameLabel.isHidden = false
         descriptionLabel.isHidden = false
         
-        showButtons(
-            editButton,
-            editLogoButton // Нужно в тот момент, когда скрывается кнопка при изменении изображения
-        )
-        
-        hideButtons(
-            cancelButton,
-            saveButton
-        )
+        showButtons(editButton, editLogoButton)
+        hideButtons(cancelButton, saveButton)
     }
     
     @IBAction func saveButtonPressed() {
@@ -309,17 +302,8 @@ private extension MyProfileViewController {
     
     func setupButtons() {
         editLogoButton.titleLabel?.font = .systemFont(ofSize: 16)
-        
-        settingButtons(
-            editButton,
-            cancelButton,
-            saveButton
-        )
-        
-        hideButtons(
-            cancelButton,
-            saveButton
-        )
+        settingButtons(editButton, cancelButton, saveButton)
+        hideButtons(cancelButton, saveButton)
     }
     
     func settingButtons(_ buttons: UIButton...) {
