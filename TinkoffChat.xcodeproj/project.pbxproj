@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C13C6EA27E60A6100955499 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C13C6E927E60A6100955499 /* ProfileModel.swift */; };
+		2C15CAB428113D240030A69B /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C15CAB328113D240030A69B /* ProfileManager.swift */; };
 		2C2B246527FB55F9008075C3 /* OldChatCoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */; };
 		2C3CFCA027D62164005436A3 /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9E27D62164005436A3 /* ChannelViewController.swift */; };
 		2C3CFCA127D62164005436A3 /* ChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C3CFC9F27D62164005436A3 /* ChannelViewController.xib */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		2C13C6E927E60A6100955499 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		2C15CAB328113D240030A69B /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
 		2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldChatCoreDataService.swift; sourceTree = "<group>"; };
 		2C3CFC9E27D62164005436A3 /* ChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelViewController.swift; sourceTree = "<group>"; };
 		2C3CFC9F27D62164005436A3 /* ChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelViewController.xib; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				2CF6BEE7280EFBED00577E68 /* AvatarTextManager.swift */,
 				2C446DCF28105CEB00D993C7 /* MessageManager.swift */,
 				2C446DD328106EF600D993C7 /* ChannelListManager.swift */,
+				2C15CAB328113D240030A69B /* ProfileManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -473,6 +476,7 @@
 				2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */,
 				2C3CFCA027D62164005436A3 /* ChannelViewController.swift in Sources */,
 				2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */,
+				2C15CAB428113D240030A69B /* ProfileManager.swift in Sources */,
 				2CEDDEBF27FC5A1E00EC448B /* Logger.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */,

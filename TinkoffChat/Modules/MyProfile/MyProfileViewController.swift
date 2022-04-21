@@ -39,7 +39,7 @@ final class MyProfileViewController: UIViewController {
     private let avatarTextManager: AvatarTextManagerProtocol
     private var imagePickerController: ImagePickerProfileManagerProtocol
     private let themeManager: ThemeManagerProtocol
-    private let profileService: ProfileServiceProtocol
+    private let profileManager: ProfileManagerProtocol
     
     // MARK: - Initializer
     
@@ -48,7 +48,7 @@ final class MyProfileViewController: UIViewController {
         avatarTextManager = AvatarTextManager()
         imagePickerController = ImagePickerProfileManager()
         themeManager = ThemeManager.shared
-        profileService = ProfileService()
+        profileManager = ProfileManager()
         super.init(coder: coder)
     }
     
@@ -69,7 +69,7 @@ final class MyProfileViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-
+    
     // MARK: - IB Actions
     
     @IBAction func editLogoButtonPressed() {
@@ -92,9 +92,6 @@ final class MyProfileViewController: UIViewController {
         showButtons(cancelButton, saveButton)
         hideButtons(editButton)
         
-        userNameTextField.text = nameLabel.text
-        descriptionTextField.text = descriptionLabel.text
-        
         userNameTextField.becomeFirstResponder()
         
         // Состояние меняется, при изменении текста в TF
@@ -105,13 +102,8 @@ final class MyProfileViewController: UIViewController {
         view.endEditing(true)
         
         // Возврат к текущему состоянию с отменой изменений
-        if let imageData = profile?.image {
-            profileImageView.image = UIImage(data: imageData)
-        } else {
-            profileImageView.image = nil
-            noProfileImageLabel.text = avatarTextManager.setFirstCharacters(from: profile?.name)
-            noProfileImageLabel.isHidden = false
-        }
+        setValueProfileImage()
+        setupLabels()
         
         userNameTextField.isHidden = true
         descriptionTextField.isHidden = true
@@ -131,50 +123,11 @@ final class MyProfileViewController: UIViewController {
     }
     
     @IBAction func saveButtonPressed() {
-        activityIndicator.startAnimating()
-        
-        let userName = userNameTextField.text
-        let description = descriptionTextField.text
-        
-        if profileImageView.image == nil {
-            noProfileImageLabel.text = avatarTextManager.setFirstCharacters(from: userName)
-        }
-        
         setSaveButtonIsNotActive()
         setEditButtonIsNotActive()
         setTextFieldsIsNotActive()
         
-        profileService.saveProfileData(
-            name: userName,
-            description: description,
-            imageData: profileImageView.image?.pngData()
-        ) { [weak self] result in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let swiftlint):
-                    // TODO: ([11.04.2022]) swiftlint не даёт оставить пустым, хотя мне не нужно отсюда ничего.
-                    Logger.info("\(swiftlint)", showInConsole: false)
-                    
-                    // Нужно для того, чтобы при нажатии на cancel
-                    // не происходило изменений, так как данные уже сохранены
-                    self.profile?.image = self.profileImageView.image?.pngData()
-                    // TODO: ([20.03.2022]) Имя скорее всего должно быть обязательным, по этому пока так
-                    if userName != "" {
-                        self.nameLabel.text = userName
-                    }
-                    self.descriptionLabel.text = description
-                    
-                    self.showResultAlert(isResultError: false)
-                case .failure(let error):
-                    Logger.warning(error.localizedDescription)
-                    self.showResultAlert(isResultError: true)
-                }
-                
-                self.activityIndicator.stopAnimating()
-            }
-        }
+        saveProfile()
     }
 }
 
@@ -193,17 +146,39 @@ private extension MyProfileViewController {
         setupObserverKeyboard()
     }
     
+    func saveProfile() {
+        activityIndicator.startAnimating()
+        profileManager.saveProfile(
+            name: userNameTextField.text,
+            description: descriptionTextField.text,
+            imageData: profileImageView.image?.pngData()
+        ) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profile):
+                    self?.profile = profile
+                    self?.setValueProfileImage()
+                    self?.setValueLabels()
+                    self?.showResultAlert(isResultError: false)
+                case .failure(let error):
+                    Logger.warning(error.localizedDescription)
+                    self?.showResultAlert(isResultError: true)
+                }
+                self?.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    
     func loadProfile() {
         activityIndicator.startAnimating()
-        
-        profileService.fetchProfileData { [weak self] result in
+        profileManager.loadProfile { [weak self] result in
             switch result {
             case .success(let savedProfile):
                 self?.profile = savedProfile
                 
                 DispatchQueue.main.async {
-                    self?.setupProfileImage()
-                    self?.setupLabels()
+                    self?.setValueProfileImage()
+                    self?.setValueLabels()
                     self?.activityIndicator.stopAnimating()
                 }
             case .failure(let error):
@@ -225,7 +200,7 @@ private extension MyProfileViewController {
     }
     
     func setupObserverKeyboard() {
-            observerKeyboard.addChangeHeightObserver(
+        observerKeyboard.addChangeHeightObserver(
             for: view,
             changeValueFor: topConstraintProfileImage,
             with: .profileView
@@ -251,11 +226,25 @@ private extension MyProfileViewController {
     }
     
     func setupNoProfileImageLabel() {
-        noProfileImageLabel.text = avatarTextManager.setFirstCharacters(from: profile?.name)
         noProfileImageLabel.textColor = themeManager.appColorLoadFor(.textImageView)
         noProfileImageLabel.adjustsFontSizeToFitWidth = true
         noProfileImageLabel.baselineAdjustment = .alignCenters
         noProfileImageLabel.minimumScaleFactor = 0.5
+        setValueLabelNoProfileImage()
+    }
+    
+    func setValueProfileImage() {
+        if let imageData = profile?.image {
+            profileImageView.image = UIImage(data: imageData)
+            noProfileImageLabel.isHidden = true
+        } else {
+            setValueLabelNoProfileImage()
+        }
+    }
+    
+    func setValueLabelNoProfileImage() {
+        profileImageView.image = nil
+        noProfileImageLabel.text = avatarTextManager.setFirstCharacters(from: profile?.name)
         noProfileImageLabel.isHidden = false
     }
     
@@ -265,7 +254,10 @@ private extension MyProfileViewController {
         titleLabel.textColor = themeManager.appColorLoadFor(.text)
         nameLabel.textColor = themeManager.appColorLoadFor(.text)
         descriptionLabel.textColor = themeManager.appColorLoadFor(.text)
-        
+        setValueLabels()
+    }
+    
+    func setValueLabels() {
         nameLabel.text = profile?.name
         descriptionLabel.text = profile?.description
     }
