@@ -24,6 +24,15 @@
 		2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */; };
 		2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */; };
 		2C7D10F027E73ADA00035DF5 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */; };
+		2C8762482812916D00B93C99 /* ImageLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762462812916D00B93C99 /* ImageLibraryViewController.swift */; };
+		2C8762492812916D00B93C99 /* ImageLibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C8762472812916D00B93C99 /* ImageLibraryViewController.xib */; };
+		2C87624D2812934900B93C99 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87624B2812934900B93C99 /* ImageCell.swift */; };
+		2C87624E2812934900B93C99 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C87624C2812934900B93C99 /* ImageCell.xib */; };
+		2C87625C2812C95900B93C99 /* TokenAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762592812C95900B93C99 /* TokenAPI.swift */; };
+		2C87625D2812C95900B93C99 /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87625A2812C95900B93C99 /* NetworkDataFetcher.swift */; };
+		2C8762602812C96E00B93C99 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87625F2812C96E00B93C99 /* NetworkService.swift */; };
+		2C8762622812CA6100B93C99 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762612812CA6100B93C99 /* ImageModel.swift */; };
+		2C8762642812D81D00B93C99 /* PhotoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762632812D81D00B93C99 /* PhotoImageView.swift */; };
 		2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3827127DB6AC600456139 /* ThemesViewController.swift */; };
 		2CA3827427DB6AC600456139 /* ThemesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3827227DB6AC600456139 /* ThemesViewController.xib */; };
 		2CA9A10427FE962E00B99C5B /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A10327FE962E00B99C5B /* MessageCell.swift */; };
@@ -74,6 +83,15 @@
 		2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstStartAppManager.swift; sourceTree = "<group>"; };
 		2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		2C8762462812916D00B93C99 /* ImageLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLibraryViewController.swift; sourceTree = "<group>"; };
+		2C8762472812916D00B93C99 /* ImageLibraryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageLibraryViewController.xib; sourceTree = "<group>"; };
+		2C87624B2812934900B93C99 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		2C87624C2812934900B93C99 /* ImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
+		2C8762592812C95900B93C99 /* TokenAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenAPI.swift; sourceTree = "<group>"; };
+		2C87625A2812C95900B93C99 /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
+		2C87625F2812C96E00B93C99 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		2C8762612812CA6100B93C99 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
+		2C8762632812D81D00B93C99 /* PhotoImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoImageView.swift; sourceTree = "<group>"; };
 		2CA3827127DB6AC600456139 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		2CA3827227DB6AC600456139 /* ThemesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemesViewController.xib; sourceTree = "<group>"; };
 		2CA9A10327FE962E00B99C5B /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
@@ -174,6 +192,7 @@
 				2CEBE04A27D221C5005CBCB0 /* ChannelList */,
 				2C3CFCA227D6216A005436A3 /* Channel */,
 				2C3D0C3727D8CC1300BA9CA6 /* MyProfile */,
+				2C8762452812909400B93C99 /* Imagelibrary */,
 				2CA3827027DB6A8300456139 /* Themes */,
 			);
 			path = Modules;
@@ -202,13 +221,37 @@
 		2C5C8C2427DF7B6000AE48F6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				2C8762592812C95900B93C99 /* TokenAPI.swift */,
+				2C87625F2812C96E00B93C99 /* NetworkService.swift */,
+				2C87625A2812C95900B93C99 /* NetworkDataFetcher.swift */,
+				2CE58AB527F06E590087B3D9 /* NetworkError.swift */,
 				2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */,
 				2CE58AB327F067960087B3D9 /* FirestoreService.swift */,
-				2CE58AB527F06E590087B3D9 /* NetworkError.swift */,
 				2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */,
 				2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		2C8762452812909400B93C99 /* Imagelibrary */ = {
+			isa = PBXGroup;
+			children = (
+				2C87624A2812930800B93C99 /* Cells */,
+				2C8762612812CA6100B93C99 /* ImageModel.swift */,
+				2C8762462812916D00B93C99 /* ImageLibraryViewController.swift */,
+				2C8762472812916D00B93C99 /* ImageLibraryViewController.xib */,
+			);
+			path = Imagelibrary;
+			sourceTree = "<group>";
+		};
+		2C87624A2812930800B93C99 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2C8762632812D81D00B93C99 /* PhotoImageView.swift */,
+				2C87624B2812934900B93C99 /* ImageCell.swift */,
+				2C87624C2812934900B93C99 /* ImageCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		2CA3827027DB6A8300456139 /* Themes */ = {
@@ -396,8 +439,10 @@
 				2CF231BE27BFBB2600CE77C2 /* LaunchScreen.storyboard in Resources */,
 				2CA3827427DB6AC600456139 /* ThemesViewController.xib in Resources */,
 				2CF231BB27BFBB2600CE77C2 /* Assets.xcassets in Resources */,
+				2C87624E2812934900B93C99 /* ImageCell.xib in Resources */,
 				2C5449FE27EE048500C209C8 /* GoogleService-Info.plist in Resources */,
 				2C3CFCA127D62164005436A3 /* ChannelViewController.xib in Resources */,
+				2C8762492812916D00B93C99 /* ImageLibraryViewController.xib in Resources */,
 				2CF231B927BFBB2400CE77C2 /* MyProfileViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,6 +517,9 @@
 				2C4661CF280B23E700CBD141 /* ChannelDataSourceManager.swift in Sources */,
 				2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */,
 				2C5449FA27EDFAB100C209C8 /* Channel.swift in Sources */,
+				2C87624D2812934900B93C99 /* ImageCell.swift in Sources */,
+				2C8762482812916D00B93C99 /* ImageLibraryViewController.swift in Sources */,
+				2C8762642812D81D00B93C99 /* PhotoImageView.swift in Sources */,
 				2CCA2B122808B6AE007CF597 /* ChannelFetchedResultsManager.swift in Sources */,
 				2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */,
 				2C3CFCA027D62164005436A3 /* ChannelViewController.swift in Sources */,
@@ -480,6 +528,8 @@
 				2CEDDEBF27FC5A1E00EC448B /* Logger.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */,
+				2C8762622812CA6100B93C99 /* ImageModel.swift in Sources */,
+				2C87625C2812C95900B93C99 /* TokenAPI.swift in Sources */,
 				2CA9BC26280C422D00C0CBB4 /* ChannelListFetchedResultsManager.swift in Sources */,
 				2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */,
 				2CE58AB627F06E590087B3D9 /* NetworkError.swift in Sources */,
@@ -490,6 +540,8 @@
 				2CEBE04D27D2225F005CBCB0 /* ChannelListViewController.swift in Sources */,
 				2C7D10F027E73ADA00035DF5 /* ProfileService.swift in Sources */,
 				2C13C6EA27E60A6100955499 /* ProfileModel.swift in Sources */,
+				2C87625D2812C95900B93C99 /* NetworkDataFetcher.swift in Sources */,
+				2C8762602812C96E00B93C99 /* NetworkService.swift in Sources */,
 				2C3CFCA927D65033005436A3 /* MessageMock.swift in Sources */,
 				2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */,
 				2CE58AB427F067960087B3D9 /* FirestoreService.swift in Sources */,

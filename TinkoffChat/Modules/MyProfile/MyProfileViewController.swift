@@ -426,11 +426,17 @@ private extension MyProfileViewController {
             self?.setChosenImage()
         }
         
+        let load = UIAlertAction(title: "Загрузить", style: .default) { [weak self] _ in
+            let imageLibraryVC = ImageLibraryViewController()
+            self?.present(imageLibraryVC, animated: true)
+        }
+        
         let cancel = UIAlertAction(title: "Отмена", style: .cancel)
         
         choosePhoto.addAction(camera)
         choosePhoto.addAction(photo)
         choosePhoto.addAction(cancel)
+        choosePhoto.addAction(load)
         
         let currentTheme = themeManager.currentTheme
         if currentTheme == Theme.night.rawValue {
