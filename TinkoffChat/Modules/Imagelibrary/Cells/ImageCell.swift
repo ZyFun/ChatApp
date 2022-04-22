@@ -17,22 +17,21 @@ class ImageCell: UICollectionViewCell {
         super.awakeFromNib()
         
         setup()
-        
-        backgroundColor = ThemeManager.shared.appColorLoadFor(.profileImageView)
-        photoImageView.contentMode = .scaleAspectFill
     }
     
-    func configure(image: UIImage) {
-        photoImageView.image = image
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        photoImageView.image = UIImage(named: "noImage")
     }
     
     func getImage(from imageURL: String?) {
+        activityIndicator.startAnimating()
         if let imageURL = imageURL {
             photoImageView.getImage(from: imageURL) { [weak self] in
                 self?.activityIndicator.stopAnimating()
             }
         } else {
-            Logger.warning("Что то не так с фотографией")
+            Logger.warning("Что-то не так с URL")
         }
     }
 }
@@ -40,10 +39,16 @@ class ImageCell: UICollectionViewCell {
 private extension ImageCell {
     func setup() {
         setupActivityIndicator()
+        setupImageView()
     }
     
     func setupActivityIndicator() {
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.startAnimating()
+    }
+    
+    func setupImageView() {
+        photoImageView.backgroundColor = ThemeManager.shared.appColorLoadFor(.profileImageView)
+        photoImageView.contentMode = .scaleAspectFill
+        photoImageView.image = UIImage(named: "noImage")
     }
 }

@@ -10,7 +10,6 @@ import UIKit
 class PhotoImageView: UIImageView {
     func getImage(from url: String, completion: @escaping () -> Void) {
         guard let url = URL(string: url) else {
-            // TODO: ([22.04.2022])  Добавить плейсхолдер для фото
             image = UIImage(named: "noImage")
             completion()
             return

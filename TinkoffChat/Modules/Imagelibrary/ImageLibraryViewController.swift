@@ -21,7 +21,6 @@ class ImageLibraryViewController: UIViewController {
 
         setup()
         getImages()
-        print(imagesData.count)
     }
 }
 
@@ -35,6 +34,7 @@ private extension ImageLibraryViewController {
         imageCollectionView.dataSource = self
         imageCollectionView.delegate = self
         
+        imageCollectionView.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
     }
     
     func registerCell() {
