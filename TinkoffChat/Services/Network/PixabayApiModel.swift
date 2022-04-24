@@ -1,11 +1,11 @@
 //
-//  ImageModel.swift
+//  imageItemApiModel.swift
 //  TinkoffChat
 //
-//  Created by Дмитрий Данилин on 22.04.2022.
+//  Created by Дмитрий Данилин on 24.04.2022.
 //
 
-struct ServerInfo: Decodable {
+struct PixabayApiModel: Codable {
     let total: Int?
     let totalHits: Int?
     let hits: [Image]

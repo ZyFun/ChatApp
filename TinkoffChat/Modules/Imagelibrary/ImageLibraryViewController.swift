@@ -20,7 +20,7 @@ class ImageLibraryViewController: UIViewController {
         super.viewDidLoad()
 
         setup()
-        getImages()
+        getImagesData()
     }
 }
 
@@ -47,17 +47,18 @@ private extension ImageLibraryViewController {
         )
     }
     
-    func getImages() {
-        let token = TokenAPI.token.rawValue
-        let jsonURL = "https://pixabay.com/api/?key=\(token)&q=yellow&image_type=%20photo&pretty=true&per_page=100"
-        
-        NetworkDataFetcher.shared.fetchJSON(dataType: ServerInfo.self, urlString: jsonURL) { [weak self] result in
+    // TODO: ([24.04.2022]) остановился тут
+    func getImagesData() {
+        let requestConfig = RequestFactory.PhotoRequest.modelConfig()
+        RequestSender().send(config: requestConfig) { [weak self] result in
             switch result {
-            case .success(let images):
-                self?.imagesData = images.hits
-                self?.imageCollectionView.reloadData()
+            case .success(let model):
+                self?.imagesData = model.hits
+                DispatchQueue.main.async {
+                    self?.imageCollectionView.reloadData()
+                }
             case .failure(let error):
-                Logger.error(error.localizedDescription)
+                Logger.error(error.rawValue)
             }
         }
     }

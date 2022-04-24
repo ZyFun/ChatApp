@@ -23,15 +23,15 @@
 		2C5C8C2627DF7B7900AE48F6 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */; };
 		2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */; };
 		2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */; };
+		2C6E4B6528156CFD0065C2AD /* NetworkServiceNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6E4B6428156CFD0065C2AD /* NetworkServiceNew.swift */; };
 		2C7D10F027E73ADA00035DF5 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */; };
 		2C8762482812916D00B93C99 /* ImageLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762462812916D00B93C99 /* ImageLibraryViewController.swift */; };
 		2C8762492812916D00B93C99 /* ImageLibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C8762472812916D00B93C99 /* ImageLibraryViewController.xib */; };
 		2C87624D2812934900B93C99 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87624B2812934900B93C99 /* ImageCell.swift */; };
 		2C87624E2812934900B93C99 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C87624C2812934900B93C99 /* ImageCell.xib */; };
-		2C87625C2812C95900B93C99 /* TokenAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762592812C95900B93C99 /* TokenAPI.swift */; };
+		2C87625C2812C95900B93C99 /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762592812C95900B93C99 /* TokenProvider.swift */; };
 		2C87625D2812C95900B93C99 /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87625A2812C95900B93C99 /* NetworkDataFetcher.swift */; };
 		2C8762602812C96E00B93C99 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87625F2812C96E00B93C99 /* NetworkService.swift */; };
-		2C8762622812CA6100B93C99 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762612812CA6100B93C99 /* ImageModel.swift */; };
 		2C8762642812D81D00B93C99 /* PhotoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762632812D81D00B93C99 /* PhotoImageView.swift */; };
 		2CA3827327DB6AC600456139 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3827127DB6AC600456139 /* ThemesViewController.swift */; };
 		2CA3827427DB6AC600456139 /* ThemesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3827227DB6AC600456139 /* ThemesViewController.xib */; };
@@ -51,6 +51,8 @@
 		2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE05427D23547005CBCB0 /* ChannelCell.swift */; };
 		2CEBE05727D23547005CBCB0 /* ChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE05527D23547005CBCB0 /* ChannelCell.xib */; };
 		2CEDDEBF27FC5A1E00EC448B /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEDDEBE27FC5A1E00EC448B /* Logger.swift */; };
+		2CF205BE281571BF003994DD /* URLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF205BD281571BF003994DD /* URLProvider.swift */; };
+		2CF205C22815C2BE003994DD /* PixabayApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF205C12815C2BE003994DD /* PixabayApiModel.swift */; };
 		2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */; };
 		2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */; };
 		2CF231B927BFBB2400CE77C2 /* MyProfileViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF231B727BFBB2400CE77C2 /* MyProfileViewController.storyboard */; };
@@ -82,15 +84,15 @@
 		2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstStartAppManager.swift; sourceTree = "<group>"; };
 		2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		2C6E4B6428156CFD0065C2AD /* NetworkServiceNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceNew.swift; sourceTree = "<group>"; };
 		2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		2C8762462812916D00B93C99 /* ImageLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLibraryViewController.swift; sourceTree = "<group>"; };
 		2C8762472812916D00B93C99 /* ImageLibraryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageLibraryViewController.xib; sourceTree = "<group>"; };
 		2C87624B2812934900B93C99 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		2C87624C2812934900B93C99 /* ImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
-		2C8762592812C95900B93C99 /* TokenAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenAPI.swift; sourceTree = "<group>"; };
+		2C8762592812C95900B93C99 /* TokenProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenProvider.swift; sourceTree = "<group>"; };
 		2C87625A2812C95900B93C99 /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
 		2C87625F2812C96E00B93C99 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		2C8762612812CA6100B93C99 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		2C8762632812D81D00B93C99 /* PhotoImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoImageView.swift; sourceTree = "<group>"; };
 		2CA3827127DB6AC600456139 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		2CA3827227DB6AC600456139 /* ThemesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemesViewController.xib; sourceTree = "<group>"; };
@@ -110,6 +112,8 @@
 		2CEBE05427D23547005CBCB0 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		2CEBE05527D23547005CBCB0 /* ChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelCell.xib; sourceTree = "<group>"; };
 		2CEDDEBE27FC5A1E00EC448B /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		2CF205BD281571BF003994DD /* URLProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProvider.swift; sourceTree = "<group>"; };
+		2CF205C12815C2BE003994DD /* PixabayApiModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixabayApiModel.swift; sourceTree = "<group>"; };
 		2CF231AE27BFBB2400CE77C2 /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2CF231B527BFBB2400CE77C2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
@@ -212,6 +216,8 @@
 		2C5C8C2127DF673000AE48F6 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2C8762592812C95900B93C99 /* TokenProvider.swift */,
+				2CF205BD281571BF003994DD /* URLProvider.swift */,
 				2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */,
 				2CEBC52327F3287D0025DB1A /* NotificationKeyboardObserver.swift */,
 			);
@@ -221,10 +227,7 @@
 		2C5C8C2427DF7B6000AE48F6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				2C8762592812C95900B93C99 /* TokenAPI.swift */,
-				2C87625F2812C96E00B93C99 /* NetworkService.swift */,
-				2C87625A2812C95900B93C99 /* NetworkDataFetcher.swift */,
-				2CE58AB527F06E590087B3D9 /* NetworkError.swift */,
+				2CF205C02815C283003994DD /* Network */,
 				2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */,
 				2CE58AB327F067960087B3D9 /* FirestoreService.swift */,
 				2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */,
@@ -237,7 +240,6 @@
 			isa = PBXGroup;
 			children = (
 				2C87624A2812930800B93C99 /* Cells */,
-				2C8762612812CA6100B93C99 /* ImageModel.swift */,
 				2C8762462812916D00B93C99 /* ImageLibraryViewController.swift */,
 				2C8762472812916D00B93C99 /* ImageLibraryViewController.xib */,
 			);
@@ -316,6 +318,18 @@
 				2C15CAB328113D240030A69B /* ProfileManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		2CF205C02815C283003994DD /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				2CE58AB527F06E590087B3D9 /* NetworkError.swift */,
+				2CF205C12815C2BE003994DD /* PixabayApiModel.swift */,
+				2C6E4B6428156CFD0065C2AD /* NetworkServiceNew.swift */,
+				2C87625F2812C96E00B93C99 /* NetworkService.swift */,
+				2C87625A2812C95900B93C99 /* NetworkDataFetcher.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		2CF231A527BFBB2400CE77C2 = {
@@ -466,7 +480,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "#${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		981278CC4A6DF3FF2D8F4B06 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -521,6 +535,7 @@
 				2C8762482812916D00B93C99 /* ImageLibraryViewController.swift in Sources */,
 				2C8762642812D81D00B93C99 /* PhotoImageView.swift in Sources */,
 				2CCA2B122808B6AE007CF597 /* ChannelFetchedResultsManager.swift in Sources */,
+				2C6E4B6528156CFD0065C2AD /* NetworkServiceNew.swift in Sources */,
 				2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */,
 				2C3CFCA027D62164005436A3 /* ChannelViewController.swift in Sources */,
 				2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */,
@@ -528,8 +543,7 @@
 				2CEDDEBF27FC5A1E00EC448B /* Logger.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */,
-				2C8762622812CA6100B93C99 /* ImageModel.swift in Sources */,
-				2C87625C2812C95900B93C99 /* TokenAPI.swift in Sources */,
+				2C87625C2812C95900B93C99 /* TokenProvider.swift in Sources */,
 				2CA9BC26280C422D00C0CBB4 /* ChannelListFetchedResultsManager.swift in Sources */,
 				2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */,
 				2CE58AB627F06E590087B3D9 /* NetworkError.swift in Sources */,
@@ -544,7 +558,9 @@
 				2C8762602812C96E00B93C99 /* NetworkService.swift in Sources */,
 				2C3CFCA927D65033005436A3 /* MessageMock.swift in Sources */,
 				2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */,
+				2CF205C22815C2BE003994DD /* PixabayApiModel.swift in Sources */,
 				2CE58AB427F067960087B3D9 /* FirestoreService.swift in Sources */,
+				2CF205BE281571BF003994DD /* URLProvider.swift in Sources */,
 				2CEA6AF527D3ADCE0028DF67 /* ChannelMock.swift in Sources */,
 				2CA9BC28280C64F700C0CBB4 /* ChannelListDataSourceManager.swift in Sources */,
 				2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */,

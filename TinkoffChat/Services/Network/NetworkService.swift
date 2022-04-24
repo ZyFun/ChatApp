@@ -30,7 +30,7 @@ final class NetworkService {
                 case 400:
                     completion(.failure(.requestError))
                 case 401:
-                    completion(.failure(.badAPI))
+                    completion(.failure(.unauthorizedError))
                 case 429:
                     completion(.failure(.manyRequests))
                 case 500...:
