@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageCell: UICollectionViewCell {
+final class ImageCell: UICollectionViewCell {
     static let identifier = String(describing: ImageCell.self)
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!

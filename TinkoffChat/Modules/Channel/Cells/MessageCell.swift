@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MessageCell: UITableViewCell {
+final class MessageCell: UITableViewCell {
     static let identifier = String(describing: MessageCell.self)
     
     // MARK: - Private properties

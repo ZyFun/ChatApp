@@ -16,7 +16,7 @@ protocol ImagePickerProfileManagerProtocol {
     func closeImagePicker(completion: () -> Void)
 }
 
-class ImagePickerProfileManager: NSObject,
+final class ImagePickerProfileManager: NSObject,
                                  UIImagePickerControllerDelegate,
                                  UINavigationControllerDelegate,
                                  ImagePickerProfileManagerProtocol {
