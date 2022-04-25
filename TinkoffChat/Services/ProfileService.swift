@@ -59,9 +59,6 @@ final class ProfileService: ProfileServiceProtocol {
                 }
                 
                 DispatchQueue.global(qos: .utility).async { [weak self] in
-                    // TODO: ([21.03.2022]) Удалить ожидание после проверки
-                    Logger.info("GCD: Имитация сохранения 3 сек")
-                    sleep(3)
                     guard let profileDataURL = self?.profileDataURL else { return }
                     
                     do {
@@ -89,9 +86,6 @@ final class ProfileService: ProfileServiceProtocol {
         
         DispatchQueue.global(qos: .utility).async {
             do {
-                // TODO: ([21.03.2022]) Удалить ожидание после проверки
-                Logger.info("GCD: Имитация загрузки 3 сек")
-                sleep(3)
                 Logger.info("GCD: Попытка чтения данных из файла")
                 let data = try Data(contentsOf: profileDataURL)
                 let profileData = try PropertyListDecoder().decode(Profile.self, from: data)

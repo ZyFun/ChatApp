@@ -86,6 +86,8 @@ final class MyProfileViewController: UIViewController {
         nameLabel.isHidden = true
         descriptionLabel.isHidden = true
         
+        setValueTextFieldForEditing()
+        
         userNameTextField.isHidden = false
         descriptionTextField.isHidden = false
         
@@ -172,6 +174,7 @@ private extension MyProfileViewController {
                 DispatchQueue.main.async {
                     self?.setValueProfileImage()
                     self?.setValueLabels()
+                    self?.setValueTextFieldForEditing()
                     self?.activityIndicator.stopAnimating()
                 }
             case .failure(let error):
@@ -253,6 +256,11 @@ private extension MyProfileViewController {
     func setValueLabels() {
         nameLabel.text = profile?.name
         descriptionLabel.text = profile?.description
+    }
+    
+    func setValueTextFieldForEditing() {
+        userNameTextField.text = profile?.name
+        descriptionTextField.text = profile?.description
     }
     
     // MARK: - Textfield settings
