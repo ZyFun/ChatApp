@@ -59,8 +59,12 @@ final class PhotoImageView: UIImageView {
     }
     
     func selectImageToSetInProfile(urlString: String) -> UIImage? {
+        var image: UIImage?
         guard let url = URL(string: urlString) else { return nil }
-        return getCachedImage(from: url)
+        getImage(from: urlString) { [weak self] in
+            image = self?.getCachedImage(from: url)
+        }
+        return image
     }
     
     private func saveDataToCache(with data: Data, response: URLResponse) {

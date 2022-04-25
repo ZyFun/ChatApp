@@ -11,7 +11,7 @@ public struct URLProvider: IRequestProtocol {
     var urlRequest: URLRequest?
     
     public static func fetchApiPixabayStringURL(with token: String) -> String {
-        let urlString = "https://pixabay.com/api/?key=\(token)&q=yellow&image_type=%20photo&pretty=true&per_page=100"
+        let urlString = "https://pixabay.com/api/?key=\(token)&q=yellow&image_type=%20photo&pretty=true&per_page=200"
         
         return urlString
     }
