@@ -11,6 +11,7 @@ final class ImageLibraryViewController: UIViewController {
     private let requestSender: IRequestSenderProtocol
     
     private var imagesData: [Image] = []
+    var didSelectLoadedImage: ((_ image: UIImage) -> Void)?
     
     private let itemsPerRow: CGFloat = 3
     private let sectionInserts = UIEdgeInsets(
@@ -102,7 +103,17 @@ extension ImageLibraryViewController: UICollectionViewDataSource {
 }
 
 extension ImageLibraryViewController: UICollectionViewDelegate {
-
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let photoImageVC = PhotoImageView(image: nil)
+        let imageData = imagesData[indexPath.row]
+        
+        guard let imageURL = imageData.webformatURL else { return }
+        guard let image = photoImageVC.selectImageToSetInProfile(urlString: imageURL) else { return }
+        
+        didSelectLoadedImage?(image)
+        dismiss(animated: true)
+    }
 }
 
 extension ImageLibraryViewController: UICollectionViewDelegateFlowLayout {

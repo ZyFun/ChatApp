@@ -10,6 +10,11 @@ import UIKit
 final class PhotoImageView: UIImageView {
     private let requestSender: IRequestSenderProtocol
     
+    override init(image: UIImage?) {
+        requestSender = RequestSender()
+        super.init(image: image)
+    }
+    
     required init?(coder: NSCoder) {
         requestSender = RequestSender()
         super.init(coder: coder)
@@ -51,6 +56,11 @@ final class PhotoImageView: UIImageView {
                 Logger.error(error.rawValue)
             }
         }
+    }
+    
+    func selectImageToSetInProfile(urlString: String) -> UIImage? {
+        guard let url = URL(string: urlString) else { return nil }
+        return getCachedImage(from: url)
     }
     
     private func saveDataToCache(with data: Data, response: URLResponse) {

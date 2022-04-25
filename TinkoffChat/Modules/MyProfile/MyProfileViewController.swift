@@ -429,6 +429,10 @@ private extension MyProfileViewController {
         let load = UIAlertAction(title: "Загрузить", style: .default) { [weak self] _ in
             let imageLibraryVC = ImageLibraryViewController()
             self?.present(imageLibraryVC, animated: true)
+            
+            imageLibraryVC.didSelectLoadedImage = { [weak self] image in
+                self?.didSelectImage(image)
+            }
         }
         
         let cancel = UIAlertAction(title: "Отмена", style: .cancel)
@@ -450,24 +454,28 @@ private extension MyProfileViewController {
     
     func setChosenImage() {
         imagePickerController.didSelectImage = { [weak self] image in
-            guard let strongSelf = self else { return }
-            strongSelf.profileImageView.image = image
-            strongSelf.imagePickerController.closeImagePicker {
-                if strongSelf.profileImageView != nil {
-                    strongSelf.noProfileImageLabel.isHidden = true
-                }
-                
-                strongSelf.showButtons(
-                    strongSelf.cancelButton,
-                    strongSelf.saveButton
-                )
-                strongSelf.setSaveButtonIsActive()
-                strongSelf.hideButtons(
-                    strongSelf.editLogoButton,
-                    strongSelf.editButton
-                )
+            self?.imagePickerController.closeImagePicker {
+                self?.didSelectImage(image)
             }
         }
+    }
+    
+    func didSelectImage(_ image: UIImage?) {
+        profileImageView.image = image
+        
+        if profileImageView != nil {
+            noProfileImageLabel.isHidden = true
+        }
+        
+        showButtons(
+            cancelButton,
+            saveButton
+        )
+        setSaveButtonIsActive()
+        hideButtons(
+            editLogoButton,
+            editButton
+        )
     }
 }
 
