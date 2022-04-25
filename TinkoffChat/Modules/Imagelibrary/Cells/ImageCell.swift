@@ -28,7 +28,9 @@ class ImageCell: UICollectionViewCell {
         activityIndicator.startAnimating()
         if let imageURL = imageURL {
             photoImageView.getImage(from: imageURL) { [weak self] in
-                self?.activityIndicator.stopAnimating()
+                DispatchQueue.main.async {
+                    self?.activityIndicator.stopAnimating()
+                }
             }
         } else {
             Logger.warning("Что-то не так с URL")

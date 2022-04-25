@@ -7,24 +7,49 @@
 
 import UIKit
 
-class PhotoImageView: UIImageView {
+final class PhotoImageView: UIImageView {
+    private let requestSender: IRequestSenderProtocol
+    
+    required init?(coder: NSCoder) {
+        requestSender = RequestSender()
+        super.init(coder: coder)
+    }
+    
     func getImage(from url: String, completion: @escaping () -> Void) {
-        guard let url = URL(string: url) else {
+        guard let urlForCache = URL(string: url) else {
             image = UIImage(named: "noImage")
             completion()
             return
         }
         
-        if let cachedImage = getCachedImage(from: url) {
+        if let cachedImage = getCachedImage(from: urlForCache) {
             image = cachedImage
             completion()
             return
         }
         
-        NetworkDataFetcher.shared.fetchPhotoToImageView(from: url) { [weak self] data, response in
-            self?.image = UIImage(data: data)
-            self?.saveDataToCache(with: data, response: response)
-            completion()
+        let requestConfig = RequestFactory.PixabayPhotoRequest.imagePixabayConfig(from: url)
+        requestSender.send(config: requestConfig) { [weak self] result in
+            switch result {
+            case .success(let (_, data, response)):
+                guard let data = data else {
+                    Logger.error("Ошибка получения данных, возможно в коде")
+                    return
+                }
+                DispatchQueue.main.async {
+                    self?.image = UIImage(data: data)
+                    completion()
+                }
+                
+                guard let response = response else {
+                    Logger.error("Вероятно ошибкаа в коде")
+                    return
+                }
+                self?.saveDataToCache(with: data, response: response)
+            case .failure(let error):
+                completion()
+                Logger.error(error.rawValue)
+            }
         }
     }
     
