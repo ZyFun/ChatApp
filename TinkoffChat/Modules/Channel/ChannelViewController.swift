@@ -101,6 +101,7 @@ final class ChannelViewController: UIViewController {
                     senderID: mySenderId,
                     message: "Нет поддержки API:\n \(imageURL)"
                 ) {
+                    self?.scrollCellsToBottom(animated: true)
                     Logger.info("Сообщение отправлено")
                 }
             }
