@@ -8,10 +8,13 @@
 import UIKit
 
 final class ImageLibraryViewController: UIViewController {
+    var isOpenForSendMessage = false
+    var didSelectLoadedImage: ((_ image: UIImage) -> Void)?
+    var didSelectForSendImage: ((_ stringURL: String) -> Void)?
+    
     private let requestSender: IRequestSenderProtocol
     
     private var imagesData: [Image] = []
-    var didSelectLoadedImage: ((_ image: UIImage) -> Void)?
     
     private let itemsPerRow: CGFloat = 3
     private let sectionInserts = UIEdgeInsets(
@@ -109,9 +112,13 @@ extension ImageLibraryViewController: UICollectionViewDelegate {
         let imageData = imagesData[indexPath.row]
         
         guard let imageURL = imageData.webformatURL else { return }
-        guard let image = photoImageVC.selectImageToSetInProfile(urlString: imageURL) else { return }
         
-        didSelectLoadedImage?(image)
+        if isOpenForSendMessage {
+            didSelectForSendImage?(imageURL)
+        } else {
+            guard let image = photoImageVC.selectImageToSetInProfile(urlString: imageURL) else { return }
+            didSelectLoadedImage?(image)
+        }
         dismiss(animated: true)
     }
 }

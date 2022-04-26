@@ -45,6 +45,9 @@
                             <state key="normal" image="plus" catalog="system">
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                             </state>
+                            <connections>
+                                <action selector="sendImageButtonPressed:" destination="-1" eventType="touchUpInside" id="wnW-zO-npU"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="155-zz-ifI">
                             <rect key="frame" x="361" y="25" width="17" height="17"/>

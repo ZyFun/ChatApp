@@ -84,6 +84,40 @@ final class ChannelViewController: UIViewController {
     
     // MARK: - IB Actions
     
+    @IBAction func sendImageButtonPressed(_ sender: Any) {
+        let loadedImageLibraryVC = ImageLibraryViewController()
+        loadedImageLibraryVC.isOpenForSendMessage = true
+        present(loadedImageLibraryVC, animated: true)
+        
+        loadedImageLibraryVC.didSelectForSendImage = { [weak self] imageURL in
+            guard let channelID = self?.currentChannel?.identifier else {
+                Logger.error("Отсутствует идентификатор канала")
+                return
+            }
+            
+            let message = "Нет поддержки API:\n \(imageURL)"
+            
+            if let mySenderId = self?.mySenderId {
+                self?.messageManager.sendMessage(
+                    channelID: channelID,
+                    senderID: mySenderId,
+                    message: message
+                ) {
+                    // TODO: ([26.04.2022]) Использовать для логики подгрузки картинки по ссылке
+                    if message.contains("http") {
+                        let  messageComponents = message.components(separatedBy: " ")
+                        for component in messageComponents {
+                            if component.contains("http") {
+                                // Грузим фото
+                                print(component)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     @IBAction func sendMessageButtonPressed() {
         guard !messageTextView.text.isEmpty else {
             Logger.warning("Сообщение не введено")
