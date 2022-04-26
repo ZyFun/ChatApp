@@ -435,11 +435,12 @@ private extension MyProfileViewController {
         }
         
         let load = UIAlertAction(title: "Загрузить", style: .default) { [weak self] _ in
-            let imageLibraryVC = LoadedImageLibraryViewController()
-            self?.present(imageLibraryVC, animated: true)
+            let loadedImageLibraryVC = LoadedImageLibraryViewController()
+            self?.present(loadedImageLibraryVC, animated: true)
             
-            imageLibraryVC.didSelectLoadedImage = { [weak self] image in
+            loadedImageLibraryVC.dataSourceProvider?.didSelectLoadedImage = { [weak self] image in
                 self?.didSelectImage(image)
+                loadedImageLibraryVC.dismiss(animated: true)
             }
         }
         

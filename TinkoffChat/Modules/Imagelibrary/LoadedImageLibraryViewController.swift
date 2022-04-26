@@ -8,18 +8,9 @@
 import UIKit
 
 final class LoadedImageLibraryViewController: UIViewController {
-    var isOpenForSendMessage = false
-    var didSelectLoadedImage: ((_ image: UIImage) -> Void)?
-    var didSelectForSendImage: ((_ stringURL: String) -> Void)?
-    
+    var dataSourceProvider: LoadedImageLibraryDatasourceProviderProtocol?
+    var isOpenForSendMessage: Bool?
     private let requestSender: IRequestSenderProtocol
-    
-    private var imagesData: [Image] = []
-    
-    private let itemsPerRow: CGFloat = 3
-    private let sectionInserts = UIEdgeInsets(
-        top: 10, left: 10, bottom: 10, right: 10
-    )
     
     @IBOutlet weak var imageCollectionView: UICollectionView!
     
@@ -39,6 +30,12 @@ final class LoadedImageLibraryViewController: UIViewController {
         super.viewDidLoad()
 
         setup()
+        
+        dataSourceProvider = LoadedImageLibraryDatasourceProvider(
+            collectionView: imageCollectionView
+        )
+        dataSourceProvider?.isOpenForSendMessage = isOpenForSendMessage
+        
         getImagesData()
     }
 }
@@ -50,9 +47,6 @@ private extension LoadedImageLibraryViewController {
     }
     
     func setupCollectionView() {
-        imageCollectionView.dataSource = self
-        imageCollectionView.delegate = self
-        
         imageCollectionView.backgroundColor = ThemeManager.shared.appColorLoadFor(.backgroundView)
     }
     
@@ -72,7 +66,7 @@ private extension LoadedImageLibraryViewController {
             switch result {
             case .success(let (model, _, _)):
                 guard let imagesData = model?.hits else { return }
-                self?.imagesData = imagesData
+                self?.dataSourceProvider?.imagesData = imagesData
                 DispatchQueue.main.async {
                     self?.imageCollectionView.reloadData()
                 }
@@ -80,83 +74,5 @@ private extension LoadedImageLibraryViewController {
                 Logger.error(error.rawValue)
             }
         }
-    }
-}
-
-extension LoadedImageLibraryViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imagesData.count
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ImageCell.identifier,
-            for: indexPath
-        ) as? ImageCell else { return UICollectionViewCell() }
-        
-        let image = imagesData[indexPath.row]
-        
-        cell.getImage(from: image.webformatURL)
-        
-        return cell
-    }
-}
-
-extension LoadedImageLibraryViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let photoImageVC = PhotoImageView(image: nil)
-        let imageData = imagesData[indexPath.row]
-        
-        guard let imageURL = imageData.webformatURL else { return }
-        
-        if isOpenForSendMessage {
-            didSelectForSendImage?(imageURL)
-        } else {
-            guard let image = photoImageVC.selectImageToSetInProfile(urlString: imageURL) else { return }
-            didSelectLoadedImage?(image)
-        }
-        dismiss(animated: true)
-    }
-}
-
-extension LoadedImageLibraryViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        
-        let paddingWidth = sectionInserts.left * (itemsPerRow + 1)
-        let availableWidth = imageCollectionView.frame.width - paddingWidth
-        let sizePerItem = availableWidth / itemsPerRow
-        return CGSize(width: sizePerItem, height: sizePerItem)
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        insetForSectionAt section: Int
-    ) -> UIEdgeInsets {
-        return sectionInserts
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        minimumLineSpacingForSectionAt section: Int
-    ) -> CGFloat {
-        sectionInserts.left
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        minimumInteritemSpacingForSectionAt section: Int
-    ) -> CGFloat {
-        sectionInserts.left
     }
 }

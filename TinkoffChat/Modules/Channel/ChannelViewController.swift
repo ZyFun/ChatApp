@@ -89,7 +89,7 @@ final class ChannelViewController: UIViewController {
         loadedImageLibraryVC.isOpenForSendMessage = true
         present(loadedImageLibraryVC, animated: true)
         
-        loadedImageLibraryVC.didSelectForSendImage = { [weak self] imageURL in
+        loadedImageLibraryVC.dataSourceProvider?.didSelectForSendImage = { [weak self] imageURL in
             guard let channelID = self?.currentChannel?.identifier else {
                 Logger.error("Отсутствует идентификатор канала")
                 return
@@ -104,6 +104,8 @@ final class ChannelViewController: UIViewController {
                     Logger.info("Сообщение отправлено")
                 }
             }
+            
+            loadedImageLibraryVC.dismiss(animated: true)
         }
     }
     

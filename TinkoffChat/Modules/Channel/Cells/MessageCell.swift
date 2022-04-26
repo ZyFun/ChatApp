@@ -81,7 +81,7 @@ final class MessageCell: UITableViewCell {
             senderNameLabel.leadingAnchor.constraint(equalTo: viewContainer.leadingAnchor, constant: 8),
             senderNameLabel.trailingAnchor.constraint(equalTo: viewContainer.trailingAnchor, constant: -8),
             
-            imageMessageView.topAnchor.constraint(equalTo: senderNameLabel.bottomAnchor, constant: -3),
+            imageMessageView.topAnchor.constraint(equalTo: senderNameLabel.bottomAnchor, constant: 3),
             imageMessageView.leadingAnchor.constraint(equalTo: viewContainer.leadingAnchor, constant: 8),
             imageMessageView.heightAnchor.constraint(lessThanOrEqualToConstant: viewContainerWidth),
             imageMessageView.widthAnchor.constraint(lessThanOrEqualToConstant: viewContainerWidth),
