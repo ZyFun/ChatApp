@@ -35,6 +35,15 @@ final class MessageCell: UITableViewCell {
         return label
     }()
     
+    private let imageMessageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = ThemeManager.shared.appColorLoadFor(.profileImageView)
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 8
+        return imageView
+    }()
+    
     private let dateCreatedLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 11)
@@ -52,23 +61,32 @@ final class MessageCell: UITableViewCell {
         
         viewContainer.translatesAutoresizingMaskIntoConstraints = false
         senderNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        imageMessageView.translatesAutoresizingMaskIntoConstraints = false
         textMessageLabel.translatesAutoresizingMaskIntoConstraints = false
         dateCreatedLabel.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(viewContainer)
         viewContainer.addSubview(senderNameLabel)
+        viewContainer.addSubview(imageMessageView)
         viewContainer.addSubview(textMessageLabel)
         viewContainer.addSubview(dateCreatedLabel)
         
+        let viewContainerWidth = UIScreen.main.bounds.width * 2 / 3
         NSLayoutConstraint.activate([
             viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 11),
-            viewContainer.widthAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.width * 2 / 3),
+            viewContainer.widthAnchor.constraint(lessThanOrEqualToConstant: viewContainerWidth),
             viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -11),
             
             senderNameLabel.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 8),
             senderNameLabel.leadingAnchor.constraint(equalTo: viewContainer.leadingAnchor, constant: 8),
             senderNameLabel.trailingAnchor.constraint(equalTo: viewContainer.trailingAnchor, constant: -8),
-            senderNameLabel.bottomAnchor.constraint(equalTo: textMessageLabel.topAnchor, constant: -3),
+            
+            imageMessageView.topAnchor.constraint(equalTo: senderNameLabel.bottomAnchor, constant: -3),
+            imageMessageView.leadingAnchor.constraint(equalTo: viewContainer.leadingAnchor, constant: 8),
+            imageMessageView.heightAnchor.constraint(lessThanOrEqualToConstant: viewContainerWidth),
+            imageMessageView.widthAnchor.constraint(lessThanOrEqualToConstant: viewContainerWidth),
+            imageMessageView.trailingAnchor.constraint(equalTo: viewContainer.trailingAnchor, constant: -8),
+            imageMessageView.bottomAnchor.constraint(equalTo: textMessageLabel.topAnchor, constant: -3),
             
             textMessageLabel.leadingAnchor.constraint(equalTo: viewContainer.leadingAnchor, constant: 8),
             textMessageLabel.trailingAnchor.constraint(equalTo: viewContainer.trailingAnchor, constant: -8),
@@ -120,12 +138,24 @@ final class MessageCell: UITableViewCell {
 extension MessageCell {
     func configureMessageCell(
         senderName: String?,
+        imageMessage: UIImage?, // TODO: ([26.04.2022]) скорее всего нужно будет не передавать сюда, а грузить уже в поцессе
+        // или передавать значение тру и отображать плейсхолдер с загрузкой
         textMessage: String,
         dateCreated: Date,
         isIncoming: Bool
     ) {
         senderNameLabel.text = senderName
-        textMessageLabel.text = textMessage
+        imageMessageView.image = imageMessage
+        
+        // TODO: ([26.04.2022]) Нужна другая логика
+        // при текущей реализации изначально приходит nil, так как фото грузится в фоне.
+        // нужен комплишн и активити индикатор, и если идет возврат ошибки, отображать ссылку
+        if imageMessageView.image != nil {
+            textMessageLabel.text = ""
+        } else {
+            textMessageLabel.text = textMessage
+        }
+        
         dateCreatedLabel.text = Date().toString(date: dateCreated)
         setupIncomingOrOutgoingMessageConstraint(incoming: isIncoming)
     }

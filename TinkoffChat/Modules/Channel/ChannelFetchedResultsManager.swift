@@ -62,8 +62,26 @@ final class ChannelFetchedResultsManager: NSObject, NSFetchedResultsControllerDe
                 let message = fetchedResultsController.object(at: indexPath) as? DBMessage
                 let cell = tableView?.cellForRow(at: indexPath) as? MessageCell
                 
+                // TODO: ([26.04.2022]) Тестовый вариант кода. Сделать методом и перенести в слой менеджера
+                let photoImageVC = PhotoImageView(image: nil)
+                var image: UIImage?
+                
+                if let message = message?.content {
+                    if message.contains("http") {
+                        let  messageComponents = message.components(separatedBy: " ")
+                        for component in messageComponents {
+                            if component.contains("http") {
+                                image = photoImageVC.selectImageToSetInProfile(urlString: component)
+                                print(component)
+                            }
+                        }
+                    }
+                }
+                
                 cell?.configureMessageCell(
                     senderName: message?.senderName,
+                    imageMessage: image, // TODO: ([26.04.2022]) скорее всего нужно будет не передавать сюда, а грузить уже в поцессе
+                    // или передавать значение тру и отображать плейсхолдер с загрузкой
                     textMessage: message?.content ?? "",
                     dateCreated: message?.created ?? Date(),
                     isIncoming: message?.senderId != mySenderId

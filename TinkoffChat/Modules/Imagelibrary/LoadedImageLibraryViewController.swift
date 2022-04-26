@@ -1,5 +1,5 @@
 //
-//  ImageLibraryViewController.swift
+//  LoadedImageLibraryViewController.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 22.04.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ImageLibraryViewController: UIViewController {
+final class LoadedImageLibraryViewController: UIViewController {
     var isOpenForSendMessage = false
     var didSelectLoadedImage: ((_ image: UIImage) -> Void)?
     var didSelectForSendImage: ((_ stringURL: String) -> Void)?
@@ -26,7 +26,7 @@ final class ImageLibraryViewController: UIViewController {
     init() {
         requestSender = RequestSender()
         super.init(
-            nibName: String(describing: ImageLibraryViewController.self),
+            nibName: String(describing: LoadedImageLibraryViewController.self),
             bundle: nil
         )
     }
@@ -43,7 +43,7 @@ final class ImageLibraryViewController: UIViewController {
     }
 }
 
-private extension ImageLibraryViewController {
+private extension LoadedImageLibraryViewController {
     func setup() {
         setupCollectionView()
         registerCell()
@@ -83,7 +83,7 @@ private extension ImageLibraryViewController {
     }
 }
 
-extension ImageLibraryViewController: UICollectionViewDataSource {
+extension LoadedImageLibraryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imagesData.count
     }
@@ -105,7 +105,7 @@ extension ImageLibraryViewController: UICollectionViewDataSource {
     }
 }
 
-extension ImageLibraryViewController: UICollectionViewDelegate {
+extension LoadedImageLibraryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let photoImageVC = PhotoImageView(image: nil)
@@ -123,7 +123,7 @@ extension ImageLibraryViewController: UICollectionViewDelegate {
     }
 }
 
-extension ImageLibraryViewController: UICollectionViewDelegateFlowLayout {
+extension LoadedImageLibraryViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,

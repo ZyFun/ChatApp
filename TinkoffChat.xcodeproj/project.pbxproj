@@ -25,8 +25,8 @@
 		2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */; };
 		2C6E4B6528156CFD0065C2AD /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6E4B6428156CFD0065C2AD /* NetworkService.swift */; };
 		2C7D10F027E73ADA00035DF5 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */; };
-		2C8762482812916D00B93C99 /* ImageLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762462812916D00B93C99 /* ImageLibraryViewController.swift */; };
-		2C8762492812916D00B93C99 /* ImageLibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C8762472812916D00B93C99 /* ImageLibraryViewController.xib */; };
+		2C8762482812916D00B93C99 /* LoadedImageLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762462812916D00B93C99 /* LoadedImageLibraryViewController.swift */; };
+		2C8762492812916D00B93C99 /* LoadedImageLibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C8762472812916D00B93C99 /* LoadedImageLibraryViewController.xib */; };
 		2C87624D2812934900B93C99 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87624B2812934900B93C99 /* ImageCell.swift */; };
 		2C87624E2812934900B93C99 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C87624C2812934900B93C99 /* ImageCell.xib */; };
 		2C87625C2812C95900B93C99 /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762592812C95900B93C99 /* TokenProvider.swift */; };
@@ -84,8 +84,8 @@
 		2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		2C6E4B6428156CFD0065C2AD /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
-		2C8762462812916D00B93C99 /* ImageLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLibraryViewController.swift; sourceTree = "<group>"; };
-		2C8762472812916D00B93C99 /* ImageLibraryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageLibraryViewController.xib; sourceTree = "<group>"; };
+		2C8762462812916D00B93C99 /* LoadedImageLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadedImageLibraryViewController.swift; sourceTree = "<group>"; };
+		2C8762472812916D00B93C99 /* LoadedImageLibraryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadedImageLibraryViewController.xib; sourceTree = "<group>"; };
 		2C87624B2812934900B93C99 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		2C87624C2812934900B93C99 /* ImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
 		2C8762592812C95900B93C99 /* TokenProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenProvider.swift; sourceTree = "<group>"; };
@@ -236,8 +236,8 @@
 			isa = PBXGroup;
 			children = (
 				2C87624A2812930800B93C99 /* Cells */,
-				2C8762462812916D00B93C99 /* ImageLibraryViewController.swift */,
-				2C8762472812916D00B93C99 /* ImageLibraryViewController.xib */,
+				2C8762462812916D00B93C99 /* LoadedImageLibraryViewController.swift */,
+				2C8762472812916D00B93C99 /* LoadedImageLibraryViewController.xib */,
 			);
 			path = Imagelibrary;
 			sourceTree = "<group>";
@@ -450,7 +450,7 @@
 				2C87624E2812934900B93C99 /* ImageCell.xib in Resources */,
 				2C5449FE27EE048500C209C8 /* GoogleService-Info.plist in Resources */,
 				2C3CFCA127D62164005436A3 /* ChannelViewController.xib in Resources */,
-				2C8762492812916D00B93C99 /* ImageLibraryViewController.xib in Resources */,
+				2C8762492812916D00B93C99 /* LoadedImageLibraryViewController.xib in Resources */,
 				2CF231B927BFBB2400CE77C2 /* MyProfileViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -526,7 +526,7 @@
 				2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */,
 				2C5449FA27EDFAB100C209C8 /* Channel.swift in Sources */,
 				2C87624D2812934900B93C99 /* ImageCell.swift in Sources */,
-				2C8762482812916D00B93C99 /* ImageLibraryViewController.swift in Sources */,
+				2C8762482812916D00B93C99 /* LoadedImageLibraryViewController.swift in Sources */,
 				2C8762642812D81D00B93C99 /* PhotoImageView.swift in Sources */,
 				2CCA2B122808B6AE007CF597 /* ChannelFetchedResultsManager.swift in Sources */,
 				2C6E4B6528156CFD0065C2AD /* NetworkService.swift in Sources */,

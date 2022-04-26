@@ -85,7 +85,7 @@ final class ChannelViewController: UIViewController {
     // MARK: - IB Actions
     
     @IBAction func sendImageButtonPressed(_ sender: Any) {
-        let loadedImageLibraryVC = ImageLibraryViewController()
+        let loadedImageLibraryVC = LoadedImageLibraryViewController()
         loadedImageLibraryVC.isOpenForSendMessage = true
         present(loadedImageLibraryVC, animated: true)
         
@@ -95,24 +95,13 @@ final class ChannelViewController: UIViewController {
                 return
             }
             
-            let message = "Нет поддержки API:\n \(imageURL)"
-            
             if let mySenderId = self?.mySenderId {
                 self?.messageManager.sendMessage(
                     channelID: channelID,
                     senderID: mySenderId,
-                    message: message
+                    message: "Нет поддержки API:\n \(imageURL)"
                 ) {
-                    // TODO: ([26.04.2022]) Использовать для логики подгрузки картинки по ссылке
-                    if message.contains("http") {
-                        let  messageComponents = message.components(separatedBy: " ")
-                        for component in messageComponents {
-                            if component.contains("http") {
-                                // Грузим фото
-                                print(component)
-                            }
-                        }
-                    }
+                    Logger.info("Сообщение отправлено")
                 }
             }
         }
@@ -133,8 +122,8 @@ final class ChannelViewController: UIViewController {
                 channelID: channelID,
                 senderID: mySenderId,
                 message: messageTextView.text
-            ) {
-                messageTextView.text = ""
+            ) { [weak self] in
+                self?.messageTextView.text = ""
             }
             
             // Возврат размеров панели отправки сообщений, после их изменения при написании многострочного текста
