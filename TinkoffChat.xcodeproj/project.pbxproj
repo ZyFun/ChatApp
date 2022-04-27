@@ -50,6 +50,7 @@
 		2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBE05427D23547005CBCB0 /* ChannelCell.swift */; };
 		2CEBE05727D23547005CBCB0 /* ChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEBE05527D23547005CBCB0 /* ChannelCell.xib */; };
 		2CEDDEBF27FC5A1E00EC448B /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEDDEBE27FC5A1E00EC448B /* Logger.swift */; };
+		2CEFE84C2819BF110067C6A4 /* String+SearchingLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEFE84B2819BF110067C6A4 /* String+SearchingLink.swift */; };
 		2CF205BE281571BF003994DD /* URLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF205BD281571BF003994DD /* URLProvider.swift */; };
 		2CF205C22815C2BE003994DD /* PixabayApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF205C12815C2BE003994DD /* PixabayApiModel.swift */; };
 		2CF231B227BFBB2400CE77C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231B127BFBB2400CE77C2 /* AppDelegate.swift */; };
@@ -110,6 +111,7 @@
 		2CEBE05427D23547005CBCB0 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		2CEBE05527D23547005CBCB0 /* ChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelCell.xib; sourceTree = "<group>"; };
 		2CEDDEBE27FC5A1E00EC448B /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		2CEFE84B2819BF110067C6A4 /* String+SearchingLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SearchingLink.swift"; sourceTree = "<group>"; };
 		2CF205BD281571BF003994DD /* URLProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProvider.swift; sourceTree = "<group>"; };
 		2CF205C12815C2BE003994DD /* PixabayApiModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixabayApiModel.swift; sourceTree = "<group>"; };
 		2CF231AE27BFBB2400CE77C2 /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -268,6 +270,7 @@
 			children = (
 				2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */,
 				2CF2C65927D4E575006CA6A6 /* String+DateFormatter.swift */,
+				2CEFE84B2819BF110067C6A4 /* String+SearchingLink.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -537,6 +540,7 @@
 				2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */,
 				2C3CFCA027D62164005436A3 /* ChannelViewController.swift in Sources */,
 				2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */,
+				2CEFE84C2819BF110067C6A4 /* String+SearchingLink.swift in Sources */,
 				2C15CAB428113D240030A69B /* ProfileManager.swift in Sources */,
 				2CEDDEBF27FC5A1E00EC448B /* Logger.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,

@@ -180,8 +180,8 @@ extension MessageCell {
 
 private extension MessageCell {
     func setImage(for message: String) {
-        let urlString = searchingLinkInto(message)
         activityIndicator.startAnimating()
+        let urlString = message.searchingLink()
         imageLoadingManager.getImage(from: urlString) { [weak self] result in
             switch result {
             case .success(let image):
@@ -209,14 +209,5 @@ private extension MessageCell {
                 self?.activityIndicator.stopAnimating()
             }
         }
-    }
-    
-    func searchingLinkInto(_ message: String) -> String {
-        var url = ""
-        let components = message.components(separatedBy: " ")
-        for component in components where component.contains("http") {
-            url = component
-        }
-        return url
     }
 }
