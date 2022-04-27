@@ -15,6 +15,6 @@ enum NetworkError: String, Error {
     case serverError = "⚠️ API Error: Сервер недоступен или используется неправильный адрес"
     case manyRequests = "⚠️ API Error: Слишком много запросов, отдохните и повторите позднее."
     case unauthorizedError = "Обратитесь к разработчику"
-    case requestError = "Попробуйте повторить позднее. Повторить сейчас?"
-    case unownedError = "До свидания"
+    case requestError = "⚠️ API Error: Ссылка устарела или произошла ошибка запроса данных"
+    case unownedError = "Неизвестная ошибка. До свидания"
 }

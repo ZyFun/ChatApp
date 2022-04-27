@@ -15,6 +15,7 @@ final class MessageCell: UITableViewCell {
     private var leadingConstraintViewContainer = NSLayoutConstraint()
     private var trailingConstraintViewContainer = NSLayoutConstraint()
     private var themeManager: ThemeManagerProtocol
+    private let imageLoadingManager: ImageLoadingManagerProtocol
     
     private let viewContainer: UIView = {
         let view = UIView()
@@ -54,6 +55,7 @@ final class MessageCell: UITableViewCell {
     // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        imageLoadingManager = ImageLoadingManager()
         self.themeManager = ThemeManager.shared
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -108,6 +110,14 @@ final class MessageCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        senderNameLabel.text = ""
+        textMessageLabel.text = ""
+        imageMessageView.image = nil
+        dateCreatedLabel.text = ""
+    }
+    
     private func setupIncomingOrOutgoingMessageConstraint(incoming: Bool) {
         if incoming {
             leadingConstraintViewContainer.isActive = true
@@ -138,25 +148,55 @@ final class MessageCell: UITableViewCell {
 extension MessageCell {
     func configureMessageCell(
         senderName: String?,
-        imageMessage: UIImage?, // TODO: ([26.04.2022]) скорее всего нужно будет не передавать сюда, а грузить уже в поцессе
-        // или передавать значение тру и отображать плейсхолдер с загрузкой
+        isImage: Bool,
         textMessage: String,
         dateCreated: Date,
         isIncoming: Bool
     ) {
-        senderNameLabel.text = senderName
-        imageMessageView.image = imageMessage
-        
-        // TODO: ([26.04.2022]) Нужна другая логика
-        // при текущей реализации изначально приходит nil, так как фото грузится в фоне.
-        // нужен комплишн и активити индикатор, и если идет возврат ошибки, отображать ссылку
-        if imageMessageView.image != nil {
-            textMessageLabel.text = ""
+        if isImage {
+            imageMessageView.image = UIImage(named: "noImage")
+            setImage(for: textMessage)
         } else {
             textMessageLabel.text = textMessage
         }
         
+        senderNameLabel.text = senderName
         dateCreatedLabel.text = Date().toString(date: dateCreated)
         setupIncomingOrOutgoingMessageConstraint(incoming: isIncoming)
+    }
+}
+
+private extension MessageCell {
+    func setImage(for message: String) {
+        let urlString = searchingLinkInto(message)
+        imageLoadingManager.getImage(from: urlString) { [weak self] result in
+            switch result {
+            case .success(let image):
+                // TODO: (27.04.2022) Добавить активити индикатор
+                DispatchQueue.main.async {
+//                    self?.textMessageLabel.text = "" // временная заглушка чтобы картинки не прыгали
+                    self?.imageMessageView.image = image
+                    // TODO: (27.04.2022) добвлять сообщение в слой плейсхолдера, а не под картинкой
+                    // например errorLabel
+                    if self?.imageMessageView.image == nil {
+                        self?.imageMessageView.image = UIImage(named: "noImage")
+                    }
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.textMessageLabel.text = error.rawValue
+                }
+                Logger.error(error.rawValue)
+            }
+        }
+    }
+    
+    func searchingLinkInto(_ message: String) -> String {
+        var url = ""
+        let components = message.components(separatedBy: " ")
+        for component in components where component.contains("http") {
+            url = component
+        }
+        return url
     }
 }
