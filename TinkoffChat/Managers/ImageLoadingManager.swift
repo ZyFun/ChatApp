@@ -14,14 +14,18 @@ protocol ImageLoadingManagerProtocol {
 final class ImageLoadingManager: ImageLoadingManagerProtocol {
     private let requestSender: IRequestSenderProtocol
     private var image: UIImage?
+    /// Используется для проверки при загрузке ячейки,
+    /// чтобы предотвратить загрузку изображения не в ту ячейку
+    private var imageUrlString: String = ""
     
     init() {
         requestSender = RequestSender()
     }
     
     func getImage(from url: String, completion: @escaping (Result<UIImage?, NetworkError>) -> Void) {
+        imageUrlString = url
+        
         guard let urlForCache = URL(string: url) else {
-//            image = UIImage(named: "noImage")
             completion(.failure(.invalidURL))
             return
         }
@@ -36,6 +40,7 @@ final class ImageLoadingManager: ImageLoadingManagerProtocol {
         requestSender.send(config: requestConfig) { [weak self] result in
             switch result {
             case .success(let (_, data, response)):
+                guard self?.imageUrlString == url else { return }
                 guard let data = data else {
                     Logger.error("Ошибка получения данных, возможно в коде")
                     return
