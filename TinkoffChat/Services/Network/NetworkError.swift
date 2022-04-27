@@ -16,5 +16,6 @@ enum NetworkError: String, Error {
     case manyRequests = "⚠️ API Error: Слишком много запросов, отдохните и повторите позднее."
     case unauthorizedError = "Обратитесь к разработчику"
     case requestError = "⚠️ API Error: Ссылка устарела или произошла ошибка запроса данных"
+    case noImage = "⚠️ API Error: По ссылке не найдено изображение"
     case unownedError = "Неизвестная ошибка. До свидания"
 }

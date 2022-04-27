@@ -196,7 +196,12 @@ private extension MessageCell {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self?.textMessageLabel.text = error.rawValue
+                    if error == NetworkError.noImage {
+                        self?.imageMessageView.image = nil
+                        self?.textMessageLabel.text = message
+                    } else {
+                        self?.textMessageLabel.text = error.rawValue
+                    }
                 }
                 Logger.error(error.rawValue)
             }

@@ -46,8 +46,11 @@ final class ImageLoadingManager: ImageLoadingManagerProtocol {
                     return
                 }
                 
-                self?.image = UIImage(data: data)
-                completion(.success(self?.image))
+                guard let image = UIImage(data: data) else {
+                    completion(.failure(.noImage))
+                    return
+                }
+                completion(.success(image))
                 
                 guard let response = response else {
                     Logger.error("Вероятно ошибкаа в коде")
