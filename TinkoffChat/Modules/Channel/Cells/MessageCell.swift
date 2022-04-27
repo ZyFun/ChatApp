@@ -36,6 +36,12 @@ final class MessageCell: UITableViewCell {
         return label
     }()
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+    
     private let imageMessageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = ThemeManager.shared.appColorLoadFor(.profileImageView)
@@ -64,12 +70,14 @@ final class MessageCell: UITableViewCell {
         viewContainer.translatesAutoresizingMaskIntoConstraints = false
         senderNameLabel.translatesAutoresizingMaskIntoConstraints = false
         imageMessageView.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         textMessageLabel.translatesAutoresizingMaskIntoConstraints = false
         dateCreatedLabel.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(viewContainer)
         viewContainer.addSubview(senderNameLabel)
         viewContainer.addSubview(imageMessageView)
+        imageMessageView.addSubview(activityIndicator)
         viewContainer.addSubview(textMessageLabel)
         viewContainer.addSubview(dateCreatedLabel)
         
@@ -86,6 +94,10 @@ final class MessageCell: UITableViewCell {
             imageMessageView.topAnchor.constraint(equalTo: senderNameLabel.bottomAnchor, constant: 3),
             imageMessageView.leadingAnchor.constraint(equalTo: viewContainer.leadingAnchor, constant: 8),
             imageMessageView.heightAnchor.constraint(lessThanOrEqualToConstant: viewContainerWidth),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: imageMessageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: imageMessageView.centerYAnchor),
+            
             imageMessageView.widthAnchor.constraint(lessThanOrEqualToConstant: viewContainerWidth),
             imageMessageView.trailingAnchor.constraint(equalTo: viewContainer.trailingAnchor, constant: -8),
             imageMessageView.bottomAnchor.constraint(equalTo: textMessageLabel.topAnchor, constant: -3),
@@ -169,10 +181,10 @@ extension MessageCell {
 private extension MessageCell {
     func setImage(for message: String) {
         let urlString = searchingLinkInto(message)
+        activityIndicator.startAnimating()
         imageLoadingManager.getImage(from: urlString) { [weak self] result in
             switch result {
             case .success(let image):
-                // TODO: (27.04.2022) Добавить активити индикатор
                 DispatchQueue.main.async {
 //                    self?.textMessageLabel.text = "" // временная заглушка чтобы картинки не прыгали
                     self?.imageMessageView.image = image
@@ -187,6 +199,9 @@ private extension MessageCell {
                     self?.textMessageLabel.text = error.rawValue
                 }
                 Logger.error(error.rawValue)
+            }
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
             }
         }
     }
