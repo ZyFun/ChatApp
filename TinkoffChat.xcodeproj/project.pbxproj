@@ -19,6 +19,7 @@
 		2C5449FA27EDFAB100C209C8 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5449F927EDFAB100C209C8 /* Channel.swift */; };
 		2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5449FB27EDFB2700C209C8 /* Message.swift */; };
 		2C5449FE27EE048500C209C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C5449FD27EE048500C209C8 /* GoogleService-Info.plist */; };
+		2C56CF662819430A00DEC22C /* ImageLoadingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C56CF652819430A00DEC22C /* ImageLoadingManager.swift */; };
 		2C5C8C2327DF674E00AE48F6 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */; };
 		2C5C8C2627DF7B7900AE48F6 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */; };
 		2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */; };
@@ -79,6 +80,7 @@
 		2C5449F927EDFAB100C209C8 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		2C5449FB27EDFB2700C209C8 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		2C5449FD27EE048500C209C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2C56CF652819430A00DEC22C /* ImageLoadingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadingManager.swift; sourceTree = "<group>"; };
 		2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		2C5C8C2727DF8A9600AE48F6 /* FirstStartAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstStartAppManager.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				2CF205BD281571BF003994DD /* URLProvider.swift */,
 				2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */,
 				2CEBC52327F3287D0025DB1A /* NotificationKeyboardObserver.swift */,
+				2C8762632812D81D00B93C99 /* PhotoImageView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -248,7 +251,6 @@
 		2C87624A2812930800B93C99 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				2C8762632812D81D00B93C99 /* PhotoImageView.swift */,
 				2C87624B2812934900B93C99 /* ImageCell.swift */,
 				2C87624C2812934900B93C99 /* ImageCell.xib */,
 			);
@@ -315,6 +317,7 @@
 				2C446DCF28105CEB00D993C7 /* MessageManager.swift */,
 				2C446DD328106EF600D993C7 /* ChannelListManager.swift */,
 				2C15CAB328113D240030A69B /* ProfileManager.swift */,
+				2C56CF652819430A00DEC22C /* ImageLoadingManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -526,6 +529,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C4661CF280B23E700CBD141 /* ChannelDataSourceManager.swift in Sources */,
+				2C56CF662819430A00DEC22C /* ImageLoadingManager.swift in Sources */,
 				2CEA6AF227D36F360028DF67 /* Date+DateFormatter.swift in Sources */,
 				2C5449FA27EDFAB100C209C8 /* Channel.swift in Sources */,
 				2C87624D2812934900B93C99 /* ImageCell.swift in Sources */,

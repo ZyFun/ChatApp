@@ -23,6 +23,7 @@ final class LoadedImageLibraryDatasourceProvider: NSObject, LoadedImageLibraryDa
     var didSelectLoadedImage: ((_ image: UIImage) -> Void)?
     var didSelectForSendImage: ((_ stringURL: String) -> Void)?
     
+    private let cacheManager: ImageLoadingManagerProtocol
     private let itemsPerRow: CGFloat = 3
     private let sectionInserts = UIEdgeInsets(
         top: 10, left: 10, bottom: 10, right: 10
@@ -31,6 +32,7 @@ final class LoadedImageLibraryDatasourceProvider: NSObject, LoadedImageLibraryDa
     init(
         collectionView: UICollectionView
     ) {
+        cacheManager = ImageLoadingManager()
         self.collectionView = collectionView
         
         super.init()
@@ -68,7 +70,6 @@ extension LoadedImageLibraryDatasourceProvider: UICollectionViewDataSource {
 extension LoadedImageLibraryDatasourceProvider: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let photoImageVC = PhotoImageView(image: nil)
         let imageData = imagesData?[indexPath.row]
         
         guard let imageURL = imageData?.webformatURL else { return }
@@ -76,8 +77,15 @@ extension LoadedImageLibraryDatasourceProvider: UICollectionViewDelegate {
         if isOpenForSendMessage ?? false {
             didSelectForSendImage?(imageURL)
         } else {
-            guard let image = photoImageVC.selectImageToSetInProfile(urlString: imageURL) else { return }
-            didSelectLoadedImage?(image)
+            cacheManager.getImage(from: imageURL) { [weak self] result in
+                switch result {
+                case .success(let image):
+                    guard let image = image else { return }
+                    self?.didSelectLoadedImage?(image)
+                case .failure(let error):
+                    Logger.error(error.rawValue)
+                }
+            }
         }
     }
 }

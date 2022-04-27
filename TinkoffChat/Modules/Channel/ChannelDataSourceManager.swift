@@ -14,6 +14,7 @@ protocol ChannelDataSourceManagerProtocol {
 }
 
 final class ChannelDataSourceManager: NSObject, ChannelDataSourceManagerProtocol {
+    let imageLoadingManager: ImageLoadingManagerProtocol
     var tableView: UITableView
     var resultManager: ChannelFetchedResultsManagerProtocol
     var mySenderId: String?
@@ -24,6 +25,7 @@ final class ChannelDataSourceManager: NSObject, ChannelDataSourceManagerProtocol
         resultManager: ChannelFetchedResultsManagerProtocol,
         tableView: UITableView
     ) {
+        imageLoadingManager = ImageLoadingManager()
         self.resultManager = resultManager
         self.tableView = tableView
         super.init()
@@ -58,15 +60,28 @@ extension ChannelDataSourceManager: UITableViewDataSource {
         let message = resultManager.fetchedResultsController.object(at: indexPath) as? DBMessage
         
         // TODO: ([26.04.2022]) Тестовый вариант кода. Сделать методом и перенести в слой менеджера
-        let photoImageVC = PhotoImageView(image: nil)
         var image: UIImage?
+        // Используется для отображения ошибки, если со ссылкой сто-то не так
+        var textMessage = message?.content
         
         if let message = message?.content {
             if message.contains("http") {
                 let  messageComponents = message.components(separatedBy: " ")
-                for component in messageComponents {
-                    if component.contains("http") {
-                        image = photoImageVC.selectImageToSetInProfile(urlString: component)
+                for component in messageComponents where component.contains("http") {
+                    imageLoadingManager.getImage(from: component) { result in
+                        switch result {
+                        case .success(let loadedImage):
+                            image = loadedImage
+                        case .failure(let error):
+                            // не всё отображается корректно, так как по некоторым запросам
+                            // сервер пытается достучатся дальше, а в ячейке уже отображены данные из базы
+                            // этот код должен выполнятся при переиспользовании ячейки
+                            // заменяя полученный из базы текст собой. Аналогично и с изображением
+                            // по хорошему, нужно просто возвращать true и если верно,
+                            // хапускать загрузку изображения
+                            textMessage = error.rawValue
+                            Logger.error(error.rawValue)
+                        }
                     }
                 }
             }
@@ -78,7 +93,7 @@ extension ChannelDataSourceManager: UITableViewDataSource {
             senderName: message?.senderName,
             imageMessage: image, // TODO: ([26.04.2022]) скорее всего нужно будет не передавать сюда, а грузить уже в поцессе
             // или передавать значение тру и отображать плейсхолдер с загрузкой
-            textMessage: message?.content ?? "",
+            textMessage: textMessage ?? "",
             dateCreated: message?.created ?? Date(),
             isIncoming: message?.senderId != mySenderId
         )

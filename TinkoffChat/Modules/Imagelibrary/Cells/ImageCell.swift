@@ -11,7 +11,14 @@ final class ImageCell: UICollectionViewCell {
     static let identifier = String(describing: ImageCell.self)
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var photoImageView: PhotoImageView!
+    @IBOutlet weak var photoImageView: UIImageView!
+    
+    private let imageLoadingManager: ImageLoadingManagerProtocol
+        
+    required init?(coder: NSCoder) {
+        imageLoadingManager = ImageLoadingManager()
+        super.init(coder: coder)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,9 +34,15 @@ final class ImageCell: UICollectionViewCell {
     func getImage(from imageURL: String?) {
         activityIndicator.startAnimating()
         if let imageURL = imageURL {
-            photoImageView.getImage(from: imageURL) { [weak self] in
-                DispatchQueue.main.async {
-                    self?.activityIndicator.stopAnimating()
+            imageLoadingManager.getImage(from: imageURL) { [weak self] result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self?.photoImageView.image = image
+                        self?.activityIndicator.stopAnimating()
+                    }
+                case .failure(let error):
+                    Logger.error(error.rawValue)
                 }
             }
         } else {
