@@ -36,6 +36,13 @@ final class MessageCell: UITableViewCell {
         return label
     }()
     
+    private let errorLabel: UILabel = {
+        let label = UILabel()
+        label.contentMode = .topLeft
+        label.numberOfLines = 0
+        return label
+    }()
+    
     private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.hidesWhenStopped = true
@@ -44,7 +51,6 @@ final class MessageCell: UITableViewCell {
     
     private let imageMessageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = ThemeManager.shared.appColorLoadFor(.profileImageView)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
@@ -71,11 +77,13 @@ final class MessageCell: UITableViewCell {
         senderNameLabel.translatesAutoresizingMaskIntoConstraints = false
         imageMessageView.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
         textMessageLabel.translatesAutoresizingMaskIntoConstraints = false
         dateCreatedLabel.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(viewContainer)
         viewContainer.addSubview(senderNameLabel)
+        viewContainer.addSubview(errorLabel)
         viewContainer.addSubview(imageMessageView)
         imageMessageView.addSubview(activityIndicator)
         viewContainer.addSubview(textMessageLabel)
@@ -91,7 +99,11 @@ final class MessageCell: UITableViewCell {
             senderNameLabel.leadingAnchor.constraint(equalTo: viewContainer.leadingAnchor, constant: 8),
             senderNameLabel.trailingAnchor.constraint(equalTo: viewContainer.trailingAnchor, constant: -8),
             
-            imageMessageView.topAnchor.constraint(equalTo: senderNameLabel.bottomAnchor, constant: 3),
+            errorLabel.topAnchor.constraint(equalTo: senderNameLabel.bottomAnchor, constant: 3),
+            errorLabel.leftAnchor.constraint(equalTo: viewContainer.leftAnchor, constant: 8),
+            errorLabel.rightAnchor.constraint(equalTo: viewContainer.rightAnchor, constant: -8),
+            errorLabel.bottomAnchor.constraint(equalTo: imageMessageView.topAnchor, constant: -3),
+            
             imageMessageView.leadingAnchor.constraint(equalTo: viewContainer.leadingAnchor, constant: 8),
             imageMessageView.heightAnchor.constraint(lessThanOrEqualToConstant: viewContainerWidth),
             
@@ -125,6 +137,7 @@ final class MessageCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         senderNameLabel.text = ""
+        errorLabel.text = ""
         textMessageLabel.text = ""
         imageMessageView.image = nil
         dateCreatedLabel.text = ""
@@ -146,6 +159,8 @@ final class MessageCell: UITableViewCell {
     func setupUI() {
         contentView.backgroundColor = themeManager.appColorLoadFor(.backgroundView)
         senderNameLabel.textColor = themeManager.appColorLoadFor(.senderName)
+        errorLabel.textColor = .systemOrange
+        imageMessageView.backgroundColor = themeManager.appColorLoadFor(.profileImageView)
         textMessageLabel.textColor = themeManager.appColorLoadFor(.text)
         dateCreatedLabel.textColor = themeManager.appColorLoadFor(.dateCreated)
         
@@ -186,13 +201,7 @@ private extension MessageCell {
             switch result {
             case .success(let image):
                 DispatchQueue.main.async {
-//                    self?.textMessageLabel.text = "" // временная заглушка чтобы картинки не прыгали
                     self?.imageMessageView.image = image
-                    // TODO: (27.04.2022) добвлять сообщение в слой плейсхолдера, а не под картинкой
-                    // например errorLabel
-                    if self?.imageMessageView.image == nil {
-                        self?.imageMessageView.image = UIImage(named: "noImage")
-                    }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -200,10 +209,9 @@ private extension MessageCell {
                         self?.imageMessageView.image = nil
                         self?.textMessageLabel.text = message
                     } else {
-                        self?.textMessageLabel.text = error.rawValue
+                        self?.errorLabel.text = error.rawValue
                     }
                 }
-                Logger.error(error.rawValue)
             }
             DispatchQueue.main.async {
                 self?.activityIndicator.stopAnimating()

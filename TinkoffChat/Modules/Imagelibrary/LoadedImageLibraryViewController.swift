@@ -31,6 +31,7 @@ final class LoadedImageLibraryViewController: UIViewController {
 
         setup()
         
+        // TODO: ([28.04.2022]) предыдущее ДЗ не проверено и я всё еще не понимаю как делать более правильно :(
         dataSourceProvider = LoadedImageLibraryDatasourceProvider(
             collectionView: imageCollectionView
         )
