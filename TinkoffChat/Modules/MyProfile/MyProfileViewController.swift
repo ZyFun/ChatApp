@@ -83,6 +83,7 @@ final class MyProfileViewController: UIViewController {
     }
     
     @IBAction func editButtonPressed() {
+        CustomAnimation().startAnimation(for: saveButton)
         nameLabel.isHidden = true
         descriptionLabel.isHidden = true
         
@@ -101,6 +102,7 @@ final class MyProfileViewController: UIViewController {
     }
     
     @IBAction func cancelButtonPressed() {
+        CustomAnimation().stopAnimation(for: saveButton)
         view.endEditing(true)
         
         // Отмена изменений
@@ -118,6 +120,7 @@ final class MyProfileViewController: UIViewController {
     }
     
     @IBAction func saveButtonPressed() {
+        CustomAnimation().stopAnimation(for: saveButton)
         setSaveButtonIsNotActive()
         setEditButtonIsNotActive()
         setTextFieldsIsNotActive()
@@ -476,15 +479,9 @@ private extension MyProfileViewController {
             noProfileImageLabel.isHidden = true
         }
         
-        showButtons(
-            cancelButton,
-            saveButton
-        )
+        showButtons(cancelButton, saveButton)
         setSaveButtonIsActive()
-        hideButtons(
-            editLogoButton,
-            editButton
-        )
+        hideButtons(editLogoButton, editButton)
     }
 }
 
