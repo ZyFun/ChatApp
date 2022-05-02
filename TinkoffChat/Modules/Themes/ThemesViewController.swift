@@ -10,8 +10,11 @@ import UIKit
 final class ThemesViewController: UIViewController {
     // MARK: - Private properties
     
+    private var coordinateCoatOfArmsDisplay: CGPoint?
+    
     private var themeManager: ThemeManagerProtocol
     private let storageManager: StorageManagerProtocol
+    private var customAnimation: CustomAnimationProtocol
     
     private lazy var classicColorBackgroundView = themeManager.appColorSetup(.classic, .backgroundView)
     private lazy var classicColorBackgroundNavBar = themeManager.appColorSetup(.classic, .backgroundNavBar)
@@ -55,8 +58,9 @@ final class ThemesViewController: UIViewController {
     // MARK: - Initializer
     
     init() {
-        self.themeManager = ThemeManager.shared
-        self.storageManager = StorageManager()
+        themeManager = ThemeManager.shared
+        storageManager = StorageManager()
+        customAnimation = CustomAnimation()
         super.init(
             nibName: String(describing: ThemesViewController.self),
             bundle: nil
@@ -72,10 +76,26 @@ final class ThemesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Используется для избегания бага отображения гербов с мултитачем
+        view.isExclusiveTouch = true
+        
         setupUI()
         selectedCurrentTheme()
     }
     
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        deleteCAEmitterLayer()
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        deleteCAEmitterLayer()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first
+        coordinateCoatOfArmsDisplay = touch?.location(in: view)
+        customAnimation.showCoatOfArms(into: view, for: coordinateCoatOfArmsDisplay)
+    }
 }
 
 // MARK: - Private methods
@@ -264,6 +284,16 @@ private extension ThemesViewController {
             setSelectedState(nightChatView)
         default:
             break
+        }
+    }
+    
+    func deleteCAEmitterLayer() {
+        guard let layer = view.layer.sublayers?.last as? CAEmitterLayer else { return }
+        layer.birthRate = 0
+        
+        let deleteTime = Double(layer.lifetime + 1)
+        DispatchQueue.main.asyncAfter(deadline: .now() + deleteTime) {
+            layer.removeFromSuperlayer()
         }
     }
 }

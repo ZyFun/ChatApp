@@ -8,11 +8,42 @@
 import UIKit
 
 protocol CustomAnimationProtocol {
+    func showCoatOfArms(into view: UIView, for coordinate: CGPoint?)
     func startAnimation(for button: UIButton)
     func stopAnimation(for button: UIButton)
 }
 
 class CustomAnimation: CustomAnimationProtocol {
+    private lazy var coatOfArmsCell: CAEmitterCell = {
+        var coatOfArmsCell = CAEmitterCell()
+        coatOfArmsCell.contents = UIImage(named: "coatOfArms")?.cgImage
+        coatOfArmsCell.scale = 0.03
+        coatOfArmsCell.emissionRange = .pi
+        coatOfArmsCell.lifetime = 5
+        coatOfArmsCell.birthRate = 20
+        coatOfArmsCell.alphaSpeed = -0.2
+        coatOfArmsCell.velocity = 10
+        coatOfArmsCell.velocityRange = 5
+        coatOfArmsCell.yAcceleration = -30
+        coatOfArmsCell.spin = CGFloat.random(in: -0.5...0.5)
+        coatOfArmsCell.spinRange = 1.0
+        return coatOfArmsCell
+    }()
+    
+    func showCoatOfArms(into view: UIView, for coordinate: CGPoint?) {
+        guard let coordinate = coordinate else {
+            Logger.error("Координаты не распознаны")
+            return
+        }
+        
+        let coatOfArmsCellLayer = CAEmitterLayer()
+        coatOfArmsCellLayer.lifetime = coatOfArmsCell.lifetime  // нужно для того, чтобы задать время удаления слоя
+        coatOfArmsCellLayer.emitterPosition = CGPoint(x: coordinate.x, y: coordinate.y)
+        coatOfArmsCellLayer.beginTime = CACurrentMediaTime()
+        coatOfArmsCellLayer.emitterCells = [coatOfArmsCell]
+        view.layer.addSublayer(coatOfArmsCellLayer)
+    }
+    
     func startAnimation(for button: UIButton) {
         let rotationZ: CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationZ.fromValue = -Double.pi / 360 * 18
