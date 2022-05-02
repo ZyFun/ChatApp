@@ -40,6 +40,7 @@ final class MyProfileViewController: UIViewController {
     private var imagePickerController: ImagePickerProfileManagerProtocol
     private let themeManager: ThemeManagerProtocol
     private let profileManager: ProfileManagerProtocol
+    private let customAnimation: CustomAnimationProtocol
     
     // MARK: - Initializer
     
@@ -49,6 +50,7 @@ final class MyProfileViewController: UIViewController {
         imagePickerController = ImagePickerProfileManager()
         themeManager = ThemeManager.shared
         profileManager = ProfileManager()
+        customAnimation = CustomAnimation()
         super.init(coder: coder)
     }
     
@@ -83,7 +85,7 @@ final class MyProfileViewController: UIViewController {
     }
     
     @IBAction func editButtonPressed() {
-        CustomAnimation().startAnimation(for: saveButton)
+        customAnimation.startAnimation(for: saveButton)
         nameLabel.isHidden = true
         descriptionLabel.isHidden = true
         
@@ -102,7 +104,7 @@ final class MyProfileViewController: UIViewController {
     }
     
     @IBAction func cancelButtonPressed() {
-        CustomAnimation().stopAnimation(for: saveButton)
+        customAnimation.stopAnimation(for: saveButton)
         view.endEditing(true)
         
         // Отмена изменений
@@ -120,7 +122,7 @@ final class MyProfileViewController: UIViewController {
     }
     
     @IBAction func saveButtonPressed() {
-        CustomAnimation().stopAnimation(for: saveButton)
+        customAnimation.stopAnimation(for: saveButton)
         setSaveButtonIsNotActive()
         setEditButtonIsNotActive()
         setTextFieldsIsNotActive()
