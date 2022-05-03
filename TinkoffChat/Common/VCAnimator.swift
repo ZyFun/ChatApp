@@ -19,17 +19,45 @@ class VCAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
         guard let toView = transitionContext.view(forKey: .to) else { return }
+        guard let profileView = presenting ? toView : transitionContext.view(forKey: .from) else { return }
+        
+        let initialFrame = presenting ? originFrame : profileView.frame
+        let finalFrame = presenting ? profileView.frame : originFrame
+
+        let xScaleFactor = presenting ?
+          initialFrame.width / finalFrame.width :
+          finalFrame.width / initialFrame.width
+
+        let yScaleFactor = presenting ?
+          initialFrame.height / finalFrame.height :
+          finalFrame.height / initialFrame.height
+        
+        let scaleTransform = CGAffineTransform(scaleX: xScaleFactor, y: yScaleFactor)
+        
+        if presenting {
+            profileView.transform = scaleTransform
+            profileView.center = CGPoint(
+                x: initialFrame.midX,
+                y: initialFrame.midY)
+            profileView.clipsToBounds = true
+        }
+        
+        profileView.layer.cornerRadius = presenting ? 20.0 : 0.0
+        profileView.layer.masksToBounds = true
         
         containerView.addSubview(toView)
-        toView.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+        containerView.bringSubviewToFront(profileView)
+        
         UIView.animate(
-          withDuration: duration,
-          animations: {
-            toView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-          },
-          completion: { _ in
-            transitionContext.completeTransition(true)
-          }
-        )
+            withDuration: duration,
+            delay: 0.0,
+            usingSpringWithDamping: 0.9,
+            initialSpringVelocity: 0.1) {
+                profileView.transform = self.presenting ? .identity : scaleTransform
+                profileView.center = CGPoint(x: finalFrame.midX, y: finalFrame.midY)
+                profileView.layer.cornerRadius = !self.presenting ? 20.0 : 0.0
+            } completion: { _ in
+                transitionContext.completeTransition(true)
+            }
     }
 }

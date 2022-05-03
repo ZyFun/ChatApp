@@ -238,7 +238,7 @@ private extension ChannelListViewController {
             bundle: nil
         ).instantiateInitialViewController() else { return }
         
-//        myProfileVC.modalPresentationStyle = .custom
+        myProfileVC.modalPresentationStyle = .custom
         myProfileVC.transitioningDelegate = self
         
         present(myProfileVC, animated: true)
