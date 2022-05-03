@@ -23,8 +23,6 @@ final class ChannelListViewController: UIViewController {
     private let channelListManager: ChannelListManagerProtocol
     private var resultManager: ChannelListFetchedResultsManagerProtocol?
     private var dataSourceManager: ChannelListDataSourceManagerProtocol?
-    
-    // TODO: Сделать зависимость от протокола
     private let transition: VCAnimator
     
     /// Метод для решения проблемы с ошибкой обновления данных, когда экран не активен.
@@ -238,7 +236,11 @@ private extension ChannelListViewController {
             bundle: nil
         ).instantiateInitialViewController() else { return }
         
-        myProfileVC.modalPresentationStyle = .custom
+        // TODO: ([03.05.2022]) Нужно доработать
+        // изначально я пытался сделать так, чтобы открывшееся вью скрывалось так же
+        // но что то пошло не так и где то я ошибся. Надеюсь найду эту ошибку
+        // по этому в текущем варианте лучше выглядит так
+//        myProfileVC.modalPresentationStyle = .custom
         myProfileVC.transitioningDelegate = self
         
         present(myProfileVC, animated: true)
@@ -333,11 +335,30 @@ extension ChannelListViewController: ChannelListViewControllerDelegate {
 }
 
 extension ChannelListViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(
+        forPresented presented: UIViewController,
+        presenting: UIViewController,
+        source: UIViewController
+    ) -> UIViewControllerAnimatedTransitioning? {
+        let buttonView = navigationItem.rightBarButtonItems?.first
+        guard let buttonFrame = buttonView?.customView?.frame else { return nil }
+
+        transition.originFrame = buttonFrame
+        transition.originFrame = CGRect(
+            x: transition.originFrame.origin.x + UIScreen.main.bounds.width - 20,
+            y: transition.originFrame.origin.y,
+            width: transition.originFrame.size.width - 40,
+            height: transition.originFrame.size.height - 40
+        )
+        
+        transition.presenting = true
+        
         return transition
     }
     
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(
+        forDismissed dismissed: UIViewController
+    ) -> UIViewControllerAnimatedTransitioning? {
         return nil
     }
 }
