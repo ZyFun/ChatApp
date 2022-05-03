@@ -41,6 +41,7 @@
 		2CA9BC28280C64F700C0CBB4 /* ChannelListDataSourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9BC27280C64F700C0CBB4 /* ChannelListDataSourceManager.swift */; };
 		2CC5629428184DC400A1BC46 /* LoadedImageLibraryDatasourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC5629328184DC400A1BC46 /* LoadedImageLibraryDatasourceProvider.swift */; };
 		2CCA2B122808B6AE007CF597 /* ChannelFetchedResultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCA2B112808B6AE007CF597 /* ChannelFetchedResultsManager.swift */; };
+		2CD8C0092821562B00D5FE96 /* VCAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD8C0082821562B00D5FE96 /* VCAnimator.swift */; };
 		2CE33CE827F85FE500BA59CE /* Chat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2CE33CE627F85FE500BA59CE /* Chat.xcdatamodeld */; };
 		2CE33CEA27F863C200BA59CE /* ChatCoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */; };
 		2CE58AB427F067960087B3D9 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE58AB327F067960087B3D9 /* FirestoreService.swift */; };
@@ -105,6 +106,7 @@
 		2CA9BC27280C64F700C0CBB4 /* ChannelListDataSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListDataSourceManager.swift; sourceTree = "<group>"; };
 		2CC5629328184DC400A1BC46 /* LoadedImageLibraryDatasourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadedImageLibraryDatasourceProvider.swift; sourceTree = "<group>"; };
 		2CCA2B112808B6AE007CF597 /* ChannelFetchedResultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelFetchedResultsManager.swift; sourceTree = "<group>"; };
+		2CD8C0082821562B00D5FE96 /* VCAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCAnimator.swift; sourceTree = "<group>"; };
 		2CE33CE727F85FE500BA59CE /* Chat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chat.xcdatamodel; sourceTree = "<group>"; };
 		2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCoreDataService.swift; sourceTree = "<group>"; };
 		2CE58AB327F067960087B3D9 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				2C5C8C2227DF674E00AE48F6 /* CustomNavigationController.swift */,
 				2CEBC52327F3287D0025DB1A /* NotificationKeyboardObserver.swift */,
 				2C7B1A8D281D625A0080787D /* CustomAnimation.swift */,
+				2CD8C0082821562B00D5FE96 /* VCAnimator.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -489,7 +492,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "#${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		981278CC4A6DF3FF2D8F4B06 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -572,6 +575,7 @@
 				2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */,
 				2CF205C22815C2BE003994DD /* PixabayApiModel.swift in Sources */,
 				2CE58AB427F067960087B3D9 /* FirestoreService.swift in Sources */,
+				2CD8C0092821562B00D5FE96 /* VCAnimator.swift in Sources */,
 				2CF205BE281571BF003994DD /* URLProvider.swift in Sources */,
 				2CEA6AF527D3ADCE0028DF67 /* ChannelMock.swift in Sources */,
 				2CA9BC28280C64F700C0CBB4 /* ChannelListDataSourceManager.swift in Sources */,

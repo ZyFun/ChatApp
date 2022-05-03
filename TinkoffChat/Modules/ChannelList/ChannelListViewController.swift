@@ -24,6 +24,9 @@ final class ChannelListViewController: UIViewController {
     private var resultManager: ChannelListFetchedResultsManagerProtocol?
     private var dataSourceManager: ChannelListDataSourceManagerProtocol?
     
+    // TODO: Сделать зависимость от протокола
+    private let transition: VCAnimator
+    
     /// Метод для решения проблемы с ошибкой обновления данных, когда экран не активен.
     private var isAppear = true
     
@@ -38,6 +41,7 @@ final class ChannelListViewController: UIViewController {
         channelListManager = ChannelListManager()
         themeManager = ThemeManager.shared
         chatCoreDataService = ChatCoreDataService()
+        transition = VCAnimator()
         super.init(
             nibName: String(describing: ChannelListViewController.self),
             bundle: nil
@@ -234,6 +238,9 @@ private extension ChannelListViewController {
             bundle: nil
         ).instantiateInitialViewController() else { return }
         
+//        myProfileVC.modalPresentationStyle = .custom
+        myProfileVC.transitioningDelegate = self
+        
         present(myProfileVC, animated: true)
     }
     
@@ -322,5 +329,15 @@ extension ChannelListViewController: ChannelListViewControllerDelegate {
             channelVC,
             animated: true
         )
+    }
+}
+
+extension ChannelListViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
     }
 }
