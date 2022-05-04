@@ -10,8 +10,6 @@ import UIKit
 final class ThemesViewController: UIViewController {
     // MARK: - Private properties
     
-    private var coordinateCoatOfArmsDisplay: CGPoint?
-    
     private var themeManager: ThemeManagerProtocol
     private let storageManager: StorageManagerProtocol
     private var customAnimation: CustomAnimationProtocol
@@ -84,17 +82,17 @@ final class ThemesViewController: UIViewController {
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        deleteCAEmitterLayer()
+        customAnimation.deleteCAEmitterLayer(from: view)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        deleteCAEmitterLayer()
+        customAnimation.deleteCAEmitterLayer(from: view)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
-        coordinateCoatOfArmsDisplay = touch?.location(in: view)
-        customAnimation.showCoatOfArms(into: view, for: coordinateCoatOfArmsDisplay)
+        let coordinate = touch?.location(in: view)
+        customAnimation.showCoatOfArms(into: view, for: coordinate)
     }
 }
 
@@ -284,16 +282,6 @@ private extension ThemesViewController {
             setSelectedState(nightChatView)
         default:
             break
-        }
-    }
-    
-    func deleteCAEmitterLayer() {
-        guard let layer = view.layer.sublayers?.last as? CAEmitterLayer else { return }
-        layer.birthRate = 0
-        
-        let deleteTime = Double(layer.lifetime + 1)
-        DispatchQueue.main.asyncAfter(deadline: .now() + deleteTime) {
-            layer.removeFromSuperlayer()
         }
     }
 }

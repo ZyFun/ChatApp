@@ -9,6 +9,7 @@ import UIKit
 
 protocol CustomAnimationProtocol {
     func showCoatOfArms(into view: UIView, for coordinate: CGPoint?)
+    func deleteCAEmitterLayer(from view: UIView)
     func startAnimation(for button: UIButton)
     func stopAnimation(for button: UIButton)
 }
@@ -42,6 +43,16 @@ class CustomAnimation: CustomAnimationProtocol {
         coatOfArmsCellLayer.beginTime = CACurrentMediaTime()
         coatOfArmsCellLayer.emitterCells = [coatOfArmsCell]
         view.layer.addSublayer(coatOfArmsCellLayer)
+    }
+    
+    func deleteCAEmitterLayer(from view: UIView) {
+        guard let layer = view.layer.sublayers?.last as? CAEmitterLayer else { return }
+        layer.birthRate = 0
+        
+        let deleteTime = Double(layer.lifetime + 1)
+        DispatchQueue.main.asyncAfter(deadline: .now() + deleteTime) {
+            layer.removeFromSuperlayer()
+        }
     }
     
     func startAnimation(for button: UIButton) {
