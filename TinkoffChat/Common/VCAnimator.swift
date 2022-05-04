@@ -22,6 +22,9 @@ final class VCAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         using transitionContext: UIViewControllerContextTransitioning
     ) {
         let containerView = transitionContext.containerView
+        // TODO: ([03.05.2022]) Нужно доработать
+        // сюда возвращается nil при закрытии вью. И я не понимаю почему
+        // даже если в forDismissed dismissed: вернуть transition
         guard let toView = transitionContext.view(forKey: .to) else { return }
         guard let profileView = presenting
                 ? toView
@@ -47,7 +50,8 @@ final class VCAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             profileView.transform = scaleTransform
             profileView.center = CGPoint(
                 x: initialFrame.midX,
-                y: initialFrame.midY)
+                y: initialFrame.midY
+            )
             profileView.clipsToBounds = true
         }
         
