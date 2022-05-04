@@ -45,29 +45,51 @@ class CustomAnimation: CustomAnimationProtocol {
     }
     
     func startAnimation(for button: UIButton) {
-        let rotationZ: CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotationZ.fromValue = -Double.pi / 360 * 18
-        rotationZ.byValue = 0
-        rotationZ.toValue = Double.pi / 360 * 18
-        
-        let position = CAKeyframeAnimation(keyPath: #keyPath(CALayer.position))
-        position.values = [
-            [button.center.x - 5, button.center.y],
-            [button.center.x, button.center.y + 5],
-            [button.center.x + 5, button.center.y],
-            [button.center.x, button.center.y - 5]
-        ]
-        
-        let group = CAAnimationGroup()
-        group.duration = 0.3
-        group.autoreverses = true
-        group.repeatCount = .infinity
-        group.animations = [position, rotationZ]
-
-        button.layer.add(group, forKey: nil)
+        UIView.animateKeyframes(
+            withDuration: 0.3,
+            delay: 0,
+            options: [
+                .autoreverse,
+                .repeat,
+                .allowUserInteraction
+            ]
+        ) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
+                button.transform = CGAffineTransform(rotationAngle: -Double.pi / 360 * 18)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 1) {
+                button.transform = CGAffineTransform(translationX: 0, y: 5)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 1) {
+                button.transform = CGAffineTransform(translationX: -5, y: 0)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 1) {
+                button.transform = CGAffineTransform(rotationAngle: Double.pi / 360 * 18)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.8, relativeDuration: 1) {
+                button.transform = CGAffineTransform(translationX: 5, y: 0)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.9, relativeDuration: 1) {
+                button.transform = CGAffineTransform(translationX: 0, y: -5)
+            }
+        }
     }
     
     func stopAnimation(for button: UIButton) {
-        button.layer.removeAllAnimations()
+        UIView.animate(
+            withDuration: 0.3,
+            delay: 0,
+            options: [
+                .beginFromCurrentState,
+                .curveEaseOut
+            ]
+        ) {
+            button.transform = CGAffineTransform.identity
+        }
     }
 }
