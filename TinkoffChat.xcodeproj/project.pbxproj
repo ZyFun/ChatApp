@@ -39,6 +39,7 @@
 		2CA9A10427FE962E00B99C5B /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A10327FE962E00B99C5B /* MessageCell.swift */; };
 		2CA9BC26280C422D00C0CBB4 /* ChannelListFetchedResultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9BC25280C422D00C0CBB4 /* ChannelListFetchedResultsManager.swift */; };
 		2CA9BC28280C64F700C0CBB4 /* ChannelListDataSourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9BC27280C64F700C0CBB4 /* ChannelListDataSourceManager.swift */; };
+		2CAE2013282E987C00DDB1EF /* TinkoffChatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE2012282E987C00DDB1EF /* TinkoffChatTests.swift */; };
 		2CC5629428184DC400A1BC46 /* LoadedImageLibraryDatasourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC5629328184DC400A1BC46 /* LoadedImageLibraryDatasourceProvider.swift */; };
 		2CCA2B122808B6AE007CF597 /* ChannelFetchedResultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCA2B112808B6AE007CF597 /* ChannelFetchedResultsManager.swift */; };
 		2CD8C0092821562B00D5FE96 /* VCAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD8C0082821562B00D5FE96 /* VCAnimator.swift */; };
@@ -69,6 +70,16 @@
 		2CFF7B5627EF4B7500055DC6 /* ImagePickerProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFF7B5527EF4B7500055DC6 /* ImagePickerProfileManager.swift */; };
 		7C918B99FB45DF0A9628448B /* Pods_TinkoffChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D9BD881D8A0E0B8AB07E2 /* Pods_TinkoffChat.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2CAE2014282E987C00DDB1EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CF231A627BFBB2400CE77C2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2CF231AD27BFBB2400CE77C2;
+			remoteInfo = TinkoffChat;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2C13C6E927E60A6100955499 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
@@ -104,6 +115,8 @@
 		2CA9A10327FE962E00B99C5B /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		2CA9BC25280C422D00C0CBB4 /* ChannelListFetchedResultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListFetchedResultsManager.swift; sourceTree = "<group>"; };
 		2CA9BC27280C64F700C0CBB4 /* ChannelListDataSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListDataSourceManager.swift; sourceTree = "<group>"; };
+		2CAE2010282E987C00DDB1EF /* TinkoffChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TinkoffChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CAE2012282E987C00DDB1EF /* TinkoffChatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinkoffChatTests.swift; sourceTree = "<group>"; };
 		2CC5629328184DC400A1BC46 /* LoadedImageLibraryDatasourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadedImageLibraryDatasourceProvider.swift; sourceTree = "<group>"; };
 		2CCA2B112808B6AE007CF597 /* ChannelFetchedResultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelFetchedResultsManager.swift; sourceTree = "<group>"; };
 		2CD8C0082821562B00D5FE96 /* VCAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCAnimator.swift; sourceTree = "<group>"; };
@@ -140,6 +153,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2CAE200D282E987C00DDB1EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2CF231AB27BFBB2400CE77C2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -275,6 +295,14 @@
 			path = Themes;
 			sourceTree = "<group>";
 		};
+		2CAE2011282E987C00DDB1EF /* TinkoffChatTests */ = {
+			isa = PBXGroup;
+			children = (
+				2CAE2012282E987C00DDB1EF /* TinkoffChatTests.swift */,
+			);
+			path = TinkoffChatTests;
+			sourceTree = "<group>";
+		};
 		2CEA6AF027D36F080028DF67 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,6 +377,7 @@
 			children = (
 				2CF231C627BFF6FA00CE77C2 /* .gitignore */,
 				2CF231B027BFBB2400CE77C2 /* TinkoffChat */,
+				2CAE2011282E987C00DDB1EF /* TinkoffChatTests */,
 				2CF231AF27BFBB2400CE77C2 /* Products */,
 				AA37C2998225B00E3AB238F9 /* Pods */,
 				2558BCBD1D245401684A52BF /* Frameworks */,
@@ -359,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				2CF231AE27BFBB2400CE77C2 /* TinkoffChat.app */,
+				2CAE2010282E987C00DDB1EF /* TinkoffChatTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -401,6 +431,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2CAE200F282E987C00DDB1EF /* TinkoffChatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2CAE2018282E987C00DDB1EF /* Build configuration list for PBXNativeTarget "TinkoffChatTests" */;
+			buildPhases = (
+				2CAE200C282E987C00DDB1EF /* Sources */,
+				2CAE200D282E987C00DDB1EF /* Frameworks */,
+				2CAE200E282E987C00DDB1EF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2CAE2015282E987C00DDB1EF /* PBXTargetDependency */,
+			);
+			name = TinkoffChatTests;
+			productName = TinkoffChatTests;
+			productReference = 2CAE2010282E987C00DDB1EF /* TinkoffChatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		2CF231AD27BFBB2400CE77C2 /* TinkoffChat */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2CF231C227BFBB2600CE77C2 /* Build configuration list for PBXNativeTarget "TinkoffChat" */;
@@ -428,9 +476,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1320;
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
+					2CAE200F282E987C00DDB1EF = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = 2CF231AD27BFBB2400CE77C2;
+					};
 					2CF231AD27BFBB2400CE77C2 = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
@@ -450,11 +502,19 @@
 			projectRoot = "";
 			targets = (
 				2CF231AD27BFBB2400CE77C2 /* TinkoffChat */,
+				2CAE200F282E987C00DDB1EF /* TinkoffChatTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2CAE200E282E987C00DDB1EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2CF231AC27BFBB2400CE77C2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -536,6 +596,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2CAE200C282E987C00DDB1EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CAE2013282E987C00DDB1EF /* TinkoffChatTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2CF231AA27BFBB2400CE77C2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -594,6 +662,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2CAE2015282E987C00DDB1EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2CF231AD27BFBB2400CE77C2 /* TinkoffChat */;
+			targetProxy = 2CAE2014282E987C00DDB1EF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		2CF231B727BFBB2400CE77C2 /* MyProfileViewController.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -614,6 +690,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2CAE2016282E987C00DDB1EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B66N983M7Q;
+				FRAMEWORK_SEARCH_PATHS = "${SRCROOT}/Pods/Firebase/CoreOnly/Sources";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/Pods/Firebase/CoreOnly/Sources";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.tinkoff.TinkoffChatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TinkoffChat.app/TinkoffChat";
+			};
+			name = Debug;
+		};
+		2CAE2017282E987C00DDB1EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B66N983M7Q;
+				FRAMEWORK_SEARCH_PATHS = "${SRCROOT}/Pods/Firebase/CoreOnly/Sources";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/Pods/Firebase/CoreOnly/Sources";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.tinkoff.TinkoffChatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TinkoffChat.app/TinkoffChat";
+			};
+			name = Release;
+		};
 		2CF231C027BFBB2600CE77C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -799,6 +917,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2CAE2018282E987C00DDB1EF /* Build configuration list for PBXNativeTarget "TinkoffChatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CAE2016282E987C00DDB1EF /* Debug */,
+				2CAE2017282E987C00DDB1EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2CF231A927BFBB2400CE77C2 /* Build configuration list for PBXProject "TinkoffChat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
