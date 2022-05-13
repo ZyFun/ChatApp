@@ -49,7 +49,7 @@ final class MyProfileViewController: UIViewController {
         avatarTextManager = AvatarTextManager()
         imagePickerController = ImagePickerProfileManager()
         themeManager = ThemeManager.shared
-        profileManager = ProfileManager()
+        profileManager = ProfileManager(profileService: ProfileService())
         customAnimation = CustomAnimation()
         super.init(coder: coder)
     }

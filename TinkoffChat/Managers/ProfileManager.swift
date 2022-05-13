@@ -22,8 +22,8 @@ final class ProfileManager: ProfileManagerProtocol {
     private let profileService: ProfileServiceProtocol
     private var profile: Profile?
     
-    init() {
-        profileService = ProfileService()
+    init(profileService: ProfileServiceProtocol) {
+        self.profileService = profileService
     }
     
     func saveProfile(
