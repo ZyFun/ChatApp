@@ -19,6 +19,9 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9cl-U9-M7N">
                                 <rect key="frame" x="87" y="147" width="240" height="240"/>
+                                <accessibility key="accessibilityConfiguration" identifier="profileImageView">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="9cl-U9-M7N" secondAttribute="height" multiplier="1:1" id="n8e-MF-MNe"/>
                                 </constraints>
@@ -31,6 +34,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lI1-aM-knx">
                                 <rect key="frame" x="304" y="372" width="30" height="32"/>
+                                <accessibility key="accessibilityConfiguration" identifier="editPhotoButton"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Edit"/>
@@ -75,6 +79,7 @@
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Введите ФИО" textAlignment="center" minimumFontSize="24" translatesAutoresizingMaskIntoConstraints="NO" id="iRD-6r-2sD">
                                 <rect key="frame" x="126.5" y="418" width="161" height="30.5"/>
+                                <accessibility key="accessibilityConfiguration" identifier="userNameTF"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
@@ -86,11 +91,13 @@
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Введите информацию о себе" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PaX-H3-Mgu">
                                 <rect key="frame" x="78" y="478.5" width="258" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="descriptionTF"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Oy-5M-w1y">
                                 <rect key="frame" x="56" y="736" width="302" height="40"/>
+                                <accessibility key="accessibilityConfiguration" identifier="cancelButton"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="G95-vn-uwd"/>
                                 </constraints>
@@ -103,6 +110,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ftQ-bc-bGE" userLabel="Edit Button">
                                 <rect key="frame" x="56" y="792" width="302" height="40"/>
+                                <accessibility key="accessibilityConfiguration" identifier="editButton"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="n8y-Yh-RCT"/>
                                 </constraints>
@@ -118,6 +126,7 @@
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Bo-r9-inQ">
                                 <rect key="frame" x="56" y="792" width="302" height="40"/>
+                                <accessibility key="accessibilityConfiguration" identifier="saveButton"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="kA2-QW-DSB"/>
                                 </constraints>
