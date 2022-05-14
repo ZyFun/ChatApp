@@ -13,21 +13,45 @@ class ProfileManagerTests: XCTestCase {
     // потому что swiftlint не даёт оставить их пустыми
     // но они мне здесь не нужны в данных тестах
     
-    private let profileManagerMock = ProfileServiceMock()
+    private var profileManagerMock: ProfileServiceMock!
     
-    func testFetchProfileDataCalled() {
+    override func setUp() {
+        super.setUp()
+        profileManagerMock = ProfileServiceMock()
+    }
+    
+    func testFetchProfileDataCalledAndProfileNotNil() {
         let profileManager = build()
+        var profileData: Profile?
+        // не  уверен что вообще правильно написал.
+        // Я хочу проверить, возвращается ли вообще профиль и не пустой ли он
+        // и возвращаю профиль без ошибок
+        profileManagerMock.stubbedFetchProfileDataCompletionResult = (
+            Result(
+                catching: {
+                    do {
+                        return Profile(
+                            name: "Test",
+                            description: nil,
+                            image: nil
+                        )
+                    }
+                }
+            ),
+            ()
+        )
         
         profileManager.loadProfile { result in
             switch result {
             case .success(let profile):
-                _ = profile
+                profileData = profile
             case .failure(let error):
                 _ = error
             }
         }
         
         XCTAssertTrue(profileManagerMock.invokedFetchProfileData)
+        XCTAssertNotNil(profileData)
     }
     
     func testSaveProfileDataCalledEndSavedParameters() {
