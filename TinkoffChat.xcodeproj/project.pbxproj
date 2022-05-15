@@ -136,6 +136,8 @@
 		2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCoreDataService.swift; sourceTree = "<group>"; };
 		2CE58AB327F067960087B3D9 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		2CE58AB527F06E590087B3D9 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		2CE81D5628313081001144A6 /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
+		2CE81D5728313091001144A6 /* UITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UITests.xctestplan; sourceTree = "<group>"; };
 		2CEA6AF127D36F360028DF67 /* Date+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateFormatter.swift"; sourceTree = "<group>"; };
 		2CEA6AF427D3ADCE0028DF67 /* ChannelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMock.swift; sourceTree = "<group>"; };
 		2CEBC52327F3287D0025DB1A /* NotificationKeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationKeyboardObserver.swift; sourceTree = "<group>"; };
@@ -363,6 +365,15 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
+		2CE81D5528313020001144A6 /* TestPlans */ = {
+			isa = PBXGroup;
+			children = (
+				2CE81D5628313081001144A6 /* UnitTests.xctestplan */,
+				2CE81D5728313091001144A6 /* UITests.xctestplan */,
+			);
+			path = TestPlans;
+			sourceTree = "<group>";
+		};
 		2CEA6AF027D36F080028DF67 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -439,6 +450,7 @@
 				2CF231B027BFBB2400CE77C2 /* TinkoffChat */,
 				2CAE2011282E987C00DDB1EF /* TinkoffChatTests */,
 				2C9F5E1F283003E200BEBE15 /* TinkoffChatUITests */,
+				2CE81D5528313020001144A6 /* TestPlans */,
 				2CF231AF27BFBB2400CE77C2 /* Products */,
 				AA37C2998225B00E3AB238F9 /* Pods */,
 				2558BCBD1D245401684A52BF /* Frameworks */,
@@ -645,7 +657,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		981278CC4A6DF3FF2D8F4B06 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

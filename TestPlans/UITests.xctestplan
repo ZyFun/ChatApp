@@ -1,0 +1,26 @@
+{
+  "configurations" : [
+    {
+      "id" : "47F1481B-128E-4235-A6AA-FAF8CB6C0330",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true,
+    "uiTestingScreenshotsLifetime" : "keepNever"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:TinkoffChat.xcodeproj",
+        "identifier" : "2C9F5E1D283003E200BEBE15",
+        "name" : "TinkoffChatUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

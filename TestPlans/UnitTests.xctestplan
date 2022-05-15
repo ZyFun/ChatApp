@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "5E13B23A-107C-40FF-B2A5-64667A9CCFF2",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:TinkoffChat.xcodeproj",
+      "identifier" : "2CF231AD27BFBB2400CE77C2",
+      "name" : "TinkoffChat"
+    },
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true,
+    "uiTestingScreenshotsLifetime" : "keepNever"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:TinkoffChat.xcodeproj",
+        "identifier" : "2CAE200F282E987C00DDB1EF",
+        "name" : "TinkoffChatTests"
+      }
+    }
+  ],
+  "version" : 1
+}
