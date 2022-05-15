@@ -21,7 +21,7 @@ final class ChannelViewController: UIViewController {
     private let chatCoreDataService: ChatCoreDataServiceProtocol
     private let messageManager: MessageManagerProtocol
     private var resultManager: ChannelFetchedResultsManagerProtocol
-    private var dataSourceManager: ChannelDataSourceManagerProtocol?
+    private var dataSourceManager: ChannelDataSourceManagerProtocol
     
     // MARK: - IB Outlets
     
@@ -45,6 +45,9 @@ final class ChannelViewController: UIViewController {
         observerKeyboard = NotificationKeyboardObserver()
         messageManager = MessageManager()
         themeManager = ThemeManager.shared
+        dataSourceManager = ChannelDataSourceManager(
+            resultManager: resultManager
+        )
         super.init(
             nibName: String(describing: ChannelViewController.self),
             bundle: nil
@@ -62,17 +65,7 @@ final class ChannelViewController: UIViewController {
         
         setup()
         
-        // TODO: ([16.0472022]) Я не понимаю как сделать инит аналогично остальным сервисам :(
-        // не могу понять, как datasource назначить без инита таблицы, при ините класса менеджера,
-        // и при передаче текущей таблицы, уже не ей управляются методы datasorce
-        // Аналогично и с резалт контроллером, пришлось инитить его при ините текущего класса
-        // чтобы сразу передать этот параметр и сделать его делегатом.
-        dataSourceManager = ChannelDataSourceManager(
-            resultManager: resultManager,
-            tableView: channelTableView
-        )
-        
-        dataSourceManager?.mySenderId = mySenderId
+        dataSourceManager.mySenderId = mySenderId
         
         activityIndicator.startAnimating()
         messageManager.loadMessagesFromFirebase(
@@ -166,6 +159,7 @@ private extension ChannelViewController {
         // TODO: ([12.04.2022]) Найти решение, как развернуть направление скролла по тапу или сделать свои кнопки
         // в идеале, сделать подъем на 1 экран, а не листать до конца.
         channelTableView.scrollsToTop = false
+        channelTableView.dataSource = dataSourceManager as? UITableViewDataSource
         
         registerCell()
     }

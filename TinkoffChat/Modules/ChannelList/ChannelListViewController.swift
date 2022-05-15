@@ -74,7 +74,6 @@ final class ChannelListViewController: UIViewController {
         }
 
         dataSourceManager = ChannelListDataSourceManager(
-            tableView: tableView,
             resultManager: resultManager,
             channelListManager: channelListManager
         )
@@ -256,6 +255,8 @@ private extension ChannelListViewController {
     func setupTableView() {
         setupXibs()
         tableView.separatorColor = themeManager.appColorLoadFor(.separator)
+        tableView.dataSource = dataSourceManager as? UITableViewDataSource
+        tableView.delegate = dataSourceManager as? UITableViewDelegate
     }
     
     /// Инициализация Xibs

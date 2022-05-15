@@ -8,14 +8,12 @@
 import UIKit
 
 protocol ChannelListDataSourceManagerProtocol {
-    var tableView: UITableView { get set }
     var resultManager: ChannelListFetchedResultsManagerProtocol { get set }
     var channelListViewControllerDelegate: ChannelListViewControllerDelegate? { get set }
 }
 
 final class ChannelListDataSourceManager: NSObject, ChannelListDataSourceManagerProtocol {
     private let channelListManager: ChannelListManagerProtocol
-    var tableView: UITableView
     var resultManager: ChannelListFetchedResultsManagerProtocol
     
     weak var channelListViewControllerDelegate: ChannelListViewControllerDelegate?
@@ -23,17 +21,11 @@ final class ChannelListDataSourceManager: NSObject, ChannelListDataSourceManager
     // MARK: - Initializer
     
     init (
-        tableView: UITableView,
         resultManager: ChannelListFetchedResultsManagerProtocol,
         channelListManager: ChannelListManagerProtocol
     ) {
-        self.tableView = tableView
         self.resultManager = resultManager
         self.channelListManager = channelListManager
-        
-        super.init()
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
     }
 }
 

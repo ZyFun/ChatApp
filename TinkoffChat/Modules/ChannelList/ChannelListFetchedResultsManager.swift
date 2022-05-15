@@ -15,7 +15,7 @@ protocol ChannelListFetchedResultsManagerProtocol {
 }
 
 final class ChannelListFetchedResultsManager: NSObject, ChannelListFetchedResultsManagerProtocol {
-    var tableView: UITableView?
+    weak var tableView: UITableView?
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
     var isAppear = true
     

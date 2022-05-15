@@ -8,28 +8,22 @@
 import UIKit
 
 protocol ChannelDataSourceManagerProtocol {
-    var tableView: UITableView { get set }
     var resultManager: ChannelFetchedResultsManagerProtocol { get set }
     var mySenderId: String? { get set }
 }
 
 final class ChannelDataSourceManager: NSObject, ChannelDataSourceManagerProtocol {
     let imageLoadingManager: ImageLoadingManagerProtocol
-    var tableView: UITableView
     var resultManager: ChannelFetchedResultsManagerProtocol
     var mySenderId: String?
     
     // MARK: - Initializer
     
     init(
-        resultManager: ChannelFetchedResultsManagerProtocol,
-        tableView: UITableView
+        resultManager: ChannelFetchedResultsManagerProtocol
     ) {
         imageLoadingManager = ImageLoadingManager()
         self.resultManager = resultManager
-        self.tableView = tableView
-        super.init()
-        tableView.dataSource = self
     }
 }
 

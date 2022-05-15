@@ -15,7 +15,7 @@ protocol ChannelFetchedResultsManagerProtocol {
 }
 
 final class ChannelFetchedResultsManager: NSObject, NSFetchedResultsControllerDelegate, ChannelFetchedResultsManagerProtocol {
-    var tableView: UITableView?
+    weak var tableView: UITableView?
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
     var mySenderId: String?
     
