@@ -275,18 +275,6 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		2C5C8C2427DF7B6000AE48F6 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				2CF205C02815C283003994DD /* NetworkService */,
-				2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */,
-				2CE58AB327F067960087B3D9 /* FirestoreService.swift */,
-				2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */,
-				2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		2C8762452812909400B93C99 /* Imagelibrary */ = {
 			isa = PBXGroup;
 			children = (
@@ -363,6 +351,34 @@
 				2CB83159282EBD2E00D2AAF7 /* ProfileServiceMock.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		2CB83B4D2832A22500D8A983 /* PresentationLayer */ = {
+			isa = PBXGroup;
+			children = (
+				2CF17642280D709D00680134 /* Managers */,
+				2C3D0C3627D8CA9A00BA9CA6 /* Modules */,
+			);
+			path = PresentationLayer;
+			sourceTree = "<group>";
+		};
+		2CB83B4E2832A26D00D8A983 /* ServicesLayer */ = {
+			isa = PBXGroup;
+			children = (
+				2CF205C02815C283003994DD /* NetworkService */,
+				2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */,
+				2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */,
+			);
+			path = ServicesLayer;
+			sourceTree = "<group>";
+		};
+		2CB83B4F2832A28E00D8A983 /* CoreLayer */ = {
+			isa = PBXGroup;
+			children = (
+				2CE58AB327F067960087B3D9 /* FirestoreService.swift */,
+				2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */,
+			);
+			path = CoreLayer;
 			sourceTree = "<group>";
 		};
 		2CE81D5528313020001144A6 /* TestPlans */ = {
@@ -475,9 +491,9 @@
 				2C3D0C3527D8CA8D00BA9CA6 /* Default */,
 				2C5C8C2127DF673000AE48F6 /* Common */,
 				2CEA6AF327D3AD9E0028DF67 /* Models */,
-				2C5C8C2427DF7B6000AE48F6 /* Services */,
-				2CF17642280D709D00680134 /* Managers */,
-				2C3D0C3627D8CA9A00BA9CA6 /* Modules */,
+				2CB83B4F2832A28E00D8A983 /* CoreLayer */,
+				2CB83B4E2832A26D00D8A983 /* ServicesLayer */,
+				2CB83B4D2832A22500D8A983 /* PresentationLayer */,
 				2CF231C827BFFFA000CE77C2 /* Supports */,
 				2CEA6AF027D36F080028DF67 /* Extensions */,
 			);
