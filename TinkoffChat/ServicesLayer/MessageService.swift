@@ -24,8 +24,8 @@ final class MessageService: MessageServiceProtocol {
     private var messages: [Message] = []
     private let chatFirestore: ChatFirestoreProtocol
     
-    init() {
-        chatFirestore = ChatFirestore()
+    init(chatFirestore: ChatFirestoreProtocol) {
+        self.chatFirestore = chatFirestore
     }
     
     func loadMessagesFromFirebase(

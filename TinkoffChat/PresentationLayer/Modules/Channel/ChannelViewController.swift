@@ -43,7 +43,7 @@ final class ChannelViewController: UIViewController {
         self.chatCoreDataService = chatCoreDataService
         self.resultManager = resultManager
         observerKeyboard = NotificationKeyboardObserver()
-        messageService = MessageService()
+        messageService = MessageService(chatFirestore: ChatFirestore())
         themeManager = ThemeManager.shared
         dataSourceManager = ChannelDataSourceManager(
             resultManager: resultManager

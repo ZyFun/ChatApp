@@ -69,6 +69,8 @@
 		2CF231CA27BFFFBF00CE77C2 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF231C927BFFFBF00CE77C2 /* Debug.swift */; };
 		2CF2C65A27D4E575006CA6A6 /* String+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2C65927D4E575006CA6A6 /* String+DateFormatter.swift */; };
 		2CF6BEE8280EFBED00577E68 /* AvatarTextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF6BEE7280EFBED00577E68 /* AvatarTextManager.swift */; };
+		2CFA4D6D28339F1900D891B8 /* ChatFirestoreMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFA4D6C28339F1900D891B8 /* ChatFirestoreMock.swift */; };
+		2CFA4D6F28339FAA00D891B8 /* MessageServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFA4D6E28339FAA00D891B8 /* MessageServiceTests.swift */; };
 		2CFF7B5627EF4B7500055DC6 /* ImagePickerProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFF7B5527EF4B7500055DC6 /* ImagePickerProfileManager.swift */; };
 		7C918B99FB45DF0A9628448B /* Pods_TinkoffChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D9BD881D8A0E0B8AB07E2 /* Pods_TinkoffChat.framework */; };
 /* End PBXBuildFile section */
@@ -160,6 +162,8 @@
 		2CF231C927BFFFBF00CE77C2 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		2CF2C65927D4E575006CA6A6 /* String+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+DateFormatter.swift"; sourceTree = "<group>"; };
 		2CF6BEE7280EFBED00577E68 /* AvatarTextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTextManager.swift; sourceTree = "<group>"; };
+		2CFA4D6C28339F1900D891B8 /* ChatFirestoreMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFirestoreMock.swift; sourceTree = "<group>"; };
+		2CFA4D6E28339FAA00D891B8 /* MessageServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageServiceTests.swift; sourceTree = "<group>"; };
 		2CFF7B5527EF4B7500055DC6 /* ImagePickerProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerProfileManager.swift; sourceTree = "<group>"; };
 		33618E2E3202AD3188E8005E /* Pods-TinkoffChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TinkoffChat.debug.xcconfig"; path = "Target Support Files/Pods-TinkoffChat/Pods-TinkoffChat.debug.xcconfig"; sourceTree = "<group>"; };
 		BFD5CDFB44EFE288EEA05E59 /* Pods-TinkoffChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TinkoffChat.release.xcconfig"; path = "Target Support Files/Pods-TinkoffChat/Pods-TinkoffChat.release.xcconfig"; sourceTree = "<group>"; };
@@ -332,7 +336,7 @@
 			isa = PBXGroup;
 			children = (
 				2CB83158282EBCCB00D2AAF7 /* Mocks */,
-				2CB83155282EB55E00D2AAF7 /* Managers */,
+				2CFA4D7028339FB200D891B8 /* PresentationLayer */,
 			);
 			path = TinkoffChatTests;
 			sourceTree = "<group>";
@@ -349,6 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				2CB83159282EBD2E00D2AAF7 /* ProfileServiceMock.swift */,
+				2CFA4D6C28339F1900D891B8 /* ChatFirestoreMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -507,6 +512,31 @@
 				2CEDDEBE27FC5A1E00EC448B /* Logger.swift */,
 			);
 			path = Supports;
+			sourceTree = "<group>";
+		};
+		2CFA4D7028339FB200D891B8 /* PresentationLayer */ = {
+			isa = PBXGroup;
+			children = (
+				2CB83155282EB55E00D2AAF7 /* Managers */,
+				2CFA4D7128339FC900D891B8 /* Modules */,
+			);
+			path = PresentationLayer;
+			sourceTree = "<group>";
+		};
+		2CFA4D7128339FC900D891B8 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				2CFA4D7228339FD400D891B8 /* Channel */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		2CFA4D7228339FD400D891B8 /* Channel */ = {
+			isa = PBXGroup;
+			children = (
+				2CFA4D6E28339FAA00D891B8 /* MessageServiceTests.swift */,
+			);
+			path = Channel;
 			sourceTree = "<group>";
 		};
 		AA37C2998225B00E3AB238F9 /* Pods */ = {
@@ -730,6 +760,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CB83157282EBA6300D2AAF7 /* ProfileManagerTests.swift in Sources */,
+				2CFA4D6F28339FAA00D891B8 /* MessageServiceTests.swift in Sources */,
+				2CFA4D6D28339F1900D891B8 /* ChatFirestoreMock.swift in Sources */,
 				2CB8315A282EBD2E00D2AAF7 /* ProfileServiceMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
