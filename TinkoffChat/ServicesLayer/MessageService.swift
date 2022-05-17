@@ -1,11 +1,11 @@
 //
-//  MessageManager.swift
+//  MessageService.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 20.04.2022.
 //
 
-protocol MessageManagerProtocol {
+protocol MessageServiceProtocol {
     func loadMessagesFromFirebase(
         for currentChannel: DBChannel?,
         with chatCoreDataService: ChatCoreDataServiceProtocol,
@@ -20,12 +20,12 @@ protocol MessageManagerProtocol {
     )
 }
 
-final class MessageManager: MessageManagerProtocol {
+final class MessageService: MessageServiceProtocol {
     private var messages: [Message] = []
-    private let firebaseService: FirestoreServiceProtocol
+    private let chatFirestore: ChatFirestoreProtocol
     
     init() {
-        firebaseService = FirestoreService()
+        chatFirestore = ChatFirestore()
     }
     
     func loadMessagesFromFirebase(
@@ -38,7 +38,7 @@ final class MessageManager: MessageManagerProtocol {
             return
         }
         
-        firebaseService.fetchMessages(
+        chatFirestore.fetchMessages(
             channelID: channelID
         ) { [weak self] result in
             switch result {
@@ -65,7 +65,7 @@ final class MessageManager: MessageManagerProtocol {
         message: String,
         completion: () -> Void
     ) {
-        firebaseService.sendMessage(
+        chatFirestore.sendMessage(
             channelID: channelID,
             message: message,
             senderID: senderID

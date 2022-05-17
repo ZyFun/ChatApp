@@ -20,7 +20,7 @@ final class ChannelListViewController: UIViewController {
     
     private let themeManager: ThemeManagerProtocol
     private let chatCoreDataService: ChatCoreDataServiceProtocol
-    private let channelListManager: ChannelListManagerProtocol
+    private let channelListService: ChannelListServiceProtocol
     private var resultManager: ChannelListFetchedResultsManagerProtocol?
     private var dataSourceManager: ChannelListDataSourceManagerProtocol?
     private let transition: VCAnimator
@@ -36,7 +36,7 @@ final class ChannelListViewController: UIViewController {
     // MARK: - Initializer
     
     init() {
-        channelListManager = ChannelListManager()
+        channelListService = ChannelListService()
         themeManager = ThemeManager.shared
         chatCoreDataService = ChatCoreDataService()
         transition = VCAnimator()
@@ -75,12 +75,12 @@ final class ChannelListViewController: UIViewController {
 
         dataSourceManager = ChannelListDataSourceManager(
             resultManager: resultManager,
-            channelListManager: channelListManager
+            channelListService: channelListService
         )
         
         setup()
         activityIndicator.startAnimating()
-        channelListManager.loadChannelsFromFirebase(
+        channelListService.loadChannelsFromFirebase(
             with: chatCoreDataService
         ) { [weak self] in
             self?.activityIndicator.stopAnimating()
@@ -285,7 +285,7 @@ private extension ChannelListViewController {
         ) { [weak self] _ in
             guard let channelName = alert.textFields?.first?.text else { return }
             guard !channelName.isEmpty else { return }
-            self?.channelListManager.addNewChannel(name: channelName)
+            self?.channelListService.addNewChannel(name: channelName)
         }
         
         let cancelButton = UIAlertAction(title: "Отмена", style: .destructive)

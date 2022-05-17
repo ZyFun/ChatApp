@@ -1,11 +1,11 @@
 //
-//  ChannelManager.swift
+//  ChannelListService.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 20.04.2022.
 //
 
-protocol ChannelListManagerProtocol {
+protocol ChannelListServiceProtocol {
     func loadChannelsFromFirebase(
         with chatCoreDataService: ChatCoreDataServiceProtocol,
         completion: @escaping () -> Void
@@ -15,19 +15,19 @@ protocol ChannelListManagerProtocol {
     func deleteFromFirebase(_ channel: DBChannel)
 }
 
-class ChannelListManager: ChannelListManagerProtocol {
+class ChannelListService: ChannelListServiceProtocol {
     private var channels: [Channel] = []
-    private let firebaseService: FirestoreServiceProtocol
+    private let chatFirestore: ChatFirestoreProtocol
     
     init() {
-        firebaseService = FirestoreService()
+        chatFirestore = ChatFirestore()
     }
     
     func loadChannelsFromFirebase(
         with chatCoreDataService: ChatCoreDataServiceProtocol,
         completion: @escaping () -> Void
     ) {
-        firebaseService.fetchChannels { [weak self] result in
+        chatFirestore.fetchChannels { [weak self] result in
             switch result {
             case .success(let channels):
                 Logger.info("Данные из Firebase загружены")
@@ -42,11 +42,11 @@ class ChannelListManager: ChannelListManagerProtocol {
     }
     
     func addNewChannel(name: String) {
-        firebaseService.addNewChannel(name: name)
+        chatFirestore.addNewChannel(name: name)
     }
     
     func deleteFromFirebase(_ channel: DBChannel) {
-        firebaseService.deleteChanel(channelID: channel.identifier ?? "")
+        chatFirestore.deleteChanel(channelID: channel.identifier ?? "")
     }
     
     private func saveLoadedChannels(

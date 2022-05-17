@@ -19,7 +19,7 @@ final class ChannelViewController: UIViewController {
     private var observerKeyboard: NotificationKeyboardObserverProtocol
     private let themeManager: ThemeManagerProtocol
     private let chatCoreDataService: ChatCoreDataServiceProtocol
-    private let messageManager: MessageManagerProtocol
+    private let messageService: MessageServiceProtocol
     private var resultManager: ChannelFetchedResultsManagerProtocol
     private var dataSourceManager: ChannelDataSourceManagerProtocol
     
@@ -43,7 +43,7 @@ final class ChannelViewController: UIViewController {
         self.chatCoreDataService = chatCoreDataService
         self.resultManager = resultManager
         observerKeyboard = NotificationKeyboardObserver()
-        messageManager = MessageManager()
+        messageService = MessageService()
         themeManager = ThemeManager.shared
         dataSourceManager = ChannelDataSourceManager(
             resultManager: resultManager
@@ -68,7 +68,7 @@ final class ChannelViewController: UIViewController {
         dataSourceManager.mySenderId = mySenderId
         
         activityIndicator.startAnimating()
-        messageManager.loadMessagesFromFirebase(
+        messageService.loadMessagesFromFirebase(
             for: currentChannel,
             with: chatCoreDataService) { [weak self] in
                 self?.activityIndicator.stopAnimating()
@@ -89,7 +89,7 @@ final class ChannelViewController: UIViewController {
             }
             
             if let mySenderId = self?.mySenderId {
-                self?.messageManager.sendMessage(
+                self?.messageService.sendMessage(
                     channelID: channelID,
                     senderID: mySenderId,
                     message: "Нет поддержки API:\n \(imageURL)"
@@ -114,7 +114,7 @@ final class ChannelViewController: UIViewController {
         }
         
         if let mySenderId = mySenderId {
-            messageManager.sendMessage(
+            messageService.sendMessage(
                 channelID: channelID,
                 senderID: mySenderId,
                 message: messageTextView.text

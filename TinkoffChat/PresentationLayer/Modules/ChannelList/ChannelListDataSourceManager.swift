@@ -13,7 +13,7 @@ protocol ChannelListDataSourceManagerProtocol {
 }
 
 final class ChannelListDataSourceManager: NSObject, ChannelListDataSourceManagerProtocol {
-    private let channelListManager: ChannelListManagerProtocol
+    private let channelListService: ChannelListServiceProtocol
     var resultManager: ChannelListFetchedResultsManagerProtocol
     
     weak var channelListViewControllerDelegate: ChannelListViewControllerDelegate?
@@ -22,10 +22,10 @@ final class ChannelListDataSourceManager: NSObject, ChannelListDataSourceManager
     
     init (
         resultManager: ChannelListFetchedResultsManagerProtocol,
-        channelListManager: ChannelListManagerProtocol
+        channelListService: ChannelListServiceProtocol
     ) {
         self.resultManager = resultManager
-        self.channelListManager = channelListManager
+        self.channelListService = channelListService
     }
 }
 
@@ -95,7 +95,7 @@ extension ChannelListDataSourceManager: UITableViewDelegate {
                 return
             }
             
-            channelListManager.deleteFromFirebase(channel)
+            channelListService.deleteFromFirebase(channel)
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  FirestoreService.swift
+//  ChatFirestore.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 27.03.2022.
@@ -7,7 +7,7 @@
 
 import FirebaseFirestore
 
-protocol FirestoreServiceProtocol {
+protocol ChatFirestoreProtocol {
     func fetchChannels(completion: @escaping (Result<[Channel], Error>) -> Void)
     func addNewChannel(name: String)
     func deleteChanel(channelID: String)
@@ -18,7 +18,7 @@ protocol FirestoreServiceProtocol {
     func sendMessage(channelID: String, message: String, senderID: String)
 }
 
-final class FirestoreService: FirestoreServiceProtocol {    
+final class ChatFirestore: ChatFirestoreProtocol {    
     private lazy var db = Firestore.firestore()
     private lazy var referenceChannels = db.collection("channels")
     
