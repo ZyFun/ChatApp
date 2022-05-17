@@ -371,10 +371,9 @@
 			isa = PBXGroup;
 			children = (
 				2CF205C02815C283003994DD /* NetworkService */,
+				2C15CAB328113D240030A69B /* ProfileManager.swift */,
 				2C446DCF28105CEB00D993C7 /* MessageService.swift */,
 				2C446DD328106EF600D993C7 /* ChannelListService.swift */,
-				2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */,
-				2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */,
 			);
 			path = ServicesLayer;
 			sourceTree = "<group>";
@@ -382,8 +381,10 @@
 		2CB83B4F2832A28E00D8A983 /* CoreLayer */ = {
 			isa = PBXGroup;
 			children = (
+				2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */,
 				2CE58AB327F067960087B3D9 /* ChatFirestore.swift */,
 				2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */,
+				2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */,
 				2CE33CE627F85FE500BA59CE /* Chat.xcdatamodeld */,
 			);
 			path = CoreLayer;
@@ -446,7 +447,6 @@
 				2C5C8C2527DF7B7900AE48F6 /* StorageManager.swift */,
 				2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */,
 				2CF6BEE7280EFBED00577E68 /* AvatarTextManager.swift */,
-				2C15CAB328113D240030A69B /* ProfileManager.swift */,
 				2C56CF652819430A00DEC22C /* ImageLoadingManager.swift */,
 			);
 			path = Managers;
