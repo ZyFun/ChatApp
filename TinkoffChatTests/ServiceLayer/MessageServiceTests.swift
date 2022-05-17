@@ -18,7 +18,7 @@ class MessageServiceTests: XCTestCase {
         chatFirestoreMock = ChatFirestoreMock()
     }
     
-    func testSendingMessage() {
+    func testSendMessageCalledAndSendingMessage() {
         let messageService = build()
         let channelID = "Test channel ID"
         let senderID = "Test sender ID"
