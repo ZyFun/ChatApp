@@ -1,5 +1,5 @@
 //
-//  ProfileService.swift
+//  ProfileFileManager.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 20.03.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ProfileServiceProtocol {
+protocol ProfileFileManagerProtocol {
     func saveProfileData(
         name: String?,
         description: String?,
@@ -20,7 +20,7 @@ protocol ProfileServiceProtocol {
     )
 }
 
-final class ProfileService: ProfileServiceProtocol {
+final class ProfileFileManager: ProfileFileManagerProtocol {
     private var documentDirectory = FileManager.default.urls(
         for: .documentDirectory,
         in: .userDomainMask

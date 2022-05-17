@@ -1,5 +1,5 @@
 //
-//  ProfileManager.swift
+//  ProfileService.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 21.04.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ProfileManagerProtocol {
+protocol ProfileServiceProtocol {
     func saveProfile(
         name: String?,
         description: String?,
@@ -18,12 +18,12 @@ protocol ProfileManagerProtocol {
     func loadProfile(completion: @escaping (Result<Profile?, Error>) -> Void)
 }
 
-final class ProfileManager: ProfileManagerProtocol {
-    private let profileService: ProfileServiceProtocol
+final class ProfileService: ProfileServiceProtocol {
+    private let profileFileManager: ProfileFileManagerProtocol
     private var profile: Profile?
     
-    init(profileService: ProfileServiceProtocol) {
-        self.profileService = profileService
+    init(profileFileManager: ProfileFileManagerProtocol) {
+        self.profileFileManager = profileFileManager
     }
     
     func saveProfile(
@@ -32,7 +32,7 @@ final class ProfileManager: ProfileManagerProtocol {
         imageData: Data?,
         completion: @escaping (Result<Profile?, Error>) -> Void
     ) {
-        profileService.saveProfileData(
+        profileFileManager.saveProfileData(
             name: name,
             description: description,
             imageData: imageData
@@ -52,15 +52,13 @@ final class ProfileManager: ProfileManagerProtocol {
     }
     
     func loadProfile(completion: @escaping (Result<Profile?, Error>) -> Void) {
-        profileService.fetchProfileData { [weak self] result in
+        profileFileManager.fetchProfileData { [weak self] result in
             switch result {
             case .success(let savedProfile):
                 self?.profile = savedProfile
                 completion(.success(self?.profile))
             case .failure(let error):
                 completion(.failure(error))
-                printDebug("Что то пошло не так: \(error)")
-                // TODO: ([21.03.2022]) Нужен будет алерт о том, что данные не получены
             }
         }
     }

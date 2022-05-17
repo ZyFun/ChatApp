@@ -39,7 +39,7 @@ final class MyProfileViewController: UIViewController {
     private let avatarTextManager: AvatarTextManagerProtocol
     private var imagePickerController: ImagePickerProfileManagerProtocol
     private let themeManager: ThemeManagerProtocol
-    private let profileManager: ProfileManagerProtocol
+    private let profileService: ProfileServiceProtocol
     private let customAnimation: CustomAnimationProtocol
     
     // MARK: - Initializer
@@ -49,7 +49,7 @@ final class MyProfileViewController: UIViewController {
         avatarTextManager = AvatarTextManager()
         imagePickerController = ImagePickerProfileManager()
         themeManager = ThemeManager.shared
-        profileManager = ProfileManager(profileService: ProfileService())
+        profileService = ProfileService(profileFileManager: ProfileFileManager())
         customAnimation = CustomAnimation()
         super.init(coder: coder)
     }
@@ -148,7 +148,7 @@ private extension MyProfileViewController {
     
     func saveProfile() {
         activityIndicator.startAnimating()
-        profileManager.saveProfile(
+        profileService.saveProfile(
             name: userNameTextField.text,
             description: descriptionTextField.text,
             imageData: profileImageView.image?.pngData()
@@ -171,7 +171,7 @@ private extension MyProfileViewController {
     
     func loadProfile() {
         activityIndicator.startAnimating()
-        profileManager.loadProfile { [weak self] result in
+        profileService.loadProfile { [weak self] result in
             switch result {
             case .success(let savedProfile):
                 self?.profile = savedProfile

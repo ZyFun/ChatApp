@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C13C6EA27E60A6100955499 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C13C6E927E60A6100955499 /* ProfileModel.swift */; };
-		2C15CAB428113D240030A69B /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C15CAB328113D240030A69B /* ProfileManager.swift */; };
+		2C15CAB428113D240030A69B /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C15CAB328113D240030A69B /* ProfileService.swift */; };
 		2C2B246527FB55F9008075C3 /* OldChatCoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */; };
 		2C315EE0281AD77B00687369 /* Pixabay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C315EDF281AD77B00687369 /* Pixabay.swift */; };
 		2C315EE2281AD81400687369 /* RequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C315EE1281AD81400687369 /* RequestFactory.swift */; };
@@ -28,7 +28,7 @@
 		2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */; };
 		2C6E4B6528156CFD0065C2AD /* RequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6E4B6428156CFD0065C2AD /* RequestService.swift */; };
 		2C7B1A8E281D625A0080787D /* CustomAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7B1A8D281D625A0080787D /* CustomAnimation.swift */; };
-		2C7D10F027E73ADA00035DF5 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */; };
+		2C7D10F027E73ADA00035DF5 /* ProfileFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D10EF27E73ADA00035DF5 /* ProfileFileManager.swift */; };
 		2C8762482812916D00B93C99 /* LoadedImageLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8762462812916D00B93C99 /* LoadedImageLibraryViewController.swift */; };
 		2C8762492812916D00B93C99 /* LoadedImageLibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C8762472812916D00B93C99 /* LoadedImageLibraryViewController.xib */; };
 		2C87624D2812934900B93C99 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87624B2812934900B93C99 /* ImageCell.swift */; };
@@ -40,8 +40,8 @@
 		2CA9A10427FE962E00B99C5B /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9A10327FE962E00B99C5B /* MessageCell.swift */; };
 		2CA9BC26280C422D00C0CBB4 /* ChannelListFetchedResultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9BC25280C422D00C0CBB4 /* ChannelListFetchedResultsManager.swift */; };
 		2CA9BC28280C64F700C0CBB4 /* ChannelListDataSourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9BC27280C64F700C0CBB4 /* ChannelListDataSourceManager.swift */; };
-		2CB83157282EBA6300D2AAF7 /* ProfileManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB83156282EBA6300D2AAF7 /* ProfileManagerTests.swift */; };
-		2CB8315A282EBD2E00D2AAF7 /* ProfileServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB83159282EBD2E00D2AAF7 /* ProfileServiceMock.swift */; };
+		2CB83157282EBA6300D2AAF7 /* ProfileFileManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB83156282EBA6300D2AAF7 /* ProfileFileManagerTests.swift */; };
+		2CB8315A282EBD2E00D2AAF7 /* ProfileFileManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB83159282EBD2E00D2AAF7 /* ProfileFileManagerMock.swift */; };
 		2CC5629428184DC400A1BC46 /* LoadedImageLibraryDatasourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC5629328184DC400A1BC46 /* LoadedImageLibraryDatasourceProvider.swift */; };
 		2CCA2B122808B6AE007CF597 /* ChannelFetchedResultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCA2B112808B6AE007CF597 /* ChannelFetchedResultsManager.swift */; };
 		2CD8C0092821562B00D5FE96 /* VCAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD8C0082821562B00D5FE96 /* VCAnimator.swift */; };
@@ -94,7 +94,7 @@
 
 /* Begin PBXFileReference section */
 		2C13C6E927E60A6100955499 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
-		2C15CAB328113D240030A69B /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
+		2C15CAB328113D240030A69B /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldChatCoreDataService.swift; sourceTree = "<group>"; };
 		2C315EDF281AD77B00687369 /* Pixabay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixabay.swift; sourceTree = "<group>"; };
 		2C315EE1281AD81400687369 /* RequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFactory.swift; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 		2C5C8C2927DF8F1000AE48F6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		2C6E4B6428156CFD0065C2AD /* RequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestService.swift; sourceTree = "<group>"; };
 		2C7B1A8D281D625A0080787D /* CustomAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimation.swift; sourceTree = "<group>"; };
-		2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		2C7D10EF27E73ADA00035DF5 /* ProfileFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFileManager.swift; sourceTree = "<group>"; };
 		2C8762462812916D00B93C99 /* LoadedImageLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadedImageLibraryViewController.swift; sourceTree = "<group>"; };
 		2C8762472812916D00B93C99 /* LoadedImageLibraryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadedImageLibraryViewController.xib; sourceTree = "<group>"; };
 		2C87624B2812934900B93C99 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
@@ -129,8 +129,8 @@
 		2CA9BC25280C422D00C0CBB4 /* ChannelListFetchedResultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListFetchedResultsManager.swift; sourceTree = "<group>"; };
 		2CA9BC27280C64F700C0CBB4 /* ChannelListDataSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListDataSourceManager.swift; sourceTree = "<group>"; };
 		2CAE2010282E987C00DDB1EF /* TinkoffChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TinkoffChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2CB83156282EBA6300D2AAF7 /* ProfileManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManagerTests.swift; sourceTree = "<group>"; };
-		2CB83159282EBD2E00D2AAF7 /* ProfileServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceMock.swift; sourceTree = "<group>"; };
+		2CB83156282EBA6300D2AAF7 /* ProfileFileManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFileManagerTests.swift; sourceTree = "<group>"; };
+		2CB83159282EBD2E00D2AAF7 /* ProfileFileManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFileManagerMock.swift; sourceTree = "<group>"; };
 		2CC5629328184DC400A1BC46 /* LoadedImageLibraryDatasourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadedImageLibraryDatasourceProvider.swift; sourceTree = "<group>"; };
 		2CCA2B112808B6AE007CF597 /* ChannelFetchedResultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelFetchedResultsManager.swift; sourceTree = "<group>"; };
 		2CD8C0082821562B00D5FE96 /* VCAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCAnimator.swift; sourceTree = "<group>"; };
@@ -336,23 +336,15 @@
 			isa = PBXGroup;
 			children = (
 				2CB83158282EBCCB00D2AAF7 /* Mocks */,
-				2CFA4D7028339FB200D891B8 /* PresentationLayer */,
+				2CFA4D7028339FB200D891B8 /* ServiceLayer */,
 			);
 			path = TinkoffChatTests;
-			sourceTree = "<group>";
-		};
-		2CB83155282EB55E00D2AAF7 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				2CB83156282EBA6300D2AAF7 /* ProfileManagerTests.swift */,
-			);
-			path = Managers;
 			sourceTree = "<group>";
 		};
 		2CB83158282EBCCB00D2AAF7 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				2CB83159282EBD2E00D2AAF7 /* ProfileServiceMock.swift */,
+				2CB83159282EBD2E00D2AAF7 /* ProfileFileManagerMock.swift */,
 				2CFA4D6C28339F1900D891B8 /* ChatFirestoreMock.swift */,
 			);
 			path = Mocks;
@@ -371,7 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				2CF205C02815C283003994DD /* NetworkService */,
-				2C15CAB328113D240030A69B /* ProfileManager.swift */,
+				2C15CAB328113D240030A69B /* ProfileService.swift */,
 				2C446DCF28105CEB00D993C7 /* MessageService.swift */,
 				2C446DD328106EF600D993C7 /* ChannelListService.swift */,
 			);
@@ -381,7 +373,7 @@
 		2CB83B4F2832A28E00D8A983 /* CoreLayer */ = {
 			isa = PBXGroup;
 			children = (
-				2C7D10EF27E73ADA00035DF5 /* ProfileService.swift */,
+				2C7D10EF27E73ADA00035DF5 /* ProfileFileManager.swift */,
 				2CE58AB327F067960087B3D9 /* ChatFirestore.swift */,
 				2CE33CE927F863C200BA59CE /* ChatCoreDataService.swift */,
 				2C2B246427FB55F9008075C3 /* OldChatCoreDataService.swift */,
@@ -514,29 +506,13 @@
 			path = Supports;
 			sourceTree = "<group>";
 		};
-		2CFA4D7028339FB200D891B8 /* PresentationLayer */ = {
+		2CFA4D7028339FB200D891B8 /* ServiceLayer */ = {
 			isa = PBXGroup;
 			children = (
-				2CB83155282EB55E00D2AAF7 /* Managers */,
-				2CFA4D7128339FC900D891B8 /* Modules */,
-			);
-			path = PresentationLayer;
-			sourceTree = "<group>";
-		};
-		2CFA4D7128339FC900D891B8 /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-				2CFA4D7228339FD400D891B8 /* Channel */,
-			);
-			path = Modules;
-			sourceTree = "<group>";
-		};
-		2CFA4D7228339FD400D891B8 /* Channel */ = {
-			isa = PBXGroup;
-			children = (
+				2CB83156282EBA6300D2AAF7 /* ProfileFileManagerTests.swift */,
 				2CFA4D6E28339FAA00D891B8 /* MessageServiceTests.swift */,
 			);
-			path = Channel;
+			path = ServiceLayer;
 			sourceTree = "<group>";
 		};
 		AA37C2998225B00E3AB238F9 /* Pods */ = {
@@ -759,10 +735,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CB83157282EBA6300D2AAF7 /* ProfileManagerTests.swift in Sources */,
+				2CB83157282EBA6300D2AAF7 /* ProfileFileManagerTests.swift in Sources */,
 				2CFA4D6F28339FAA00D891B8 /* MessageServiceTests.swift in Sources */,
 				2CFA4D6D28339F1900D891B8 /* ChatFirestoreMock.swift in Sources */,
-				2CB8315A282EBD2E00D2AAF7 /* ProfileServiceMock.swift in Sources */,
+				2CB8315A282EBD2E00D2AAF7 /* ProfileFileManagerMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -785,7 +761,7 @@
 				2CEBE05627D23547005CBCB0 /* ChannelCell.swift in Sources */,
 				2C315EE0281AD77B00687369 /* Pixabay.swift in Sources */,
 				2CEFE84C2819BF110067C6A4 /* String+SearchingLink.swift in Sources */,
-				2C15CAB428113D240030A69B /* ProfileManager.swift in Sources */,
+				2C15CAB428113D240030A69B /* ProfileService.swift in Sources */,
 				2CEDDEBF27FC5A1E00EC448B /* Logger.swift in Sources */,
 				2CF231B627BFBB2400CE77C2 /* MyProfileViewController.swift in Sources */,
 				2C5449FC27EDFB2700C209C8 /* Message.swift in Sources */,
@@ -799,7 +775,7 @@
 				2C5C8C2827DF8A9600AE48F6 /* FirstStartAppManager.swift in Sources */,
 				2CE33CE827F85FE500BA59CE /* Chat.xcdatamodeld in Sources */,
 				2CEBE04D27D2225F005CBCB0 /* ChannelListViewController.swift in Sources */,
-				2C7D10F027E73ADA00035DF5 /* ProfileService.swift in Sources */,
+				2C7D10F027E73ADA00035DF5 /* ProfileFileManager.swift in Sources */,
 				2C13C6EA27E60A6100955499 /* ProfileModel.swift in Sources */,
 				2C3CFCA927D65033005436A3 /* MessageMock.swift in Sources */,
 				2C5C8C2A27DF8F1000AE48F6 /* ThemeManager.swift in Sources */,

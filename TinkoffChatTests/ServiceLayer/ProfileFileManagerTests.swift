@@ -1,5 +1,5 @@
 //
-//  ProfileManagerTests.swift
+//  ProfileFileManagerTests.swift
 //  TinkoffChatTests
 //
 //  Created by Дмитрий Данилин on 13.05.2022.
@@ -8,16 +8,16 @@
 import XCTest
 @testable import TinkoffChat
 
-class ProfileManagerTests: XCTestCase {
+class ProfileFileManagerTests: XCTestCase {
     // Опять пришлось создавать константы в switch result,
     // потому что swiftlint не даёт оставить их пустыми
     // но они мне здесь не нужны в данных тестах
     
-    private var profileManagerMock: ProfileServiceMock!
+    private var profileFileManagerMock: ProfileFileManagerMock!
     
     override func setUp() {
         super.setUp()
-        profileManagerMock = ProfileServiceMock()
+        profileFileManagerMock = ProfileFileManagerMock()
     }
     
     func testFetchProfileDataCalledAndProfileNotNil() {
@@ -26,7 +26,7 @@ class ProfileManagerTests: XCTestCase {
         // не  уверен что вообще правильно написал.
         // Я хочу проверить, возвращается ли вообще профиль и не пустой ли он
         // и возвращаю профиль без ошибок
-        profileManagerMock.stubbedFetchProfileDataCompletionResult = (
+        profileFileManagerMock.stubbedFetchProfileDataCompletionResult = (
             Result(
                 catching: {
                     do {
@@ -50,7 +50,7 @@ class ProfileManagerTests: XCTestCase {
             }
         }
         
-        XCTAssertTrue(profileManagerMock.invokedFetchProfileData)
+        XCTAssertTrue(profileFileManagerMock.invokedFetchProfileData)
         XCTAssertNotNil(profileData)
     }
     
@@ -73,24 +73,24 @@ class ProfileManagerTests: XCTestCase {
             }
         }
         
-        XCTAssertTrue(profileManagerMock.invokedSaveProfileData)
+        XCTAssertTrue(profileFileManagerMock.invokedSaveProfileData)
         XCTAssertEqual(
-            profileManagerMock.invokedSaveProfileDataParameters?.name,
+            profileFileManagerMock.invokedSaveProfileDataParameters?.name,
             name
         )
         XCTAssertEqual(
-            profileManagerMock.invokedSaveProfileDataParameters?.description,
+            profileFileManagerMock.invokedSaveProfileDataParameters?.description,
             description
         )
         XCTAssertEqual(
-            profileManagerMock.invokedSaveProfileDataParameters?.imageData,
+            profileFileManagerMock.invokedSaveProfileDataParameters?.imageData,
             imageData
         )
     }
     
-    private func build() -> ProfileManager {
-        return ProfileManager(
-            profileService: profileManagerMock
+    private func build() -> ProfileService {
+        return ProfileService(
+            profileFileManager: profileFileManagerMock
         )
     }
 }

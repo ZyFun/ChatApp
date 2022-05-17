@@ -1,5 +1,5 @@
 //
-//  ProfileServiceMock.swift
+//  ProfileFileManagerMock.swift
 //  TinkoffChatTests
 //
 //  Created by Дмитрий Данилин on 13.05.2022.
@@ -8,7 +8,7 @@
 import Foundation
 @testable import TinkoffChat
 
-final class ProfileServiceMock: ProfileServiceProtocol {
+final class ProfileFileManagerMock: ProfileFileManagerProtocol {
 
     var invokedSaveProfileData = false
     var invokedSaveProfileDataCount = 0
