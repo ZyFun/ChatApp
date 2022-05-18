@@ -353,7 +353,6 @@
 		2CB83B4D2832A22500D8A983 /* PresentationLayer */ = {
 			isa = PBXGroup;
 			children = (
-				2CF17642280D709D00680134 /* Managers */,
 				2C3D0C3627D8CA9A00BA9CA6 /* Modules */,
 			);
 			path = PresentationLayer;
@@ -362,6 +361,7 @@
 		2CB83B4E2832A26D00D8A983 /* ServicesLayer */ = {
 			isa = PBXGroup;
 			children = (
+				2CF17642280D709D00680134 /* Managers */,
 				2CF205C02815C283003994DD /* NetworkService */,
 				2C15CAB328113D240030A69B /* ProfileService.swift */,
 				2C446DCF28105CEB00D993C7 /* MessageService.swift */,
