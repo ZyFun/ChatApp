@@ -43,7 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 private extension AppDelegate {
     func createAndShowStartVC() {
-        let channelListVC = ChannelListViewController()
+        let presentationAssembly = PresentationAssembly()
+        let channelListVC = presentationAssembly.channelListVC
         
         channelListVC.mySenderID = storageManager.loadUserID()
         

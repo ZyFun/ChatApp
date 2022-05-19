@@ -18,6 +18,7 @@ final class ChannelListViewController: UIViewController {
     
     // MARK: - Private properties
     
+    private let assemblyService = AssemblyService()
     private let themeManager: ThemeManagerProtocol
     private let chatCoreDataService: ChatCoreDataServiceProtocol
     private let channelListService: ChannelListServiceProtocol
@@ -35,8 +36,8 @@ final class ChannelListViewController: UIViewController {
     
     // MARK: - Initializer
     
-    init() {
-        channelListService = ChannelListService()
+    init(channelListService: ChannelListServiceProtocol) {
+        self.channelListService = channelListService
         themeManager = ThemeManager.shared
         chatCoreDataService = ChatCoreDataService()
         transition = VCAnimator()
@@ -314,6 +315,7 @@ extension ChannelListViewController: ChannelListViewControllerDelegate {
         let channel = resultManager?.fetchedResultsController.object(at: indexPath) as? DBChannel
         
         let channelVC = ChannelViewController(
+            messageService: assemblyService.messageService,
             chatCoreDataService: chatCoreDataService,
             resultManager: ChannelFetchedResultsManager(
                 fetchedResultsController: chatCoreDataService.fetchResultController(

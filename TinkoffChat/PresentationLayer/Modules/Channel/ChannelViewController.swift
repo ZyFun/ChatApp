@@ -37,13 +37,14 @@ final class ChannelViewController: UIViewController {
     // MARK: - Initializer
     
     init(
+        messageService: MessageServiceProtocol,
         chatCoreDataService: ChatCoreDataServiceProtocol,
         resultManager: ChannelFetchedResultsManagerProtocol
     ) {
         self.chatCoreDataService = chatCoreDataService
         self.resultManager = resultManager
         observerKeyboard = NotificationKeyboardObserver()
-        messageService = MessageService(chatFirestore: ChatFirestore())
+        self.messageService = messageService
         themeManager = ThemeManager.shared
         dataSourceManager = ChannelDataSourceManager(
             resultManager: resultManager

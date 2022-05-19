@@ -19,8 +19,8 @@ class ChannelListService: ChannelListServiceProtocol {
     private var channels: [Channel] = []
     private let chatFirestore: ChatFirestoreProtocol
     
-    init() {
-        chatFirestore = ChatFirestore()
+    init(chatFirestore: ChatFirestoreProtocol) {
+        self.chatFirestore = chatFirestore
     }
     
     func loadChannelsFromFirebase(
