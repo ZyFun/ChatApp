@@ -1,5 +1,8 @@
 desc "Builds"
 lane :build_for_testing do
+  cocoapods(clean_install: true,
+            podfile: "./Podfile")
+  
   scan(clean: true,
        workspace: "TinkoffChat.xcworkspace",
        scheme: "TinkoffChat",
