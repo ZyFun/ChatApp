@@ -108,6 +108,7 @@
 		2C446DD328106EF600D993C7 /* ChannelListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListService.swift; sourceTree = "<group>"; };
 		2C4661CE280B23E700CBD141 /* ChannelDataSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDataSourceManager.swift; sourceTree = "<group>"; };
 		2C49DBB52805A676003BA109 /* Chat 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Chat 2.xcdatamodel"; sourceTree = "<group>"; };
+		2C53CDB2283BB8F600F5B0C4 /* TinkoffChatConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TinkoffChatConfig.xcconfig; sourceTree = "<group>"; };
 		2C5449F927EDFAB100C209C8 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		2C5449FB27EDFB2700C209C8 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		2C5449FD27EE048500C209C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -468,6 +469,7 @@
 		2CF231A527BFBB2400CE77C2 = {
 			isa = PBXGroup;
 			children = (
+				2C53CDB2283BB8F600F5B0C4 /* TinkoffChatConfig.xcconfig */,
 				2CF231C627BFF6FA00CE77C2 /* .gitignore */,
 				2CF231B027BFBB2400CE77C2 /* TinkoffChat */,
 				2CAE2011282E987C00DDB1EF /* TinkoffChatTests */,
@@ -938,6 +940,7 @@
 		};
 		2CF231C027BFBB2600CE77C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C53CDB2283BB8F600F5B0C4 /* TinkoffChatConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
