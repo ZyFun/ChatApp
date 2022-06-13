@@ -8,7 +8,7 @@ warning_threshold: 1
 
 analyzer_rules:
   - unused_import
-  - unused_private_declaration
+  - unused_declaration
 
 disabled_rules:
   - trailing_whitespace

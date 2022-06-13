@@ -12,15 +12,27 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var storageManager: StorageManagerProtocol
+    var firstStartAppManager: FirstStartAppManagerProtocol
+    var themeManager: ThemeManagerProtocol
+    
+    override init() {
+        self.storageManager = StorageManager()
+        self.firstStartAppManager = FirstStartAppManager()
+        self.themeManager = ThemeManager.shared
+    }
 
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        if CommandLine.arguments.contains("--UITests") {
+            UIView.setAnimationsEnabled(false)
+        }
         
         FirebaseApp.configure()
         
-        setupSchemeColorOnFirstStartApp()
+        setupSchemeColor()
         createAndShowStartVC()
         
         return true
@@ -31,15 +43,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 private extension AppDelegate {
     func createAndShowStartVC() {
-        let ChannelListVC = ChannelListViewController(
-            nibName: String(describing: ChannelListViewController.self),
-            bundle: nil
-        )
+        let presentationAssembly = PresentationAssembly()
+        let channelListVC = presentationAssembly.channelListVC
         
-        ChannelListVC.mySenderID = StorageManager.shared.loadUserID()
+        channelListVC.mySenderID = storageManager.loadUserID()
         
         let navigationController = CustomNavigationController(
-            rootViewController: ChannelListVC
+            rootViewController: channelListVC
         )
         
         navigationController.navigationBar.scrollEdgeAppearance = navigationController.navigationBar.standardAppearance
@@ -49,11 +59,15 @@ private extension AppDelegate {
         window?.makeKeyAndVisible()
     }
     
-    func setupSchemeColorOnFirstStartApp() {
-        if FirstStartAppManager.shared.isFirstStart() {
+    func setupSchemeColor() {
+        if firstStartAppManager.isFirstStart() {
             createUserID()
-            FirstStartAppManager.shared.setupDefaultTheme()
-            FirstStartAppManager.shared.setIsNotFirstStart()
+            storageManager.saveTheme(theme: .classic) { _ in
+                themeManager.setupDefaultTheme()
+            }
+            firstStartAppManager.setIsNotFirstStart()
+        } else {
+            themeManager.currentTheme = storageManager.loadTheme(withKey: .theme)
         }
     }
     
@@ -65,6 +79,6 @@ private extension AppDelegate {
     // откуда и будет в дальнейшем производится загрузка идентификатора
     func createUserID() {
         let userID = UIDevice.current.identifierForVendor?.uuidString
-        StorageManager.shared.saveUserID(userID)
+        storageManager.saveUserID(userID)
     }
 }

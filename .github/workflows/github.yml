@@ -1,0 +1,9 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build and run tests
+      run: bundle exec fastlane build_and_test

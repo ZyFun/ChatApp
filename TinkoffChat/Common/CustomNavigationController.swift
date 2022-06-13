@@ -16,8 +16,19 @@ final class CustomNavigationController: UINavigationController {
     }
     */
     
+    private let themeManager: ThemeManagerProtocol
+    
+    override init(rootViewController: UIViewController) {
+        self.themeManager = ThemeManager.shared
+        super.init(rootViewController: rootViewController)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        let currentTheme = ThemeManager.shared.currentTheme
+        let currentTheme = themeManager.currentTheme
         
         if currentTheme == Theme.night.rawValue {
             return .lightContent

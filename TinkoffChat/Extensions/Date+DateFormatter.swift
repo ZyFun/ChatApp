@@ -26,7 +26,7 @@ extension Date {
         
         if currentDateCalendar == .orderedSame ||
            currentDateCalendar == .orderedDescending {
-            formatter.dateFormat = "HH.mm"
+            formatter.dateFormat = "HH:mm"
         } else {
             formatter.dateFormat = "dd.MMM"
         }
