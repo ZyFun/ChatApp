@@ -10,9 +10,9 @@ import Foundation
 final class FirstStartAppManager {
     static let shared = FirstStartAppManager()
     
-    private init(){}
+    private init() {}
     
-    func isFirstStart() -> Bool{
+    func isFirstStart() -> Bool {
         return !UserDefaults.standard.bool(forKey: "isFirstStart")
     }
 
@@ -24,5 +24,3 @@ final class FirstStartAppManager {
         StorageManager.shared.saveTheme(theme: .classic)
     }
 }
-
-

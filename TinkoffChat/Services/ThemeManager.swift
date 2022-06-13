@@ -11,13 +11,17 @@ enum Theme: String {
     case night = "Night"
 }
 
-enum AssetsColor : String {
+enum AssetsColor: String {
     case backgroundView
     case backgroundNavBar
+    case backgroundToolBar
+    case textFieldToolBar
     case separator
     case leftMessage
     case rightMessage
+    case senderName
     case text
+    case dateCreated
     case textImageView
     case online
     case headerBackground

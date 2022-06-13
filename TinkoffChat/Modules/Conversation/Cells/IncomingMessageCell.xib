@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,18 +11,30 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="incomingMessage" rowHeight="89" id="KGk-i7-Jjw" customClass="MessageCell" customModule="TinkoffChat" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="incomingMessage" rowHeight="145" id="KGk-i7-Jjw" customClass="MessageCell" customModule="TinkoffChat" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="raF-6J-GlO">
-                        <rect key="frame" x="16" y="11" width="163.5" height="62"/>
+                        <rect key="frame" x="16" y="11" width="163.5" height="118"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incoming message Incoming message Incoming message Incoming message Incoming message Incoming message " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VGY-w8-LzU">
-                                <rect key="frame" x="8" y="8" width="147.5" height="46"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserName" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pJq-GB-Uoz">
+                                <rect key="frame" x="8" y="8" width="147.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Incoming message Incoming message Incoming message Incoming message Incoming message Incoming message " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VGY-w8-LzU">
+                                <rect key="frame" x="8" y="31.5" width="147.5" height="52.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1tJ-z0-YfO">
+                                <rect key="frame" x="8" y="91" width="147.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -30,10 +42,16 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGray4Color"/>
                         <constraints>
-                            <constraint firstItem="VGY-w8-LzU" firstAttribute="leading" secondItem="raF-6J-GlO" secondAttribute="leadingMargin" id="P4w-ku-798"/>
-                            <constraint firstItem="VGY-w8-LzU" firstAttribute="top" secondItem="raF-6J-GlO" secondAttribute="top" constant="8" id="XFy-EH-jiz"/>
-                            <constraint firstItem="VGY-w8-LzU" firstAttribute="bottom" secondItem="raF-6J-GlO" secondAttribute="bottomMargin" id="hcy-JQ-m8p"/>
-                            <constraint firstAttribute="trailing" secondItem="VGY-w8-LzU" secondAttribute="trailing" constant="8" id="nYs-Na-Z75"/>
+                            <constraint firstItem="pJq-GB-Uoz" firstAttribute="leading" secondItem="raF-6J-GlO" secondAttribute="leading" constant="8" id="1KN-KG-U1o"/>
+                            <constraint firstAttribute="trailing" secondItem="pJq-GB-Uoz" secondAttribute="trailing" constant="8" id="23a-sS-dwC"/>
+                            <constraint firstAttribute="bottom" secondItem="1tJ-z0-YfO" secondAttribute="bottom" constant="6" id="Tdf-W5-ODa"/>
+                            <constraint firstItem="pJq-GB-Uoz" firstAttribute="top" secondItem="raF-6J-GlO" secondAttribute="top" constant="8" id="Vcs-Oj-hiu"/>
+                            <constraint firstItem="VGY-w8-LzU" firstAttribute="leading" secondItem="raF-6J-GlO" secondAttribute="leadingMargin" id="XjU-fV-48D"/>
+                            <constraint firstItem="1tJ-z0-YfO" firstAttribute="top" secondItem="VGY-w8-LzU" secondAttribute="bottom" constant="7" id="app-HJ-fn8"/>
+                            <constraint firstItem="1tJ-z0-YfO" firstAttribute="leading" secondItem="raF-6J-GlO" secondAttribute="leading" constant="8" id="gBW-j9-bf2"/>
+                            <constraint firstItem="VGY-w8-LzU" firstAttribute="top" secondItem="pJq-GB-Uoz" secondAttribute="bottom" constant="3" id="viH-tW-mRa"/>
+                            <constraint firstAttribute="trailing" secondItem="VGY-w8-LzU" secondAttribute="trailing" constant="8" id="vok-mm-0Ke"/>
+                            <constraint firstAttribute="trailing" secondItem="1tJ-z0-YfO" secondAttribute="trailing" constant="8" id="yPi-i4-GVL"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -46,10 +64,12 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="dateCreatedLabel" destination="1tJ-z0-YfO" id="th5-Ev-d3h"/>
                 <outlet property="messageView" destination="raF-6J-GlO" id="DZu-BZ-BhT"/>
+                <outlet property="senderNameLabel" destination="pJq-GB-Uoz" id="Vbn-Sq-u4H"/>
                 <outlet property="textMessageLabel" destination="VGY-w8-LzU" id="VIe-Ap-gcx"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="130.58035714285714"/>
+            <point key="canvasLocation" x="137.68115942028987" y="107.14285714285714"/>
         </tableViewCell>
     </objects>
     <resources>

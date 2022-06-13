@@ -1,12 +1,11 @@
 //
-//  ViewController.swift
+//  MyProfileViewController.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 18.02.2022.
 //
 
 import UIKit
-import Photos
 
 final class MyProfileViewController: UIViewController {
     
@@ -17,10 +16,9 @@ final class MyProfileViewController: UIViewController {
     @IBOutlet weak var profileImageView: UIImageView!
     
     @IBOutlet weak var editLogoButton: UIButton!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var saveGCDButton: UIButton!
-    @IBOutlet weak var saveOperationButton: UIButton!
+    @IBOutlet weak var saveButton: UIButton!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -34,12 +32,13 @@ final class MyProfileViewController: UIViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    // MARK: Private properties
-    private var profile: Profile?
+    // MARK: - Private properties
     
-    private var currentDevice = UIDevice.current.name
+    private var profile: Profile?
+    private var observer = NotificationKeyboardObserver()
     
     // MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,7 +55,8 @@ final class MyProfileViewController: UIViewController {
         view.endEditing(true)
     }
 
-    // MARK: IB Actions
+    // MARK: - IB Actions
+    
     @IBAction func editLogoButtonPressed() {
         changeProfileLogoAlertController()
     }
@@ -74,11 +74,10 @@ final class MyProfileViewController: UIViewController {
         
         showButtons(
             cancelButton,
-            saveGCDButton,
-            saveOperationButton
+            saveButton
         )
         
-        hideButtons(saveButton)
+        hideButtons(editButton)
         
         userNameTextField.text = nameLabel.text
         descriptionTextField.text = descriptionLabel.text
@@ -86,14 +85,17 @@ final class MyProfileViewController: UIViewController {
         userNameTextField.becomeFirstResponder()
         
         // Состояние меняется, при изменении текста в TF
-        setSaveButtonsIsNotActive()
+        setSaveButtonIsNotActive()
     }
     
     @IBAction func cancelButtonPressed() {
+        view.endEditing(true)
+        
         // Возврат к текущему состоянию с отменой изменений
         if let imageData = profile?.image {
             profileImageView.image = UIImage(data: imageData)
         } else {
+            profileImageView.image = nil
             noProfileImageLabel.text = setFirstCharacters(from: profile?.name)
             noProfileImageLabel.isHidden = false
         }
@@ -105,18 +107,16 @@ final class MyProfileViewController: UIViewController {
         descriptionLabel.isHidden = false
         
         showButtons(
-            saveButton,
+            editButton,
             editLogoButton // Нужно в тот момент, когда скрывается кнопка при изменении изображения
         )
         
         hideButtons(
             cancelButton,
-            saveGCDButton,
-            saveOperationButton
+            saveButton
         )
     }
-    
-    @IBAction func saveButtonPressed(_ sender: UIButton) {
+    @IBAction func saveButtonPressed() {
         activityIndicator.startAnimating()
         
         let userName = userNameTextField.text
@@ -126,88 +126,60 @@ final class MyProfileViewController: UIViewController {
             noProfileImageLabel.text = setFirstCharacters(from: userName)
         }
         
-        setSaveButtonsIsNotActive()
+        setSaveButtonIsNotActive()
         setEditButtonIsNotActive()
         setTextFieldsIsNotActive()
         
-        if sender == saveGCDButton {
+        ProfileService.shared.saveProfileData(
+            name: userName,
+            description: description,
+            imageData: profileImageView.image?.pngData()
+        ) { [weak self] response in
+            guard let self = self else { return }
             
-            ProfileServiceGCD.shared.saveProfileData(
-                name: userName,
-                description: description,
-                imageData: profileImageView.image?.pngData()
-            ) { [weak self] response in
-                guard let self = self else { return }
-                
-                if response == nil {
-                    // Нужно для того, чтобы при нажатии на cancel
-                    // не происходило изменений, так как данные уже сохранены
-                    self.profile?.image = self.profileImageView.image?.pngData()
-                    // TODO: Имя скорее всего должно быть обязательным, по этому пока так
-                    if userName != "" {
-                        self.nameLabel.text = userName
-                    }
-                    self.descriptionLabel.text = description
-                    
-                    self.showResultAlert(isResultError: false)
-                } else {
-                    self.showResultAlert(
-                        isResultError: true,
-                        senderButton: sender
-                    )
+            if response == nil {
+                // Нужно для того, чтобы при нажатии на cancel
+                // не происходило изменений, так как данные уже сохранены
+                self.profile?.image = self.profileImageView.image?.pngData()
+                // TODO: ([20.03.2022]) Имя скорее всего должно быть обязательным, по этому пока так
+                if userName != "" {
+                    self.nameLabel.text = userName
                 }
+                self.descriptionLabel.text = description
                 
-                self.activityIndicator.stopAnimating()
-            }
-        } else {
-            let addQueue = OperationQueue()
-            let saveData = ProfileServiceOperation(
-                .saveData,
-                profile: profile, 
-                name: userName,
-                description: description,
-                imageData: profileImageView.image?.pngData()
-            )
-            
-            saveData.completionBlock = { [weak self] in
-                guard let self = self else { return }
-                
-                // TODO: Не знаю как правильно вернуть операцию в main поток с Operation
-                DispatchQueue.main.async {
-                    let error = saveData.error
-                    
-                    if error == nil {
-                        // Нужно для того, чтобы при нажатии на cancel
-                        // не происходило изменений, так как данные уже сохранены
-                        self.profile?.image = self.profileImageView.image?.pngData()
-                        // TODO: Имя скорее всего должно быть обязательным, по этому пока так
-                        if userName != "" {
-                            self.nameLabel.text = userName
-                        }
-                        self.descriptionLabel.text = description
-                        
-                        self.showResultAlert(isResultError: false)
-                    } else {
-                        self.showResultAlert(
-                            isResultError: true,
-                            senderButton: sender
-                        )
-                    }
-                    
-                    self.activityIndicator.stopAnimating()
-                }
+                self.showResultAlert(isResultError: false)
+            } else {
+                self.showResultAlert(isResultError: true)
             }
             
-            addQueue.addOperation(saveData)
+            self.activityIndicator.stopAnimating()
+        }
+    }
+    
+    // TODO: ([26.03.2022]) Временное решение, вернуть в приват 3 метода разобравшись с менеджером выбора фото профиля. Для уменьшения количества строк в коде
+    func setSaveButtonIsActive() {
+        saveButton.isEnabled = true
+        saveButton.setTitleColor(.systemBlue, for: .normal)
+    }
+    
+    func hideButtons(_ buttons: UIButton...) {
+        for button in buttons {
+            button.isHidden = true
+        }
+    }
+    
+    func showButtons(_ buttons: UIButton...) {
+        for button in buttons {
+            button.isHidden = false
         }
     }
 }
 
 // MARK: - Private properties
+
 private extension MyProfileViewController {
     func setup() {
-//        loadProfile()
-        loadProfileWithOperation()
+        loadProfile()
         
         setupActivityIndicator()
         setupViews()
@@ -217,30 +189,10 @@ private extension MyProfileViewController {
         setupLabels()
     }
     
-    func loadProfileWithOperation() {
-        activityIndicator.startAnimating()
-        
-        let addQueue = OperationQueue()
-        let loadData = ProfileServiceOperation(.loadData)
-        loadData.completionBlock = { [weak self] in
-            
-            // TODO: Не знаю как правильно вернуть операцию в main поток с Operation
-            DispatchQueue.main.async {
-                self?.profile = loadData.profile
-                self?.setupProfileImage()
-                self?.setupLabels()
-                
-                self?.activityIndicator.stopAnimating()
-            }
-        }
-        
-        addQueue.addOperation(loadData)
-    }
-    
     func loadProfile() {
         activityIndicator.startAnimating()
         
-        ProfileServiceGCD.shared.fetchProfileData { [weak self] result in
+        ProfileService.shared.fetchProfileData { [weak self] result in
             switch result {
             case .success(let savedProfile):
                 self?.profile = savedProfile
@@ -250,7 +202,7 @@ private extension MyProfileViewController {
                 self?.activityIndicator.stopAnimating()
             case .failure(let error):
                 printDebug("Что то пошло не так: \(error)")
-                // TODO: Нужен будет алерт о том, что данные не получены
+                // TODO: ([21.03.2022]) Нужен будет алерт о том, что данные не получены
             }
         }
     }
@@ -266,7 +218,8 @@ private extension MyProfileViewController {
         view.backgroundColor = .appColorLoadFor(.backgroundView)
     }
     
-    // MARK: Profile image settings
+    // MARK: - Profile image settings
+    
     func setupProfileImage() {
         if let imageData = profile?.image {
             profileImageView.image = UIImage(data: imageData)
@@ -292,7 +245,8 @@ private extension MyProfileViewController {
         noProfileImageLabel.isHidden = false
     }
     
-    // TODO: Сделать преобразование символов в большие
+    // TODO: ([30.03.2022]) Логика частично дублируется на нескольких экранах, отрефакторить. (Ячейка канала)
+    // сделать в отдельном менеджере по управлению изображениями, так-как на данный момент они присутствуют в трех местах
     func setFirstCharacters(from fullName: String?) -> String? {
         if let fullName = fullName {
             let separateFullName = fullName.split(separator: " ")
@@ -300,21 +254,24 @@ private extension MyProfileViewController {
             var characters = ""
             
             if numberWords == 1 {
-                guard let firstSymbol = separateFullName.first?.first else { return "UN"}
+                guard let firstSymbol = separateFullName.first?.first else { return "UN" }
                 return String(firstSymbol)
             } else {
-                guard let firstSymbol = separateFullName.first?.first else { return "UN"}
-                guard let lastSymbol = separateFullName.last?.first else { return "UN"}
+                guard let firstSymbol = separateFullName.first?.first else { return "UN" }
+                guard let lastSymbol = separateFullName.last?.first else { return "UN" }
                 characters = "\(firstSymbol)\(lastSymbol)"
             }
             
-            return characters
+            let bigCharacters = characters.uppercased()
+            
+            return bigCharacters
         } else {
             return "UN"
         }
     }
     
-    // MARK: Labels settings
+    // MARK: - Labels settings
+    
     func setupLabels() {
         titleLabel.textColor = .appColorLoadFor(.text)
         nameLabel.textColor = .appColorLoadFor(.text)
@@ -323,12 +280,15 @@ private extension MyProfileViewController {
         nameLabel.text = profile?.name
         descriptionLabel.text = profile?.description
         
-        // TODO: Вероятно костыль. Нужно для защиты от обнуления данных, при установке фотографии, так как иначе поля nil и при нажатии сохранить без изменения данных, данные удаляются
+        // TODO: ([20.03.2022]) Вероятно костыль. Нужно для защиты от обнуления данных
+        // При установке фотографии, так как иначе поля nil и при нажатии
+        // сохранить без изменения данных, данные удаляются
         userNameTextField.text = nameLabel.text
         descriptionTextField.text = descriptionLabel.text
     }
     
-    // MARK: Textfield settings
+    // MARK: - Textfield settings
+    
     func setupTextFields() {
         userNameTextField.delegate = self
         descriptionTextField.delegate = self
@@ -360,31 +320,30 @@ private extension MyProfileViewController {
         descriptionTextField.isEnabled = true
     }
     
-    // TODO: Если поле с именем должно будет быть обязательным, добавить сюда логику на проверку nil и не отображать кнопки сохранения
+    // TODO: ([19.03.2022]) Если поле с именем должно будет быть обязательным, добавить сюда логику на проверку nil и не отображать кнопки сохранения
     @objc func profileTextFieldDidChanged() {
         if userNameTextField.text != nameLabel.text
         || descriptionTextField.text != descriptionLabel.text {
-            setSaveButtonsIsActive()
+            setSaveButtonIsActive()
         } else {
-            setSaveButtonsIsNotActive()
+            setSaveButtonIsNotActive()
         }
     }
     
-    // MARK: Button settings
+    // - MARK: Button settings
+    
     func setupButtons() {
         editLogoButton.titleLabel?.font = .systemFont(ofSize: 16)
         
         settingButtons(
-            saveButton,
+            editButton,
             cancelButton,
-            saveGCDButton,
-            saveOperationButton
+            saveButton
         )
         
         hideButtons(
             cancelButton,
-            saveGCDButton,
-            saveOperationButton
+            saveButton
         )
     }
     
@@ -397,17 +356,7 @@ private extension MyProfileViewController {
         }
     }
     
-    func hideButtons(_ buttons: UIButton...) {
-        for button in buttons {
-            button.isHidden = true
-        }
-    }
-    
-    func showButtons(_ buttons: UIButton...) {
-        for button in buttons {
-            button.isHidden = false
-        }
-    }
+    // TODO: ([26.03.2022]) Вернуть сюда настройки, которые я сделал временно публичными
     
     func setEditButtonIsNotActive() {
         editLogoButton.isEnabled = false
@@ -419,23 +368,13 @@ private extension MyProfileViewController {
         editLogoButton.tintColor = .systemBlue
     }
     
-    func setSaveButtonsIsNotActive() {
-        saveGCDButton.isEnabled = false
-        saveGCDButton.setTitleColor(.systemGray, for: .normal)
-        
-        saveOperationButton.isEnabled = false
-        saveOperationButton.setTitleColor(.systemGray, for: .normal)
+    func setSaveButtonIsNotActive() {
+        saveButton.isEnabled = false
+        saveButton.setTitleColor(.systemGray, for: .normal)
     }
     
-    func setSaveButtonsIsActive() {
-        saveGCDButton.isEnabled = true
-        saveGCDButton.setTitleColor(.systemBlue, for: .normal)
-        
-        saveOperationButton.isEnabled = true
-        saveOperationButton.setTitleColor(.systemBlue, for: .normal)
-    }
+    // - MARK: Alert Controllers
     
-    // MARK: Alert Controllers
     // Принимает значение по умолчанию в виде кнопки, для того
     // чтобы не передавать кнопку если результат работы клоужера был без ошибки
     func showResultAlert(isResultError: Bool, senderButton: UIButton = UIButton()) {
@@ -459,7 +398,7 @@ private extension MyProfileViewController {
             guard let self = self else { return }
             
             self.setEditButtonIsActive()
-            self.setSaveButtonsIsActive()
+            self.setSaveButtonIsActive()
             self.setTextFieldsIsActive()
             
             if !isResultError {
@@ -471,20 +410,20 @@ private extension MyProfileViewController {
                 
                 self.hideButtons(
                     self.cancelButton,
-                    self.saveGCDButton,
-                    self.saveOperationButton
+                    self.saveButton
                 )
                 
-                self.showButtons(self.saveButton)
+                self.showButtons(self.editButton)
             }
         }
         
-        let repeatButton = UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
-            if senderButton == self?.saveGCDButton {
-                self?.saveButtonPressed(senderButton)
-            } else {
-                self?.saveButtonPressed(senderButton)
-            }
+        let repeatButton = UIAlertAction(
+            title: "Повторить",
+            style: .default
+        ) { [weak self] _ in
+            
+            self?.saveButtonPressed()
+
         }
         
         alert.addAction(okButton)
@@ -525,125 +464,29 @@ private extension MyProfileViewController {
     }
 }
 
-// MARK: - Работа с изображениями
-extension MyProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        profileImageView.image = info[.editedImage] as? UIImage
-        
-        if profileImageView != nil {
-            noProfileImageLabel.isHidden = true
-        }
-        
-        // TODO: Отрабатывает с паузой. Надо подумать как можно улучшить
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            
-            self.showButtons(
-                self.cancelButton,
-                self.saveGCDButton,
-                self.saveOperationButton
-            )
-            
-            self.setSaveButtonsIsActive()
-            
-            self.hideButtons(
-                self.editLogoButton,
-                self.saveButton
-            )
-        }
-    }
-    
-    // MARK: Private methods
-    private func chooseImagePicker(source: UIImagePickerController.SourceType) {
-        if UIImagePickerController.isSourceTypeAvailable(source) {
-            let imagePicker = UIImagePickerController()
-            
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = source
-            
-            if imagePicker.sourceType == .photoLibrary {
-                checkPermission(library: imagePicker)
-            } else {
-                checkPermission(camera: imagePicker)
-            }
-        }
-    }
-    
-    private func checkPermission(camera imagePicker: UIImagePickerController) {
-        AVCaptureDevice.requestAccess(for: .video) { [weak self] response in
-            if response {
-                DispatchQueue.main.async {
-                    self?.present(imagePicker, animated: true)
-                    printDebug("Access granted")
-                }
-            } else {
-                // TODO: Сделать алерт c перенаправлением в настройки приватности
-                printDebug("User denied access")
-            }
-        }
-    }
-    
-    private func checkPermission(library imagePicker: UIImagePickerController) {
-       let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
-       switch photoAuthorizationStatus {
-       case .authorized:
-           present(imagePicker, animated: true)
-           printDebug("Access granted")
-       case .notDetermined:
-           PHPhotoLibrary.requestAuthorization { [weak self] newStatus in
-               if newStatus == .authorized {
-                   DispatchQueue.main.async {
-                       self?.present(imagePicker, animated: true)
-                   }
-                   printDebug("success")
-               }
-           }
-           
-           printDebug("User has not yet made a selection")
-       case .restricted:
-           // TODO: Можно вывести алерт о запрете доступа к галерее
-           printDebug("User cannot access the library")
-       case .denied:
-           // TODO: Сделать алерт c перенаправлением в настройки приватности
-           printDebug("User denied access")
-       case .limited:
-           // Как я понял из документации, метод authorizationStatus не совместим с этим кейсом. Но совместимые методы не совместимы с таргетом версии iOS, так как они работают только с 14 iOS. Нужно почитать подробнее для себя, как работать со всем этим при использовании нового метода. Либо есть что-то специальное, либо нужно писать отдельный экран, где будут отображаться снимки, которые были одобрены пользователем, с возможностью добавлять новые.
-           // Нужно разобраться, возможно ли показывать алерт выбора доступа без selected photos... Или для более новых версий обязательно писать такую логику.
-           printDebug("User has allowed access to some photos")
-       @unknown default:
-           printDebug("Oops \(#function)")
-           return
-       }
-   }
-}
-
 // MARK: - Text Field Delegate
+
 extension MyProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        // TODO: Кривой костыль для маленького экрана, нужно подумать как это улучшить
-        if currentDevice == "iPod touch (7th generation)" { // Я знаю что с маленьким экраном есть еще другие телефоны, просто показал таким образом решение которое пришло мне в голову :)
-            topConstraintProfileImage.constant = -130
-            
-            if profileImageView.image == nil {
-                noProfileImageLabel.isHidden = true
-            }
+        // TODO: ([29.03.2022]) Кривой костыль. Перекрывает поля ввода на некоторых экранах. нужно подумать как это улучшить.
+        topConstraintProfileImage.constant = -130
+        
+        if profileImageView.image == nil {
+            noProfileImageLabel.isHidden = true
         }
+        
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        // TODO: Кривой костыль для маленького экрана, нужно подумать как это улучшить
-        if currentDevice == "iPod touch (7th generation)" { // Я знаю что с маленьким экраном есть еще другие телефоны, просто показал таким образом решение которое пришло мне в голову :)
-            topConstraintProfileImage.constant = 7
-            
-            if profileImageView.image == nil {
-                noProfileImageLabel.isHidden = false
-            }
-        }
+        // TODO: ([29.03.2022]) Кривой костыль. Перекрывает поля ввода на некоторых экранах. нужно подумать как это улучшить.
+        topConstraintProfileImage.constant = 7
         
+        if profileImageView.image == nil {
+            noProfileImageLabel.isHidden = false
+        }
     }
 }
