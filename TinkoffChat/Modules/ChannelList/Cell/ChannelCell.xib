@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="90" id="KGk-i7-Jjw" customClass="ConversationsCell" customModule="TinkoffChat" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="90" id="KGk-i7-Jjw" customClass="ChannelCell" customModule="TinkoffChat" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -31,7 +31,7 @@
                         <color key="textColor" systemColor="systemGrayColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rDV-Uh-uWM">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rDV-Uh-uWM">
                         <rect key="frame" x="266.5" y="16" width="32.5" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" systemColor="systemGrayColor"/>
@@ -51,11 +51,10 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="9XD-Ym-iE0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" symbolic="YES" id="0JT-Cq-rYc"/>
                     <constraint firstItem="nJ1-9r-7jA" firstAttribute="leading" secondItem="9XD-Ym-iE0" secondAttribute="trailing" constant="13" id="18x-E0-B7c"/>
                     <constraint firstAttribute="trailing" secondItem="nJ1-9r-7jA" secondAttribute="trailing" constant="15.5" id="Ghj-E5-cM4"/>
                     <constraint firstItem="9XD-Ym-iE0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15.5" id="JCe-3V-5Id"/>
-                    <constraint firstAttribute="bottom" secondItem="9XD-Ym-iE0" secondAttribute="bottom" constant="22" id="LP7-sw-PYc"/>
-                    <constraint firstItem="9XD-Ym-iE0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="P3x-cV-eXb"/>
                     <constraint firstItem="MJT-LQ-2kV" firstAttribute="centerY" secondItem="9XD-Ym-iE0" secondAttribute="centerY" id="TkM-QE-hLd"/>
                     <constraint firstItem="MJT-LQ-2kV" firstAttribute="centerX" secondItem="9XD-Ym-iE0" secondAttribute="centerX" id="Wny-ZO-xYs"/>
                     <constraint firstItem="F8J-Ce-Wz7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="Yz5-An-NXS"/>

@@ -1,5 +1,5 @@
 //
-//  IncomingMessageCell.swift
+//  MessageCell.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 07.03.2022.
@@ -8,7 +8,9 @@
 import UIKit
 
 protocol MessageCellConfiguration: AnyObject {
-    var textMessage: String? { get set } // В задании указано свойство text, но его невозможно использовать в этом классе, так-как есть такое deprecated поле у класса ячейки.
+    var senderName: String? { get set }
+    var textMessage: String? { get set }
+    var dateCreated: Date { get set }
 }
 
 final class MessageCell: UITableViewCell {
@@ -22,8 +24,10 @@ final class MessageCell: UITableViewCell {
         case outgoing = "OutgoingMessageCell"
     }
     
-    @IBOutlet weak var textMessageLabel: UILabel!
     @IBOutlet weak var messageView: UIView!
+    @IBOutlet weak var senderNameLabel: UILabel!
+    @IBOutlet weak var textMessageLabel: UILabel!
+    @IBOutlet weak var dateCreatedLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,6 +37,15 @@ final class MessageCell: UITableViewCell {
 }
 
 extension MessageCell: MessageCellConfiguration {
+    var senderName: String? {
+        get {
+            nil
+        }
+        set {
+            senderNameLabel.text = newValue
+        }
+    }
+    
     var textMessage: String? {
         get {
             nil
@@ -41,12 +54,26 @@ extension MessageCell: MessageCellConfiguration {
             textMessageLabel.text = newValue
         }
     }
+    
+    var dateCreated: Date {
+        get {
+            Date()
+        }
+        set {
+            dateCreatedLabel.text = Date().toString(date: newValue)
+        }
+    }
 }
 
 private extension MessageCell {
     func setupUI() {
         selectionStyle = .none
         messageView.layer.cornerRadius = 8
+        
+        senderNameLabel.font = .boldSystemFont(ofSize: 16)
+        
+        dateCreatedLabel.font = .systemFont(ofSize: 11)
+        
         setupTheme()
     }
     
@@ -54,6 +81,8 @@ private extension MessageCell {
         changePrototypeColorCells()
         backgroundColor = .clear
         textMessageLabel.textColor = .appColorLoadFor(.text)
+        senderNameLabel.textColor = .appColorLoadFor(.senderName)
+        dateCreatedLabel.textColor = .appColorLoadFor(.dateCreated)
     }
     
     func changePrototypeColorCells() {
@@ -63,5 +92,18 @@ private extension MessageCell {
             messageView.backgroundColor = .appColorLoadFor(.rightMessage)
         }
     }
-    
+}
+
+// MARK: - Protocol extension
+
+extension MessageCellConfiguration {
+    func configure(
+        senderName: String?,
+        textMessage: String,
+        dateCreated: Date
+    ) {
+        self.senderName = senderName
+        self.textMessage = textMessage
+        self.dateCreated = dateCreated
+    }
 }

@@ -9,6 +9,7 @@ import UIKit
 
 final class ThemesViewController: UIViewController {
     // MARK: - Private properties
+    
     private let classicColorBackgroundView = UIColor.appColorSetup(.classic, .backgroundView)
     private let classicColorBackgroundNavBar = UIColor.appColorSetup(.classic, .backgroundNavBar)
     private let classicColorLeftMessage = UIColor.appColorSetup(.classic, .leftMessage)
@@ -25,19 +26,19 @@ final class ThemesViewController: UIViewController {
     private let nightColorRightMessage = UIColor.appColorSetup(.night, .rightMessage)
     
     // MARK: - Public properties
+    
     var completion: (
         (
             _ backgroundView: UIColor,
             _ backgroundNavBar: UIColor,
             _ text: UIColor
-        ) -> ()
+        ) -> Void
     )?
     
-    // Тут может быть retain cycle. Так как под делегат подписан экран ConversationsListViewController, а с него идет ссылка на текущий экран, может возникнуть утечка памяти, если не указать weak у свойства. Экраны будут всегда ссылаться друг на друга и никогда не выгрузятся из памяти, потому что счетчик ссылок не обнулится. Обратная связь всегда должна быть обозначена слабой ссылкой.
     weak var themeDelegate: ThemeDelegate?
     
     // MARK: - IB Outlets
-    // Тут может быть retain cycle если не указать weak. Например когда приложение получит от системы предупреждение о нехватки памяти и приоритеты будут у другого приложения, экран выгрузится из памяти. А свойство нет, так как оно будет ссылаться само на себя и счетчик ссылок у него не обнулится.
+    
     @IBOutlet weak var classicMainView: UIView!
     @IBOutlet weak var classicLabel: UILabel!
     @IBOutlet weak var classicChatView: UIView!
@@ -57,6 +58,7 @@ final class ThemesViewController: UIViewController {
     @IBOutlet weak var nightMessageRightView: UIView!
     
     // MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,6 +69,7 @@ final class ThemesViewController: UIViewController {
 }
 
 // MARK: - Private methods
+
 private extension ThemesViewController {
     func setupUI() {
         setupNavigationBar()

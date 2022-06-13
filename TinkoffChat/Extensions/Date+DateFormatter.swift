@@ -25,8 +25,7 @@ extension Date {
         let formatter = DateFormatter()
         
         if currentDateCalendar == .orderedSame ||
-           currentDateCalendar == .orderedDescending
-        {
+           currentDateCalendar == .orderedDescending {
             formatter.dateFormat = "HH.mm"
         } else {
             formatter.dateFormat = "dd.MMM"
@@ -35,4 +34,3 @@ extension Date {
         return formatter.string(from: date)
     }
 }
-

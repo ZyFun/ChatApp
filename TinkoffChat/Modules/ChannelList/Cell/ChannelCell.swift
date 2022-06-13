@@ -1,5 +1,5 @@
 //
-//  ConversationsCell.swift
+//  ChannelCell.swift
 //  TinkoffChat
 //
 //  Created by Дмитрий Данилин on 04.03.2022.
@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol ConversationsCellConfiguration: AnyObject {
-    var name: String? {get set}
-    var message: String? {get set}
-    var date: Date? {get set}
-    var online: Bool {get set}
-    var hasUnreadMessages: Bool {get set}
+protocol ChannelCellConfiguration: AnyObject {
+    var name: String? { get set }
+    var message: String? { get set }
+    var date: Date? { get set }
+    var online: Bool { get set }
+    var hasUnreadMessages: Bool { get set }
 }
 
-final class ConversationsCell: UITableViewCell {
+final class ChannelCell: UITableViewCell {
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileImageLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -23,6 +23,8 @@ final class ConversationsCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
 
     override func awakeFromNib() {
+        super.awakeFromNib()
+        
         setupUI()
     }
     
@@ -31,6 +33,7 @@ final class ConversationsCell: UITableViewCell {
         
         setupTheme()
         nameLabel.text = ""
+        profileImageLabel.text = "UN"
         lastMessageLabel.text = ""
         dateLabel.text = ""
         backgroundColor = .clear
@@ -39,7 +42,8 @@ final class ConversationsCell: UITableViewCell {
 }
 
 // MARK: - Private methods
-private extension ConversationsCell {
+
+private extension ChannelCell {
     func setupUI() {
         setupTheme()
         setupCell()
@@ -59,10 +63,22 @@ private extension ConversationsCell {
         nameLabel.textColor = .appColorLoadFor(.text)
         profileImageLabel.textColor = .appColorLoadFor(.textImageView)
     }
+    
+    func setFirstCharacter(from channelName: String?) -> String? {
+        if let channelName = channelName {
+            guard let firstSymbol = channelName.first else { return "UN" }
+            let bigCharacter = firstSymbol.uppercased()
+            
+            return bigCharacter
+        } else {
+            return "UN"
+        }
+    }
 }
 
 // MARK: - Protocol extension
-extension ConversationsCellConfiguration {
+
+extension ChannelCellConfiguration {
     func configure(
         name: String?,
         message: String?,
@@ -78,15 +94,17 @@ extension ConversationsCellConfiguration {
     }
 }
 
+// MARK: - Channel Cell Configuration
+
 // Мне кажется я сделал тут какую то фигню и можно как то по другому
-// MARK: - Conversations Cell Configuration
-extension ConversationsCell: ConversationsCellConfiguration {
+extension ChannelCell: ChannelCellConfiguration {
     var name: String? {
         get {
             nil
         }
         set {
             nameLabel.text = newValue
+            profileImageLabel.text = setFirstCharacter(from: newValue)
         }
     }
     
