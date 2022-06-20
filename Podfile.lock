@@ -435,7 +435,7 @@ PODS:
 DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Firestore
-  - SwiftLint (~> 0.27)
+  - SwiftLint
 
 SPEC REPOS:
   trunk:
@@ -474,6 +474,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: 005d5ca33e3eec2592a62f4ec9b39eddd63549c9
+PODFILE CHECKSUM: c239794d65a40d989d09b91608aab4ea86cdc6a2
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

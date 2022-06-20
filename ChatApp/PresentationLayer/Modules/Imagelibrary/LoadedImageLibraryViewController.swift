@@ -1,6 +1,6 @@
 //
 //  LoadedImageLibraryViewController.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 22.04.2022.
 //

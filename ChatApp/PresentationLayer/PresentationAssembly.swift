@@ -1,6 +1,6 @@
 //
 //  PresentationAssembly.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 18.05.2022.
 //

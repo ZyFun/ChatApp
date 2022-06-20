@@ -1,6 +1,6 @@
 //
 //  CustomAnimation.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 30.04.2022.
 //

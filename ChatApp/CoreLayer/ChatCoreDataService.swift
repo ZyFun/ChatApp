@@ -1,6 +1,6 @@
 //
 //  ChatCoreDataService.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 02.04.2022.
 //

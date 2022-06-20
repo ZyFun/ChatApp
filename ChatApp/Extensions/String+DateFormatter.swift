@@ -1,6 +1,6 @@
 //
 //  String+DateFormatter.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 06.03.2022.
 //

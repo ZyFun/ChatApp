@@ -1,6 +1,6 @@
 //
 //  ProfileFileManagerMock.swift
-//  TinkoffChatTests
+//  ChatAppTests
 //
 //  Created by Дмитрий Данилин on 13.05.2022.
 //

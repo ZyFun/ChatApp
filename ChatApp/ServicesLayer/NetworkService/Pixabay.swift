@@ -1,6 +1,6 @@
 //
 //  Pixabay.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 28.04.2022.
 //

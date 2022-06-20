@@ -1,6 +1,6 @@
 //
 //  VCAnimator.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 03.05.2022.
 //

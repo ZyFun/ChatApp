@@ -1,6 +1,6 @@
 //
 //  AvatarTextManager.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 19.04.2022.
 //

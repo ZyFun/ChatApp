@@ -1,6 +1,6 @@
 //
 //  ChannelListFetchedResultsManager.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 17.04.2022.
 //

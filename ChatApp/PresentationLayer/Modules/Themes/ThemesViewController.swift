@@ -1,6 +1,6 @@
 //
 //  ThemesViewController.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 11.03.2022.
 //

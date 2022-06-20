@@ -1,6 +1,6 @@
 //
 //  String+SearchingLink.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 27.04.2022.
 //

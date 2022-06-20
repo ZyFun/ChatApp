@@ -4,15 +4,19 @@
       "id" : "5E13B23A-107C-40FF-B2A5-64667A9CCFF2",
       "name" : "Configuration 1",
       "options" : {
-
+        "targetForVariableExpansion" : {
+          "containerPath" : "container:ChatApp.xcodeproj",
+          "identifier" : "2CF231AD27BFBB2400CE77C2",
+          "name" : "ChatApp"
+        }
       }
     }
   ],
   "defaultOptions" : {
     "targetForVariableExpansion" : {
-      "containerPath" : "container:TinkoffChat.xcodeproj",
+      "containerPath" : "container:ChatApp.xcodeproj",
       "identifier" : "2CF231AD27BFBB2400CE77C2",
-      "name" : "TinkoffChat"
+      "name" : "ChatApp"
     },
     "testExecutionOrdering" : "random",
     "testTimeoutsEnabled" : true,

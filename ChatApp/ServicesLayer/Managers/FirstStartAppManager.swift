@@ -1,6 +1,6 @@
 //
 //  FirstStartAppManager.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 14.03.2022.
 //

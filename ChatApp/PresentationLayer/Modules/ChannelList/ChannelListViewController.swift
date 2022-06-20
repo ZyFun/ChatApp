@@ -1,6 +1,6 @@
 //
 //  ChannelListViewController.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 04.03.2022.
 //

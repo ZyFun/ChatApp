@@ -1,6 +1,6 @@
 //
 //  NotificationKeyboardObserver.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 29.03.2022.
 //

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>envToken</key>
+	<string>$(ENV_SECRET_TOKEN)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Разрешите приложению $(PRODUCT_NAME) использовать галерею, для добавления фото к профилю</string>
 	<key>NSCameraUsageDescription</key>

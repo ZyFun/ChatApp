@@ -1,6 +1,6 @@
 //
 //  +ImagePicker.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 26.03.2022.
 //

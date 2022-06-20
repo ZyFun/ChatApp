@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1330"
+   LastUpgradeVersion = "1340"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2CF231AD27BFBB2400CE77C2"
-               BuildableName = "TinkoffChat.app"
-               BlueprintName = "TinkoffChat"
-               ReferencedContainer = "container:TinkoffChat.xcodeproj">
+               BuildableName = "ChatApp.app"
+               BlueprintName = "ChatApp"
+               ReferencedContainer = "container:ChatApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -42,9 +42,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2CAE200F282E987C00DDB1EF"
-               BuildableName = "TinkoffChatTests.xctest"
-               BlueprintName = "TinkoffChatTests"
-               ReferencedContainer = "container:TinkoffChat.xcodeproj">
+               BuildableName = "ChatAppTests.xctest"
+               BlueprintName = "ChatAppTests"
+               ReferencedContainer = "container:ChatApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -52,9 +52,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2C9F5E1D283003E200BEBE15"
-               BuildableName = "TinkoffChatUITests.xctest"
-               BlueprintName = "TinkoffChatUITests"
-               ReferencedContainer = "container:TinkoffChat.xcodeproj">
+               BuildableName = "ChatAppUITests.xctest"
+               BlueprintName = "ChatAppUITests"
+               ReferencedContainer = "container:ChatApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -74,9 +74,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2CF231AD27BFBB2400CE77C2"
-            BuildableName = "TinkoffChat.app"
-            BlueprintName = "TinkoffChat"
-            ReferencedContainer = "container:TinkoffChat.xcodeproj">
+            BuildableName = "ChatApp.app"
+            BlueprintName = "ChatApp"
+            ReferencedContainer = "container:ChatApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -91,9 +91,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2CF231AD27BFBB2400CE77C2"
-            BuildableName = "TinkoffChat.app"
-            BlueprintName = "TinkoffChat"
-            ReferencedContainer = "container:TinkoffChat.xcodeproj">
+            BuildableName = "ChatApp.app"
+            BlueprintName = "ChatApp"
+            ReferencedContainer = "container:ChatApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

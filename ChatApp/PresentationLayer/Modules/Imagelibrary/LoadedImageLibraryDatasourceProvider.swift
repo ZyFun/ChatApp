@@ -1,6 +1,6 @@
 //
 //  LoadedImageLibraryDatasourceProvider.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 26.04.2022.
 //

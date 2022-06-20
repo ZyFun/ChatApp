@@ -1,6 +1,6 @@
 //
 //  ChatFirestoreMock.swift
-//  TinkoffChatTests
+//  ChatAppTests
 //
 //  Created by Дмитрий Данилин on 17.05.2022.
 //

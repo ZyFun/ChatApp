@@ -1,6 +1,6 @@
 //
 //  Debug.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 18.02.2022.
 //

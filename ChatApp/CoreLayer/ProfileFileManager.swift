@@ -1,6 +1,6 @@
 //
 //  ProfileFileManager.swift
-//  TinkoffChat
+//  ChatApp
 //
 //  Created by Дмитрий Данилин on 20.03.2022.
 //

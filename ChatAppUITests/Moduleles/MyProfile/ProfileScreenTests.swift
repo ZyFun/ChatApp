@@ -1,6 +1,6 @@
 //
 //  ProfileScreenTests.swift
-//  TinkoffChatUITests
+//  ChatAppUITests
 //
 //  Created by Дмитрий Данилин on 14.05.2022.
 //
