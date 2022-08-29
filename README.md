@@ -1,3 +1,23 @@
+![Xcode](https://img.shields.io/badge/Xcode-007ACC?style=for-the-badge&logo=Xcode&logoColor=white)
+![Swift](https://img.shields.io/badge/swift-F54A2A?style=for-the-badge&logo=swift&logoColor=white)
+![IOS](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)
+<br/>
+![UIKit](https://img.shields.io/badge/-UIKit-blue)
+![AutoLayout](https://img.shields.io/badge/-AutoLayout-blue)
+![XIB](https://img.shields.io/badge/-XIB-blue)
+![MVC](https://img.shields.io/badge/-MVC-blue)
+![UserDefaults](https://img.shields.io/badge/-UserDefaults-blue)
+![FileManager](https://img.shields.io/badge/-FileManager-blue)
+![CoreData](https://img.shields.io/badge/-CoreData-blue)
+![Firebase](https://img.shields.io/badge/-Firebase-blue)
+![JSON](https://img.shields.io/badge/-JSON-blue)
+![URLSession](https://img.shields.io/badge/-URLSession-blue)
+![URLRequest](https://img.shields.io/badge/-URLRequest-blue)
+![GCD](https://img.shields.io/badge/-GCD-blue)
+![Fastlane](https://img.shields.io/badge/-Fastlane-blue)
+![UnitTests](https://img.shields.io/badge/-UnitTests-blue)
+![UITests](https://img.shields.io/badge/-UITests-blue)
+
 # ChatApp
 ![example workflow](https://github.com/TFS-iOS/chat-app-ZyFun/actions/workflows/github.yml/badge.svg)
 
@@ -20,10 +40,4 @@
 - Если удасться его запустить подключив свой firebase с аналогичными настройками, картинки грузится не будут из-за санкций, если нет vpn.
 
 ## Screenshots
-
-![Screenshot 1](https://github.com/ZyFun/ChatApp/blob/main/Screenshots/000.png?raw=true)
-![Screenshot 2](https://github.com/ZyFun/ChatApp/blob/main/Screenshots/001.png?raw=true)
-![Screenshot 6](https://github.com/ZyFun/ChatApp/blob/main/Screenshots/005.png?raw=true)
-![Screenshot 3](https://github.com/ZyFun/ChatApp/blob/main/Screenshots/002.png?raw=true)
-![Screenshot 4](https://github.com/ZyFun/ChatApp/blob/main/Screenshots/003.png?raw=true)
-![Screenshot 5](https://github.com/ZyFun/ChatApp/blob/main/Screenshots/004.png?raw=true)
+<img src="https://github.com/ZyFun/ChatApp/blob/main/Screenshots/Screenshot000.png" width="252" height="488" /> <img src="https://github.com/ZyFun/ChatApp/blob/main/Screenshots/Screenshot001.png" width="252" height="488" /> <img src="https://github.com/ZyFun/ChatApp/blob/main/Screenshots/Screenshot002.png" width="252" height="488" /> <img src="https://github.com/ZyFun/ChatApp/blob/main/Screenshots/Screenshot003.png" width="252" height="488" /> <img src="https://github.com/ZyFun/ChatApp/blob/main/Screenshots/Screenshot004.png" width="252" height="488" /> <img src="https://github.com/ZyFun/ChatApp/blob/main/Screenshots/Screenshot005.png" width="252" height="488" /> <img src="https://github.com/ZyFun/ChatApp/blob/main/Screenshots/Screenshot006.png" width="252" height="488" /> 
